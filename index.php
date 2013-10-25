@@ -9,5 +9,12 @@ define('THEMES_DIR', ROOT_DIR .'themes/');
 define('CACHE_DIR', LIB_DIR .'cache/');
 
 require(ROOT_DIR .'vendor/autoload.php');
+// @TODO: implement autoloader for core classes
 require(LIB_DIR .'phile.php');
+require(LIB_DIR .'Phile/Registry.php');
+require(LIB_DIR .'Phile/Model/AbstractModel.php');
+require(LIB_DIR .'Phile/Model/Meta.php');
+require(LIB_DIR .'Phile/Model/Page.php');
+require(LIB_DIR .'Phile/Repository/Page.php');
+
 $phile = new Phile();

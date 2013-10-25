@@ -14,7 +14,7 @@ class Phile_Plugin {
 
 	}
 
-	public function config_loaded(&$settings)
+	public function config_loaded($settings)
 	{
 
 	}
