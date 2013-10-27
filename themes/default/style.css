@@ -62,7 +62,7 @@ label, input[type=button], input[type=submit], button {
 }
 
 /* make buttons play nice in IE:
-		www.viget.com/inspire/styling-the-button-element-in-internet-explorer/ */
+www.viget.com/inspire/styling-the-button-element-in-internet-explorer/ */
 button {
 	width: auto;
 	overflow: visible;
@@ -104,17 +104,17 @@ body {
 }
 
 a, a:visited {
-	color: #424242;
+	color: #b44646;
 	text-decoration: none;
-	-webkit-transition: all 0.2s linear;
-	-moz-transition: all 0.2s linear;
-	-ms-transition: all 0.2s linear;
-	-o-transition: all 0.2s linear;
-	transition: all 0.2s linear;
+	-webkit-transition: color 0.2s ease;
+	-moz-transition: color 0.2s ease;
+	-ms-transition: color 0.2s ease;
+	-o-transition: color 0.2s ease;
+	transition: color 0.2s ease;
 }
 
 a:hover, a:active {
-	color: #000;
+	color: #e2595b;
 	text-decoration: none;
 }
 
@@ -177,18 +177,25 @@ sup {
 	font-size: smaller;
 }
 
-code {
-	font-family: Courier, "Courier New", Monaco, Tahoma;
+code, pre {
+	font-family: Courier;
+	padding: 0 3px 1px;
 	background: #eee;
-	color: #333;
-	padding: 0px 2px;
+	border-radius: 4px;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+
+p code, li code {
+	margin: 0;
+	border: 1px solid #ddd;
 }
 
 pre {
-	background: #eee;
 	padding: 20px;
 	margin-bottom: 1em;
 	overflow: auto;
+	border: 1px solid #ddd;
+	line-height: 1.2;
 }
 
 blockquote {
@@ -244,13 +251,13 @@ blockquote {
 /*---------------------------------------------*/
 .clearfix:before,
 .clearfix:after {
-    content: " ";
-    display: table;
+	content: " ";
+	display: table;
 }
 .clearfix:after {
-    clear: both;
+	clear: both;
 }
 .clearfix {
-    *zoom: 1;
+	*zoom: 1;
 }
 
