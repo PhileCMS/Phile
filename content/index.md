@@ -37,13 +37,15 @@ Text files are marked up using [Markdown](http://daringfireball.net/projects/mar
 
 At the top of text files you can place a block comment and specify certain attributes of the page. For example:
 
-	/ *
-	Title: Welcome
-	Description: This description will go in the meta description tag
-	Author: Joe Bloggs
-	Date: 2013/01/01
-	Robots: noindex,nofollow
-	*/
+~~~ .markdown
+/*
+Title: Welcome
+Description: This description will go in the meta description tag
+Author: Joe Bloggs
+Date: 2013/01/01
+Robots: noindex,nofollow
+*/
+~~~
 
 These values will be contained in the `{{ meta }}` variable in themes (see below).
 
@@ -88,11 +90,13 @@ All themes must include an `index.html` file to define the HTML structure of the
 
 Pages can be used like:
 
-<pre>&lt;ul class=&quot;nav&quot;&gt;
+~~~ .html
+<ul class="nav">
 	{% for page in pages %}
-	&lt;li&gt;&lt;a href=&quot;{{ page.url }}&quot;&gt;{{ page.title }}&lt;/a&gt;&lt;/li&gt;
+	<li><a href="{{ page.url }}">{{ page.title }}</a></li>
 	{% endfor %}
-&lt;/ul&gt;</pre>
+</ul>
+~~~
 
 ### Config
 
