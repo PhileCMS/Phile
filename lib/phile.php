@@ -137,7 +137,7 @@ class Phile {
 	 */
 	protected function parse_content($content)
 	{
-		$content = preg_replace('#/\*.+?\*/#s', '', $content); // Remove comments and meta
+		$content = str_replace(substr($content, 0, strpos($content, '*/') + 2), '', $content); // Remove comments and meta
 		$content = str_replace('%base_url%', $this->base_url(), $content);
 		$content = MarkdownExtra::defaultTransform($content);
 
