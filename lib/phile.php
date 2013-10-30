@@ -22,45 +22,31 @@ class Phile {
 	protected $plugins;
 
 	/**
+	 * @var Phile\Repository\Page
+	 */
+	protected $pageRepository;
+
+	/**
 	 * The constructor carries out all the processing in Phile.
 	 * Does URL routing, Markdown processing and Twig processing.
 	 */
 	public function __construct() {
+		$this->pageRepository = new \Phile\Repository\Page();
+
 		// Load plugins
 		$this->initPlugins();
 
 		// Load the settings
 		$this->initConfiguration();
 
-		// Get current page by path from repository
-		$pageRepository = new \Phile\Repository\Page();
-		$page           = $pageRepository->findByPath($_SERVER['REQUEST_URI']);
-		if ($page instanceof \Phile\Model\Page) {
-			$content        = $page->getContent();
-		} else {
-			$page           = $pageRepository->findByPath('404');
-			$content        = $page->getContent();
-			header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
-		}
+		// init current page
+		$page = $this->initCurrentPage();
+		$content = $page->getContent();
 
-		// Get all the pages @TODO: refactor
-		$pages = $this->get_pages($this->settings['base_url'], $this->settings['pages_order_by'], $this->settings['pages_order'], $this->settings['excerpt_length']);
-		$prev_page = array();
-		$current_page = array();
-		$next_page = array();
-		while($current_page = current($pages)){
-			if((isset($meta['title'])) && ($meta['title'] == $current_page['title'])){
-				break;
-			}
-			next($pages);
-		}
-		$prev_page = next($pages);
-		prev($pages);
-		$next_page = prev($pages);
-		$this->run_hooks('get_pages', array(&$pages, &$current_page, &$prev_page, &$next_page));
+		// Get all the pages
+		$pages = $this->pageRepository->findAll();
 
-		// Load the theme @TODO: refactor
-		$this->run_hooks('before_twig_register');
+		// Load the theme
 		Twig_Autoloader::register();
 		$output = 'no template found';
 		if (file_exists(THEMES_DIR . $this->settings['theme'])) {
@@ -77,13 +63,13 @@ class Phile {
 				'meta' => $page->getMeta(),
 				'content' => $content,
 				'pages' => $pages,
-				'prev_page' => $prev_page,
-				'current_page' => $current_page,
-				'next_page' => $next_page,
+#				'prev_page' => $prev_page,
+#				'current_page' => $current_page,
+#				'next_page' => $next_page,
 //				'is_front_page' => $url ? false : true,
 			);
 
-			$template = (isset($meta['template']) && $meta['template']) ? $meta['template'] : 'index';
+			$template = ($page->getMeta()->get('template') !== null) ? $page->getMeta()->get('template') : 'index';
 			$this->run_hooks('before_render', array(&$twig_vars, &$twig, &$template));
 			$output = $twig->render($template .'.html', $twig_vars);
 			$this->run_hooks('after_render', array(&$output));
@@ -91,6 +77,22 @@ class Phile {
 		echo $output;
 	}
 
+	/**
+	 * @return null|\Phile\Model\Page
+	 */
+	protected function initCurrentPage() {
+		$page           = $this->pageRepository->findByPath($_SERVER['REQUEST_URI']);
+		if ($page instanceof \Phile\Model\Page) {
+			return $page;
+		} else {
+			header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
+			return $this->pageRepository->findByPath('404');
+		}
+	}
+
+	/**
+	 * init plugins
+	 */
 	protected function initPlugins() {
 		// @TODO: refactor
 		$this->plugins = array();
@@ -108,8 +110,11 @@ class Phile {
 		$this->run_hooks('plugins_loaded');
 	}
 
+	/**
+	 * init configuration
+	 */
 	protected function initConfiguration() {
-		// @TODO: refactor: use configuration object
+		// @TODO: refactor: maybe introduce configuration object
 		global $config;
 		@include_once(ROOT_DIR .'config.php');
 
@@ -157,6 +162,7 @@ class Phile {
 	 *
 	 * @param string $content the raw txt content
 	 * @return array $headers an array of meta values
+	 * @deprecated
 	 */
 	protected function read_file_meta($content)
 	{
@@ -194,57 +200,10 @@ class Phile {
 	 * @param string $order_by order by "alpha" or "date"
 	 * @param string $order order "asc" or "desc"
 	 * @return array $sorted_pages an array of pages
+	 * @deprecated use \Phile\Repository\Page::findAll() instead
 	 */
-	protected function get_pages($base_url, $order_by = 'alpha', $order = 'asc', $excerpt_length = 50)
-	{
-		global $config;
-
-		$pages = $this->get_files(CONTENT_DIR, CONTENT_EXT);
-		$sorted_pages = array();
-		$date_id = 0;
-		foreach($pages as $key=>$page){
-			// Skip 404
-			if(basename($page) == '404'. CONTENT_EXT){
-				unset($pages[$key]);
-				continue;
-			}
-
-			// Ignore Emacs (and Nano) temp files
-			if (in_array(substr($page, -1), array('~','#'))) {
-				unset($pages[$key]);
-				continue;
-			}
-			// Get title and format $page
-			$page_content = file_get_contents($page);
-			$page_meta = $this->read_file_meta($page_content);
-			$page_content = $this->parse_content($page_content);
-			$url = str_replace(CONTENT_DIR, $base_url .'/', $page);
-			$url = str_replace('index'. CONTENT_EXT, '', $url);
-			$url = str_replace(CONTENT_EXT, '', $url);
-			$data = array(
-				'title' => isset($page_meta['title']) ? $page_meta['title'] : '',
-				'url' => $url,
-				'author' => isset($page_meta['author']) ? $page_meta['author'] : '',
-				'date' => isset($page_meta['date']) ? $page_meta['date'] : '',
-				'date_formatted' => isset($page_meta['date']) ? date($config['date_format'], strtotime($page_meta['date'])) : '',
-				'content' => $page_content,
-				'excerpt' => $this->limit_words(strip_tags($page_content), $excerpt_length)
-				);
-
-			// Extend the data provided with each page by hooking into the data array
-			$this->run_hooks('get_page_data', array(&$data, $page_meta));
-
-			if($order_by == 'date' && isset($page_meta['date'])){
-				$sorted_pages[$page_meta['date'].$date_id] = $data;
-				$date_id++;
-			}
-			else $sorted_pages[] = $data;
-		}
-
-		if($order == 'desc') krsort($sorted_pages);
-		else ksort($sorted_pages);
-
-		return $sorted_pages;
+	protected function get_pages($base_url, $order_by = 'alpha', $order = 'asc', $excerpt_length = 50) {
+		return $this->pageRepository->findAll(array('order_by' => $order_by, 'order' => $order));
 	}
 
 	/**
@@ -252,6 +211,7 @@ class Phile {
 	 *
 	 * @param string $hook_id the ID of the hook
 	 * @param array $args optional arguments
+	 * @todo refactor
 	 */
 	protected function run_hooks($hook_id, $args = array())
 	{
