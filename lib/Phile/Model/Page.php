@@ -24,11 +24,18 @@ class Page {
 	 */
 	protected $rawData;
 
+	/**
+	 * @var string returns the path of the page
+	 */
+	protected $url;
+
 	public function __construct($filePath) {
 		if (file_exists($filePath)) {
 			$this->rawData = file_get_contents($filePath);
 			$this->parseRawData();
 		}
+		$this->url = str_replace(CONTENT_DIR, '', $filePath);
+		$this->url = str_replace(CONTENT_EXT, '', $this->url);
 	}
 
 	public function getContent() {
@@ -43,5 +50,13 @@ class Page {
 	protected function parseRawData() {
 		$this->meta     = new Meta($this->rawData);
 		$this->content  = preg_replace('#/\*.+?\*/#s', '', $this->rawData); // Remove comments and meta
+	}
+
+	public function getTitle() {
+		return $this->getMeta()->get('title');
+	}
+
+	public function getUrl() {
+		return $this->url;
 	}
 } 
