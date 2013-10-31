@@ -18,6 +18,12 @@ $config['pages_order'] = 'asc';			// Order pages "asc" or "desc"
 $config['excerpt_length'] = 50;			// The pages excerpt length (in words)
 $config['timezone'] = 'Europe/Berlin'; 	// The default timezone
 
+// activate plugins
+$config['plugins'] = array()            // only extend $config['plugins'] and not overwrite it, because some core plugins
+										   will be added to this config option by default. So, use this option in this way:
+										   $config['plugins']['myCustomPlugin'] = array('active' => true);
+										   also notice, each plugin has its own config namespace.
+
 // To add a custom config setting:
 
 $config['custom_setting'] = 'Hello'; 	// Can be accessed by {{ config.custom_setting }} in a theme
