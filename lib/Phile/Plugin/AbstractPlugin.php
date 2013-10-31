@@ -1,22 +1,21 @@
 <?php
 
-namespace Phile;
+namespace Phile\Plugin;
+use Phile\Registry;
 
 /**
- * the Registry class for implementing a registry
+ * the AbstractPlugin class for implementing a plugin for PhileCMS
  * @author Frank Nägler
- *
  */
-class Utility {
-
+abstract class AbstractPlugin {
 	/**
-	 * @return string the current protocol
+	 * @var array the plugin settings
 	 */
-	public static function getProtocol() {
-		$protocol = 'http';
-		if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off'){
-			$protocol = 'https';
-		}
-		return $protocol;
+	protected $settings;
+
+	public function __construct() {
+		$settings   = Registry::get('Phile_Settings');
+		$pluginKey  = lcfirst(get_class($this));
+		$this->settings = $settings['plugins'][$pluginKey]['settings'];
 	}
 }
