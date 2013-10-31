@@ -13,9 +13,11 @@ require(ROOT_DIR .'vendor/autoload.php');
 require(LIB_DIR .'phile.php');
 require(LIB_DIR .'Phile/Exception.php');
 require(LIB_DIR .'Phile/Registry.php');
+require(LIB_DIR .'Phile/Utility.php');
 require(LIB_DIR .'Phile/Model/AbstractModel.php');
 require(LIB_DIR .'Phile/Model/Meta.php');
 require(LIB_DIR .'Phile/Model/Page.php');
+require(LIB_DIR .'Phile/Plugin/AbstractPlugin.php');
 require(LIB_DIR .'Phile/Repository/Page.php');
 
 $phile = new Phile();
