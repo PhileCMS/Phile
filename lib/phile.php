@@ -33,11 +33,11 @@ class Phile {
 	public function __construct() {
 		$this->pageRepository = new \Phile\Repository\Page();
 
-		// Load plugins
-		$this->initPlugins();
-
 		// Load the settings
 		$this->initConfiguration();
+
+		// Load plugins
+		$this->initPlugins();
 
 		// init current page
 		$page = $this->initCurrentPage();
@@ -94,20 +94,44 @@ class Phile {
 	 * init plugins
 	 */
 	protected function initPlugins() {
-		// @TODO: refactor
-		$this->plugins = array();
-		$plugins = $this->get_files(PLUGINS_DIR, '.php');
-		if(!empty($plugins)){
-			foreach($plugins as $plugin){
-				include_once($plugin);
-				$plugin_name = preg_replace("/\\.[^.\\s]{3}$/", '', basename($plugin));
-				if(class_exists($plugin_name)){
-					$obj = new $plugin_name;
-					$this->plugins[] = $obj;
+		if (isset($this->settings['plugins']) && is_array($this->settings['plugins'])) {
+			foreach ($this->settings['plugins'] as $pluginKey => $pluginConfig) {
+				if (isset($pluginConfig['active']) && $pluginConfig['active'] === true) {
+					// load plugin configuration...
+					$configFile = \Phile\Utility::resolveFilePath("MOD:{$pluginKey}/config.php");
+					if ($configFile !== null) {
+						$pluginConfiguration = \Phile\Utility::load($configFile);
+						$globalConfiguration = \Phile\Registry::get('Phile_Settings');
+						if ($pluginConfiguration !== null && is_array($pluginConfiguration)) {
+							$globalConfiguration['plugins'][$pluginKey]['settings'] = $pluginConfiguration;
+						} else {
+							$globalConfiguration['plugins'][$pluginKey]['settings'] = array();
+						}
+						\Phile\Registry::set('Phile_Settings', $globalConfiguration);
+						$this->settings = $globalConfiguration;
+					}
+
+					$pluginClassName    = ucfirst($pluginKey);
+					$pluginFile         = \Phile\Utility::resolveFilePath("MOD:{$pluginKey}/plugin.php");
+					if ($pluginFile !== null) {
+						include_once $pluginFile;
+					} else {
+						throw new \Phile\Exception("the plugin file 'MOD:{$pluginKey}/plugin.php' not exists");
+					}
+					if (class_exists($pluginClassName)) {
+						$plugin = new $pluginClassName;
+						if ($plugin instanceof \Phile\Plugin\AbstractPlugin) {
+							// register plugin
+							$this->plugins[$pluginKey] = $plugin;
+						} else {
+							throw new \Phile\Exception("the plugin '{$pluginKey}' is not an instance of \\Phile\\Plugin\\AbstractPlugin");
+						}
+					} else {
+						throw new \Phile\Exception("the class '{$pluginClassName}' not exists");
+					}
 				}
 			}
 		}
-		$this->run_hooks('plugins_loaded');
 	}
 
 	/**
@@ -141,71 +165,6 @@ class Phile {
 		$this->run_hooks('config_loaded', array($this->settings));
 	}
 
-
-	/**
-	 * Parses the content using Markdown
-	 *
-	 * @param string $content the raw txt content
-	 * @return string $content the Markdown formatted content
-	 */
-	protected function parse_content($content)
-	{
-		$content = preg_replace('#/\*.+?\*/#s', '', $content); // Remove comments and meta
-		$content = str_replace('%base_url%', $this->base_url(), $content);
-		$content = MarkdownExtra::defaultTransform($content);
-
-		return $content;
-	}
-
-	/**
-	 * Parses the file meta from the txt file header
-	 *
-	 * @param string $content the raw txt content
-	 * @return array $headers an array of meta values
-	 * @deprecated
-	 */
-	protected function read_file_meta($content)
-	{
-		global $config;
-
-		$headers = array(
-			'title'       	=> 'Title',
-			'description' 	=> 'Description',
-			'author' 		=> 'Author',
-			'date' 			=> 'Date',
-			'robots'     	=> 'Robots',
-			'template'      => 'Template'
-			);
-
-		// Add support for custom headers by hooking into the headers array
-		$this->run_hooks('before_read_file_meta', array(&$headers));
-
-		foreach ($headers as $field => $regex){
-			if (preg_match('/^[ \t\/*#@]*' . preg_quote($regex, '/') . ':(.*)$/mi', $content, $match) && $match[1]){
-				$headers[ $field ] = trim(preg_replace("/\s*(?:\*\/|\?>).*/", '', $match[1]));
-			} else {
-				$headers[ $field ] = '';
-			}
-		}
-
-		if(isset($headers['date'])) $headers['date_formatted'] = date($config['date_format'], strtotime($headers['date']));
-
-		return $headers;
-	}
-
-	/**
-	 * Get a list of pages
-	 *
-	 * @param string $base_url the base URL of the site
-	 * @param string $order_by order by "alpha" or "date"
-	 * @param string $order order "asc" or "desc"
-	 * @return array $sorted_pages an array of pages
-	 * @deprecated use \Phile\Repository\Page::findAll() instead
-	 */
-	protected function get_pages($base_url, $order_by = 'alpha', $order = 'asc', $excerpt_length = 50) {
-		return $this->pageRepository->findAll(array('order_by' => $order_by, 'order' => $order));
-	}
-
 	/**
 	 * Processes any hooks and runs them
 	 *
@@ -213,8 +172,7 @@ class Phile {
 	 * @param array $args optional arguments
 	 * @todo refactor
 	 */
-	protected function run_hooks($hook_id, $args = array())
-	{
+	protected function run_hooks($hook_id, $args = array()) {
 		if(!empty($this->plugins)){
 			foreach($this->plugins as $plugin){
 				if(is_callable(array($plugin, $hook_id))){
@@ -228,74 +186,19 @@ class Phile {
 	 * Helper function to work out the base URL
 	 *
 	 * @return string the base url
+	 * @deprecated use \Phile\Utility::getBaseUrl(); instead
 	 */
-	protected function base_url()
-	{
-		global $config;
-		if(isset($config['base_url']) && $config['base_url']) return $config['base_url'];
-
-		$url = '';
-		$request_url = (isset($_SERVER['REQUEST_URI'])) ? $_SERVER['REQUEST_URI'] : '';
-		$script_url  = (isset($_SERVER['PHP_SELF'])) ? $_SERVER['PHP_SELF'] : '';
-		if($request_url != $script_url) $url = trim(preg_replace('/'. str_replace('/', '\/', str_replace('index.php', '', $script_url)) .'/', '', $request_url, 1), '/');
-
-		$protocol = $this->get_protocol();
-		return rtrim(str_replace($url, '', $protocol . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']), '/');
+	protected function base_url() {
+		return \Phile\Utility::getBaseUrl();
 	}
 
 	/**
 	 * Tries to guess the server protocol. Used in base_url()
 	 *
 	 * @return string the current protocol
+	 * @deprecated use \Phile\Utility::getProtocol(); instead
 	 */
-	protected function get_protocol()
-	{
-		$protocol = 'http';
-		if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off'){
-			$protocol = 'https';
-		}
-		return $protocol;
+	protected function get_protocol() {
+		return \Phile\Utility::getProtocol();
 	}
-
-	/**
-	 * Helper function to recusively get all files in a directory
-	 *
-	 * @param string $directory start directory
-	 * @param string $ext optional limit to file extensions
-	 * @return array the matched files
-	 */
-	protected function get_files($directory, $ext = '')
-	{
-		$array_items = array();
-		if($handle = opendir($directory)){
-			while(false !== ($file = readdir($handle))){
-				if(preg_match("/^(^\.)/", $file) === 0){
-					if(is_dir($directory. "/" . $file)){
-						$array_items = array_merge($array_items, $this->get_files($directory. "/" . $file, $ext));
-					} else {
-						$file = $directory . "/" . $file;
-						if(!$ext || strstr($file, $ext)) $array_items[] = preg_replace("/\/\//si", "/", $file);
-					}
-				}
-			}
-			closedir($handle);
-		}
-		return $array_items;
-	}
-
-	/**
-	 * Helper function to limit the words in a string
-	 *
-	 * @param string $string the given string
-	 * @param int $word_limit the number of words to limit to
-	 * @return string the limited string
-	 */
-	protected function limit_words($string, $word_limit)
-	{
-		$words = explode(' ',$string);
-		$excerpt = trim(implode(' ', array_splice($words, 0, $word_limit)));
-		if(count($words) > $word_limit) $excerpt .= '&hellip;';
-		return $excerpt;
-	}
-
 }
