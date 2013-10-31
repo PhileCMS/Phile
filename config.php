@@ -28,4 +28,4 @@ $config['plugins'] = array()            // only extend $config['plugins'] and no
 
 $config['custom_setting'] = 'Hello'; 	// Can be accessed by {{ config.custom_setting }} in a theme
 
-*/
+*/$config['plugins']['phileDemoPlugin'] = array('active' => true);
