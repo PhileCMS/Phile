@@ -2,6 +2,8 @@
 
 namespace Phile\Model;
 use Michelf\MarkdownExtra;
+use Phile\Registry;
+use Phile\Utility;
 
 /**
  * the Model class for a page
@@ -34,8 +36,15 @@ class Page {
 			$this->rawData = file_get_contents($filePath);
 			$this->parseRawData();
 		}
-		$this->url = str_replace(CONTENT_DIR, '', $filePath);
-		$this->url = str_replace(CONTENT_EXT, '', $this->url);
+		$this->url  = str_replace(CONTENT_DIR, '', $filePath);
+		$this->url  = str_replace(CONTENT_EXT, '', $this->url);
+
+		$settings   = Registry::get('Phile_Settings');
+		if ($settings['install_path'] !== '') {
+			$this->url = $settings['install_path'] . $this->url;
+		}
+
+		$this->url  = '/' . $this->url;
 	}
 
 	public function getContent() {
