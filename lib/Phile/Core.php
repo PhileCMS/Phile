@@ -62,8 +62,7 @@ class Core {
 		$this->page = $this->initCurrentPage();
 
 		// init template
-		$output = $this->initTemplate();
-		echo $output;
+		echo $this->initTemplate();
 	}
 
 	/**
