@@ -1,6 +1,4 @@
 <?php
-use \Michelf\MarkdownExtra;
-
 /**
  * Phile
  *
@@ -35,6 +33,11 @@ class Phile {
 
 		// Load the settings
 		$this->initConfiguration();
+
+		// Load Parser, we use Markdown parser as default
+		// to use an other parse, register a plugin and within the plugin, register a new
+		// service for "Phile_Parser" which implements the \Phile\Parser\ParserInterface
+		\Phile\ServiceLocator::registerService('Phile_Parser', new \Phile\Parser\Markdown());
 
 		// Load plugins
 		$this->initPlugins();

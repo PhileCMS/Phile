@@ -2,7 +2,9 @@
 
 namespace Phile\Model;
 use Michelf\MarkdownExtra;
+use Phile\Parser\ParserInterface;
 use Phile\Registry;
+use Phile\ServiceLocator;
 use Phile\Utility;
 
 /**
@@ -27,6 +29,11 @@ class Page {
 	protected $rawData;
 
 	/**
+	 * @var ParserInterface
+	 */
+	protected $parser;
+
+	/**
 	 * @var string returns the path of the page
 	 */
 	protected $url;
@@ -45,11 +52,12 @@ class Page {
 		}
 
 		$this->url  = '/' . $this->url;
+
+		$this->parser   = ServiceLocator::getService('Phile_Parser');
 	}
 
 	public function getContent() {
-		// @TODO: implement parser interface to switch parser by configuration...
-		return MarkdownExtra::defaultTransform($this->content);
+		return $this->parser->parse($this->content);
 	}
 
 	public function getMeta() {
