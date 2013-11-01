@@ -8,6 +8,14 @@ define('PLUGINS_DIR', ROOT_DIR .'plugins/');
 define('THEMES_DIR', ROOT_DIR .'themes/');
 define('CACHE_DIR', LIB_DIR .'cache/');
 
+
+spl_autoload_extensions(".php");
+spl_autoload_register(function ($className) {
+	$fileName = LIB_DIR . str_replace("\\", "/", $className).".php";
+	if (file_exists($fileName)) {
+		require_once $fileName;
+	}
+});
+
 require(ROOT_DIR .'vendor/autoload.php');
-require(LIB_DIR .'phile.php');
-$phile = new Phile();
+$phileCore = new \Phile\Core();

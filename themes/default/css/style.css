@@ -34,11 +34,21 @@ body {
 table {
 	border-collapse: separate;
 	border-spacing: 0;
+    width: 100%;
+    margin-bottom: 1em;
 }
 
 caption, th, td {
 	text-align: left;
 	font-weight: normal;
+    border-bottom: 1px solid #424242;
+}
+
+th {
+    background: #424242;
+    color: #ebebeb;
+    font-weight: bold;
+    padding-left: 0.3em;
 }
 
 blockquote:before, blockquote:after,
@@ -104,7 +114,7 @@ body {
 }
 
 a, a:visited {
-	color: #ed6160;
+	color: #b44646;
 	text-decoration: none;
 	-webkit-transition: color 0.2s ease;
 	-moz-transition: color 0.2s ease;
@@ -114,7 +124,7 @@ a, a:visited {
 }
 
 a:hover, a:active {
-	color: #bd444a;
+	color: #e2595b;
 	text-decoration: none;
 }
 
@@ -133,8 +143,13 @@ h2 {
 }
 
 h3 {
-	font-size: 1.5em;
-	margin-top: 2em;
+    font-size: 1.5em;
+    margin-top: 2em;
+}
+
+h4 {
+    font-size: 1.3em;
+    margin-top: 2em;
 }
 
 p {
@@ -209,12 +224,11 @@ blockquote {
 
 #header {
 	background: #424242;
-	padding: 4em 0;
-	margin-bottom: 6em;
-	color: #ed6160;
+	padding: 60px 0;
+	margin-bottom: 80px;
+	color: #b44646;
 }
-#header a { color: #ed6160; }
-#header .active { color: white; text-decoration: underline; }
+#header a { color: #b44646; }
 #header h1 a,
 #header a:hover { color: #fff; }
 #header h1 {
@@ -231,13 +245,13 @@ blockquote {
 #header .nav li { display: inline; }
 #header .nav a {
 	font-weight: bold;
-	margin-left: 2em;
+	margin-left: 20px;
 }
 
 #footer {
 	background: #707070;
-	padding: 4em 0;
-	margin-top: 6em;
+	padding: 60px 0;
+	margin-top: 80px;
 	color: #C0C0C0;
 }
 #footer a { color: #ddd; }
