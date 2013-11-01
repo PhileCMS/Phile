@@ -144,8 +144,11 @@ class Core {
 			'timezone' => date_default_timezone_get()
 			);
 
-		if(is_array($config)) $config = array_merge($defaults, $config);
-		else $config = $defaults;
+		if(is_array($config)) {
+			$config = array_merge($defaults, $config);
+		} else {
+			$config = $defaults;
+		}
 
 		$this->settings = $config;
 		\Phile\Registry::set('Phile_Settings', $config);
