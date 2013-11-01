@@ -143,7 +143,7 @@ class Core {
 			'pages_order' => 'asc',
 			'excerpt_length' => 50,
 			'timezone' => date_default_timezone_get()
-		);
+			);
 
 		if(is_array($config)) $config = array_merge($defaults, $config);
 		else $config = $defaults;
@@ -165,7 +165,9 @@ class Core {
 		if (file_exists(THEMES_DIR . $this->settings['theme'])) {
 			$loader = new \Twig_Loader_Filesystem(THEMES_DIR . $this->settings['theme']);
 			$twig = new \Twig_Environment($loader, $this->settings['twig_config']);
-			$twig->addExtension(new \Twig_Extension_Debug());
+			if ($this->settings['twig_config']['debug']) {
+				$twig->addExtension(new Twig_Extension_Debug());
+			}
 			$twig_vars = array(
 				'config' => $this->settings,
 				'base_dir' => rtrim(ROOT_DIR, '/'),
@@ -180,7 +182,7 @@ class Core {
 #				'current_page' => $current_page,
 #				'next_page' => $next_page,
 //				'is_front_page' => $url ? false : true,
-			);
+				);
 
 			$template = ($this->page->getMeta()->get('template') !== null) ? $this->page->getMeta()->get('template') : 'index';
 			/**
