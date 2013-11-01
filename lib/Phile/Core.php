@@ -22,7 +22,7 @@ class Core {
 	protected $plugins;
 
 	/**
-	 * @var Phile\Repository\Page
+	 * @var \Phile\Repository\Page
 	 */
 	protected $pageRepository;
 
