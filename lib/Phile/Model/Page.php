@@ -97,7 +97,8 @@ class Page {
 
 	protected function parseRawData() {
 		$this->meta     = new Meta($this->rawData);
-		$this->content  = preg_replace('#/\*.+?\*/#s', '', $this->rawData); // Remove comments and meta
+		// Remove only the first comment
+		$this->content = str_replace(substr($this->rawData, 0, strpos($this->rawData, "*/") + 2), '', $this->rawData);
 	}
 
 	public function getTitle() {
@@ -107,4 +108,4 @@ class Page {
 	public function getUrl() {
 		return $this->url;
 	}
-} 
+}
