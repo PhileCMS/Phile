@@ -184,7 +184,7 @@ class Core {
 				'site_title' => $this->settings['site_title'],
 				'meta' => $this->page->getMeta(),
 				'content' => $this->page->getContent(),
-				'pages' => $this->pageRepository->findAll(),
+				'pages' => $this->pageRepository->findAll($this->settings),
 #				'prev_page' => $prev_page,
 #				'current_page' => $current_page,
 #				'next_page' => $next_page,
