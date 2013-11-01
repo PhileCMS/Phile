@@ -240,6 +240,12 @@ blockquote {
   transition: all 0.2s ease;
 }
 
+@media only screen and (max-width: 700px) {
+  .btn {
+    margin-bottom: 1em;
+  }
+}
+
 .btn:hover {
   background: rgba(20,20,20,1);
 }
