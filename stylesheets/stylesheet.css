@@ -34,11 +34,28 @@ body {
 table {
   border-collapse: separate;
   border-spacing: 0;
+  width: 100%;
+  margin-bottom: 1em;
+}
+
+thead {
+  color: #666;
 }
 
 caption, th, td {
   text-align: left;
   font-weight: normal;
+}
+
+th {
+  font-weight: bold;
+}
+
+td code {
+  font-family: normal;
+  background: inherit;
+  padding: inherit;
+  text-shadow: none;
 }
 
 blockquote:before, blockquote:after,
@@ -134,7 +151,11 @@ h2 {
 
 h3 {
   font-size: 1.5em;
-  margin-top: 2em;
+}
+
+h4 {
+  font-size: 1.1em;
+  font-weight: bold;
 }
 
 p {
