@@ -69,7 +69,8 @@ class Core {
 	 * @return null|\Phile\Model\Page
 	 */
 	protected function initCurrentPage() {
-		$page           = $this->pageRepository->findByPath($_SERVER['REQUEST_URI']);
+		// use the current url to find the page
+		$page = $this->pageRepository->findByPath($_SERVER['REQUEST_URI']);
 		if ($page instanceof \Phile\Model\Page) {
 			return $page;
 		} else {
@@ -82,11 +83,13 @@ class Core {
 	 * init plugins
 	 */
 	protected function initPlugins() {
+		// check to see if there are plugins to be loaded
 		if (isset($this->settings['plugins']) && is_array($this->settings['plugins'])) {
 			foreach ($this->settings['plugins'] as $pluginKey => $pluginConfig) {
 				if (isset($pluginConfig['active']) && $pluginConfig['active'] === true) {
 					// load plugin configuration...
 					$pluginConfiguration    = null;
+					// load the config file for the plugin
 					$configFile = \Phile\Utility::resolveFilePath("MOD:{$pluginKey}/config.php");
 					if ($configFile !== null) {
 						$pluginConfiguration = \Phile\Utility::load($configFile);
@@ -99,7 +102,7 @@ class Core {
 						\Phile\Registry::set('Phile_Settings', $globalConfiguration);
 						$this->settings = $globalConfiguration;
 					}
-
+					// uppercase first letter convention
 					$pluginClassName    = ucfirst($pluginKey);
 					$pluginFile         = \Phile\Utility::resolveFilePath("MOD:{$pluginKey}/plugin.php");
 					if ($pluginFile !== null) {
@@ -141,7 +144,7 @@ class Core {
 			'pages_order_by' => 'alpha',
 			'pages_order' => 'asc',
 			'excerpt_length' => 50,
-			'timezone' => date_default_timezone_get()
+			'timezone' => date_default_timezone_get() // use system time if avaliable
 			);
 
 		if(is_array($config)) {
@@ -163,10 +166,12 @@ class Core {
 		 */
 		Event::triggerEvent('before_twig_register');
 		\Twig_Autoloader::register();
+		// default output
 		$output = 'no template found';
 		if (file_exists(THEMES_DIR . $this->settings['theme'])) {
 			$loader = new \Twig_Loader_Filesystem(THEMES_DIR . $this->settings['theme']);
 			$twig = new \Twig_Environment($loader, $this->settings['twig_config']);
+			// load the twig debug extension if required
 			if ($this->settings['twig_config']['debug']) {
 				$twig->addExtension(new Twig_Extension_Debug());
 			}

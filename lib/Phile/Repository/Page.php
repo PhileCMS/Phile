@@ -106,6 +106,7 @@ class Page {
 		return $pages;
 	}
 
+	// usort function for Titles Asc
 	protected function compareByTitleAsc($a, $b) {
 		$al = strtolower($a->getMeta()->getTitle());
 		$bl = strtolower($b->getMeta()->getTitle());
@@ -114,7 +115,7 @@ class Page {
 		}
 		return ($al > $bl) ? +1 : -1;
 	}
-
+	// usort function for Titles Desc
 	protected function compareByTitleDesc($a, $b) {
 		$al = strtolower($a->getMeta()->getTitle());
 		$bl = strtolower($b->getMeta()->getTitle());

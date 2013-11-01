@@ -46,16 +46,13 @@ class AbstractModel implements \ArrayAccess {
 	}
 
 	/**
-	 * (PHP 5 &gt;= 5.0.0)<br/>
+	 * (PHP 5 >= 5.0.0)
 	 * Whether a offset exists
 	 *
 	 * @link http://php.net/manual/en/arrayaccess.offsetexists.php
-	 * @param mixed $offset <p>
+	 * @param mixed $offset
 	 *                      An offset to check for.
-	 *                      </p>
 	 * @return boolean true on success or false on failure.
-	 *                      </p>
-	 *                      <p>
 	 *                      The return value will be casted to boolean if non-boolean was returned.
 	 */
 	public function offsetExists($offset) {
@@ -63,13 +60,12 @@ class AbstractModel implements \ArrayAccess {
 	}
 
 	/**
-	 * (PHP 5 &gt;= 5.0.0)<br/>
+	 * (PHP 5 >= 5.0.0)
 	 * Offset to retrieve
 	 *
 	 * @link http://php.net/manual/en/arrayaccess.offsetget.php
-	 * @param mixed $offset <p>
+	 * @param mixed $offset
 	 *                      The offset to retrieve.
-	 *                      </p>
 	 * @return mixed Can return all value types.
 	 */
 	public function offsetGet($offset) {
@@ -77,16 +73,14 @@ class AbstractModel implements \ArrayAccess {
 	}
 
 	/**
-	 * (PHP 5 &gt;= 5.0.0)<br/>
+	 * (PHP 5 >= 5.0.0)
 	 * Offset to set
 	 *
 	 * @link http://php.net/manual/en/arrayaccess.offsetset.php
-	 * @param mixed $offset <p>
+	 * @param mixed $offset
 	 *                      The offset to assign the value to.
-	 *                      </p>
-	 * @param mixed $value  <p>
+	 * @param mixed $value
 	 *                      The value to set.
-	 *                      </p>
 	 * @return void
 	 */
 	public function offsetSet($offset, $value) {
@@ -94,13 +88,12 @@ class AbstractModel implements \ArrayAccess {
 	}
 
 	/**
-	 * (PHP 5 &gt;= 5.0.0)<br/>
+	 * (PHP 5 >= 5.0.0)
 	 * Offset to unset
 	 *
 	 * @link http://php.net/manual/en/arrayaccess.offsetunset.php
-	 * @param mixed $offset <p>
+	 * @param mixed $offset
 	 *                      The offset to unset.
-	 *                      </p>
 	 * @return void
 	 */
 	public function offsetUnset($offset) {

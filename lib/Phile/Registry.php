@@ -23,7 +23,6 @@ class Registry extends \ArrayObject {
 		if (self::$_registry === null) {
 			self::init();
 		}
-
 		return self::$_registry;
 	}
 
@@ -38,7 +37,6 @@ class Registry extends \ArrayObject {
 		if (self::$_registry !== null) {
 			throw new Exception('Registry is already initialized');
 		}
-
 		self::$_registry = $registry;
 	}
 
@@ -73,11 +71,9 @@ class Registry extends \ArrayObject {
 	 */
 	public static function get($index) {
 		$instance = self::getInstance();
-
 		if (!$instance->offsetExists($index)) {
 			throw new Exception("No entry is registered for key '$index'");
 		}
-
 		return $instance->offsetGet($index);
 	}
 

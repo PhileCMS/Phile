@@ -97,7 +97,7 @@ class Page {
 
 	protected function parseRawData() {
 		$this->meta     = new Meta($this->rawData);
-		// Remove only the first comment
+		// Remove only the first block comment
 		$this->content = str_replace(substr($this->rawData, 0, strpos($this->rawData, "*/") + 2), '', $this->rawData);
 	}
 

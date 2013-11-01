@@ -14,7 +14,7 @@ abstract class AbstractPlugin {
 	protected $settings;
 
 	/**
-	 * inject settings 
+	 * inject settings
 	 * @param array $settings
 	 */
 	public function injectSettings(array $settings = null) {
