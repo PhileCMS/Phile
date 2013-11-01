@@ -73,9 +73,7 @@ class Phile {
 			);
 
 			$template = ($page->getMeta()->get('template') !== null) ? $page->getMeta()->get('template') : 'index';
-			$this->run_hooks('before_render', array(&$twig_vars, &$twig, &$template));
 			$output = $twig->render($template .'.html', $twig_vars);
-			$this->run_hooks('after_render', array(&$output));
 		}
 		echo $output;
 	}
@@ -149,7 +147,7 @@ class Phile {
 
 		$defaults = array(
 			'site_title' => 'Phile',
-			'base_url' => $this->base_url(),
+			'base_url' => \Phile\Utility::getBaseUrl(),
 			'theme' => 'default',
 			'date_format' => 'jS M Y',
 			'twig_config' => array('cache' => false, 'autoescape' => false, 'debug' => false),
@@ -166,44 +164,5 @@ class Phile {
 		\Phile\Registry::set('Phile_Settings', $config);
 
 		date_default_timezone_set($config['timezone']);
-
-		$this->run_hooks('config_loaded', array($this->settings));
-	}
-
-	/**
-	 * Processes any hooks and runs them
-	 *
-	 * @param string $hook_id the ID of the hook
-	 * @param array $args optional arguments
-	 * @todo refactor
-	 */
-	protected function run_hooks($hook_id, $args = array()) {
-		if(!empty($this->plugins)){
-			foreach($this->plugins as $plugin){
-				if(is_callable(array($plugin, $hook_id))){
-					call_user_func_array(array($plugin, $hook_id), $args);
-				}
-			}
-		}
-	}
-
-	/**
-	 * Helper function to work out the base URL
-	 *
-	 * @return string the base url
-	 * @deprecated use \Phile\Utility::getBaseUrl(); instead
-	 */
-	protected function base_url() {
-		return \Phile\Utility::getBaseUrl();
-	}
-
-	/**
-	 * Tries to guess the server protocol. Used in base_url()
-	 *
-	 * @return string the current protocol
-	 * @deprecated use \Phile\Utility::getProtocol(); instead
-	 */
-	protected function get_protocol() {
-		return \Phile\Utility::getProtocol();
 	}
 }
