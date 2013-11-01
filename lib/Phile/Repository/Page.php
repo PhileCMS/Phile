@@ -11,8 +11,8 @@ use Phile\Registry;
  * @package Phile\Repository
  */
 class Page {
-	const   ORDER_ASC   = 'asc';
-	const   ORDER_DESC  = 'desc';
+	const ORDER_ASC   = 'asc';
+	const ORDER_DESC  = 'desc';
 
 	/**
 	 * find a page by path
@@ -50,7 +50,7 @@ class Page {
 		$files      = new \RegexIterator($ite, '/^.*\\'.CONTENT_EXT.'/', \RegexIterator::GET_MATCH);
 		$pages      = array();
 		foreach ($files as $file) {
-			if (str_replace(CONTENT_DIR, '', $file[0]) == '404.md') {
+			if (str_replace(CONTENT_DIR, '', $file[0]) == '404'.CONTENT_EXT) {
 				// jump to next page if file is the 404 page
 				continue;
 			}
