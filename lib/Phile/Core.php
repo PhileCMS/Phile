@@ -1,4 +1,6 @@
 <?php
+namespace Phile;
+
 /**
  * Phile
  *
@@ -8,7 +10,7 @@
  * @version 0.1
  */
 
-class Phile {
+class Core {
 	/**
 	 * @var array the settings array
 	 */
@@ -50,12 +52,12 @@ class Phile {
 		$pages = $this->pageRepository->findAll();
 
 		// Load the theme
-		Twig_Autoloader::register();
+		\Twig_Autoloader::register();
 		$output = 'no template found';
 		if (file_exists(THEMES_DIR . $this->settings['theme'])) {
-			$loader = new Twig_Loader_Filesystem(THEMES_DIR . $this->settings['theme']);
-			$twig = new Twig_Environment($loader, $this->settings['twig_config']);
-			$twig->addExtension(new Twig_Extension_Debug());
+			$loader = new \Twig_Loader_Filesystem(THEMES_DIR . $this->settings['theme']);
+			$twig = new \Twig_Environment($loader, $this->settings['twig_config']);
+			$twig->addExtension(new \Twig_Extension_Debug());
 			$twig_vars = array(
 				'config' => $this->settings,
 				'base_dir' => rtrim(ROOT_DIR, '/'),
@@ -143,7 +145,7 @@ class Phile {
 	protected function initConfiguration() {
 		// @TODO: refactor: maybe introduce configuration object
 		global $config;
-		@include_once(ROOT_DIR .'config.php');
+		@include_once(ROOT_DIR . 'config.php');
 
 		$defaults = array(
 			'site_title' => 'Phile',

@@ -18,5 +18,4 @@ spl_autoload_register(function ($className) {
 });
 
 require(ROOT_DIR .'vendor/autoload.php');
-require(LIB_DIR .'phile.php');
-$phile = new Phile();
+$phileCore = new \Phile\Core();
