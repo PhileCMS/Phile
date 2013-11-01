@@ -27,6 +27,11 @@ class Core {
 	protected $pageRepository;
 
 	/**
+	 * @var null|\Phile\Model\Page
+	 */
+	protected $page;
+
+	/**
 	 * The constructor carries out all the processing in Phile.
 	 * Does URL routing, Markdown processing and Twig processing.
 	 */
@@ -45,38 +50,10 @@ class Core {
 		$this->initPlugins();
 
 		// init current page
-		$page = $this->initCurrentPage();
-		$content = $page->getContent();
+		$this->page = $this->initCurrentPage();
 
-		// Get all the pages
-		$pages = $this->pageRepository->findAll();
-
-		// Load the theme
-		\Twig_Autoloader::register();
-		$output = 'no template found';
-		if (file_exists(THEMES_DIR . $this->settings['theme'])) {
-			$loader = new \Twig_Loader_Filesystem(THEMES_DIR . $this->settings['theme']);
-			$twig = new \Twig_Environment($loader, $this->settings['twig_config']);
-			$twig->addExtension(new \Twig_Extension_Debug());
-			$twig_vars = array(
-				'config' => $this->settings,
-				'base_dir' => rtrim(ROOT_DIR, '/'),
-				'base_url' => $this->settings['base_url'],
-				'theme_dir' => THEMES_DIR . $this->settings['theme'],
-				'theme_url' => $this->settings['base_url'] .'/'. basename(THEMES_DIR) .'/'. $this->settings['theme'],
-				'site_title' => $this->settings['site_title'],
-				'meta' => $page->getMeta(),
-				'content' => $content,
-				'pages' => $pages,
-#				'prev_page' => $prev_page,
-#				'current_page' => $current_page,
-#				'next_page' => $next_page,
-//				'is_front_page' => $url ? false : true,
-			);
-
-			$template = ($page->getMeta()->get('template') !== null) ? $page->getMeta()->get('template') : 'index';
-			$output = $twig->render($template .'.html', $twig_vars);
-		}
+		// init template
+		$output = $this->initTemplate();
 		echo $output;
 	}
 
@@ -166,5 +143,35 @@ class Core {
 		\Phile\Registry::set('Phile_Settings', $config);
 
 		date_default_timezone_set($config['timezone']);
+	}
+
+	protected function initTemplate() {
+		// Load the theme
+		\Twig_Autoloader::register();
+		$output = 'no template found';
+		if (file_exists(THEMES_DIR . $this->settings['theme'])) {
+			$loader = new \Twig_Loader_Filesystem(THEMES_DIR . $this->settings['theme']);
+			$twig = new \Twig_Environment($loader, $this->settings['twig_config']);
+			$twig->addExtension(new \Twig_Extension_Debug());
+			$twig_vars = array(
+				'config' => $this->settings,
+				'base_dir' => rtrim(ROOT_DIR, '/'),
+				'base_url' => $this->settings['base_url'],
+				'theme_dir' => THEMES_DIR . $this->settings['theme'],
+				'theme_url' => $this->settings['base_url'] .'/'. basename(THEMES_DIR) .'/'. $this->settings['theme'],
+				'site_title' => $this->settings['site_title'],
+				'meta' => $this->page->getMeta(),
+				'content' => $this->page->getContent(),
+				'pages' => $this->pageRepository->findAll(),
+#				'prev_page' => $prev_page,
+#				'current_page' => $current_page,
+#				'next_page' => $next_page,
+//				'is_front_page' => $url ? false : true,
+			);
+
+			$template = ($this->page->getMeta()->get('template') !== null) ? $this->page->getMeta()->get('template') : 'index';
+			$output = $twig->render($template .'.html', $twig_vars);
+		}
+		return $output;
 	}
 }
