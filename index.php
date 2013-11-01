@@ -8,19 +8,15 @@ define('PLUGINS_DIR', ROOT_DIR .'plugins/');
 define('THEMES_DIR', ROOT_DIR .'themes/');
 define('CACHE_DIR', LIB_DIR .'cache/');
 
-require(ROOT_DIR .'vendor/autoload.php');
-// @TODO: implement autoloader for core classes
-require(LIB_DIR .'phile.php');
-require(LIB_DIR .'Phile/Exception.php');
-require(LIB_DIR .'Phile/Registry.php');
-require(LIB_DIR .'Phile/Utility.php');
-require(LIB_DIR .'Phile/ServiceLocator.php');
-require(LIB_DIR .'Phile/Model/AbstractModel.php');
-require(LIB_DIR .'Phile/Model/Meta.php');
-require(LIB_DIR .'Phile/Model/Page.php');
-require(LIB_DIR .'Phile/Parser/ParserInterface.php');
-require(LIB_DIR .'Phile/Parser/Markdown.php');
-require(LIB_DIR .'Phile/Plugin/AbstractPlugin.php');
-require(LIB_DIR .'Phile/Repository/Page.php');
 
+spl_autoload_extensions(".php");
+spl_autoload_register(function ($className) {
+	$fileName = LIB_DIR . str_replace("\\", "/", $className).".php";
+	if (file_exists($fileName)) {
+		require_once $fileName;
+	}
+});
+
+require(ROOT_DIR .'vendor/autoload.php');
+require(LIB_DIR .'phile.php');
 $phile = new Phile();
