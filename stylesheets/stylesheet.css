@@ -243,9 +243,11 @@ blockquote {
 }
 
 .logo {
-  width: 100%;
+  width: 114px;
   height: 114px;
   background: url(../images/phile-logo.png) no-repeat center center;
+  display: block;
+  margin: 0 auto;
 }
 
 .btn {
@@ -274,6 +276,7 @@ blockquote {
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
   .logo {
     background: url(../images/phile-logo@2x.png) no-repeat center center;
+    background-size: contain;
   }
 }
 
