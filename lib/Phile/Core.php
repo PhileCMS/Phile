@@ -142,7 +142,7 @@ class Core {
 			'pages_order_by' => 'alpha',
 			'pages_order' => 'asc',
 			'excerpt_length' => 50,
-			'timezone' => 'Europe/Berlin'
+			'timezone' => date_default_timezone_get()
 		);
 
 		if(is_array($config)) $config = array_merge($defaults, $config);
