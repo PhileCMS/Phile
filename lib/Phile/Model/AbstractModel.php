@@ -17,6 +17,10 @@ class AbstractModel implements \ArrayAccess {
 		return (isset($this->data[$key])) ? $this->data[$key] : null;
 	}
 
+	public function getAll() {
+		return $this->data;
+	}
+
 	public function set($key, $value) {
 		$this->data[$key] = $value;
 	}
