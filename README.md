@@ -50,6 +50,6 @@ Webgrind Profiling
 
 Help make Phile better by checking out the GitHub repoistory and submitting pull requests.
 
-If you find a bug please report it on the issues page.
+If you find a bug please report it on the [issues page](https://github.com/PhileCMS/Phile/issues).
 
 If you create a plugin please add it to the [Plugin Wiki](https://github.com/PhileCMS/Phile/wiki/Plugins).
