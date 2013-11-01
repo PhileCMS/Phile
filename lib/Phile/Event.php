@@ -25,10 +25,14 @@ class Event {
 		self::$_registry[$eventName][] = $object;
 	}
 
-	public static function triggerEvent($eventName, $data) {
+	/**
+	 * @param string $eventName the event name (register for this name)
+	 * @param array  $data array with some additional data
+	 */
+	public static function triggerEvent($eventName, $data = null) {
 		if (isset(self::$_registry[$eventName]) && is_array(self::$_registry[$eventName])) {
 			foreach (self::$_registry[$eventName] as $observer) {
-				return call_user_func_array(array($observer, 'on'), array($eventName, $data));
+				call_user_func_array(array($observer, 'on'), array($eventName, $data));
 			}
 		}
 	}
