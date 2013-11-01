@@ -5,9 +5,6 @@
  * important: the pluginKey is also the folder name!
  */
 class PhileDemoPlugin extends \Phile\Plugin\AbstractPlugin {
-	public function __construct() {
-		parent::__construct();
-		// $this->settings will be filled with the data from the config.php file from the plugin folder
-		// var_dump($this->settings);
-	}
+	// $this->settings will be filled with the data from the config.php file from the plugin folder
+	// var_dump($this->settings);
 }

@@ -98,6 +98,7 @@ class Phile {
 			foreach ($this->settings['plugins'] as $pluginKey => $pluginConfig) {
 				if (isset($pluginConfig['active']) && $pluginConfig['active'] === true) {
 					// load plugin configuration...
+					$pluginConfiguration    = null;
 					$configFile = \Phile\Utility::resolveFilePath("MOD:{$pluginKey}/config.php");
 					if ($configFile !== null) {
 						$pluginConfiguration = \Phile\Utility::load($configFile);
@@ -120,6 +121,7 @@ class Phile {
 					}
 					if (class_exists($pluginClassName)) {
 						$plugin = new $pluginClassName;
+						$plugin->injectSettings($pluginConfiguration);
 						if ($plugin instanceof \Phile\Plugin\AbstractPlugin) {
 							// register plugin
 							$this->plugins[$pluginKey] = $plugin;

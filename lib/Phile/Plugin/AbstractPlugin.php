@@ -13,9 +13,11 @@ abstract class AbstractPlugin {
 	 */
 	protected $settings;
 
-	public function __construct() {
-		$settings   = Registry::get('Phile_Settings');
-		$pluginKey  = lcfirst(get_class($this));
-		$this->settings = $settings['plugins'][$pluginKey]['settings'];
+	/**
+	 * inject settings 
+	 * @param array $settings
+	 */
+	public function injectSettings(array $settings = null) {
+		$this->settings = ($settings === null) ? array() : $settings;
 	}
 }
