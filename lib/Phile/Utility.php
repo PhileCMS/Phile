@@ -62,6 +62,11 @@ class Utility {
 		return null;
 	}
 
+	/**
+	 * load files e.g. config files
+	 * @param $file
+	 * @return mixed|null
+	 */
 	public static function load($file) {
 		if (file_exists($file)) {
 			return include $file;
