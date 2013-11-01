@@ -1,6 +1,7 @@
 <?php
 
 namespace Phile\Model;
+use Phile\Event;
 
 /**
  * Meta model
@@ -17,7 +18,19 @@ class Meta extends AbstractModel {
 	}
 
 	public function setRawData($rawData) {
+		/**
+		 * @triggerEvent before_read_file_meta this event is triggered before the meta data readed and parsed
+		 * @param string rawData the unparsed data
+		 * @param \Phile\Model\Meta meta the meta model
+		 */
+		Event::triggerEvent('before_read_file_meta', array('rawData' => &$rawData, 'meta' => &$this));
 		$this->parseRawData($rawData);
+		/**
+		 * @triggerEvent after_read_file_meta this event is triggered after the meta data readed and parsed
+		 * @param string rawData the unparsed data
+		 * @param \Phile\Model\Meta meta the meta model
+		 */
+		Event::triggerEvent('after_read_file_meta', array('rawData' => &$rawData, 'meta' => &$this));
 	}
 
 	public function getFormattedDate() {

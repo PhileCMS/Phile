@@ -48,6 +48,15 @@ class Core {
 
 		// Load plugins
 		$this->initPlugins();
+		/**
+		 * @triggerEvent plugins_loaded this event is triggered after the plugins loaded
+		 */
+		Event::triggerEvent('plugins_loaded');
+
+		/**
+		 * @triggerEvent config_loaded this event is triggered after the configuration is fully loaded
+		 */
+		Event::triggerEvent('config_loaded');
 
 		// init current page
 		$this->page = $this->initCurrentPage();
@@ -147,6 +156,10 @@ class Core {
 
 	protected function initTemplate() {
 		// Load the theme
+		/**
+		 * @triggerEvent before_twig_register this event is triggered before the the twig template engine is registered
+		 */
+		Event::triggerEvent('before_twig_register');
 		\Twig_Autoloader::register();
 		$output = 'no template found';
 		if (file_exists(THEMES_DIR . $this->settings['theme'])) {
@@ -170,7 +183,19 @@ class Core {
 			);
 
 			$template = ($this->page->getMeta()->get('template') !== null) ? $this->page->getMeta()->get('template') : 'index';
+			/**
+			 * @triggerEvent before_render this event is triggered before the template is rendered
+			 * @param array twig_vars the twig vars
+			 * @param object twig the template engine
+			 * @param string template the template which will be used
+			 */
+			Event::triggerEvent('before_render', array('twig_vars' => &$twig_vars, 'twig' => &$twig, 'template' => &$template));
 			$output = $twig->render($template .'.html', $twig_vars);
+			/**
+			 * @triggerEvent after_render this event is triggered after the templates is rendered
+			 * @param string output the parsed and ready output
+			 */
+			Event::triggerEvent('after_render', array('output' => &$output));
 		}
 		return $output;
 	}
