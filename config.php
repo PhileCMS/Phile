@@ -1,5 +1,8 @@
 <?php
 
+// try to figure out the install path
+$config['install_path'] = pathinfo(dirname(__FILE__))['basename'].'/';
+
 /*
 // Override any of the default settings below:
 
@@ -18,11 +21,12 @@ $config['pages_order'] = 'asc';			// Order pages "asc" or "desc"
 $config['excerpt_length'] = 50;			// The pages excerpt length (in words)
 $config['timezone'] = 'Europe/Berlin'; 	// The default timezone
 
+// only extend $config['plugins'] and not overwrite it, because some core plugins
+// will be added to this config option by default. So, use this option in this way:
+// $config['plugins']['myCustomPlugin'] = array('active' => true);
+// also notice, each plugin has its own config namespace.
 // activate plugins
-$config['plugins'] = array()            // only extend $config['plugins'] and not overwrite it, because some core plugins
-										   will be added to this config option by default. So, use this option in this way:
-										   $config['plugins']['myCustomPlugin'] = array('active' => true);
-										   also notice, each plugin has its own config namespace.
+$config['plugins'] = array();
 
 // To add a custom config setting:
 
