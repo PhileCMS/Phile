@@ -173,7 +173,7 @@ class Core {
 			$twig = new \Twig_Environment($loader, $this->settings['twig_config']);
 			// load the twig debug extension if required
 			if ($this->settings['twig_config']['debug']) {
-				$twig->addExtension(new Twig_Extension_Debug());
+				$twig->addExtension(new \Twig_Extension_Debug());
 			}
 			$twig_vars = array(
 				'config' => $this->settings,
