@@ -131,32 +131,16 @@ class Core {
 	 * init configuration
 	 */
 	protected function initConfiguration() {
-		// @TODO: refactor: maybe introduce configuration object
-		global $config;
-		@include_once(ROOT_DIR . 'config.php');
-
-		$defaults = array(
-			'site_title' => 'Phile',
-			'base_url' => \Phile\Utility::getBaseUrl(),
-			'theme' => 'default',
-			'date_format' => 'jS M Y',
-			'twig_config' => array('cache' => false, 'autoescape' => false, 'debug' => false),
-			'pages_order_by' => 'alpha',
-			'pages_order' => 'asc',
-			'excerpt_length' => 50,
-			'timezone' => date_default_timezone_get() // use system time if avaliable
-			);
-
-		if(is_array($config)) {
-			$config = array_merge($defaults, $config);
+		$defaults       = Utility::load(ROOT_DIR . '/default_config.php');
+		$localSettings  = Utility::load(ROOT_DIR . '/config.php');
+		if (is_array($localSettings)) {
+			$this->settings = array_merge($defaults, $localSettings);
 		} else {
-			$config = $defaults;
+			$this->settings = $defaults;
 		}
 
-		$this->settings = $config;
-		\Phile\Registry::set('Phile_Settings', $config);
-
-		date_default_timezone_set($config['timezone']);
+		\Phile\Registry::set('Phile_Settings', $this->settings);
+		date_default_timezone_set($this->settings['timezone']);
 	}
 
 	protected function initTemplate() {

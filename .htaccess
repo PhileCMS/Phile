@@ -7,3 +7,5 @@
 
 # Prevent file browsing
 Options -Indexes
+
+php_value display_errors on
