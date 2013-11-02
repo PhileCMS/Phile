@@ -13,7 +13,9 @@ $config['twig_config'] = array(			// Twig settings
 );
 $config['pages_order_by']   = 'title';	        // Order pages by "title" (alpha) or "date"
 $config['pages_order']      = 'asc';	        // Order pages "asc" or "desc"
-$config['timezone']         = 'Europe/Berlin'; 	// The default timezone
+
+$timezone = (ini_get('date.timezone')) ? ini_get('date.timezone') : 'UTC';
+$config['timezone']         = $timezone; 	// The default timezone
 
 // only extend $config['plugins'] and not overwrite it, because some core plugins
 // will be added to this config option by default. So, use this option in this way:
