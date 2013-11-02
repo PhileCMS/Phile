@@ -59,6 +59,9 @@ class Page {
 		Event::triggerEvent('after_load_content', array('filePath' => &$filePath, 'rawData' => $this->rawData, 'page' => &$this));
 		$this->url  = str_replace(CONTENT_DIR, '', $filePath);
 		$this->url  = str_replace(CONTENT_EXT, '', $this->url);
+		if (strpos($this->url, '/') === 0) {
+			$this->url = substr($this->url, 1);
+		}
 
 		$settings   = Registry::get('Phile_Settings');
 		if ($settings['install_path'] !== '') {

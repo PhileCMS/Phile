@@ -166,6 +166,7 @@ class Core {
 				'theme_dir' => THEMES_DIR . $this->settings['theme'],
 				'theme_url' => $this->settings['base_url'] .'/'. basename(THEMES_DIR) .'/'. $this->settings['theme'],
 				'site_title' => $this->settings['site_title'],
+				'current_page' => $this->page,
 				'meta' => $this->page->getMeta(),
 				'content' => $this->page->getContent(),
 				'pages' => $this->pageRepository->findAll($this->settings),
