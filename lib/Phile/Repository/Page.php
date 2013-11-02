@@ -57,27 +57,27 @@ class Page {
 			$pages[]    = new \Phile\Model\Page($file[0]);
 		}
 
-		if ($options !== null && isset($options['order_by'])) {
-			switch (strtolower($options['order_by'])) {
+		if ($options !== null && isset($options['pages_order_by'])) {
+			switch (strtolower($options['pages_order_by'])) {
 				case 'date':
 					error_log('the key date for sorting is deprecated');
 					$date_id = 0;
 					$sorted_pages = array();
 					foreach ($pages as $page) {
-						if ($page->getMeta()->getDate() !== null) {
-							$sorted_pages[$page->getMeta()->getDate().$date_id] = $page;
+						if ($page->getMeta()->get('date') !== null) {
+							$sorted_pages[$page->getMeta()->get('date').$date_id] = $page;
 							$date_id++;
 						} else {
 							$sorted_pages[] = $page;
 						}
 					}
-					if (!isset($options['order'])) {
-						$options['order'] = self::ORDER_ASC;
+					if (!isset($options['pages_order'])) {
+						$options['pages_order'] = self::ORDER_ASC;
 					}
-					if ($options['order'] == self::ORDER_ASC) {
+					if ($options['pages_order'] == self::ORDER_ASC) {
 						ksort($sorted_pages);
 					}
-					if ($options['order'] == self::ORDER_DESC) {
+					if ($options['pages_order'] == self::ORDER_DESC) {
 						krsort($sorted_pages);
 					}
 					unset($pages);
@@ -85,21 +85,21 @@ class Page {
 				break;
 				case 'alpha':
 				case 'title':
-					if (strtolower($options['order_by']) == 'alpha') {
+					if (strtolower($options['pages_order_by']) == 'alpha') {
 						error_log('the key alpha for sorting is deprecated, use title instead');
 					}
-					if (!isset($options['order'])) {
-						$options['order'] = self::ORDER_ASC;
+					if (!isset($options['pages_order'])) {
+						$options['pages_order'] = self::ORDER_ASC;
 					}
-					if ($options['order'] == self::ORDER_ASC) {
+					if ($options['pages_order'] == self::ORDER_ASC) {
 						usort($pages, array($this, "compareByTitleAsc"));
 					}
-					if ($options['order'] == self::ORDER_DESC) {
+					if ($options['pages_order'] == self::ORDER_DESC) {
 						usort($pages, array($this, "compareByTitleDesc"));
 					}
 				break;
 				default:
-					throw new Exception("unknown key '{$options['order_by']}' for order_by");
+					throw new Exception("unknown key '{$options['pages_order_by']}' for pages_order_by");
 				break;
 			}
 		}
@@ -108,8 +108,8 @@ class Page {
 
 	// usort function for Titles Asc
 	protected function compareByTitleAsc($a, $b) {
-		$al = strtolower($a->getMeta()->getTitle());
-		$bl = strtolower($b->getMeta()->getTitle());
+		$al = strtolower($a->getMeta()->get('title'));
+		$bl = strtolower($b->getMeta()->get('title'));
 		if ($al == $bl) {
 			return 0;
 		}
@@ -117,8 +117,8 @@ class Page {
 	}
 	// usort function for Titles Desc
 	protected function compareByTitleDesc($a, $b) {
-		$al = strtolower($a->getMeta()->getTitle());
-		$bl = strtolower($b->getMeta()->getTitle());
+		$al = strtolower($a->getMeta()->get('title'));
+		$bl = strtolower($b->getMeta()->get('title'));
 		if ($al == $bl) {
 			return 0;
 		}
