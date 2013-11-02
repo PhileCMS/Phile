@@ -135,6 +135,12 @@ class Core {
 		global $config;
 		@include_once(ROOT_DIR . 'config.php');
 
+		if (ini_get('date.timezone')) { // use system time only IF avaliable
+			$time = ini_get('date.timezone');
+		}
+		else {
+			$time = 'UTC'; // UTC by default
+		}
 		$defaults = array(
 			'site_title' => 'Phile',
 			'base_url' => \Phile\Utility::getBaseUrl(),
@@ -144,7 +150,7 @@ class Core {
 			'pages_order_by' => 'alpha',
 			'pages_order' => 'asc',
 			'excerpt_length' => 50,
-			'timezone' => date_default_timezone_get() // use system time if avaliable
+			'timezone' => $time
 			);
 
 		if(is_array($config)) {
