@@ -41,15 +41,11 @@ class Core {
 		// Load the settings
 		$this->initConfiguration();
 
-		// Load Parser, we use Markdown parser as default
-		// to use an other parse, register a plugin and within the plugin, register a new
-		// service for "Phile_Parser" which implements the \Phile\Parser\ParserInterface
-		\Phile\ServiceLocator::registerService('Phile_Parser', new \Phile\Parser\Markdown());
-
 		// Load plugins
 		$this->initPlugins();
 		/**
 		 * @triggerEvent plugins_loaded this event is triggered after the plugins loaded
+		 * This is also where we load the parser, since it is a plugin also. We use the Markdown parser as default. See it in the plugins folder and lib/Phile/Parser/Markdown.php
 		 */
 		Event::triggerEvent('plugins_loaded');
 
