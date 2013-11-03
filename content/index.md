@@ -110,7 +110,7 @@ this event is triggered after the plugins loaded
 #### config_loaded
 this event is triggered after the configuration is fully loaded
 
-#### before_twig_register
+#### before\_twig\_register
 this event is triggered before the the twig template engine is registered
 
 #### before_render
@@ -129,7 +129,7 @@ this event is triggered after the templates is rendered
 | ----------------------- |:----------------|:---------------------------------------------------------------------|
 | `output`                | string          | the parsed and ready output                                          |
 
-#### before_read_file_meta
+#### before\_read\_file\_meta
 this event is triggered before the meta data readed and parsed
 
 | param                   | type                | description                                                      |
@@ -137,7 +137,7 @@ this event is triggered before the meta data readed and parsed
 | `rawData`               | string              | the unparsed data                                                |
 | `meta`                  | \Phile\Model\Meta   | the meta model                                                   |
 
-#### after_read_file_meta
+#### after\_read\_file\_meta
 this event is triggered after the meta data readed and parsed
 
 | param                   | type                | description                                                      |
@@ -145,7 +145,7 @@ this event is triggered after the meta data readed and parsed
 | `rawData`               | string              | the unparsed data                                                |
 | `meta`                  | \Phile\Model\Meta   | the meta model                                                   |
 
-#### before_load_content
+#### before\_load\_content
 this event is triggered before the content is loaded
 
 | param                   | type                | description                                                      |
@@ -153,7 +153,7 @@ this event is triggered before the content is loaded
 | `filePath`              | string              | the path to the file                                             |
 | `page`                  | \Phile\Model\Page   | the page model                                                   |
 
-#### after_load_content
+#### after\_load\_content
 this event is triggered after the content is loaded
 
 | param                   | type                | description                                                      |
@@ -162,7 +162,7 @@ this event is triggered after the content is loaded
 | `rawData`               | string              | the raw data                                                     |
 | `page`                  | \Phile\Model\Page   | the page model                                                   |
 
-#### before_parse_content
+#### before\_parse\_content
 this event is triggered before the content is parsed
 
 | param                   | type                | description                                                      |
@@ -170,7 +170,7 @@ this event is triggered before the content is parsed
 | `content`               | string              | the raw data                                                     |
 | `page`                  | \Phile\Model\Page   | the page model                                                   |
 
-#### after_parse_content
+#### after\_parse\_content
 this event is triggered after the content is parsed
 
 | param                   | type                | description                                                      |
