@@ -113,9 +113,9 @@ Robots: noindex,nofollow
     </ul>
     <p>Pages can be used like:</p>
     <pre><code class="html">&lt;ul class=&quot;nav&quot;&gt;
-{% for page in pages %}
-&lt;li&gt;&lt;a href=&quot;{{ page.url }}&quot;&gt;{{ page.title }}&lt;/a&gt;&lt;/li&gt;
-{% endfor %}
+  {% for page in pages %}
+  &lt;li&gt;&lt;a href=&quot;{{ page.url }}&quot;&gt;{{ page.title }}&lt;/a&gt;&lt;/li&gt;
+  {% endfor %}
 &lt;/ul&gt;</code></pre>
       <h3 id="config-section">Config</h3>
       <p>You can override the default Phile settings (and add your own custom settings) by editing config.php in the root Phile directory. The config.php file lists all of the settings and their defaults. To override a setting, simply uncomment it in config.php and set your custom value.</p>
