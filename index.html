@@ -34,32 +34,75 @@
       <p>This project is based on <a href="https://github.com/gilbitron/Pico/commit/aa59661ff81dd52c3a2596988372a214b0fc31b9" title="0.8 Commit">Pico CMS v0.8</a> by <a href="https://github.com/gilbitron">Gilbert Pellegrom</a>.</p>
       <p>The desire to fork the project from Pico, came when a few community members wanted to contribute more and increase the rate of development progress.</p>
       <h3>Why use this over Pico?</h3>
-      <h5>Performance with only three pages:</h5>
-      <p>Pico</p>
+      <p>Here is a small list of differences in design from Pico:</p>
       <ul>
-        <li>Pico Startpage 180ms</li>
-        <li>Pico Sub Page Index 117ms</li>
-        <li>Pico Sub Page 152ms</li>
+        <li>OOP based (classes)</li>
+        <li>Events system</li>
+        <li>Parser Overloading</li>
+        <li>Template Engine Overloading</li>
       </ul>
-      <p>Phile</p>
-      <ul>
-        <li>Phile Startpage 120ms</li>
-        <li>Phile Sub Page Index 83ms</li>
-        <li>Phile Sub Page 85ms</li>
-      </ul>
+      <h5>Performance with 3 pages:</h5>
+      <table>
+        <thead>
+          <tr>
+            <th>Test</th>
+            <th class="pico">Pico</th>
+            <th class="phile">Phile</th>
+            <th class="diff">Difference</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Startpage</td>
+            <td>180ms</td>
+            <td>120ms</td>
+            <td><strong>+33%</strong></td>
+          </tr>
+          <tr>
+            <td>Sub Index</td>
+            <td>117ms</td>
+            <td>83ms</td>
+            <td><strong>+29%</strong></td>
+          </tr>
+          <tr>
+            <td>Sub Page</td>
+            <td>152ms</td>
+            <td>85ms</td>
+            <td><strong>+45%</strong></td>
+          </tr>
+        </tbody>
+      </table>
       <h5>Performance with 20 pages:</h5>
-      <p>Pico</p>
-      <ul>
-        <li>Pico Startpage 250ms</li>
-        <li>Pico Sub Page Index 203ms</li>
-        <li>Pico Sub Page 237ms</li>
-      </ul>
-      <p>Phile</p>
-      <ul>
-        <li>Phile Startpage 121ms</li>
-        <li>Phile Sub Page Index 80ms</li>
-        <li>Phile Sub Page 84ms</li>
-      </ul>
+      <table>
+        <thead>
+          <tr>
+            <th>Test</th>
+            <th class="pico">Pico</th>
+            <th class="phile">Phile</th>
+            <th class="diff">Difference</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Startpage</td>
+            <td>250ms</td>
+            <td>121ms</td>
+            <td><strong>+52%</strong></td>
+          </tr>
+          <tr>
+            <td>Sub Index</td>
+            <td>203ms</td>
+            <td>80ms</td>
+            <td><strong>+61%</strong></td>
+          </tr>
+          <tr>
+            <td>Sub Page</td>
+            <td>237ms</td>
+            <td>84ms</td>
+            <td><strong>+65%</strong></td>
+          </tr>
+        </tbody>
+      </table>
       <p>Webgrind Profiling</p>
       <p><img src="http://i.imgur.com/pgOS09V.png" alt="Pico Results"></p>
       <p><img src="http://i.imgur.com/jrbVf03.png" alt="Phile Results"></p>

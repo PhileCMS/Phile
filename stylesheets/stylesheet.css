@@ -52,6 +52,18 @@ th {
   font-weight: bold;
 }
 
+th.pico {
+  color: #2EAE9B;
+}
+
+th.phile {
+  color: #B44646;
+}
+
+th.diff {
+  color: #00ff00;
+}
+
 td code {
   font-family: normal;
   background: inherit;
