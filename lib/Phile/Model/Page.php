@@ -1,7 +1,6 @@
 <?php
 
 namespace Phile\Model;
-use Michelf\MarkdownExtra;
 use Phile\Event;
 use Phile\Parser\ParserInterface;
 use Phile\Registry;
