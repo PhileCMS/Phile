@@ -145,7 +145,6 @@ class Core {
 		 * @triggerEvent before_twig_register this event is triggered before the the twig template engine is registered
 		 */
 		Event::triggerEvent('before_twig_register');
-		\Twig_Autoloader::register();
 		// default output
 		$output = 'no template found';
 		if (file_exists(THEMES_DIR . $this->settings['theme'])) {
