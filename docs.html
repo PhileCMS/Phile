@@ -114,7 +114,7 @@ Robots: noindex,nofollow
     <p>Pages can be used like:</p>
     <pre><code class="html">&lt;ul class=&quot;nav&quot;&gt;
   {% for page in pages %}
-  &lt;li&gt;&lt;a href=&quot;{{ page.url }}&quot;&gt;{{ page.title }}&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;{{ page.url }}&quot;&gt;{{ page.title }}&lt;/a&gt;&lt;/li&gt;
   {% endfor %}
 &lt;/ul&gt;</code></pre>
       <h3 id="config-section">Config</h3>
@@ -323,5 +323,7 @@ Robots: noindex,nofollow
       </table>
     </section>
   </div>
+  <script src="javascripts/highlight.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
 </body>
 </html>
