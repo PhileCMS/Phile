@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Default Phile plugin for Markdown
+ * Default Phile parser plugin for Markdown
  */
-class PhileMarkdown extends \Phile\Plugin\AbstractPlugin implements \Phile\EventObserverInterface {
+class PhileParserMarkdown extends \Phile\Plugin\AbstractPlugin implements \Phile\EventObserverInterface {
 	public function __construct() {
 		\Phile\Event::registerEvent('plugins_loaded', $this);
 	}
