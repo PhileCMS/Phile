@@ -65,6 +65,14 @@ class Core {
 	 * @return null|\Phile\Model\Page
 	 */
 	protected function initCurrentPage() {
+		$uri    = $_SERVER['REQUEST_URI'];
+		$uri    = str_replace('/' . \Phile\Utility::getInstallPath() . '/', '', $uri);
+		/**
+		 * @triggerEvent request_uri this event is triggered after the request uri is detected.
+		 * @param uri the uri
+		 */
+		Event::triggerEvent('request_uri', array('uri' => $uri));
+
 		// use the current url to find the page
 		$page = $this->pageRepository->findByPath($_SERVER['REQUEST_URI']);
 		if ($page instanceof \Phile\Model\Page) {
