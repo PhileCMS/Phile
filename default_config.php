@@ -27,6 +27,7 @@ $config['plugins'] = array(
 	'phileDemoPlugin' => array('active' => true),
 	'phileParserMarkdown' => array('active' => true), // the default parser
 	'phileTemplateTwig' => array('active' => true), // the default template engine
+	'philePhpFastCache' => array('active' => true), // the default cache engine
 );
 
 return $config;
