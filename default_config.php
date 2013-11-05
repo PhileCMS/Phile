@@ -3,7 +3,6 @@
 // try to figure out the install path
 $config['site_title'] = 'PhileCMS'; // Site title
 $config['base_url'] = \Phile\Utility::getBaseUrl(); // use the Utility class to guess the base_url
-$config['install_path'] = ''; // if you installed phile in a subfolder, e.g. http://example.com/phile/ set this option to "Phile/"
 $config['theme'] = 'default'; // Set the theme
 $config['date_format'] = 'jS M Y'; // Set the PHP date format
 // Twig settings
