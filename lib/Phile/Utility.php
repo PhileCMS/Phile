@@ -40,6 +40,13 @@ class Utility {
 		return rtrim(str_replace($url, '', $protocol . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']), '/');
 	}
 
+	public static function getInstallPath() {
+		$path   = self::getBaseUrl();
+		$path   = substr($path, strpos($path, '://')+3);
+		$path   = substr($path, strpos($path, '/')+1);
+		return $path;
+	}
+
 	/**
 	 * resolve a file path by replace the mod: prefix
 	 *

@@ -3,6 +3,7 @@
 namespace Phile\Repository;
 use Phile\Exception;
 use Phile\Registry;
+use Phile\Utility;
 
 
 /**
@@ -21,8 +22,7 @@ class Page {
 	 * @return null|\Phile\Model\Page
 	 */
 	public function findByPath($path) {
-		$config     = Registry::get('Phile_Settings');
-		$path       = str_replace($config['install_path'], '', $path);
+		$path   = str_replace(Utility::getInstallPath(), '', $path);
 		$file = null;
 		if (file_exists(CONTENT_DIR . $path . CONTENT_EXT)) {
 			$file = CONTENT_DIR . $path . CONTENT_EXT;

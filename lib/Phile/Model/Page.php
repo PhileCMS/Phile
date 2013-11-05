@@ -62,13 +62,6 @@ class Page {
 			$this->url = substr($this->url, 1);
 		}
 
-		$settings   = Registry::get('Phile_Settings');
-		if ($settings['install_path'] !== '') {
-			$this->url = $settings['install_path'] . $this->url;
-		}
-
-		$this->url  = '/' . $this->url;
-
 		$this->parser   = ServiceLocator::getService('Phile_Parser');
 	}
 
