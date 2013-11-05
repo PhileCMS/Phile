@@ -130,7 +130,7 @@ class Core {
 		$defaults       = Utility::load(ROOT_DIR . '/default_config.php');
 		$localSettings  = Utility::load(ROOT_DIR . '/config.php');
 		if (is_array($localSettings)) {
-			$this->settings = array_merge($defaults, $localSettings);
+			$this->settings = array_merge_recursive($defaults, $localSettings);
 		} else {
 			$this->settings = $defaults;
 		}
