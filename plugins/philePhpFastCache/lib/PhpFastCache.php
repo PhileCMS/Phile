@@ -25,4 +25,8 @@ class PhpFastCache implements CacheInterface {
 		$this->cacheEngine->set($key, $value, $time, $options);
 	}
 
+	public function delete($key, array $options = array()) {
+		$this->cacheEngine->delete($key, $options);
+	}
+
 } 

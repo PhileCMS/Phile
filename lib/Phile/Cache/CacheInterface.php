@@ -6,4 +6,5 @@ interface CacheInterface {
 	public function has($key);
 	public function get($key);
 	public function set($key, $value, $time = 300, array $options = array());
+	public function delete($key, array $options = array());
 }
