@@ -26,7 +26,8 @@ $config['timezone'] = $timezone; // The default timezone
 // activate plugins
 $config['plugins'] = array(
 	'phileDemoPlugin' => array('active' => true),
-	'phileParserMarkdown' => array('active' => true) // the default parser
+	'phileParserMarkdown' => array('active' => true), // the default parser
+	'phileTemplateTwig' => array('active' => true), // the default template engine
 );
 
 return $config;
