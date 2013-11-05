@@ -24,6 +24,11 @@ class Page {
 	protected $content;
 
 	/**
+	 * @var string the path to the original file
+	 */
+	protected $filePath;
+
+	/**
 	 * @var string the raw file
 	 */
 	protected $rawData;
@@ -38,15 +43,20 @@ class Page {
 	 */
 	protected $url;
 
+	/**
+	 * @param $filePath
+	 */
 	public function __construct($filePath) {
+		$this->filePath = $filePath;
+
 		/**
 		 * @triggerEvent before_load_content this event is triggered before the content is loaded
 		 * @param string filePath the path to the file
 		 * @param \Phile\Model\Page page the page model
 		 */
-		Event::triggerEvent('before_load_content', array('filePath' => &$filePath, 'page' => &$this));
-		if (file_exists($filePath)) {
-			$this->rawData = file_get_contents($filePath);
+		Event::triggerEvent('before_load_content', array('filePath' => &$this->filePath, 'page' => &$this));
+		if (file_exists($this->filePath)) {
+			$this->rawData = file_get_contents($this->filePath);
 			$this->parseRawData();
 		}
 		/**
@@ -55,8 +65,8 @@ class Page {
 		 * @param string rawData the raw data
 		 * @param \Phile\Model\Page page the page model
 		 */
-		Event::triggerEvent('after_load_content', array('filePath' => &$filePath, 'rawData' => $this->rawData, 'page' => &$this));
-		$this->url  = str_replace(CONTENT_DIR, '', $filePath);
+		Event::triggerEvent('after_load_content', array('filePath' => &$this->filePath, 'rawData' => $this->rawData, 'page' => &$this));
+		$this->url  = str_replace(CONTENT_DIR, '', $this->filePath);
 		$this->url  = str_replace(CONTENT_EXT, '', $this->url);
 		if (strpos($this->url, '/') === 0) {
 			$this->url = substr($this->url, 1);
@@ -65,6 +75,9 @@ class Page {
 		$this->parser   = ServiceLocator::getService('Phile_Parser');
 	}
 
+	/**
+	 * @return mixed
+	 */
 	public function getContent() {
 		/**
 		 * @triggerEvent before_parse_content this event is triggered before the content is parsed
@@ -82,25 +95,54 @@ class Page {
 		return $content;
 	}
 
+	/**
+	 * @param $content
+	 */
 	public function setContent($content) {
 		$this->content = $content;
 	}
 
+	/**
+	 * @return Meta
+	 */
 	public function getMeta() {
 		return $this->meta;
 	}
 
+	/**
+	 * parse the raw content
+	 */
 	protected function parseRawData() {
 		$this->meta     = new Meta($this->rawData);
 		// Remove only the first block comment
 		$this->content = str_replace(substr($this->rawData, 0, strpos($this->rawData, "*/") + 2), '', $this->rawData);
 	}
 
+	/**
+	 * @return null
+	 */
 	public function getTitle() {
 		return $this->getMeta()->get('title');
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getUrl() {
 		return $this->url;
+	}
+
+	/**
+	 * @param string $filePath
+	 */
+	public function setFilePath($filePath) {
+		$this->filePath = $filePath;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getFilePath() {
+		return $this->filePath;
 	}
 }
