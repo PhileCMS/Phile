@@ -110,6 +110,12 @@ this event is triggered after the plugins loaded
 #### config_loaded
 this event is triggered after the configuration is fully loaded
 
+#### request_uri
+this event is triggered after the request uri is detected.
+| param                   | type                               | description                                                          |
+| ----------------------- |:-----------------------------------|:---------------------------------------------------------------------|
+| `uri`                   | string                             | the requested uri (without install_path)                             |
+
 #### before\_init\_template
 this event is triggered before the the template engine is init
 
