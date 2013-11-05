@@ -9,6 +9,11 @@
 	{% endif %}{% if meta.robots %}
 	<meta name="robots" content="{{ meta.robots }}">
 	{% endif %}
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="{{ current_page.title }} | PhileCMS" />
+    <meta property="og:description" content="{{ meta.description }}" />
+    <meta property="og:url" content="{{ current_page.url }}" />
+    <meta property="og:site_name" content="PhileCMS" />
 	<link rel="stylesheet" href="{{ theme_url }}/css/style.css" type="text/css" />
 	<link rel="stylesheet" href="{{ theme_url }}/css/tomorrow-night.css" type="text/css" />
 </head>
