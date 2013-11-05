@@ -110,24 +110,23 @@ this event is triggered after the plugins loaded
 #### config_loaded
 this event is triggered after the configuration is fully loaded
 
-#### before\_twig\_register
-this event is triggered before the the twig template engine is registered
+#### before\_init\_template
+this event is triggered before the the template engine is init
 
-#### before_render
+#### before\_render_\template
 this event is triggered before the template is rendered
 
-| param                   | type            | description                                                          |
-| ----------------------- |:----------------|:---------------------------------------------------------------------|
-| `twig_vars`             | array           | the twig vars                                                        |
-| `twig`                  | object          | twig the template enging                                             |
-| `template`              | string          | template which will be used                                          |
+| param                   | type                               | description                                                          |
+| ----------------------- |:-----------------------------------|:---------------------------------------------------------------------|
+| `templateEngine`        | \Phile\Template\TemplateInterface  | the template engine                                                  |
 
-#### after_render
-this event is triggered after the templates is rendered
+#### after\_render\_template
+this event is triggered after the template is rendered
 
-| param                   | type            | description                                                          |
-| ----------------------- |:----------------|:---------------------------------------------------------------------|
-| `output`                | string          | the parsed and ready output                                          |
+| param                   | type                               | description                                                          |
+| ----------------------- |:-----------------------------------|:---------------------------------------------------------------------|
+| `templateEngine`        | \Phile\Template\TemplateInterface  | the template engine                                                  |
+| `output`                | string                             | the parsed and ready output                                          |
 
 #### before\_read\_file\_meta
 this event is triggered before the meta data readed and parsed
