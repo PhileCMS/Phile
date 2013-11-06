@@ -3,6 +3,7 @@
 namespace Phile\Template;
 
 use Phile\Registry;
+use Phile\Event;
 
 class Twig implements TemplateInterface {
 	/**
@@ -53,6 +54,7 @@ class Twig implements TemplateInterface {
 				'content' => $this->page->getContent(),
 				'pages' => $pageRepository->findAll($this->settings),
 			);
+			Event::triggerEvent('template_engine_registered', array('engine' => &$twig));
 
 			$template = ($this->page->getMeta()->get('template') !== null) ? $this->page->getMeta()->get('template') : 'index';
 			$output = $twig->render($template .'.html', $twig_vars);
