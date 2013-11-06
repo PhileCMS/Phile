@@ -36,9 +36,9 @@ class Twig implements TemplateInterface {
 		$output = 'No template found!';
 		if (file_exists(THEMES_DIR . $this->settings['theme'])) {
 			$loader = new \Twig_Loader_Filesystem(THEMES_DIR . $this->settings['theme']);
-			$twig = new \Twig_Environment($loader, $this->settings['twig_config']);
+			$twig = new \Twig_Environment($loader, $this->config);
 			// load the twig debug extension if required
-			if ($this->settings['twig_config']['debug']) {
+			if ($this->config['debug']) {
 				$twig->addExtension(new \Twig_Extension_Debug());
 			}
 			$twig_vars = array(

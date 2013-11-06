@@ -5,12 +5,6 @@ $config['site_title'] = 'PhileCMS'; // Site title
 $config['base_url'] = \Phile\Utility::getBaseUrl(); // use the Utility class to guess the base_url
 $config['theme'] = 'default'; // Set the theme
 $config['date_format'] = 'jS M Y'; // Set the PHP date format
-// Twig settings
-$config['twig_config'] = array(
-	'cache' => false, // To enable Twig caching change this to CACHE_DIR
-	'autoescape' => false, // Autoescape Twig vars
-	'debug' => false // Enable Twig debug
-	);
 $config['pages_order_by'] = 'title'; // Order pages by "title" (alpha) or "date"
 $config['pages_order'] = 'desc'; // Order pages "asc" or "desc"
 
