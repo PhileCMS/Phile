@@ -88,7 +88,7 @@ Pages can be used like:
 ~~~ .html
 <ul class="nav">
 	{% for page in pages %}
-	<li><a href="{{ page.url }}">{{ page.title }}</a></li>
+		<li><a href="{{ page.url }}">{{ page.title }}</a></li>
 	{% endfor %}
 </ul>
 ~~~

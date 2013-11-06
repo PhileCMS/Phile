@@ -2,7 +2,7 @@
 
 return array(
 	'empty_element_suffix' => ' />',
-	'tab_width' => 4,
+	'tab_width' => 2,
 	'no_markup' => false,
 	'no_entities' => false,
 	'predef_urls' => array(
