@@ -3,7 +3,6 @@
 namespace Phile\Repository;
 use Phile\Cache\CacheInterface;
 use Phile\Exception;
-use Phile\Registry;
 use Phile\ServiceLocator;
 use Phile\Utility;
 
@@ -16,6 +15,11 @@ use Phile\Utility;
 class Page {
 	const ORDER_ASC   = 'asc';
 	const ORDER_DESC  = 'desc';
+
+	/**
+	 * @var array object storage for initialized objects, to prevent multiple loading of objects.
+	 */
+	protected $storage = array();
 
 	/**
 	 * @var CacheInterface
@@ -125,10 +129,14 @@ class Page {
 	 * @return \Phile\Model\Page
 	 */
 	protected function getPage($filePath) {
+		$key    = 'Phile_Model_Page_' . md5($filePath);
+		if (isset($this->storage[$key])) {
+			return $this->storage[$key];
+		}
+
 		if ($this->cache !== null) {
-			$key    = 'Phile_Model_Page_' . md5($filePath);
 			if ($this->cache->has($key)) {
-				return $this->cache->get($key);
+				$page = $this->cache->get($key);
 			} else {
 				$page   = new \Phile\Model\Page($filePath);
 				$this->cache->set($key, $page);
@@ -136,6 +144,7 @@ class Page {
 		} else {
 			$page   = new \Phile\Model\Page($filePath);
 		}
+		$this->storage[$key] = $page;
 		return $page;
 	}
 
