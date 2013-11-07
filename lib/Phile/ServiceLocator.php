@@ -13,11 +13,23 @@ class ServiceLocator {
 	 */
 	protected static $services;
 
+	protected static $serviceMap = array(
+		'Phile_Cache'               => 'Phile\Cache\CacheInterface',
+		'Phile_Template'            => 'Phile\Template\TemplateInterface',
+		'Phile_Parser'              => 'Phile\Parser\ParserInterface',
+		'Phile_Data_Persistence'    => 'Phile\Persistence\PersistenceInterface'
+	);
+
 	/**
 	 * @param string $serviceKey the key for the service
 	 * @param mixed $object
 	 */
 	public static function registerService($serviceKey, $object) {
+		$interfaces = class_implements($object);
+		$interface = self::$serviceMap[$serviceKey];
+		if ($interfaces === FALSE || !in_array($interface, $interfaces)) {
+			throw new Exception("the object must implement the interface: '{$interface}'");
+		}
 		self::$services[$serviceKey] = $object;
 	}
 
