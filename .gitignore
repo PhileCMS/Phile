@@ -21,3 +21,14 @@ themes/*
 
 # PHPStorm settings
 .idea
+
+# temp folder
+temp/*
+!temp/index.html
+!temp/cache
+temp/cache/*
+!temp/cache/index.html
+
+# datastorage
+datastorage/*
+!datastorage/.htaccess
