@@ -28,3 +28,7 @@ temp/*
 !temp/cache
 temp/cache/*
 !temp/cache/index.html
+
+# datastorage
+datastorage/*
+!datastorage/.htaccess
