@@ -21,6 +21,7 @@ class Utility {
 	}
 
 	/**
+	 * detect base url
 	 * @return string
 	 */
 	public static function getBaseUrl() {
@@ -40,6 +41,11 @@ class Utility {
 		return rtrim(str_replace($url, '', $protocol . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']), '/');
 	}
 
+	/**
+	 * detect install path
+	 *
+	 * @return string
+	 */
 	public static function getInstallPath() {
 		$path   = self::getBaseUrl();
 		$path   = substr($path, strpos($path, '://')+3);
@@ -79,5 +85,21 @@ class Utility {
 			return include $file;
 		}
 		return null;
+	}
+
+	/**
+	 * @param string $directory
+	 * @param string $fileNamePattern
+	 * @return array
+	 */
+	public static function getFiles($directory, $fileNamePattern = '/^.*/') {
+		$dir        = new \RecursiveDirectoryIterator($directory);
+		$ite        = new \RecursiveIteratorIterator($dir);
+		$files      = new \RegexIterator($ite, $fileNamePattern, \RegexIterator::GET_MATCH);
+		$result     = array();
+		foreach ($files as $file) {
+			$result[]    = (string) $file[0];
+		}
+		return $result;
 	}
 }
