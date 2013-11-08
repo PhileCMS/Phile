@@ -68,6 +68,7 @@ class Page {
 		Event::triggerEvent('after_load_content', array('filePath' => &$this->filePath, 'rawData' => $this->rawData, 'page' => &$this));
 		$this->url  = str_replace(CONTENT_DIR, '', $this->filePath);
 		$this->url  = str_replace(CONTENT_EXT, '', $this->url);
+		$this->url  = str_replace(DIRECTORY_SEPARATOR, '/', $this->url);
 		if (strpos($this->url, '/') === 0) {
 			$this->url = substr($this->url, 1);
 		}
