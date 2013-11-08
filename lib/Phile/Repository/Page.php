@@ -76,30 +76,6 @@ class Page {
 
 		if ($options !== null && isset($options['pages_order_by'])) {
 			switch (strtolower($options['pages_order_by'])) {
-				case 'date':
-					error_log('the key date for sorting is deprecated');
-					$date_id = 0;
-					$sorted_pages = array();
-					foreach ($pages as $page) {
-						if ($page->getMeta()->get('date') !== null) {
-							$sorted_pages[$page->getMeta()->get('date').$date_id] = $page;
-							$date_id++;
-						} else {
-							$sorted_pages[] = $page;
-						}
-					}
-					if (!isset($options['pages_order'])) {
-						$options['pages_order'] = self::ORDER_ASC;
-					}
-					if ($options['pages_order'] == self::ORDER_ASC) {
-						ksort($sorted_pages);
-					}
-					if ($options['pages_order'] == self::ORDER_DESC) {
-						krsort($sorted_pages);
-					}
-					unset($pages);
-					$pages = $sorted_pages;
-				break;
 				case 'alpha':
 				case 'title':
 					if (strtolower($options['pages_order_by']) == 'alpha') {
@@ -115,8 +91,36 @@ class Page {
 						usort($pages, array($this, "compareByTitleDesc"));
 					}
 				break;
+				case 'date':
 				default:
-					throw new Exception("unknown key '{$options['pages_order_by']}' for pages_order_by");
+					if (strtolower($options['pages_order_by']) == 'date') {
+						error_log('the key date for sorting is deprecated use meta:date or any other meta tag');
+						$options['pages_order_by'] = 'meta:date';
+					}
+					if (strpos(strtolower($options['pages_order_by']), 'meta:') !== false) {
+						$metaKey = str_replace('meta:', '', strtolower($options['pages_order_by']));
+						$sorted_pages = array();
+						foreach ($pages as $page) {
+							if ($page->getMeta()->get($metaKey) !== null) {
+								$sorted_pages['_'.$page->getMeta()->get($metaKey)] = $page;
+							} else {
+								$sorted_pages[] = $page;
+							}
+						}
+						if (!isset($options['pages_order'])) {
+							$options['pages_order'] = self::ORDER_ASC;
+						}
+						if ($options['pages_order'] == self::ORDER_ASC) {
+							ksort($sorted_pages);
+						}
+						if ($options['pages_order'] == self::ORDER_DESC) {
+							krsort($sorted_pages);
+						}
+						unset($pages);
+						$pages = $sorted_pages;
+					} else {
+						throw new Exception("unknown key '{$options['pages_order_by']}' for pages_order_by");
+					}
 				break;
 			}
 		}
