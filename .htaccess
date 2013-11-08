@@ -1,9 +1,33 @@
+
+#####################################
+# Browser cache for static files
+#####################################
+<FilesMatch "\.(js|css|jpg|gif|png|jpeg)$">
+    <IfModule mod_expires.c>
+        ExpiresActive on
+        ExpiresDefault "access plus 7 days"
+    </IfModule>
+    FileETag MTime Size
+</FilesMatch>
+
+#####################################
+# Redirect stuff
+#####################################
 <IfModule mod_rewrite.c>
-  RewriteEngine On
-  RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule . index.php [L]
+    # Enable URL rewriting
+    RewriteEngine On
+
+    # Change this path, if you have installed PhileCMS in a subdirectory of the website root.
+    # RewriteBase /
+
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-l
+
+    RewriteRule .* index.php [L]
 </IfModule>
 
-# Prevent file browsing
+#####################################
+# directory listings are disabled
+#####################################
 Options -Indexes
