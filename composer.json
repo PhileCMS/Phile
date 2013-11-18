@@ -1,5 +1,5 @@
 {
-    "name": "PhileCMS/Phile",
+    "name": "phile-cms/phile",
     "version": "0.9.0",
     "type": "project",
     "description": "A Markdown file-based CMS.",
