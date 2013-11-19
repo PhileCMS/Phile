@@ -32,6 +32,11 @@ class Core {
 	protected $page;
 
 	/**
+	 * @var string
+	 */
+	protected $output;
+
+	/**
 	 * The constructor carries out all the processing in Phile.
 	 * Does URL routing, Markdown processing and Twig processing.
 	 */
@@ -43,26 +48,24 @@ class Core {
 
 		// Load plugins
 		$this->initPlugins();
-		/**
-		 * @triggerEvent plugins_loaded this event is triggered after the plugins loaded
-		 * This is also where we load the parser, since it is a plugin also. We use the Markdown parser as default. See it in the plugins folder and lib/Phile/Parser/Markdown.php
-		 */
-		Event::triggerEvent('plugins_loaded');
-
-		/**
-		 * @triggerEvent config_loaded this event is triggered after the configuration is fully loaded
-		 */
-		Event::triggerEvent('config_loaded');
 
 		// init current page
-		$this->page = $this->initCurrentPage();
+		$this->initCurrentPage();
 
 		// init template
-		echo $this->initTemplate();
+		$this->initTemplate();
 	}
 
 	/**
-	 * @return null|\Phile\Model\Page
+	 * return the page
+	 * @return string
+	 */
+	public function render() {
+		return $this->output;
+	}
+
+	/**
+	 * @return null
 	 */
 	protected function initCurrentPage() {
 		$uri    = $_SERVER['REQUEST_URI'];
@@ -76,10 +79,10 @@ class Core {
 		// use the current url to find the page
 		$page = $this->pageRepository->findByPath($_SERVER['REQUEST_URI']);
 		if ($page instanceof \Phile\Model\Page) {
-			return $page;
+			$this->page = $page;
 		} else {
 			header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
-			return $this->pageRepository->findByPath('404');
+			$this->page = $this->pageRepository->findByPath('404');
 		}
 	}
 
@@ -129,6 +132,16 @@ class Core {
 				}
 			}
 		}
+		/**
+		 * @triggerEvent plugins_loaded this event is triggered after the plugins loaded
+		 * This is also where we load the parser, since it is a plugin also. We use the Markdown parser as default. See it in the plugins folder and lib/Phile/Parser/Markdown.php
+		 */
+		Event::triggerEvent('plugins_loaded');
+
+		/**
+		 * @triggerEvent config_loaded this event is triggered after the configuration is fully loaded
+		 */
+		Event::triggerEvent('config_loaded');
 	}
 
 	/**
@@ -170,6 +183,6 @@ class Core {
 		 * @param string the generated ouput
 		 */
 		Event::triggerEvent('after_render_template', array('templateEngine' => &$templateEngine, 'output' => &$output));
-		return $output;
+		$this->output = $output;
 	}
 }
