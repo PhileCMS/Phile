@@ -42,18 +42,18 @@ class Meta extends AbstractModel {
 	}
 
 	protected function parseRawData($rawData) {
-		$metaPart   = substr($rawData, 0, strpos($rawData, '*/'));
-		if (strpos($metaPart, '/*') == 0) {
-			// get inside the blockquote
-			$metaPart   = trim(substr($metaPart, 2));
-			// split by new lines
-			$headers    = explode("\n", $metaPart);
-			foreach ($headers as $line) {
-				$parts  = explode(':', $line);
-				$key    = strtolower(array_shift($parts));
-				$val    = implode($parts);
-				$this->set($key, trim($val));
-			}
+		$rawData = trim($rawData);
+		$START  = (substr($rawData, 0, 2) == '/*') ? '/*' : '<!--';
+		$END    = (substr($rawData, 0, 2) == '/*') ? '*/' : '-->';
+
+		$metaPart   = trim(substr($rawData, strlen($START), strpos($rawData, $END)-(strlen($END)+1)));
+		// split by new lines
+		$headers    = explode("\n", $metaPart);
+		foreach ($headers as $line) {
+			$parts  = explode(':', $line);
+			$key    = strtolower(array_shift($parts));
+			$val    = implode($parts);
+			$this->set($key, trim($val));
 		}
 	}
 }

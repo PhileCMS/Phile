@@ -1,7 +1,7 @@
-/*
+<!--
 Title: Welcome
 Description: This description will go in the meta description tag
-*/
+-->
 
 ## Welcome to Phile
 
@@ -33,13 +33,13 @@ Text files are marked up using [Markdown](http://daringfireball.net/projects/mar
 At the top of text files you can place a block comment and specify certain attributes of the page. For example:
 
 ~~~ .markdown
-/*
+<!--
 Title: Welcome
 Description: This description will go in the meta description tag
 Author: Joe Bloggs
 Date: 2013/01/01
 Robots: noindex,nofollow
-*/
+-->
 ~~~
 
 These values will be contained in the `{{ meta }}` variable in themes (see below).
