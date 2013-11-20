@@ -1,6 +1,6 @@
 {
     "name": "phile-cms/phile",
-    "version": "0.9.0",
+    "version": "0.9.1",
     "type": "project",
     "description": "A Markdown file-based CMS.",
     "keywords": ["cms","markdown"],
