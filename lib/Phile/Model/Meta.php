@@ -2,6 +2,7 @@
 
 namespace Phile\Model;
 use Phile\Event;
+use Symfony\Component\Yaml\Parser;
 
 /**
  * Meta model
@@ -47,13 +48,10 @@ class Meta extends AbstractModel {
 		$END    = (substr($rawData, 0, 2) == '/*') ? '*/' : '-->';
 
 		$metaPart   = trim(substr($rawData, strlen($START), strpos($rawData, $END)-(strlen($END)+1)));
-		// split by new lines
-		$headers    = explode("\n", $metaPart);
-		foreach ($headers as $line) {
-			$parts  = explode(':', $line);
-			$key    = strtolower(array_shift($parts));
-			$val    = implode($parts);
-			$this->set($key, trim($val));
-		}
+
+		$yamlParser = new Parser();
+	    $headers = array_change_key_case($yamlParser->parse($metaPart));
+	    $this->data = $headers;
+		
 	}
 }
