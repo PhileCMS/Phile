@@ -46,6 +46,9 @@ class Core {
 		// Load the settings
 		$this->initConfiguration();
 
+		// Setup Check
+		$this->checkSetup();
+
 		// Load plugins
 		$this->initPlugins();
 
@@ -158,6 +161,31 @@ class Core {
 
 		\Phile\Registry::set('Phile_Settings', $this->settings);
 		date_default_timezone_set($this->settings['timezone']);
+	}
+
+	protected function checkSetup() {
+		/**
+		 * @triggerEvent before_setup_check this event is triggered before the setup check
+		 */
+		Event::triggerEvent('before_setup_check');
+
+		if (!isset($this->settings['encryptionKey']) || strlen($this->settings['encryptionKey']) == 0) {
+			if (strpos($_SERVER['REQUEST_URI'], '/setup') === false) {
+				Utility::redirect($this->settings['base_url'] . '/setup');
+			}
+		}
+		if (Registry::isRegistered('templateVars')) {
+			$templateVars = Registry::get('templateVars');
+		} else {
+			$templateVars = array();
+		}
+		$templateVars['setup_enrcyptionKey'] = Utility::generateSecureToken(64);
+		Registry::set('templateVars', $templateVars);
+
+		/**
+		 * @triggerEvent after_setup_check this event is triggered after the setup check
+		 */
+		Event::triggerEvent('after_setup_check');
 	}
 
 	protected function initTemplate() {
