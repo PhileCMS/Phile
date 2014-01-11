@@ -19,5 +19,4 @@ spl_autoload_register(function ($className) {
 
 require(ROOT_DIR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
 
-$phileCore = new \Phile\Core();
-echo $phileCore->render();
+echo \Phile\Utility::generateSecureToken(64);
