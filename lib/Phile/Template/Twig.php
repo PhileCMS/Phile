@@ -62,12 +62,6 @@ class Twig implements TemplateInterface {
 					}
 				}
 			}
-			$twigStringRenderer = new \Twig_Environment(new \Twig_Loader_String());
-			$rendered = $twigStringRenderer->render(
-				$twig_vars['content'],
-				$twig_vars
-			);
-			$twig_vars['content'] = $rendered;
 			Event::triggerEvent('template_engine_registered', array('engine' => &$twig, 'data' => &$twig_vars));
 
 			$template = ($this->page->getMeta()->get('template') !== null) ? $this->page->getMeta()->get('template') : 'index';
