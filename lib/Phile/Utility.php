@@ -102,4 +102,14 @@ class Utility {
 		}
 		return $result;
 	}
+
+	/**
+	 * redirect to an url
+	 * @param     $url the url to redirect to
+	 * @param int $statusCode the http status code
+	 */
+	public static function redirect($url, $statusCode = 302) {
+		header('Location: ' . $url, true, $statusCode);
+		die();
+	}
 }
