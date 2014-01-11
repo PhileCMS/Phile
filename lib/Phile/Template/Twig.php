@@ -54,6 +54,20 @@ class Twig implements TemplateInterface {
 				'content' => $this->page->getContent(),
 				'pages' => $pageRepository->findAll($this->settings),
 			);
+
+			if (Registry::isRegistered('templateVars')) {
+				if (is_array(Registry::get('templateVars'))) {
+					foreach (Registry::get('templateVars') as $key => $value) {
+						$twig_vars[$key] = $value;
+					}
+				}
+			}
+			$twigStringRenderer = new \Twig_Environment(new \Twig_Loader_String());
+			$rendered = $twigStringRenderer->render(
+				$twig_vars['content'],
+				$twig_vars
+			);
+			$twig_vars['content'] = $rendered;
 			Event::triggerEvent('template_engine_registered', array('engine' => &$twig, 'data' => &$twig_vars));
 
 			$template = ($this->page->getMeta()->get('template') !== null) ? $this->page->getMeta()->get('template') : 'index';
