@@ -112,4 +112,62 @@ class Utility {
 		header('Location: ' . $url, true, $statusCode);
 		die();
 	}
+
+	/**
+	 * generate secure md5 hash
+	 * @param $value
+	 * @return string
+	 */
+	public static function getSecureMD5Hash($value) {
+		$config = Registry::get('Phile_Settings');
+		return md5($config['encryptionKey'].$value);
+	}
+
+	/**
+	 * method to generate a secure token
+	 * code from http://stackoverflow.com/questions/1846202/php-how-to-generate-a-random-unique-alphanumeric-string/13733588#13733588
+	 * modified by Frank Nägler
+	 * @param int  $length
+	 * @param bool $widthSpecialChars
+	 * @param null $additionalChars
+	 * @return string
+	 */
+	public static function generateSecureToken($length = 32, $widthSpecialChars = true, $additionalChars = null) {
+		$token = "";
+		$codeAlphabet  = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		$codeAlphabet .= "abcdefghijklmnopqrstuvwxyz";
+		$codeAlphabet .= "0123456789";
+		if ($widthSpecialChars) {
+			$codeAlphabet .= "!/()=?[]|{}";
+		}
+		if ($additionalChars !== null) {
+			$codeAlphabet .= $additionalChars;
+		}
+		for($i=0;$i<$length;$i++){
+			$token .= $codeAlphabet[Utility::crypto_rand_secure(0,strlen($codeAlphabet))];
+		}
+		return $token;
+	}
+
+	/**
+	 * method to get a more secure random value
+	 * code from http://stackoverflow.com/questions/1846202/php-how-to-generate-a-random-unique-alphanumeric-string/13733588#13733588
+	 * @param $min
+	 * @param $max
+	 * @return mixed
+	 */
+	public static function crypto_rand_secure($min, $max) {
+		$range = $max - $min;
+		if ($range < 0) return $min; // not so random...
+		$log = log($range, 2);
+		$bytes = (int) ($log / 8) + 1; // length in bytes
+		$bits = (int) $log + 1; // length in bits
+		$filter = (int) (1 << $bits) - 1; // set all lower bits to 1
+		do {
+			$rnd = hexdec(bin2hex(openssl_random_pseudo_bytes($bytes)));
+			$rnd = $rnd & $filter; // discard irrelevant bits
+		} while ($rnd >= $range);
+		return $min + $rnd;
+	}
+
 }
