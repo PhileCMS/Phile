@@ -173,6 +173,10 @@ class Core {
 			if (strpos($_SERVER['REQUEST_URI'], '/setup') === false) {
 				Utility::redirect($this->settings['base_url'] . '/setup');
 			}
+		} else {
+			if (is_file(CONTENT_DIR.'setup.md')) {
+				unlink(CONTENT_DIR.'setup.md');
+			}
 		}
 		if (Registry::isRegistered('templateVars')) {
 			$templateVars = Registry::get('templateVars');
