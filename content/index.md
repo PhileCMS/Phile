@@ -63,21 +63,21 @@ All themes must include an `index.html` file to define the HTML structure of the
 * `{{ theme_url }}` - The URL to the Phile active theme direcotry
 * `{{ site_title }}` - Shortcut to the site title (defined in config.php)
 * `{{ meta }}` - Contains the meta values from the current page
-	* `{{ meta.title }}`
-	* `{{ meta.description }}`
-	* `{{ meta.author }}`
-	* `{{ meta.date }}`
-	* `{{ meta.date_formatted }}`
-	* `{{ meta.robots }}`
+  * `{{ meta.title }}`
+  * `{{ meta.description }}`
+  * `{{ meta.author }}`
+  * `{{ meta.date }}`
+  * `{{ meta.date_formatted }}`
+  * `{{ meta.robots }}`
 * `{{ content }}` - The content of the current page (after it has been processed through Markdown)
 * `{{ pages }}` - A collection of all the content in your site
-	* `{{ page.title }}`
-	* `{{ page.url }}`
-	* `{{ page.author }}`
-	* `{{ page.date }}`
-	* `{{ page.date_formatted }}`
-	* `{{ page.content }}`
-	* `{{ page.excerpt }}`
+  * `{{ page.title }}`
+  * `{{ page.url }}`
+  * `{{ page.author }}`
+  * `{{ page.date }}`
+  * `{{ page.date_formatted }}`
+  * `{{ page.content }}`
+  * `{{ page.excerpt }}`
 * `{{ prev_page }}` - A page object of the previous page (relative to current_page)
 * `{{ current_page }}` - A page object of the current_page
 * `{{ next_page }}` - A page object of the next page (relative to current_page)
@@ -87,9 +87,9 @@ Pages can be used like:
 
 ~~~ .html
 <ul class="nav">
-	{% for page in pages %}
-		<li><a href="{{ page.url }}">{{ page.title }}</a></li>
-	{% endfor %}
+  {% for page in pages %}
+    <li><a href="{{ page.url }}">{{ page.title }}</a></li>
+  {% endfor %}
 </ul>
 ~~~
 
@@ -102,24 +102,30 @@ lists all of the settings and their defaults. To override a setting, simply unco
 
 In the core we trigger a lot of events, which help to manipulate content or other stuff within a plugin.
 To use the event system, you only have to register your plugin for a specific event, look at the example plugin for more an example.
+
 The following list shows all events.
 
 #### plugins_loaded
+
 this event is triggered after the plugins loaded
 
 #### config_loaded
+
 this event is triggered after the configuration is fully loaded
 
 #### request_uri
+
 this event is triggered after the request uri is detected.
 | param                   | type                               | description                                                          |
 | ----------------------- |:-----------------------------------|:---------------------------------------------------------------------|
 | `uri`                   | string                             | the requested uri (without install_path)                             |
 
 #### before\_init\_template
+
 this event is triggered before the the template engine is init
 
-#### before\_render_\template
+#### before\_render\_template
+
 this event is triggered before the template is rendered
 
 | param                   | type                               | description                                                          |
@@ -127,6 +133,7 @@ this event is triggered before the template is rendered
 | `templateEngine`        | \Phile\Template\TemplateInterface  | the template engine                                                  |
 
 #### after\_render\_template
+
 this event is triggered after the template is rendered
 
 | param                   | type                               | description                                                          |
@@ -135,6 +142,7 @@ this event is triggered after the template is rendered
 | `output`                | string                             | the parsed and ready output                                          |
 
 #### before\_read\_file\_meta
+
 this event is triggered before the meta data readed and parsed
 
 | param                   | type                | description                                                      |
@@ -143,6 +151,7 @@ this event is triggered before the meta data readed and parsed
 | `meta`                  | \Phile\Model\Meta   | the meta model                                                   |
 
 #### after\_read\_file\_meta
+
 this event is triggered after the meta data readed and parsed
 
 | param                   | type                | description                                                      |
@@ -151,6 +160,7 @@ this event is triggered after the meta data readed and parsed
 | `meta`                  | \Phile\Model\Meta   | the meta model                                                   |
 
 #### before\_load\_content
+
 this event is triggered before the content is loaded
 
 | param                   | type                | description                                                      |
@@ -159,6 +169,7 @@ this event is triggered before the content is loaded
 | `page`                  | \Phile\Model\Page   | the page model                                                   |
 
 #### after\_load\_content
+
 this event is triggered after the content is loaded
 
 | param                   | type                | description                                                      |
@@ -168,6 +179,7 @@ this event is triggered after the content is loaded
 | `page`                  | \Phile\Model\Page   | the page model                                                   |
 
 #### before\_parse\_content
+
 this event is triggered before the content is parsed
 
 | param                   | type                | description                                                      |
@@ -176,6 +188,7 @@ this event is triggered before the content is parsed
 | `page`                  | \Phile\Model\Page   | the page model                                                   |
 
 #### after\_parse\_content
+
 this event is triggered after the content is parsed
 
 | param                   | type                | description                                                      |
