@@ -65,23 +65,12 @@ All themes must include an `index.html` file to define the HTML structure of the
 * `{{ meta }}` - Contains the meta values from the current page
   * `{{ meta.title }}`
   * `{{ meta.description }}`
-  * `{{ meta.author }}`
-  * `{{ meta.date }}`
-  * `{{ meta.date_formatted }}`
-  * `{{ meta.robots }}`
 * `{{ content }}` - The content of the current page (after it has been processed through Markdown)
 * `{{ pages }}` - A collection of all the content in your site
   * `{{ page.title }}`
   * `{{ page.url }}`
-  * `{{ page.author }}`
-  * `{{ page.date }}`
-  * `{{ page.date_formatted }}`
   * `{{ page.content }}`
-  * `{{ page.excerpt }}`
-* `{{ prev_page }}` - A page object of the previous page (relative to current_page)
 * `{{ current_page }}` - A page object of the current_page
-* `{{ next_page }}` - A page object of the next page (relative to current_page)
-* `{{ is_front_page }}` - A boolean flag for the front page
 
 Pages can be used like:
 
@@ -116,6 +105,7 @@ this event is triggered after the configuration is fully loaded
 #### request_uri
 
 this event is triggered after the request uri is detected.
+
 | param                   | type                               | description                                                          |
 | ----------------------- |:-----------------------------------|:---------------------------------------------------------------------|
 | `uri`                   | string                             | the requested uri (without install_path)                             |
