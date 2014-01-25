@@ -82,276 +82,264 @@ Date: 2013/01/01
 Robots: noindex,nofollow
 */</code></pre>
         <p>Phile also allows HTML style block comments:</p>
-        <pre><code class="html"><!--
+        <pre><code class="html">&lt;!--
 Title: Welcome
 Description: This description will go in the meta description tag
 Author: Joe Bloggs
 Date: 2013/01/01
 Robots: noindex,nofollow
---></code></pre>
-        <p>These values will be contained in the <code>{{ meta }}</code> variable in themes (see below).</p>
-        <h3 id="themes-section">Themes</h3>
-        <p>You can create themes for your Phile installation in the &quot;themes&quot; folder. Check out the default theme for an example of a theme. Phile uses <a href="http://twig.sensiolabs.org/documentation">Twig</a> for it&#39;s templating engine. You can select your theme by setting the <code>$config[&#39;theme&#39;]</code> variable in config.php to your theme folder.</p>
-        <p>All themes must include an <code>index.html</code> file to define the HTML structure of the theme. Below are the Twig variables that are available to use in your theme:</p>
-        <ul>
-          <li><code>{{ config }}</code> - Conatins the values you set in config.php (e.g. <code>{{ config.theme }}</code> = &quot;default&quot;)</li>
-          <li><code>{{ base_dir }}</code> - The path to your Phile root directory</li>
-          <li><code>{{ base_url }}</code> - The URL to your Phile site</li>
-          <li><code>{{ theme_dir }}</code> - The path to the Phile active theme direcotry</li>
-          <li><code>{{ theme_url }}</code> - The URL to the Phile active theme direcotry</li>
-          <li><code>{{ site_title }}</code> - Shortcut to the site title (defined in config.php)</li>
-          <li><code>{{ meta }}</code> - Contains the meta values from the current page<ul>
-            <li><code>{{ meta.title }}</code></li>
-            <li><code>{{ meta.template }}</code></li>
+--&gt;</code></pre>
+          <p>These values will be contained in the <code>{{ meta }}</code> variable in themes (see below).</p>
+          <h3 id="themes-section">Themes</h3>
+          <p>You can create themes for your Phile installation in the &quot;themes&quot; folder. Check out the default theme for an example of a theme. Phile uses <a href="http://twig.sensiolabs.org/documentation">Twig</a> for it&#39;s templating engine. You can select your theme by setting the <code>$config[&#39;theme&#39;]</code> variable in config.php to your theme folder.</p>
+          <p>All themes must include an <code>index.html</code> file to define the HTML structure of the theme. Below are the Twig variables that are available to use in your theme:</p>
+          <ul>
+            <li><code>{{ config }}</code> - Conatins the values you set in config.php (e.g. <code>{{ config.theme }}</code> = &quot;default&quot;)</li>
+            <li><code>{{ base_dir }}</code> - The path to your Phile root directory</li>
+            <li><code>{{ base_url }}</code> - The URL to your Phile site</li>
+            <li><code>{{ theme_dir }}</code> - The path to the Phile active theme direcotry</li>
+            <li><code>{{ theme_url }}</code> - The URL to the Phile active theme direcotry</li>
+            <li><code>{{ site_title }}</code> - Shortcut to the site title (defined in config.php)</li>
+            <li><code>{{ meta }}</code> - Contains the meta values from the current page<ul>
+              <li><code>{{ meta.title }}</code></li>
+              <li><code>{{ meta.template }}</code></li>
+            </ul>
+          </li>
+          <li><code>{{ content }}</code> - The content of the current page (after it has been processed through Markdown)</li>
+          <li><code>{{ pages }}</code> - A collection of all the content in your site<ul>
+            <li><code>{{ page.title }}</code></li>
+            <li><code>{{ page.url }}</code></li>
+            <li><code>{{ page.template }}</code></li>
           </ul>
         </li>
-        <li><code>{{ content }}</code> - The content of the current page (after it has been processed through Markdown)</li>
-        <li><code>{{ pages }}</code> - A collection of all the content in your site<ul>
-          <li><code>{{ page.title }}</code></li>
-          <li><code>{{ page.url }}</code></li>
-          <li><code>{{ page.template }}</code></li>
-        </ul>
-      </li>
-      <li><code>{{ current_page }}</code> - A page object of the current_page</li>
-    </ul>
-    <h3 id="custom-meta-section">Custom Meta</h3>
-    <p>You can actually create custom meta attributes by default in Phile. If you want to add a date, author, or even something else, this can be done easily. You can see an example in the <a href="#text-section">Text section</a>.</p>
-    <p>Pages can be used like:</p>
-    <pre><code class="html">&lt;ul class=&quot;nav&quot;&gt;
+        <li><code>{{ current_page }}</code> - A page object of the current_page</li>
+      </ul>
+      <h3 id="custom-meta-section">Custom Meta</h3>
+      <p>You can actually create custom meta attributes by default in Phile. If you want to add a date, author, or even something else, this can be done easily. You can see an example in the <a href="#text-section">Text section</a>.</p>
+      <p>Pages can be used like:</p>
+<pre><code class="html">&lt;ul class=&quot;nav&quot;&gt;
   {% for page in pages %}
     &lt;li&gt;&lt;a href=&quot;{{ page.url }}&quot;&gt;{{ page.title }}&lt;/a&gt;&lt;/li&gt;
   {% endfor %}
 &lt;/ul&gt;</code></pre>
-      <h3 id="config-section">Config</h3>
-      <p>You can override the default Phile settings (and add your own custom settings) by editing config.php in the root Phile directory. The config.php file lists all of the settings and their defaults. To override a setting, simply uncomment it in config.php and set your custom value.</p>
-      <h3 id="parser-section">Parser</h3>
-      <p>You can override the default Phile parser. This is done using plugins. The default Markdwn parser <a href="https://github.com/PhileCMS/Phile/tree/master/plugins/phileParserMarkdown" title="phileParserMarkdown" target='_blank'>is actually a plugin</a>. This is good because you can register your own parser, just by <a href="https://github.com/PhileCMS/Phile/wiki/%5BDEVELOPER%5D-Parser-Overloading" title="[DEVELOPER] Parser Overloading" target="_blank">overloading the default service.</a></p>
-      <h3 id="plugins-section">Plugins</h3>
-      <p>The new plugin concept of Phile is a little bit different to Pico, but also easy to understand. A lot of logic follows the concept convention over configuration, this provides flexibility and power. The also rely on the Events system.</p>
-      <p>For an example of all these conventions, take a look at the <a href="https://github.com/PhileCMS/Phile/tree/master/plugins" title="Default Plugins" target="_blank">some of the default plugins</a>.</p>
-      <h3 id="events-section">Events</h3>
-      <p>One of the main feature of Phile is new event system, which replaces the hook system of Pico. In the core we trigger a lot of events, which help to manipulate content or other stuff within a plugin. To use the event system, you only have to register your plugin for a specific event, look at the <a href="https://github.com/PhileCMS/Phile/blob/master/plugins/phileDemoPlugin/plugin.php" title="Example Plugin" target="_blank">example plugin</a> for more an example. The following list shows all events.</p>
-      <h4>plugins_loaded</h4>
-      <p>this event is triggered after the plugins loaded</p>
-      <h4>config_loaded</h4>
-      <p>this event is triggered after the configuration is fully loaded</p>
-      <h4>before_twig_register</h4>
-      <p>this event is triggered before the the twig template engine is registered</p>
-      <h4>before_render</h4>
-      <p>this event is triggered before the template is rendered</p>
-      <table>
-        <thead>
-          <tr>
-            <th>param</th>
-            <th align="left">type</th>
-            <th align="left">description</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>twig_vars</code></td>
-            <td align="left">array</td>
-            <td align="left">the twig vars</td>
-          </tr>
-          <tr>
-            <td><code>twig</code></td>
-            <td align="left">object</td>
-            <td align="left">twig the template enging</td>
-          </tr>
-          <tr>
-            <td><code>template</code></td>
-            <td align="left">string</td>
-            <td align="left">template which will be used</td>
-          </tr>
-        </tbody>
-      </table>
-      <h4>after_render</h4>
-      <p>this event is triggered after the templates is rendered</p>
-      <table>
-        <thead>
-          <tr>
-            <th>param</th>
-            <th align="left">type</th>
-            <th align="left">description</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>output</code></td>
-            <td align="left">string</td>
-            <td align="left">the parsed and ready output</td>
-          </tr>
-        </tbody>
-      </table>
-      <h4>before_read_file_meta</h4>
-      <p>this event is triggered before the meta data readed and parsed</p>
-      <table>
-        <thead>
-          <tr>
-            <th>param</th>
-            <th align="left">type</th>
-            <th align="left">description</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>rawData</code></td>
-            <td align="left">string</td>
-            <td align="left">the unparsed data</td>
-          </tr>
-          <tr>
-            <td><code>meta</code></td>
-            <td align="left">\Phile\Model\Meta</td>
-            <td align="left">the meta model</td>
-          </tr>
-        </tbody>
-      </table>
-      <h4>after_read_file_meta</h4>
-      <p>this event is triggered after the meta data readed and parsed</p>
-      <table>
-        <thead>
-          <tr>
-            <th>param</th>
-            <th align="left">type</th>
-            <th align="left">description</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>rawData</code></td>
-            <td align="left">string</td>
-            <td align="left">the unparsed data</td>
-          </tr>
-          <tr>
-            <td><code>meta</code></td>
-            <td align="left">\Phile\Model\Meta</td>
-            <td align="left">the meta model</td>
-          </tr>
-        </tbody>
-      </table>
-      <h4>template_engine_registered</h4>
-      <p>this event is triggered after the template engine is registered. You can use it to manipulate template variables, or add new variables.</p>
-      <table>
-        <thead>
-          <tr>
-            <th>param</th>
-            <th align="left">type</th>
-            <th align="left">description</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>engine</code></td>
-            <td align="left">object</td>
-            <td align="left">the current template engine (default Twig)</td>
-          </tr>
-          <tr>
-            <td><code>data</code></td>
-            <td align="left">array</td>
-            <td align="left">the template and site variables</td>
-          </tr>
-        </tbody>
-      </table>
-      <h4>before_load_content</h4>
-      <p>this event is triggered before the content is loaded</p>
-      <table>
-        <thead>
-          <tr>
-            <th>param</th>
-            <th align="left">type</th>
-            <th align="left">description</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>filePath</code></td>
-            <td align="left">string</td>
-            <td align="left">the path to the file</td>
-          </tr>
-          <tr>
-            <td><code>page</code></td>
-            <td align="left">\Phile\Model\Page</td>
-            <td align="left">the page model</td>
-          </tr>
-        </tbody>
-      </table>
-      <h4>after_load_content</h4>
-      <p>this event is triggered after the content is loaded</p>
-      <table>
-        <thead>
-          <tr>
-            <th>param</th>
-            <th align="left">type</th>
-            <th align="left">description</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>filePath</code></td>
-            <td align="left">string</td>
-            <td align="left">the path to the file</td>
-          </tr>
-          <tr>
-            <td><code>rawData</code></td>
-            <td align="left">string</td>
-            <td align="left">the raw data</td>
-          </tr>
-          <tr>
-            <td><code>page</code></td>
-            <td align="left">\Phile\Model\Page</td>
-            <td align="left">the page model</td>
-          </tr>
-        </tbody>
-      </table>
-      <h4>before_parse_content</h4>
-      <p>this event is triggered before the content is parsed</p>
-      <table>
-        <thead>
-          <tr>
-            <th>param</th>
-            <th align="left">type</th>
-            <th align="left">description</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>content</code></td>
-            <td align="left">string</td>
-            <td align="left">the raw data</td>
-          </tr>
-          <tr>
-            <td><code>page</code></td>
-            <td align="left">\Phile\Model\Page</td>
-            <td align="left">the page model</td>
-          </tr>
-        </tbody>
-      </table>
-      <h4>after_parse_content</h4>
-      <p>this event is triggered after the content is parsed</p>
-      <table>
-        <thead>
-          <tr>
-            <th>param</th>
-            <th align="left">type</th>
-            <th align="left">description</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>content</code></td>
-            <td align="left">string</td>
-            <td align="left">the raw data</td>
-          </tr>
-          <tr>
-            <td><code>page</code></td>
-            <td align="left">\Phile\Model\Page</td>
-            <td align="left">the page model</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-  </div>
-  <script src="javascripts/highlight.js"></script>
-  <script>hljs.initHighlightingOnLoad();</script>
-</body>
-</html>
+        <h3 id="config">Config</h3>
+        <p>You can override the default Phile settings (and add your own custom settings) by editing config.php in the root Phile directory. The config.php file
+          lists all of the settings and their defaults. To override a setting, simply uncomment it in config.php and set your custom value.</p>
+          <h3 id="events">Events</h3>
+          <p>In the core we trigger a lot of events, which help to manipulate content or other stuff within a plugin.
+            To use the event system, you only have to register your plugin for a specific event, look at the example plugin for more an example.
+            The following list shows all events.</p>
+            <h4 id="plugins_loaded">plugins_loaded</h4>
+            <p>this event is triggered after the plugins loaded</p>
+            <h4 id="config_loaded">config_loaded</h4>
+            <p>this event is triggered after the configuration is fully loaded</p>
+            <h4 id="request_uri">request_uri</h4>
+            <p>this event is triggered after the request uri is detected.</p>
+            <table>
+              <thead>
+                <tr>
+                  <th>param</th>
+                  <th style="text-align:left">type</th>
+                  <th style="text-align:left">description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>uri</code></td>
+                  <td style="text-align:left">string</td>
+                  <td style="text-align:left">the requested uri (without install_path)</td>
+                </tr>
+              </tbody>
+            </table>
+            <h4 id="before-_init-_template">before_init_template</h4>
+            <p>this event is triggered before the the template engine is init</p>
+            <h4 id="before-_render-_template">before_render_template</h4>
+            <p>this event is triggered before the template is rendered</p>
+            <table>
+              <thead>
+                <tr>
+                  <th>param</th>
+                  <th style="text-align:left">type</th>
+                  <th style="text-align:left">description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>templateEngine</code></td>
+                  <td style="text-align:left">\Phile\Template\TemplateInterface</td>
+                  <td style="text-align:left">the template engine</td>
+                </tr>
+              </tbody>
+            </table>
+            <h4 id="after-_render-_template">after_render_template</h4>
+            <p>this event is triggered after the template is rendered</p>
+            <table>
+              <thead>
+                <tr>
+                  <th>param</th>
+                  <th style="text-align:left">type</th>
+                  <th style="text-align:left">description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>templateEngine</code></td>
+                  <td style="text-align:left">\Phile\Template\TemplateInterface</td>
+                  <td style="text-align:left">the template engine</td>
+                </tr>
+                <tr>
+                  <td><code>output</code></td>
+                  <td style="text-align:left">string</td>
+                  <td style="text-align:left">the parsed and ready output</td>
+                </tr>
+              </tbody>
+            </table>
+            <h4 id="before-_read-_file-_meta">before_read_file_meta</h4>
+            <p>this event is triggered before the meta data readed and parsed</p>
+            <table>
+              <thead>
+                <tr>
+                  <th>param</th>
+                  <th style="text-align:left">type</th>
+                  <th style="text-align:left">description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>rawData</code></td>
+                  <td style="text-align:left">string</td>
+                  <td style="text-align:left">the unparsed data</td>
+                </tr>
+                <tr>
+                  <td><code>meta</code></td>
+                  <td style="text-align:left">\Phile\Model\Meta</td>
+                  <td style="text-align:left">the meta model</td>
+                </tr>
+              </tbody>
+            </table>
+            <h4 id="after-_read-_file-_meta">after_read_file_meta</h4>
+            <p>this event is triggered after the meta data readed and parsed</p>
+            <table>
+              <thead>
+                <tr>
+                  <th>param</th>
+                  <th style="text-align:left">type</th>
+                  <th style="text-align:left">description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>rawData</code></td>
+                  <td style="text-align:left">string</td>
+                  <td style="text-align:left">the unparsed data</td>
+                </tr>
+                <tr>
+                  <td><code>meta</code></td>
+                  <td style="text-align:left">\Phile\Model\Meta</td>
+                  <td style="text-align:left">the meta model</td>
+                </tr>
+              </tbody>
+            </table>
+            <h4 id="before-_load-_content">before_load_content</h4>
+            <p>this event is triggered before the content is loaded</p>
+            <table>
+              <thead>
+                <tr>
+                  <th>param</th>
+                  <th style="text-align:left">type</th>
+                  <th style="text-align:left">description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>filePath</code></td>
+                  <td style="text-align:left">string</td>
+                  <td style="text-align:left">the path to the file</td>
+                </tr>
+                <tr>
+                  <td><code>page</code></td>
+                  <td style="text-align:left">\Phile\Model\Page</td>
+                  <td style="text-align:left">the page model</td>
+                </tr>
+              </tbody>
+            </table>
+            <h4 id="after-_load-_content">after_load_content</h4>
+            <p>this event is triggered after the content is loaded</p>
+            <table>
+              <thead>
+                <tr>
+                  <th>param</th>
+                  <th style="text-align:left">type</th>
+                  <th style="text-align:left">description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>filePath</code></td>
+                  <td style="text-align:left">string</td>
+                  <td style="text-align:left">the path to the file</td>
+                </tr>
+                <tr>
+                  <td><code>rawData</code></td>
+                  <td style="text-align:left">string</td>
+                  <td style="text-align:left">the raw data</td>
+                </tr>
+                <tr>
+                  <td><code>page</code></td>
+                  <td style="text-align:left">\Phile\Model\Page</td>
+                  <td style="text-align:left">the page model</td>
+                </tr>
+              </tbody>
+            </table>
+            <h4 id="before-_parse-_content">before_parse_content</h4>
+            <p>this event is triggered before the content is parsed</p>
+            <table>
+              <thead>
+                <tr>
+                  <th>param</th>
+                  <th style="text-align:left">type</th>
+                  <th style="text-align:left">description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>content</code></td>
+                  <td style="text-align:left">string</td>
+                  <td style="text-align:left">the raw data</td>
+                </tr>
+                <tr>
+                  <td><code>page</code></td>
+                  <td style="text-align:left">\Phile\Model\Page</td>
+                  <td style="text-align:left">the page model</td>
+                </tr>
+              </tbody>
+            </table>
+            <h4 id="after-_parse-_content">after_parse_content</h4>
+            <p>this event is triggered after the content is parsed</p>
+            <table>
+              <thead>
+                <tr>
+                  <th>param</th>
+                  <th style="text-align:left">type</th>
+                  <th style="text-align:left">description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>content</code></td>
+                  <td style="text-align:left">string</td>
+                  <td style="text-align:left">the raw data</td>
+                </tr>
+                <tr>
+                  <td><code>page</code></td>
+                  <td style="text-align:left">\Phile\Model\Page</td>
+                  <td style="text-align:left">the page model</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+        </div>
+        <script src="javascripts/highlight.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
+      </body>
+      </html>
