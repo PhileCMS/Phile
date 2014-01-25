@@ -17,7 +17,6 @@
   <meta property="og:image" content="http://philecms.github.io/Phile/images/phile-logo.png">
   <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
   <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
-
   <title>PhileCMS - Docs</title>
 </head>
 
@@ -82,11 +81,15 @@ Author: Joe Bloggs
 Date: 2013/01/01
 Robots: noindex,nofollow
 */</code></pre>
+        <p>Phile also allows HTML style block comments:</p>
+        <pre><code class="html"><!--
+Title: Welcome
+Description: This description will go in the meta description tag
+Author: Joe Bloggs
+Date: 2013/01/01
+Robots: noindex,nofollow
+--></code></pre>
         <p>These values will be contained in the <code>{{ meta }}</code> variable in themes (see below).</p>
-        <p>There are also certain variables that you can use in your text files:</p>
-        <ul>
-          <li><code>&#37;base_url&#37;</code> - The URL to your Phile site</li>
-        </ul>
         <h3 id="themes-section">Themes</h3>
         <p>You can create themes for your Phile installation in the &quot;themes&quot; folder. Check out the default theme for an example of a theme. Phile uses <a href="http://twig.sensiolabs.org/documentation">Twig</a> for it&#39;s templating engine. You can select your theme by setting the <code>$config[&#39;theme&#39;]</code> variable in config.php to your theme folder.</p>
         <p>All themes must include an <code>index.html</code> file to define the HTML structure of the theme. Below are the Twig variables that are available to use in your theme:</p>
@@ -99,29 +102,20 @@ Robots: noindex,nofollow
           <li><code>{{ site_title }}</code> - Shortcut to the site title (defined in config.php)</li>
           <li><code>{{ meta }}</code> - Contains the meta values from the current page<ul>
             <li><code>{{ meta.title }}</code></li>
-            <li><code>{{ meta.description }}</code></li>
-            <li><code>{{ meta.author }}</code></li>
-            <li><code>{{ meta.date }}</code></li>
-            <li><code>{{ meta.date_formatted }}</code></li>
-            <li><code>{{ meta.robots }}</code></li>
+            <li><code>{{ meta.template }}</code></li>
           </ul>
         </li>
         <li><code>{{ content }}</code> - The content of the current page (after it has been processed through Markdown)</li>
         <li><code>{{ pages }}</code> - A collection of all the content in your site<ul>
           <li><code>{{ page.title }}</code></li>
           <li><code>{{ page.url }}</code></li>
-          <li><code>{{ page.author }}</code></li>
-          <li><code>{{ page.date }}</code></li>
-          <li><code>{{ page.date_formatted }}</code></li>
-          <li><code>{{ page.content }}</code></li>
-          <li><code>{{ page.excerpt }}</code></li>
+          <li><code>{{ page.template }}</code></li>
         </ul>
       </li>
-      <li><code>{{ prev_page }}</code> - A page object of the previous page (relative to current_page)</li>
       <li><code>{{ current_page }}</code> - A page object of the current_page</li>
-      <li><code>{{ next_page }}</code> - A page object of the next page (relative to current_page)</li>
-      <li><code>{{ is_front_page }}</code> - A boolean flag for the front page</li>
     </ul>
+    <h3 id="custom-meta-section">Custom Meta</h3>
+    <p>You can actually create custom meta attributes by default in Phile. If you want to add a date, author, or even something else, this can be done easily. You can see an example in the <a href="#text-section">Text section</a>.</p>
     <p>Pages can be used like:</p>
     <pre><code class="html">&lt;ul class=&quot;nav&quot;&gt;
   {% for page in pages %}
@@ -232,6 +226,29 @@ Robots: noindex,nofollow
             <td><code>meta</code></td>
             <td align="left">\Phile\Model\Meta</td>
             <td align="left">the meta model</td>
+          </tr>
+        </tbody>
+      </table>
+      <h4>template_engine_registered</h4>
+      <p>this event is triggered after the template engine is registered. You can use it to manipulate template variables, or add new variables.</p>
+      <table>
+        <thead>
+          <tr>
+            <th>param</th>
+            <th align="left">type</th>
+            <th align="left">description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>engine</code></td>
+            <td align="left">object</td>
+            <td align="left">the current template engine (default Twig)</td>
+          </tr>
+          <tr>
+            <td><code>data</code></td>
+            <td align="left">array</td>
+            <td align="left">the template and site variables</td>
           </tr>
         </tbody>
       </table>
