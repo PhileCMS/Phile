@@ -171,6 +171,29 @@ Robots: noindex,nofollow
                 </tr>
               </tbody>
             </table>
+            <h4 id="template-_engine-_registered">template_engine_registered</h4>
+            <p>this event is triggered when the template engine is registered</p>
+            <table>
+              <thead>
+                <tr>
+                  <th>param</th>
+                  <th style="text-align:left">type</th>
+                  <th style="text-align:left">description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>engine</code></td>
+                  <td style="text-align:left">\Phile\Template\TemplateInterface</td>
+                  <td style="text-align:left">the raw template engine</td>
+                </tr>
+                <tr>
+                  <td><code>data</code></td>
+                  <td style="text-align:left">array</td>
+                  <td style="text-align:left">the variables being sent to the template engine</td>
+                </tr>
+              </tbody>
+            </table>
             <h4 id="after-_render-_template">after_render_template</h4>
             <p>this event is triggered after the template is rendered</p>
             <table>
