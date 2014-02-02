@@ -122,6 +122,15 @@ this event is triggered before the template is rendered
 | ----------------------- |:-----------------------------------|:---------------------------------------------------------------------|
 | `templateEngine`        | \Phile\Template\TemplateInterface  | the template engine                                                  |
 
+#### template\_engine\_registered
+
+this event is triggered before the template is rendered
+
+| param                   | type                               | description                                                          |
+| ----------------------- |:-----------------------------------|:---------------------------------------------------------------------|
+| `engine`                | \Phile\Template\TemplateInterface  | the raw template engine                                              |
+| `data`                  | array                              | the variables being sent to the template engine                      |
+
 #### after\_render\_template
 
 this event is triggered after the template is rendered
