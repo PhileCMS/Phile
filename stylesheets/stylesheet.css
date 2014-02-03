@@ -326,6 +326,10 @@ sup {
   *zoom: 1;
 }
 
+.center {
+  text-align:center;
+}
+
 /* Tomorrow Night Theme */
 /* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
 /* Original theme - https://github.com/chriskempson/tomorrow-theme */
