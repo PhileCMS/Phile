@@ -3,6 +3,8 @@ Phile
 
 A Markdown file-based CMS.
 
+[Check out the starter video](http://www.youtube.com/watch?v=8GLMe371RuI)
+
 ### Origins
 
 This project is based on [Pico CMS v0.8](https://github.com/gilbitron/Pico/commit/aa59661ff81dd52c3a2596988372a214b0fc31b9 "0.8 Commit") by [Gilbert Pellegrom](https://github.com/gilbitron).
