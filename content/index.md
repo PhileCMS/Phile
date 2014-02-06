@@ -33,6 +33,18 @@ Text files are marked up using [Markdown](http://daringfireball.net/projects/mar
 At the top of text files you can place a block comment and specify certain attributes of the page. For example:
 
 ~~~ .markdown
+/*
+Title: Welcome
+Description: This description will go in the meta description tag
+Author: Joe Bloggs
+Date: 2013/01/01
+Robots: noindex,nofollow
+*/
+~~~
+
+Phile also allows HTML style block comments:
+
+~~~ .html
 <!--
 Title: Welcome
 Description: This description will go in the meta description tag
@@ -42,11 +54,13 @@ Robots: noindex,nofollow
 -->
 ~~~
 
-These values will be contained in the `{{ meta }}` variable in themes (see below).
+#### Custom Meta
 
-There are also certain variables that you can use in your text files:
+You can actually create custom meta attributes by default in Phile. If you want to add a date, author, or even something else, this can be done easily. These values will be contained in the `{{ meta }}` variable in themes (see below).
 
-* <code>&#37;base_url&#37;</code> - The URL to your Phile site
+#### Custom Meta Ordering
+
+You can order pages by their custom meta attributes. Like creating an `Order` meta for each page, then you can use `$config['pages_order_by'] = "meta:order";` in your `config.php` file.
 
 ### Themes
 
