@@ -100,7 +100,16 @@ class Page {
 						$sorted_pages = array();
 						foreach ($pages as $page) {
 							if ($page->getMeta()->get($metaKey) !== null) {
-								$sorted_pages['_'.$page->getMeta()->get($metaKey)] = $page;
+								$key = '_'.$page->getMeta()->get($metaKey);
+								if (array_key_exists($key, $sorted_pages)) {
+									$counter = 1;
+									$tmp = $key;
+									while (array_key_exists($tmp, $sorted_pages)) {
+										$tmp = $key . '_' . $counter++;
+									}
+									$key = $tmp;
+								}
+								$sorted_pages[$key] = $page;
 							} else {
 								$sorted_pages[] = $page;
 							}
