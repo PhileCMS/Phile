@@ -71,7 +71,7 @@ class Core {
 	 * @return null
 	 */
 	protected function initCurrentPage() {
-		$uri    = $_SERVER['REQUEST_URI'];
+		$uri    = (strpos($_SERVER['REQUEST_URI'], '?') !== false) ? substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], '?')) : $_SERVER['REQUEST_URI'];
 		$uri    = str_replace('/' . \Phile\Utility::getInstallPath() . '/', '', $uri);
 		/**
 		 * @triggerEvent request_uri this event is triggered after the request uri is detected.
@@ -80,7 +80,7 @@ class Core {
 		Event::triggerEvent('request_uri', array('uri' => $uri));
 
 		// use the current url to find the page
-		$page = $this->pageRepository->findByPath($_SERVER['REQUEST_URI']);
+		$page = $this->pageRepository->findByPath($uri);
 		if ($page instanceof \Phile\Model\Page) {
 			$this->page = $page;
 		} else {
