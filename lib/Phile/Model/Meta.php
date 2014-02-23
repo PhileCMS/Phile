@@ -50,7 +50,7 @@ class Meta extends AbstractModel {
 		// split by new lines
 		$headers    = explode("\n", $metaPart);
 		foreach ($headers as $line) {
-			$parts  = explode(':', $line);
+			$parts  = explode(':', $line, 2);
 			$key    = strtolower(array_shift($parts));
 			$val    = implode($parts);
 			$this->set($key, trim($val));
