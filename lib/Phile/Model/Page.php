@@ -114,12 +114,19 @@ class Page {
 	 * parse the raw content
 	 */
 	protected function parseRawData() {
-		$this->meta     = new Meta($this->rawData);
-		// Remove only the first block comment
+		$this->meta = new Meta($this->rawData);
+		// Remove only the optional, leading meta-block comment
 		$rawData = trim($this->rawData);
-		$END    = (substr($rawData, 0, 2) == '/*') ? '*/' : '-->';
-
-		$this->content = substr($this->rawData, strpos($rawData, $END)+strlen($END));
+		if(strncmp('<!--', $rawData, 4) === 0) {
+			// leading meta-block comment uses the <!-- --> style
+			$this->content = substr($rawData, max(4, strpos($rawData, '-->') + 3));
+		} elseif(strncmp('/*', $rawData, 2) === 0) {
+			// leading meta-block comment uses the /* */ style
+			$this->content = substr($rawData, strpos($rawData, '*/') + 2);
+		} else {
+			// no leading meta-block comment
+			$this->content = $rawData;
+		}
 	}
 
 	/**
