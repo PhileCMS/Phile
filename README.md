@@ -3,7 +3,7 @@ Phile
 
 A Markdown file-based CMS.
 
-[Check out the starter video](http://www.youtube.com/watch?v=8GLMe371RuI)
+[Check out the starter video](http://www.youtube.com/watch?v=8GLMe371RuI), or [read the wiki for in-depth documenation](https://github.com/PhileCMS/Phile/wiki/_pages).
 
 ### Origins
 
@@ -11,7 +11,18 @@ This project is based on [Pico CMS v0.8](https://github.com/gilbitron/Pico/commi
 
 The desire to fork the project from Pico, came when a few community members wanted to contribute more and increase the rate of development progress.
 
+**Note: Plugins for Pico are not interchangeable with Phile.**
+
 ### Why use this over Pico?
+
+Here is a small list of differences in design from Pico:
+
+* OOP based (classes)
+* Events system
+* Parser Overloading
+* Template Engine Overloading
+* [PSR-0 Compliant](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md)
+* Uses Composer
 
 ##### Performance with only three pages:
 
