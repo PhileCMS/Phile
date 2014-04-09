@@ -1,12 +1,11 @@
 {
-  "name": "nudeproject",
+  "name": "philecms.com",
   "version": "1.0.0",
-  "description": "a nudeproject",
-  "homepage": "http://ohdoylerules.com",
+  "description": "the source for philecms.com",
+  "homepage": "http://philecms.com",
   "author": {
-    "name": "James Doyle",
-    "email": "james2doyle@gmail.com",
-    "url": "http://ohdoylerules.com/"
+    "name": "PhileCMS",
+    "url": "http://philecms.com/"
   },
   "licenses": [
     {
