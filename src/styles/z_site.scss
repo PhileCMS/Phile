@@ -1,0 +1,298 @@
+@import "imports/__normalize";
+@import "imports/_grid";
+@import "imports/_mixins";
+@import "imports/_highlight";
+
+// [class^="icon"] {
+//   position: relative;
+//   top: 0.1em;
+// }
+
+$dark: #111111;
+$middle: #424242;
+$light: #9B9B9B;
+$red: #B44646;
+
+html {
+  min-height: 100%;
+}
+
+body {
+  font: normal normal 400 16px/1.4 'Lato', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  color: $dark;
+}
+
+.clearfix {
+  @include clearfix();
+}
+
+*, *:after, *:before {
+  @include box-sizing(border-box);
+}
+
+::-moz-focus-inner {
+  border: 0;
+}
+
+h1,h2,h3,h4,h5,h6,strong {
+  font-weight: 700
+}
+
+h1 {
+  font-size: 2em;
+  margin: .67em 0
+}
+
+h2 {
+  font-size: 1.5em;
+  margin: .83em 0
+}
+
+h3 {
+  font-size: 1.17em;
+  margin: 1em 0
+}
+
+h4 {
+  font-size: 1em;
+  margin: 1.33em 0
+}
+
+h5 {
+  font-size: .83em;
+  margin: 1.67em 0
+}
+
+h6 {
+  font-size: .75em;
+  margin: 2.33em 0
+}
+
+hr {
+  height: 1px;
+  border: none;
+  display: inline-block;
+  vertical-align: top;
+  margin: 1em 0;
+  background-color: rgba(0,0,0,0.2);
+  width: 100%;
+}
+
+a {
+  color: $dark;
+  text-decoration: underline;
+}
+
+table {
+  table-layout: fixed;
+  width: 100%;
+  th {
+    text-align: left;
+    color: $light;
+  }
+  td {
+    color: $red;
+    &:last-child {
+      color: #df7836;
+      font-style: italic;
+    }
+    code {
+      color: #6894d1;
+    }
+  }
+}
+
+.container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.center {
+  text-align: center;
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+@mixin diagonal-gradient($start, $stop) {
+  background: $start;
+  background: -moz-linear-gradient(-45deg, $start 0%, $stop 100%);
+  background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,$start), color-stop(100%,$stop));
+  background: -webkit-linear-gradient(-45deg, $start 0%,$stop 100%);
+  background: -o-linear-gradient(-45deg, $start 0%,$stop 100%);
+  background: -ms-linear-gradient(-45deg, $start 0%,$stop 100%);
+  background: linear-gradient(135deg, $start 0%,$stop 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#{$start}', endColorstr='#{$stop}',GradientType=1 );
+}
+
+.big-heading {
+  text-align: center;
+  @include diagonal-gradient(darken($light, 25%), lighten($light, 35%));
+  padding: 10% 0;
+  color: white;
+  background-size: 100%;
+  h1, h3 {
+    font-weight: 300
+  }
+}
+
+.header-inside {
+  opacity: 1;
+  -webkit-backface-visibility: hidden;
+}
+
+a.btn {
+  @include inline-block();
+  font-size: 1.2em;
+  padding: 1.2em 2em;
+  margin: 2em 0;
+  background: $red;
+  border-radius: 0.5em;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-family: 'Lato', sans-serif;
+  box-shadow: 0 0 0 rgba(0,0,0,0);
+  transition: background 0.2s ease, box-shadow 0.5s ease;
+  &:hover {
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    color: $red;
+    background: white;
+  }
+}
+
+.instructions {
+  margin: 10% 0 0;
+  padding-bottom: 5%;
+  i {
+    font-size: 4em;
+  }
+}
+
+section {
+  border-bottom: 1px solid #ccc;
+  padding: 1em 10%;
+  p {
+    font-weight: 300
+  }
+  &:last-child {
+    border: none;
+  }
+}
+
+iframe {
+  margin: 5% 0;
+  max-width: 100%;
+}
+
+footer {
+  padding: 1em 2em;
+  color: white;
+  background: $dark;
+  a {
+    color: white;
+  }
+}
+
+pre code, .hljs {
+  display: block;
+  background: #1d1f21;
+  color: #c5c8c6;
+  padding: 0.5em 1em;
+  line-height: 1.4;
+}
+
+/* Tomorrow Night Bright Theme */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-title {
+  color: #969896;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-attribute,
+.hljs-tag,
+.hljs-regexp,
+.ruby .hljs-constant,
+.xml .hljs-tag .hljs-title,
+.xml .hljs-pi,
+.xml .hljs-doctype,
+.html .hljs-doctype,
+.css .hljs-id,
+.css .hljs-class,
+.css .hljs-pseudo {
+  color: #d54e53;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-preprocessor,
+.hljs-pragma,
+.hljs-built_in,
+.hljs-literal,
+.hljs-params,
+.hljs-operator,
+.hljs-constant {
+  color: #e78c45;
+}
+
+/* Tomorrow Yellow */
+.ruby .hljs-class .hljs-title,
+.css .hljs-rules .hljs-attribute {
+  color: #e7c547;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-value,
+.hljs-inheritance,
+.hljs-header,
+.ruby .hljs-symbol,
+.xml .hljs-cdata {
+  color: #b9ca4a;
+}
+
+/* Tomorrow Aqua */
+.css .hljs-hexcolor {
+  color: #70c0b1;
+}
+
+/* Tomorrow Blue */
+.hljs-function,
+.python .hljs-decorator,
+.python .hljs-title,
+.ruby .hljs-function .hljs-title,
+.ruby .hljs-title .hljs-keyword,
+.perl .hljs-sub,
+.javascript .hljs-title,
+.coffeescript .hljs-title {
+  color: #7aa6da;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.javascript .hljs-function {
+  color: #c397d8;
+}
+
+.coffeescript .javascript,
+.javascript .xml,
+.tex .hljs-formula,
+.xml .javascript,
+.xml .vbscript,
+.xml .css,
+.xml .hljs-cdata {
+  opacity: 0.5;
+}
