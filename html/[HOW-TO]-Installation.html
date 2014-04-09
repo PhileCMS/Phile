@@ -1,0 +1,43 @@
+<h4 id="requirements">Requirements</h4>
+<p>To run Phile requires PHP 5.3.0+. If you&#39;re running Apache, <em>mod_rewrite</em> must be enabled.</p>
+<h4 id="installation-method-one-the-easy-way">Installation - Method One: the easy way</h4>
+<ul>
+<li>Extract the latest version of Phile</li>
+<li>Upload all the files to your server (via FTP or some other deployment)</li>
+</ul>
+<p>You can override the default Phile settings (and add your own custom settings) by editing config.php in the root Phile directory. The <code>config.php</code> file lists all of the settings and their defaults. To override a setting simply uncomment it in <code>config.php</code> and set your custom value.</p>
+<h4 id="installation-method-two-the-nerd-way">Installation - Method Two: the nerd way</h4>
+<p>Install composer</p>
+<pre><code class="lang-shell">curl -s https://getcomposer.org/installer | php
+</code></pre>
+<p>Go to your htdocs directory and download the PhileCMS base distribution with all the dependencies:</p>
+<pre><code class="lang-shell">cd /your/htdocs/
+php /path/to/composer.phar create-project phile-cms/phile
+</code></pre>
+<p>Set up a virtual host inside your apache.conf, and then restart apache:</p>
+<pre><code class="lang-apache">NameVirtualHost *:80 # if needed
+
+&lt;VirtualHost *:80&gt;
+    DocumentRoot &quot;/your/htdocs/&quot;
+    ServerName phile.demo
+&lt;/VirtualHost&gt;
+</code></pre>
+<p>Add an entry to <code>/etc/hosts</code>:</p>
+<pre><code class="lang-shell">127.0.0.1 phile.demo
+</code></pre>
+<h4 id="encryptionkey">EncryptionKey</h4>
+<p>You must set the <a href="https://github.com/PhileCMS/Phile/blob/master/config.php#L8">encryptionKey</a> value in the config to a non-empty string. There is a <a href="https://github.com/PhileCMS/Phile/blob/master/generator.php">generator.php</a> file that, when run, will generate a random string for you.</p>
+<h4 id="permissions">Permissions</h4>
+<p>Make sure you have full privileges on the cache folders.</p>
+<p>Own the temp/cache folder</p>
+<pre><code class="lang-shell">chmod 777 temp/cache
+</code></pre>
+<p>Own the lib/cache folder</p>
+<pre><code class="lang-shell">chmod 777 lib/cache
+</code></pre>
+<p>The temp/cache is needed for the <a href="https://github.com/PhileCMS/Phile/tree/master/plugins/philePhpFastCache">philePhpFastCache</a>. The lib/cache is needed for <a href="https://github.com/PhileCMS/Phile/tree/master/plugins/phileTemplateTwig">phileTemplateTwig</a>.</p>
+<h4 id="development">Development</h4>
+<p>You can turn <a href="https://github.com/PhileCMS/Phile/blob/master/plugins/phileTemplateTwig/config.php#L6">debug to true</a> when building a theme. It exposes the <a href="http://twig.sensiolabs.org/doc/functions/dump.html">dump()</a> function in Twig.</p>
+<h4 id="production">Production</h4>
+<p>Keep the <a href="https://github.com/PhileCMS/Phile/blob/master/default_config.php#L24">philePhpFastCache plugin</a> enabled. This caches page requests. Which will decrease server load immensely.</p>
+<p>Make sure you turn the <a href="https://github.com/PhileCMS/Phile/blob/master/plugins/phileTemplateTwig/config.php#L4">Twig cache</a> on during production. This will greatly increase the speed of your site.</p>

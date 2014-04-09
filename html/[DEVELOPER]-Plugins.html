@@ -1,0 +1,10 @@
+<p>The new plugin concept of Phile is a little bit different to pico, but also easy to understand. A lot of logic follows the concept <strong>convention over configuration</strong>, so please read the following list of conventions.</p>
+<ul>
+<li>Your Plugin need an own folder under the <code>plugins/</code> folder</li>
+<li>The name of the folder is the name of your class, but first character has to be lowercase!</li>
+<li>The class name of your plugin is the name your plugin folder, but first character has to be uppercase!</li>
+<li>Within your plugin folder you need at least one file with the name <code>plugin.php</code></li>
+<li>Within your plugin folder you can add a file with the name <code>config.php</code>, this file must return an array.</li>
+<li>Your plugin class must <strong>extend</strong> the <code>\Phile\Plugin\AbstractPlugin</code> class.</li>
+</ul>
+<p>For an example of all these conventions, take a look at the <a href="https://github.com/PhileCMS/Phile/tree/master/plugins/phileDemoPlugin">example plugin</a></p>

@@ -2,8 +2,8 @@
 
 for FILE in Phile.wiki/*.md
   do
-    # echo "file - $FILE"
-    marked -o ${FILE%.*}.html $FILE --gfm
+    NAME=$(basename $FILE)
+    marked -o html/${NAME%.*}.html $FILE --gfm
 done
 
 exit 0

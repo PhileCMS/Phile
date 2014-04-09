@@ -1,0 +1,17 @@
+<p>Phile has a simple file based data storage engine.</p>
+<p>Use it to persist some data, without a database.</p>
+<p>Here are some short examples how to use it:</p>
+<pre><code>$storage = \Phile\ServiceLocator::getService(&#39;Phile_Data_Persistence&#39;);
+
+// check first if a key exist before you call `delete` or `get`, else an exception can be thrown.
+$storage-&gt;has(&#39;MyDataRow_123&#39;);
+
+// set data to the storage
+$storage-&gt;set(&#39;MyDataRow_123&#39;, $data);
+
+// get data from the storage
+$storage-&gt;get(&#39;MyDataRow_123&#39;);
+
+// and delete data from the storage
+$storage-&gt;delete(&#39;MyDataRow_123&#39;);
+</code></pre>

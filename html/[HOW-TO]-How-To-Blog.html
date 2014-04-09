@@ -1,0 +1,124 @@
+<p><em>Disclaimer</em></p>
+<p>The following instructions are assuming you are using the default Phile installation (Twig Templates and the Markdown parser).</p>
+<h3 id="setup">Setup</h3>
+<p><a href="https://github.com/PhileCMS/Phile-Blog-Theme">Please see the blog demo theme</a>.</p>
+<h3 id="organizing-content">Organizing Content</h3>
+<p><strong>IMPORTANT</strong>: Here is the typical way that content files work in Phile:</p>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th style="text-align:left">URL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>content/index.md</td>
+<td style="text-align:left">/</td>
+</tr>
+<tr>
+<td>content/sub.md</td>
+<td style="text-align:left">/sub</td>
+</tr>
+<tr>
+<td>content/sub/index.md</td>
+<td style="text-align:left">/sub (same as above)</td>
+</tr>
+<tr>
+<td>content/sub/page.md</td>
+<td style="text-align:left">/sub/page</td>
+</tr>
+<tr>
+<td>content/a/very/long/url.md</td>
+<td style="text-align:left">/a/very/long/url</td>
+</tr>
+</tbody>
+</table>
+<p>Here are some typical blogging style URL structures. You can re-create URL styles with folder structure:</p>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th style="text-align:left">URL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>content/posts/article.md</td>
+<td style="text-align:left">/posts/article</td>
+</tr>
+<tr>
+<td>content/2013/11/10/post-name.md</td>
+<td style="text-align:left">/2013/11/10/post-name</td>
+</tr>
+<tr>
+<td>content/category/dogs/about-huskies.md</td>
+<td style="text-align:left">/category/dogs/about-huskies</td>
+</tr>
+<tr>
+<td>content/tags/cats/about-long-hairs.md</td>
+<td style="text-align:left">/tags/cats/about-long-hairs</td>
+</tr>
+</tbody>
+</table>
+<h3 id="using-images">Using Images</h3>
+<p>Images just need the path to where they exists. So this path:</p>
+<p><code>Phile/content/images/picture.jpg</code></p>
+<p>Becomes:</p>
+<p><code>{{ base_url }}/content/images/picture.jpg</code></p>
+<p>Or if there was an image in the theme:</p>
+<p><code>{{ theme_url }}/images/theme-logo.png</code></p>
+<h3 id="splitting-content">Splitting Content</h3>
+<p>There are a couple ways to split content. The reasons you might want to do that is for things like sidebars, widgets, accordions, tabbed panes, column content, etc.</p>
+<p>Here is a demo of how to split content without plugins:</p>
+<pre><code class="lang-markdown">### Section 1
+
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+&lt;hr&gt;
+
+### Section 2
+
+Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+</code></pre>
+<p>Now in your HTML you can split at that <code>&lt;hr&gt;</code> tag:</p>
+<pre><code class="lang-html">&lt;div class=&quot;column-1&quot;&gt;
+  {{ content|split(&#39;&lt;hr&gt;&#39;)[0] }}
+&lt;/div&gt;
+&lt;div class=&quot;column-2&quot;&gt;
+  {{ content|split(&#39;&lt;hr&gt;&#39;)[1] }}
+&lt;/div&gt;
+</code></pre>
+<p>The <code>&lt;hr&gt;</code> tag is not the special thing here. The <code>split</code> filter in Twig is the special function. You can use any tag or made-up tag (how about <code>&lt;split&gt;</code>?) to do this.</p>
+<p>This can even be done across different partials or be conditial based on some meta tag.</p>
+<h3 id="javascript-constants">JavaScript Constants</h3>
+<p>Here is a trick to get access to Phile variables in your javascript.</p>
+<pre><code class="lang-html">&lt;head&gt;
+  &lt;!-- a bunch of stuff here --&gt;
+  &lt;script type=&quot;text/javascript&quot;&gt;
+  // bind a phile object to the window
+  window.Phile = {
+    const: {
+      root_dir: &#39;{{ constant(&#39;ROOT_DIR&#39;) }}&#39;,
+      content_dir: &#39;{{ constant(&#39;CONTENT_DIR&#39;) }}&#39;,
+      content_ext: &#39;{{ constant(&#39;CONTENT_EXT&#39;) }}&#39;,
+      lib_dir: &#39;{{ constant(&#39;LIB_DIR&#39;) }}&#39;,
+      plugins_dir: &#39;{{ constant(&#39;PLUGINS_DIR&#39;) }}&#39;,
+      themes_dir: &#39;{{ constant(&#39;THEMES_DIR&#39;) }}&#39;,
+      cache_dir: &#39;{{ constant(&#39;CACHE_DIR&#39;) }}&#39;
+    },
+    base_url: &#39;{{ base_url }}&#39;,
+    theme_url: &#39;{{ theme_url }}&#39;,
+    config: JSON.parse(&#39;{{ config|json_encode() }}&#39;) // encode the config array to a string and then parse that string
+  };
+  &lt;/script&gt;
+&lt;/head&gt;
+</code></pre>
+<p>Now you can access <code>window.Phile</code> and see some of the settings and constants.</p>
+<h3 id="ajax-demo">Ajax Demo</h3>
+<p>Here is a simple demo of using the above settings to make an ajax call (using jQuery) to some other content:</p>
+<pre><code class="lang-javascript">$.get(Phile.base_url + &#39;/sub/page&#39;, function(data) {
+  // print out the HTML for parsed sub/page file
+  console.log(data);
+});
+</code></pre>

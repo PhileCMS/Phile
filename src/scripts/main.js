@@ -42,7 +42,7 @@ function homeFn() {
     },
   ];
   pages.forEach(function(item) {
-    getPage('Phile.wiki/' + item.file, function(res, err) {
+    getPage('html/' + item.file, function(res, err) {
       if (err) {
         console.error(err, res);
       }

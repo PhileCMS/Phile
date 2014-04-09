@@ -1,0 +1,7 @@
+<p>One of the main feature of Phile is new event system, which replace the hook system of pico.</p>
+<p>In the core we trigger a lot of events, and for every event you can register your plugin to get informed.</p>
+<p>To register your plugin for an event, you only need to call a static method in your plugin constructor, like this:</p>
+<p><code>Phile\Event::registerEvent(&#39;before_render&#39;, $this);</code></p>
+<p>With this line of code, you register your plugin for the event with the name &quot;before_render&quot;.</p>
+<p>The second important step is to implement the interface <code>\Phile\EventObserverInterface</code>. This interface define only one method: <code>public function on($eventKey, $data = null)</code>. These method will be called from the event system to notify your plugin about an event. We have added an example plugin in the core, please look at the <a href="https://github.com/PhileCMS/Phile/blob/master/plugins/phileDemoPlugin/plugin.php"><code>PhileDemoPlugin</code></a> in the folder <code>plugins/phileDemoPlugin</code>.</p>
+<p>You can find a list of all triggered events on the startpage of the demo pages after installing Phile.</p>

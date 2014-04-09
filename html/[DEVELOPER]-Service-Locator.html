@@ -1,0 +1,14 @@
+<p>Within in the core we use a lot of service class, which will be received over the ServiceLocator class. This makes it possible to replace a service with a complete new logic. In the following section, we tell you, which service classes available and how to replace a service with your own.</p>
+<h2 id="service-phile_parser">Service: Phile_Parser</h2>
+<p>You can replace the markdown parser with your own parser, if you like. This works by overloading the default parser with a plugin. To show you, check out the Markdown plugin that comes with Phile. Or, take a look at the <a href="https://github.com/PhileCMS/Sundown-Parser-Plugin">Sundown-Parser-Plugin</a>.</p>
+<p>To replace the parser, you need only one line of code to register a new parser:</p>
+<p><code>\Phile\ServiceLocator::registerService(&#39;Phile_Parser&#39;, new \Phile\Parser\Sundown($this-&gt;settings));</code></p>
+<h2 id="service-phile_template">Service: Phile_Template</h2>
+<p>the template engine is also a service, you can replace the default template engine (twig) with your own. The way you can do this, is the same like the Phile_Parser:</p>
+<p><code>\Phile\ServiceLocator::registerService(&#39;Phile_Template&#39;, new \Phile\Template\MyTemplateEngine());</code></p>
+<h2 id="service-phile_cache">Service: Phile_Cache</h2>
+<p>internal PhileCMS use an object cache to improve the performance. however if you want another cache system, register your own:</p>
+<p><code>\Phile\ServiceLocator::registerService(&#39;Phile_Cache&#39;, new \Phile\Cache\MyCacheEngine());</code></p>
+<h2 id="service-phile_data_persistence">Service: Phile_Data_Persistence</h2>
+<p>Yes, Phile works without any database, but if you need the possiblity to persist data, you can use the Phile_Data_Persistence service. with the core we provide you a simple file based data storage, you can implement your own or maybe found a plugin with another storage engine, replace it like this:</p>
+<p><code>\Phile\ServiceLocator::registerService(&#39;Phile_Data_Persistence&#39;, new \Phile\Persistence\MyPersistenceEngine());</code></p>
