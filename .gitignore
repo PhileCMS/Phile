@@ -1,4 +1,7 @@
 .DS_Store
+
+*.sublime-*
+
 lib-cov
 *.seed
 *.log
