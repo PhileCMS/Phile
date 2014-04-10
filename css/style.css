@@ -1164,3 +1164,14 @@ pre code,
 .xml .hljs-cdata {
   opacity: 0.5;
 }
+
+@media handheld, only screen and (max-width: 480px) {
+  section {
+    padding: 1em 2%;
+  }
+
+  table {
+    font-size: 0.8em;
+    word-break: break-word;
+  }
+}

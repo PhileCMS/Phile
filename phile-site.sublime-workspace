@@ -523,7 +523,7 @@
 			"file": "index.html",
 			"settings":
 			{
-				"buffer_size": 4798,
+				"buffer_size": 4881,
 				"line_ending": "Unix"
 			}
 		},
@@ -531,7 +531,7 @@
 			"file": "docs.html",
 			"settings":
 			{
-				"buffer_size": 17313,
+				"buffer_size": 17648,
 				"line_ending": "Unix"
 			}
 		},
@@ -539,7 +539,15 @@
 			"file": "src/styles/z_site.scss",
 			"settings":
 			{
-				"buffer_size": 4678,
+				"buffer_size": 4944,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "converter.sh",
+			"settings":
+			{
+				"buffer_size": 141,
 				"line_ending": "Unix"
 			}
 		},
@@ -547,7 +555,7 @@
 			"file": "src/scripts/main.js",
 			"settings":
 			{
-				"buffer_size": 2129,
+				"buffer_size": 2273,
 				"line_ending": "Unix"
 			}
 		}
@@ -555,9 +563,13 @@
 	"build_system": "Packages/Build Systems/php-lint.sublime-build",
 	"command_palette":
 	{
-		"height": 400.0,
+		"height": 135.0,
 		"selected_items":
 		[
+			[
+				"lower",
+				"Convert Case: Lower Case"
+			],
 			[
 				"gist",
 				"GitHub: Copy Gist to Clipboard"
@@ -597,10 +609,6 @@
 			[
 				"twig",
 				"Set Syntax: HTML (Twig)"
-			],
-			[
-				"lower",
-				"Convert Case: Lower Case"
 			],
 			[
 				"mini",
@@ -931,6 +939,10 @@
 	},
 	"file_history":
 	[
+		"/Applications/MAMP/htdocs/phile-site/package.json",
+		"/Users/james2doyle/Downloads/phile-logo.svg",
+		"/Applications/MAMP/htdocs/phile-site/converter.sh",
+		"/Applications/MAMP/htdocs/phile-site/docs.html",
 		"/Applications/MAMP/htdocs/phile-site/Phile.wiki/README.html",
 		"/Applications/MAMP/htdocs/phile-site/Phile.wiki/README.md",
 		"/Applications/MAMP/htdocs/phile-site/Phile.wiki/[COMMUNITY]-Plugins.html",
@@ -1054,11 +1066,7 @@
 		"/Applications/MAMP/htdocs/node-rsvg/src/Autocrop.cc",
 		"/Applications/MAMP/htdocs/node-rsvg/src/Enums.cc",
 		"/Applications/MAMP/htdocs/node-rsvg/src/Enums.h",
-		"/Applications/MAMP/htdocs/node-rsvg/src/Rsvg.cc",
-		"/Applications/MAMP/htdocs/node-rsvg/binding.gyp",
-		"/Applications/MAMP/htdocs/node-rsvg/src/Rsvg.h",
-		"/Applications/MAMP/htdocs/node-rsvg/src/RsvgCairo.h",
-		"/Applications/MAMP/htdocs/svgapp/hello.cc"
+		"/Applications/MAMP/htdocs/node-rsvg/src/Rsvg.cc"
 	],
 	"find":
 	{
@@ -1092,6 +1100,12 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			" - Docs",
+			"The Docs for ",
+			" - Docs",
+			"ohdoylerules",
+			", ",
+			"## ",
 			" 0%",
 			"0%",
 			"home(",
@@ -1213,13 +1227,7 @@
 			"414042",
 			"562",
 			"562px",
-			"'",
-			"<div>",
-			"teal",
-			"\n\n\n\n@font-face",
-			"url('",
-			"ohdoylerules",
-			"nudeproject"
+			"'"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1227,6 +1235,7 @@
 		"regex": false,
 		"replace_history":
 		[
+			"},\n",
 			"      \n",
 			"consectetur",
 			"* ",
@@ -1274,15 +1283,64 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4798,
+						"buffer_size": 4881,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2033,
-								2033
+								463,
+								463
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"WordCountShouldRun": true,
+							"bh_regions":
+							[
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close"
+							],
+							"editorconfig": true,
+							"ensure_newline_at_eof_on_save": true,
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "docs.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 17648,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1376,
+								1376
 							]
 						],
 						"settings":
@@ -1316,60 +1374,11 @@
 					},
 					"stack_index": 2,
 					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "docs.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 17313,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1550,
-								1580
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"WordCountShouldRun": true,
-							"bh_regions":
-							[
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close"
-							],
-							"editorconfig": true,
-							"ensure_newline_at_eof_on_save": true,
-							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 372.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
 				}
 			]
 		},
 		{
-			"selected": 0,
+			"selected": 2,
 			"sheets":
 			[
 				{
@@ -1378,15 +1387,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4678,
+						"buffer_size": 4944,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								456,
-								456
+								278,
+								278
 							]
 						],
 						"settings":
@@ -1418,24 +1427,73 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
 					"buffer": 3,
-					"file": "src/scripts/main.js",
+					"file": "converter.sh",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2129,
+						"buffer_size": 141,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2040,
-								2040
+								100,
+								100
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"WordCountShouldRun": true,
+							"bh_regions":
+							[
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close"
+							],
+							"editorconfig": true,
+							"ensure_newline_at_eof_on_save": true,
+							"syntax": "Packages/ShellScript/Shell-Unix-Generic.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "src/scripts/main.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2273,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1031,
+								1031
 							]
 						],
 						"settings":
@@ -1464,10 +1522,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 296.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 0,
 					"type": "text"
 				}
 			]
