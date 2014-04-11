@@ -48,6 +48,8 @@ class Twig implements TemplateInterface {
 				'base_url' => $this->settings['base_url'],
 				'theme_dir' => THEMES_DIR . $this->settings['theme'],
 				'theme_url' => $this->settings['base_url'] .'/'. basename(THEMES_DIR) .'/'. $this->settings['theme'],
+				'content_dir' => CONTENT_DIR,
+				'content_url' => $this->settings['base_url'] .'/'. basename(CONTENT_DIR),
 				'site_title' => $this->settings['site_title'],
 				'current_page' => $this->page,
 				'meta' => $this->page->getMeta(),
