@@ -75,6 +75,8 @@ All themes must include an `index.html` file to define the HTML structure of the
 * `{{ base_url }}` - The URL to your Phile site
 * `{{ theme_dir }}` - The path to the Phile active theme direcotry
 * `{{ theme_url }}` - The URL to the Phile active theme direcotry
+* `{{ content_dir }}` - The path to the content direcotry
+* `{{ content_url }}` - The URL to the content direcotry
 * `{{ site_title }}` - Shortcut to the site title (defined in config.php)
 * `{{ meta }}` - Contains the meta values from the current page
   * `{{ meta.title }}`
