@@ -365,6 +365,45 @@ Robots: noindex,nofollow
                 </tr>
               </tbody>
             </table>
+            <h3 id="service-_locator">Service Locator</h3>
+            <div class="markdown-body">
+      <p>Within in the core we use a lot of service class, which will be received over the ServiceLocator class. This makes it possible to replace a service with a complete new logic. In the following section, we tell you, which service classes available and how to replace a service with your own.</p>
+
+<h4>
+<a name="user-content-service-phile_parser" class="anchor" href="#service-phile_parser"><span class="octicon octicon-link"></span></a>Service: Phile_Parser</h4>
+
+<p>You can replace the markdown parser with your own parser, if you like. This works by overloading the default parser with a plugin. To show you, check out the Markdown plugin that comes with Phile. Or, take a look at the <a href="https://github.com/PhileCMS/Sundown-Parser-Plugin">Sundown-Parser-Plugin</a>.</p>
+
+<p>To replace the parser, you need only one line of code to register a new parser:</p>
+
+<p><code>\Phile\ServiceLocator::registerService('Phile_Parser', new \Phile\Parser\Sundown($this-&gt;settings));</code></p>
+
+<h4>
+<a name="user-content-service-phile_parser_meta" class="anchor" href="#service-phile_parser_meta"><span class="octicon octicon-link"></span></a>Service: Phile_Parser_Meta</h4>
+
+<p>You can override the meta data parser with your own. The default parser handles meta in either a HTML block comment or a Javascript/PHP block comment. If you wanted to support YAML, this would be the service you would override.</p>
+
+<h4>
+<a name="user-content-service-phile_template" class="anchor" href="#service-phile_template"><span class="octicon octicon-link"></span></a>Service: Phile_Template</h4>
+
+<p>The template engine is also a service, you can replace the default template engine (twig) with your own. The way you can do this, is the same like the Phile_Parser:</p>
+
+<p><code>\Phile\ServiceLocator::registerService('Phile_Template', new \Phile\Template\MyTemplateEngine());</code></p>
+
+<h4>
+<a name="user-content-service-phile_cache" class="anchor" href="#service-phile_cache"><span class="octicon octicon-link"></span></a>Service: Phile_Cache</h4>
+
+<p>Internal PhileCMS use an object cache to improve the performance. however if you want another cache system, register your own:</p>
+
+<p><code>\Phile\ServiceLocator::registerService('Phile_Cache', new \Phile\Cache\MyCacheEngine());</code></p>
+
+<h4>
+<a name="user-content-service-phile_data_persistence" class="anchor" href="#service-phile_data_persistence"><span class="octicon octicon-link"></span></a>Service: Phile_Data_Persistence</h4>
+
+<p>Yes, Phile works without any database, but if you need the possiblity to persist data, you can use the Phile_Data_Persistence service. with the core we provide you a simple file based data storage, you can implement your own or maybe found a plugin with another storage engine, replace it like this:</p>
+
+<p><code>\Phile\ServiceLocator::registerService('Phile_Data_Persistence', new \Phile\Persistence\MyPersistenceEngine());</code></p>
+    </div>
           </section>
         </div>
         <script src="js/script.min.js"></script>
