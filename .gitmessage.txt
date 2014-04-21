@@ -1,0 +1,10 @@
+[BUGFIX|FEATURE|TASK] Short summary of changes introduced by this patch
+
+More detailed explanatory text, if necessary.
+
+Resolves: #12345 (refer to github issue number)
+Documentation: #12346 (refer to github issue number, where a documentation is available)
+Releases: 0.9.3 (this should be the next version number, please ask the core developer before you fill in this information or leave it blank
+Related: #1234, #1235 list here all related github issue numbers
+
+
