@@ -26,32 +26,19 @@ Here is a small list of differences in design from Pico:
 
 ##### Performance with only three pages:
 
-Pico
-
-* Pico Startpage 180ms
-* Pico Sub Page Index 117ms
-* Pico Sub Page 152ms
-
-Phile
-
-* Phile Startpage 120ms
-* Phile Sub Page Index 83ms
-* Phile Sub Page 85ms
-
+Page           | Pico          | Phile
+-------------- | ------------- | -------------
+Startpage      | 180ms         | 120ms
+Sub Page Index | 117ms         | 83ms
+Sub Page       | 152ms         | 85ms
 
 ##### Performance with 20 pages:
 
-Pico
-
-* Pico Startpage 250ms
-* Pico Sub Page Index 203ms
-* Pico Sub Page 237ms
-
-Phile
-
-* Phile Startpage 121ms
-* Phile Sub Page Index 80ms
-* Phile Sub Page 84ms
+Page           | Pico          | Phile
+-------------- | ------------- | -------------
+Startpage      | 250ms         | 121ms
+Sub Page Index | 203ms         | 80ms
+Sub Page       | 237ms         | 84ms
 
 Webgrind Profiling
 
@@ -65,4 +52,9 @@ Help make Phile better by checking out the GitHub repoistory and submitting pull
 
 If you find a bug please report it on the [issues page](https://github.com/PhileCMS/Phile/issues).
 
-If you create a plugin please add it to the [Plugin Wiki](https://github.com/PhileCMS/Phile/wiki/Plugins).
+If you create a plugin please add it to the [Plugin Wiki](https://github.com/PhileCMS/Phile/wiki/%5BCOMMUNITY%5D-Plugins).
+
+The Authors of PhileCMS:
+
+* [James Doyle](https://github.com/james2doyle) - great ideas, code a lot of plugins and worked on the core
+* [Frank Nägler](https://github.com/NeoBlack) - refactoring of the core and introducing OOP concepts
