@@ -13,18 +13,24 @@ class ServiceLocator {
 	 */
 	protected static $services;
 
+	/**
+	 * @var array $serviceMap for mapping speaking names/keys to the interfaces
+	 */
 	protected static $serviceMap = array(
 		'Phile_Cache'               => 'Phile\Cache\CacheInterface',
 		'Phile_Template'            => 'Phile\Template\TemplateInterface',
 		'Phile_Parser'              => 'Phile\Parser\ParserInterface',
-		'Phile_Data_Persistence'    => 'Phile\Persistence\PersistenceInterface'
+		'Phile_Data_Persistence'    => 'Phile\Persistence\PersistenceInterface',
+        'Phile_Parser_Meta'         => 'Phile\Parser\MetaInterface',
 	);
 
 	/**
 	 * @param string $serviceKey the key for the service
 	 * @param mixed $object
-	 */
-	public static function registerService($serviceKey, $object) {
+     *
+     * @throws Exception
+     */
+    public static function registerService($serviceKey, $object) {
 		$interfaces = class_implements($object);
 		$interface = self::$serviceMap[$serviceKey];
 		if ($interfaces === FALSE || !in_array($interface, $interfaces)) {
