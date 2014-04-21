@@ -1,6 +1,8 @@
 <?php
 namespace Phile\Parser;
 
+use Phile\ServiceLocator\MetaInterface;
+
 class Meta implements MetaInterface {
 	/** @var array $config the configuration for this parser */
 	private $config;

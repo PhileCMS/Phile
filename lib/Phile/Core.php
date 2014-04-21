@@ -202,7 +202,7 @@ class Core {
 
 		/**
 		 * @triggerEvent before_render_template this event is triggered before the template is rendered
-		 * @param \Phile\Template\TemplateInterface the template engine
+		 * @param \Phile\ServiceLocator\TemplateInterface the template engine
 		 */
 		Event::triggerEvent('before_render_template', array('templateEngine' => &$templateEngine));
 
@@ -211,7 +211,7 @@ class Core {
 
 		/**
 		 * @triggerEvent after_render_template this event is triggered after the template is rendered
-		 * @param \Phile\Template\TemplateInterface the template engine
+		 * @param \Phile\ServiceLocator\TemplateInterface the template engine
 		 * @param string the generated ouput
 		 */
 		Event::triggerEvent('after_render_template', array('templateEngine' => &$templateEngine, 'output' => &$output));

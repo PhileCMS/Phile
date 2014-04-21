@@ -1,6 +1,7 @@
 <?php
 
 namespace Phile;
+use Phile\Gateway\EventObserverInterface;
 
 /**
  * the Event class for implementing a hook/event system

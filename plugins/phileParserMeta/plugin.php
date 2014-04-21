@@ -3,7 +3,7 @@
 /**
  * Default Phile parser plugin for Markdown
  */
-class PhileParserMeta extends \Phile\Plugin\AbstractPlugin implements \Phile\EventObserverInterface {
+class PhileParserMeta extends \Phile\Plugin\AbstractPlugin implements \Phile\Gateway\EventObserverInterface {
 	public function __construct() {
 		\Phile\Event::registerEvent('plugins_loaded', $this);
 	}
