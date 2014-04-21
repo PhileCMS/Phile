@@ -18,11 +18,12 @@ $config['timezone'] = $timezone; // The default timezone
 // also notice, each plugin has its own config namespace.
 // activate plugins
 $config['plugins'] = array(
-	'phileDemoPlugin' => array('active' => true),
-	'phileParserMarkdown' => array('active' => true), // the default parser
-	'phileTemplateTwig' => array('active' => true), // the default template engine
-	'philePhpFastCache' => array('active' => true), // the default cache engine
-	'phileSimpleFileDataPersistence' => array('active' => true), // the default data storage engine
+    'phileDemoPlugin' => array('active' => true),
+    'phileParserMarkdown' => array('active' => true), // the default parser
+    'phileParserMeta' => array('active' => true), // the default parser
+    'phileTemplateTwig' => array('active' => true), // the default template engine
+    'philePhpFastCache' => array('active' => true), // the default cache engine
+    'phileSimpleFileDataPersistence' => array('active' => true), // the default data storage engine
 );
 
 return $config;
