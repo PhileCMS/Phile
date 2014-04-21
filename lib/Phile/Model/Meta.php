@@ -1,12 +1,14 @@
 <?php
 
 namespace Phile\Model;
+
 use Phile\Event;
+use Phile\ServiceLocator;
 
 /**
  * Meta model
  *
- * @author Frank Nägler
+ * @author  Frank Nägler
  * @license http://opensource.org/licenses/MIT
  * @version 0.1
  */
@@ -20,15 +22,17 @@ class Meta extends AbstractModel {
 	public function setRawData($rawData) {
 		/**
 		 * @triggerEvent before_read_file_meta this event is triggered before the meta data readed and parsed
-		 * @param string rawData the unparsed data
-		 * @param \Phile\Model\Meta meta the meta model
+		 *
+		 * @param                   string rawData the unparsed data
+		 * @param \Phile\Model\Meta meta   the meta model
 		 */
 		Event::triggerEvent('before_read_file_meta', array('rawData' => &$rawData, 'meta' => &$this));
 		$this->parseRawData($rawData);
 		/**
 		 * @triggerEvent after_read_file_meta this event is triggered after the meta data readed and parsed
-		 * @param string rawData the unparsed data
-		 * @param \Phile\Model\Meta meta the meta model
+		 *
+		 * @param                   string rawData the unparsed data
+		 * @param \Phile\Model\Meta meta   the meta model
 		 */
 		Event::triggerEvent('after_read_file_meta', array('rawData' => &$rawData, 'meta' => &$this));
 	}
@@ -38,22 +42,17 @@ class Meta extends AbstractModel {
 		if (isset($this->data['date'])) {
 			return date($config['date_format'], strtotime($this->data['date']));
 		}
+
 		return null;
 	}
 
 	protected function parseRawData($rawData) {
-		$rawData = trim($rawData);
-		$START  = (substr($rawData, 0, 2) == '/*') ? '/*' : '<!--';
-		$END    = (substr($rawData, 0, 2) == '/*') ? '*/' : '-->';
+		/** @var \Phile\Parser\MetaInterface $metaParser */
+		$metaParser = ServiceLocator::getService('Phile_Parser_Meta');
+		$data       = $metaParser->parse($rawData);
 
-		$metaPart   = trim(substr($rawData, strlen($START), strpos($rawData, $END)-(strlen($END)+1)));
-		// split by new lines
-		$headers    = explode("\n", $metaPart);
-		foreach ($headers as $line) {
-			$parts  = explode(':', $line, 2);
-			$key    = strtolower(array_shift($parts));
-			$val    = implode($parts);
-			$this->set($key, trim($val));
+		foreach ($data as $key => $value) {
+			$this->set($key, $value);
 		}
 	}
 }
