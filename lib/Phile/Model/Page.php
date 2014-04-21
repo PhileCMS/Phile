@@ -2,10 +2,7 @@
 
 namespace Phile\Model;
 use Phile\Event;
-use Phile\Parser\ParserInterface;
-use Phile\Registry;
 use Phile\ServiceLocator;
-use Phile\Utility;
 
 /**
  * the Model class for a page
@@ -14,7 +11,7 @@ use Phile\Utility;
  */
 class Page {
 	/**
-	 * @var Meta the meta model
+	 * @var \Phile\Model\Meta the meta model
 	 */
 	protected $meta;
 
@@ -34,7 +31,7 @@ class Page {
 	protected $rawData;
 
 	/**
-	 * @var ParserInterface
+	 * @var \Phile\ServiceLocator\ParserInterface
 	 */
 	protected $parser;
 
@@ -44,7 +41,8 @@ class Page {
 	protected $url;
 
 	/**
-	 * @param $filePath
+	 * @param        $filePath
+	 * @param string $folder
 	 */
 	public function __construct($filePath, $folder = CONTENT_DIR) {
 		$this->filePath = $filePath;

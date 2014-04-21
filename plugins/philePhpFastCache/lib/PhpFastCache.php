@@ -2,8 +2,7 @@
 
 namespace Phile\Cache;
 
-
-class PhpFastCache implements CacheInterface {
+class PhpFastCache implements \Phile\ServiceLocator\CacheInterface {
 	/**
 	 * @var \phpFastCache
 	 */

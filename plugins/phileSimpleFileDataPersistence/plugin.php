@@ -3,7 +3,7 @@
 /**
  * Default Phile data persistence engine
  */
-class PhileSimpleFileDataPersistence extends \Phile\Plugin\AbstractPlugin implements \Phile\EventObserverInterface {
+class PhileSimpleFileDataPersistence extends \Phile\Plugin\AbstractPlugin implements \Phile\Gateway\EventObserverInterface {
 	public function __construct() {
 		\Phile\Event::registerEvent('plugins_loaded', $this);
 	}

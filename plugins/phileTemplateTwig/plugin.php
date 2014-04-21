@@ -3,7 +3,7 @@
 /**
  * Default Phile template engine
  */
-class PhileTemplateTwig extends \Phile\Plugin\AbstractPlugin implements \Phile\EventObserverInterface {
+class PhileTemplateTwig extends \Phile\Plugin\AbstractPlugin implements \Phile\Gateway\EventObserverInterface {
 	public function __construct() {
 		\Phile\Event::registerEvent('plugins_loaded', $this);
 	}

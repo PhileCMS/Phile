@@ -4,6 +4,7 @@ namespace Phile\Template;
 
 use Phile\Registry;
 use Phile\Event;
+use Phile\ServiceLocator\TemplateInterface;
 
 class Twig implements TemplateInterface {
 	/**
