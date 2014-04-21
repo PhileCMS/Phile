@@ -2,11 +2,11 @@
 
 namespace Phile\Parser;
 
-interface MetaInterface {
-	/**
-	 * @param $rawData
-	 *
-	 * @return array with key/value store
-	 */
-	public function parse($rawData);
-}
+/**
+ * Interface MetaInterface
+ *
+ * @package Phile\Parser
+ * @deprecated will be removed in 1.0.0
+ * @use \Phile\ServiceLocator\PersistenceInterface instead
+ */
+interface MetaInterface extends \Phile\ServiceLocator\MetaInterface {}

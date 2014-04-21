@@ -17,11 +17,11 @@ class ServiceLocator {
 	 * @var array $serviceMap for mapping speaking names/keys to the interfaces
 	 */
 	protected static $serviceMap = array(
-		'Phile_Cache'               => 'Phile\Cache\CacheInterface',
-		'Phile_Template'            => 'Phile\Template\TemplateInterface',
-		'Phile_Parser'              => 'Phile\Parser\ParserInterface',
-		'Phile_Data_Persistence'    => 'Phile\Persistence\PersistenceInterface',
-        'Phile_Parser_Meta'         => 'Phile\Parser\MetaInterface',
+		'Phile_Cache'               => 'Phile\ServiceLocator\CacheInterface',
+		'Phile_Template'            => 'Phile\ServiceLocator\TemplateInterface',
+		'Phile_Parser'              => 'Phile\ServiceLocator\ParserInterface',
+		'Phile_Data_Persistence'    => 'Phile\ServiceLocator\PersistenceInterface',
+        'Phile_Parser_Meta'         => 'Phile\ServiceLocator\MetaInterface',
 	);
 
 	/**

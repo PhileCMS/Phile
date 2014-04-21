@@ -1,7 +1,6 @@
 <?php
 
 namespace Phile\Repository;
-use Phile\Cache\CacheInterface;
 use Phile\Exception;
 use Phile\ServiceLocator;
 use Phile\Utility;
@@ -22,7 +21,7 @@ class Page {
 	protected $storage = array();
 
 	/**
-	 * @var CacheInterface
+	 * @var \Phile\ServiceLocator\CacheInterface
 	 */
 	protected $cache = null;
 
