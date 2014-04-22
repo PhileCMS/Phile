@@ -118,7 +118,7 @@ class Core {
 					if ($pluginFile !== null) {
 						include_once $pluginFile;
 					} else {
-						throw new \Phile\Exception("the plugin file 'MOD:{$pluginKey}/plugin.php' not exists");
+						throw new \Phile\Exception("the plugin file 'MOD:{$pluginKey}/plugin.php' does not exist");
 					}
 					if (class_exists($pluginClassName)) {
 						$plugin = new $pluginClassName;
