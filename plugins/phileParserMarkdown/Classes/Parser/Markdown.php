@@ -1,8 +1,8 @@
 <?php
-namespace Phile\Parser;
+namespace Phile\Plugin\PhileParserMarkdown\Parser;
 
 use \Michelf\MarkdownExtra;
-use Phile\ServiceLocator\ParserInterface;
+use \Phile\ServiceLocator\ParserInterface;
 
 class Markdown implements ParserInterface {
 	private $config;

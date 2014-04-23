@@ -11,7 +11,7 @@ class PhileParserMeta extends \Phile\Plugin\AbstractPlugin implements \Phile\Gat
 	public function on($eventKey, $data = null) {
 		// check $eventKey for which you have registered
 		if ($eventKey == 'plugins_loaded') {
-			\Phile\ServiceLocator::registerService('Phile_Parser_Meta', new \Phile\Parser\Meta($this->settings));
+			\Phile\ServiceLocator::registerService('Phile_Parser_Meta', new \Phile\Plugin\PhileParserMeta\Parser\Meta($this->settings));
 		}
 	}
 }

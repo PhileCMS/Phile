@@ -11,7 +11,7 @@ class PhileTemplateTwig extends \Phile\Plugin\AbstractPlugin implements \Phile\G
 	public function on($eventKey, $data = null) {
 		// check $eventKey for which you have registered
 		if ($eventKey == 'plugins_loaded') {
-			\Phile\ServiceLocator::registerService('Phile_Template', new \Phile\Template\Twig($this->settings));
+			\Phile\ServiceLocator::registerService('Phile_Template', new \Phile\Plugin\PhileTemplateTwig\Template\Twig($this->settings));
 		}
 	}
 }

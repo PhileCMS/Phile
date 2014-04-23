@@ -1,5 +1,5 @@
 <?php
-namespace Phile\Parser;
+namespace Phile\Plugin\PhileParserMeta\Parser;
 
 use Phile\ServiceLocator\MetaInterface;
 
