@@ -57,7 +57,7 @@ class Utility {
 	 * resolve a file path by replace the mod: prefix
 	 *
 	 * @param $path
-	 * @return string|null the full filepath or null
+	 * @return string|null the full filepath or null if file does not exists
 	 */
 	public static function resolveFilePath($path) {
 		// resolve MOD: prefix
