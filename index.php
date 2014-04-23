@@ -15,6 +15,18 @@ spl_autoload_register(function ($className) {
 	$fileName = LIB_DIR . str_replace("\\", DIRECTORY_SEPARATOR, $className) . '.php';
 	if (file_exists($fileName)) {
 		require_once $fileName;
+	} else {
+		// autoload plugin namespace
+		if (strpos($className, "Phile\\Plugin\\") === 0) {
+			$className 		= substr($className, 13);
+			$classNameParts = explode('\\', $className);
+			$pluginName 	= lcfirst(array_shift($classNameParts));
+			$classPath		= array_merge(array($pluginName, 'Classes'), $classNameParts);
+			$fileName 		= PLUGINS_DIR . implode(DIRECTORY_SEPARATOR, $classPath) . '.php';
+			if (file_exists($fileName)) {
+				require_once $fileName;
+			}
+		}
 	}
 });
 
