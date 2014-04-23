@@ -32,7 +32,7 @@ class Meta implements MetaInterface {
 		$result  = array();
 		foreach ($headers as $line) {
 			$parts        = explode(':', $line, 2);
-			$key          = strtolower(array_shift($parts));
+			$key          = str_replace(' ', '_', strtolower(array_shift($parts)));
 			$val          = implode($parts);
 			$result[$key] = trim($val);
 		}
