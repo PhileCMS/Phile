@@ -1,5 +1,20 @@
 # Changelog
 
+## Release v1.0.0
+
+**important notice: new plugin structure **
+- folder: plugins/<VENDOR>/<PLUGINNAME>
+- class dir: plugins/<VENDOR>/<PLUGINNAME>/Classes/ (all classes autoloaded)
+- plugin class: plugins/<VENDOR>/<PLUGINNAME>/Classes/Plugin.php (see demo plugin)
+
+-- <VENDOR> = lowercase vendor name, e.g. mycompany (phile is reserved for the core plugins)
+-- <PLUGINNAME> = first charactre lowercase, e.g. myPlugin
+- namespace: \Phile\Plugin\<VENDOR>\<PLUGINNAME>
+-- <VENDOR> = first character uppercase vendor name, e.g. Mycompany (Phile is reserved for the core plugins)
+-- <PLUGINNAME> = first charactre uppercase, e.g. MyPlugin
+
+- [x] #79 [TASK] preparations for version 1.0.0
+
 ## Release v0.9.3
 
 **important notice: the changes in issue #81 need some change in plugins, please take a look at the notes in the issue**
