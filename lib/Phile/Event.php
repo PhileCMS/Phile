@@ -1,16 +1,21 @@
 <?php
 
 namespace Phile;
+
 use Phile\Gateway\EventObserverInterface;
 
 /**
  * the Event class for implementing a hook/event system
- * @author Frank Nägler
  *
+ * @author  Frank Nägler
+ * @link    https://philecms.com
+ * @license http://opensource.org/licenses/MIT
+ * @package Phile
  */
 class Event {
 	/**
 	 * Registry object provides storage for objects.
+	 *
 	 * @var array
 	 */
 	private static $_registry = array();
@@ -28,7 +33,7 @@ class Event {
 
 	/**
 	 * @param string $eventName the event name (register for this name)
-	 * @param array  $data array with some additional data
+	 * @param array  $data      array with some additional data
 	 */
 	public static function triggerEvent($eventName, $data = null) {
 		if (isset(self::$_registry[$eventName]) && is_array(self::$_registry[$eventName])) {

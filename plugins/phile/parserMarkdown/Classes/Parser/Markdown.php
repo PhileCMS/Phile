@@ -1,9 +1,17 @@
 <?php
 namespace Phile\Plugin\Phile\ParserMarkdown\Parser;
 
-use \Michelf\MarkdownExtra;
-use \Phile\ServiceLocator\ParserInterface;
+use Michelf\MarkdownExtra;
+use Phile\ServiceLocator\ParserInterface;
 
+/**
+ * Class Markdown
+ *
+ * @author  Frank Nägler
+ * @link    https://philecms.com
+ * @license http://opensource.org/licenses/MIT
+ * @package Phile\Plugin\Phile\ParserMarkdown\Parser
+ */
 class Markdown implements ParserInterface {
 	private $config;
 

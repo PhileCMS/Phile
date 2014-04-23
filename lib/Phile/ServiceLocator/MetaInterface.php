@@ -5,6 +5,8 @@ namespace Phile\ServiceLocator;
 /**
  * Interface MetaInterface
  *
+ * @link    https://philecms.com
+ * @license http://opensource.org/licenses/MIT
  * @package Phile\ServiceLocator
  */
 interface MetaInterface {

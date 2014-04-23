@@ -5,6 +5,9 @@ namespace Phile\Gateway;
 /**
  * Interface EventObserverInterface
  *
+ * @author  Frank Nägler
+ * @link    https://philecms.com
+ * @license http://opensource.org/licenses/MIT
  * @package Phile\Gateway
  */
 interface EventObserverInterface {

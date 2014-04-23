@@ -5,6 +5,8 @@ namespace Phile\ServiceLocator;
 /**
  * Interface TemplateInterface
  *
+ * @link    https://philecms.com
+ * @license http://opensource.org/licenses/MIT
  * @package Phile\ServiceLocator
  */
 interface TemplateInterface {

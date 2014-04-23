@@ -4,12 +4,11 @@ namespace Phile;
 /**
  * Phile
  *
- * @author PhileCMS Community, Gilbert Pellegrom(Pico 0.8)
- * @link https://github.com/PhileCMS/Phile
+ * @author  PhileCMS Community, Gilbert Pellegrom(Pico 0.8)
+ * @link    https://philecms.com
  * @license http://opensource.org/licenses/MIT
- * @version 0.1
+ * @package Phile
  */
-
 class Core {
 	/**
 	 * @var array the settings array
@@ -61,6 +60,7 @@ class Core {
 
 	/**
 	 * return the page
+	 *
 	 * @return string
 	 */
 	public function render() {
@@ -71,10 +71,11 @@ class Core {
 	 * initialize the current page
 	 */
 	protected function initializeCurrentPage() {
-		$uri    = (strpos($_SERVER['REQUEST_URI'], '?') !== false) ? substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], '?')) : $_SERVER['REQUEST_URI'];
-		$uri    = str_replace('/' . \Phile\Utility::getInstallPath() . '/', '', $uri);
+		$uri = (strpos($_SERVER['REQUEST_URI'], '?') !== false) ? substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], '?')) : $_SERVER['REQUEST_URI'];
+		$uri = str_replace('/' . \Phile\Utility::getInstallPath() . '/', '', $uri);
 		/**
 		 * @triggerEvent request_uri this event is triggered after the request uri is detected.
+		 *
 		 * @param uri the uri
 		 */
 		Event::triggerEvent('request_uri', array('uri' => $uri));
@@ -84,7 +85,7 @@ class Core {
 		if ($page instanceof \Phile\Model\Page) {
 			$this->page = $page;
 		} else {
-			header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
+			header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
 			$this->page = $this->pageRepository->findByPath('404');
 		}
 	}
@@ -102,9 +103,9 @@ class Core {
 
 				if (isset($pluginConfig['active']) && $pluginConfig['active'] === true) {
 					// load plugin configuration...
-					$pluginConfiguration    = null;
+					$pluginConfiguration = null;
 					// load the config file for the plugin
-					$configFile = \Phile\Utility::resolveFilePath("MOD:".$vendor.DIRECTORY_SEPARATOR.$pluginName.DIRECTORY_SEPARATOR."config.php");
+					$configFile = \Phile\Utility::resolveFilePath("MOD:" . $vendor . DIRECTORY_SEPARATOR . $pluginName . DIRECTORY_SEPARATOR . "config.php");
 					if ($configFile !== null) {
 						$pluginConfiguration = \Phile\Utility::load($configFile);
 						$globalConfiguration = \Phile\Registry::get('Phile_Settings');
@@ -117,7 +118,7 @@ class Core {
 						$this->settings = $globalConfiguration;
 					}
 					// uppercase first letter convention
-					$pluginClassName    = '\\Phile\\Plugin\\' . ucfirst($vendor) . '\\'. ucfirst($pluginName) . '\\Plugin';
+					$pluginClassName = '\\Phile\\Plugin\\' . ucfirst($vendor) . '\\' . ucfirst($pluginName) . '\\Plugin';
 					if (!class_exists($pluginClassName)) {
 						throw new \Phile\Exception("the plugin '{$pluginKey}' could not be loaded!");
 					}
@@ -151,8 +152,8 @@ class Core {
 	 * initialize configuration
 	 */
 	protected function initializeConfiguration() {
-		$defaults       = Utility::load(ROOT_DIR . '/default_config.php');
-		$localSettings  = Utility::load(ROOT_DIR . '/config.php');
+		$defaults      = Utility::load(ROOT_DIR . '/default_config.php');
+		$localSettings = Utility::load(ROOT_DIR . '/config.php');
 		if (is_array($localSettings)) {
 			$this->settings = array_replace_recursive($defaults, $localSettings);
 		} else {
@@ -177,8 +178,8 @@ class Core {
 				Utility::redirect($this->settings['base_url'] . '/setup');
 			}
 		} else {
-			if (is_file(CONTENT_DIR.'setup.md')) {
-				unlink(CONTENT_DIR.'setup.md');
+			if (is_file(CONTENT_DIR . 'setup.md')) {
+				unlink(CONTENT_DIR . 'setup.md');
 			}
 		}
 		if (Registry::isRegistered('templateVars')) {
@@ -204,10 +205,11 @@ class Core {
 		 */
 		Event::triggerEvent('before_init_template');
 
-		$templateEngine   = ServiceLocator::getService('Phile_Template');
+		$templateEngine = ServiceLocator::getService('Phile_Template');
 
 		/**
 		 * @triggerEvent before_render_template this event is triggered before the template is rendered
+		 *
 		 * @param \Phile\ServiceLocator\TemplateInterface the template engine
 		 */
 		Event::triggerEvent('before_render_template', array('templateEngine' => &$templateEngine));
@@ -217,8 +219,9 @@ class Core {
 
 		/**
 		 * @triggerEvent after_render_template this event is triggered after the template is rendered
-		 * @param \Phile\ServiceLocator\TemplateInterface the template engine
-		 * @param string the generated ouput
+		 *
+		 * @param \Phile\ServiceLocator\TemplateInterface the    template engine
+		 * @param                                         string the generated ouput
 		 */
 		Event::triggerEvent('after_render_template', array('templateEngine' => &$templateEngine, 'output' => &$output));
 		$this->output = $output;

@@ -9,8 +9,9 @@ use Phile\ServiceLocator;
  * Meta model
  *
  * @author  Frank Nägler
+ * @link    https://philecms.com
  * @license http://opensource.org/licenses/MIT
- * @version 0.1
+ * @package Phile\Model
  */
 class Meta extends AbstractModel {
 	public function __construct($rawData = null) {

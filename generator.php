@@ -1,4 +1,10 @@
 <?php
+/**
+ * @author Frank Nägler
+ * @link https://philecms.com
+ * @license http://opensource.org/licenses/MIT
+ * @package Phile
+ */
 
 define('ROOT_DIR',         realpath(dirname(__FILE__)) . DIRECTORY_SEPARATOR);
 define('CONTENT_DIR',      ROOT_DIR . 'content' . DIRECTORY_SEPARATOR);

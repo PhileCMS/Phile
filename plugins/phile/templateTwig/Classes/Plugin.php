@@ -3,7 +3,13 @@
 namespace Phile\Plugin\Phile\TemplateTwig;
 
 /**
+ * Class Plugin
  * Default Phile template engine
+ *
+ * @author  Frank Nägler
+ * @link    https://philecms.com
+ * @license http://opensource.org/licenses/MIT
+ * @package Phile\Plugin\Phile\TemplateTwig
  */
 class Plugin extends \Phile\Plugin\AbstractPlugin implements \Phile\Gateway\EventObserverInterface {
 	public function __construct() {

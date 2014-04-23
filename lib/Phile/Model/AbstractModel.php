@@ -5,12 +5,13 @@ namespace Phile\Model;
 /**
  * Abstract model which implements the ArrayAccess interface
  *
- * @author Frank Nägler
+ * @author  Frank Nägler
+ * @link    https://philecms.com
  * @license http://opensource.org/licenses/MIT
- * @version 0.1
+ * @package Phile\Model
  */
 class AbstractModel implements \ArrayAccess {
-	protected $data  = array();
+	protected $data = array();
 
 	public function get($key) {
 		return (isset($this->data[$key])) ? $this->data[$key] : null;
@@ -35,10 +36,12 @@ class AbstractModel implements \ArrayAccess {
 	public function __call($name, $args) {
 		if (strpos($name, 'get') !== false) {
 			$name = substr($name, 3);
+
 			return $this->get($name);
 		}
 		if (strpos($name, 'set') !== false) {
 			$name = substr($name, 3);
+
 			return $this->set($name, $args[0]);
 		}
 
@@ -49,8 +52,10 @@ class AbstractModel implements \ArrayAccess {
 	 * Whether a offset exists
 	 *
 	 * @link http://php.net/manual/en/arrayaccess.offsetexists.php
+	 *
 	 * @param mixed $offset
 	 *                      An offset to check for.
+	 *
 	 * @return boolean true on success or false on failure.
 	 *                      The return value will be casted to boolean if non-boolean was returned.
 	 */
@@ -63,8 +68,10 @@ class AbstractModel implements \ArrayAccess {
 	 * Offset to retrieve
 	 *
 	 * @link http://php.net/manual/en/arrayaccess.offsetget.php
+	 *
 	 * @param mixed $offset
 	 *                      The offset to retrieve.
+	 *
 	 * @return mixed Can return all value types.
 	 */
 	public function offsetGet($offset) {
@@ -76,10 +83,12 @@ class AbstractModel implements \ArrayAccess {
 	 * Offset to set
 	 *
 	 * @link http://php.net/manual/en/arrayaccess.offsetset.php
+	 *
 	 * @param mixed $offset
 	 *                      The offset to assign the value to.
 	 * @param mixed $value
 	 *                      The value to set.
+	 *
 	 * @return void
 	 */
 	public function offsetSet($offset, $value) {
@@ -91,8 +100,10 @@ class AbstractModel implements \ArrayAccess {
 	 * Offset to unset
 	 *
 	 * @link http://php.net/manual/en/arrayaccess.offsetunset.php
+	 *
 	 * @param mixed $offset
 	 *                      The offset to unset.
+	 *
 	 * @return void
 	 */
 	public function offsetUnset($offset) {

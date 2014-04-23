@@ -3,6 +3,14 @@ namespace Phile\Plugin\Phile\ParserMeta\Parser;
 
 use Phile\ServiceLocator\MetaInterface;
 
+/**
+ * Class Meta
+ *
+ * @author  Frank Nägler
+ * @link    https://philecms.com
+ * @license http://opensource.org/licenses/MIT
+ * @package Phile\Plugin\Phile\ParserMeta\Parser
+ */
 class Meta implements MetaInterface {
 	/** @var array $config the configuration for this parser */
 	private $config;

@@ -4,12 +4,16 @@ namespace Phile;
 
 /**
  * the Registry class for implementing a registry
- * @author Frank Nägler
  *
+ * @author  Frank Nägler
+ * @link    https://philecms.com
+ * @license http://opensource.org/licenses/MIT
+ * @package Phile
  */
 class Registry extends \ArrayObject {
 	/**
 	 * Registry object provides storage for shared objects.
+	 *
 	 * @var Registry
 	 */
 	private static $_registry = null;
@@ -23,6 +27,7 @@ class Registry extends \ArrayObject {
 		if (self::$_registry === null) {
 			self::init();
 		}
+
 		return self::$_registry;
 	}
 
@@ -30,8 +35,11 @@ class Registry extends \ArrayObject {
 	 * Set the default registry instance to a specified instance.
 	 *
 	 * @param Registry $registry An object instance of type Registry,
-	 *   or a subclass.
-	 * @return void
+	 *                           or a subclass.
+	 *
+	 * @param Registry $registry
+	 *
+	 * @throws Exception
 	 */
 	public static function setInstance(Registry $registry) {
 		if (self::$_registry !== null) {
@@ -52,6 +60,7 @@ class Registry extends \ArrayObject {
 	/**
 	 * Unset the default registry instance.
 	 * Primarily used in tearDown() in unit tests.
+	 *
 	 * @returns void
 	 */
 	public static function _unsetInstance() {
@@ -66,6 +75,7 @@ class Registry extends \ArrayObject {
 	 * static instance stored in the class.
 	 *
 	 * @param string $index - get the value associated with $index
+	 *
 	 * @return mixed
 	 * @throws Exception if no entry is registerd for $index.
 	 */
@@ -74,6 +84,7 @@ class Registry extends \ArrayObject {
 		if (!$instance->offsetExists($index)) {
 			throw new Exception("No entry is registered for key '$index'");
 		}
+
 		return $instance->offsetGet($index);
 	}
 
@@ -85,8 +96,9 @@ class Registry extends \ArrayObject {
 	 * static instance stored in the class.
 	 *
 	 * @param string $index The location in the ArrayObject in which to store
-	 *   the value.
-	 * @param mixed $value The object to store in the ArrayObject.
+	 *                      the value.
+	 * @param mixed  $value The object to store in the ArrayObject.
+	 *
 	 * @return void
 	 */
 	public static function set($index, $value) {
@@ -99,17 +111,19 @@ class Registry extends \ArrayObject {
 	 * or FALSE if $index was not found in the registry.
 	 *
 	 * @param  string $index
+	 *
 	 * @return boolean
 	 */
 	public static function isRegistered($index) {
 		if (self::$_registry === null) {
 			return false;
 		}
+
 		return self::$_registry->offsetExists($index);
 	}
 
 	/**
-	 * @param array $array data array
+	 * @param array   $array data array
 	 * @param integer $flags ArrayObject flags
 	 */
 	public function __construct($array = array(), $flags = parent::ARRAY_AS_PROPS) {
@@ -118,6 +132,7 @@ class Registry extends \ArrayObject {
 
 	/**
 	 * @param string $index
+	 *
 	 * @returns mixed
 	 *
 	 * Workaround for http://bugs.php.net/bug.php?id=40442 (ZF-960).

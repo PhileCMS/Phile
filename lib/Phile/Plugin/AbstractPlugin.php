@@ -1,11 +1,14 @@
 <?php
 
 namespace Phile\Plugin;
-use Phile\Registry;
 
 /**
  * the AbstractPlugin class for implementing a plugin for PhileCMS
- * @author Frank Nägler
+ *
+ * @author  Frank Nägler
+ * @link    https://philecms.com
+ * @license http://opensource.org/licenses/MIT
+ * @package Phile\Plugin
  */
 abstract class AbstractPlugin {
 	/**
@@ -15,6 +18,7 @@ abstract class AbstractPlugin {
 
 	/**
 	 * inject settings
+	 *
 	 * @param array $settings
 	 */
 	public function injectSettings(array $settings = null) {

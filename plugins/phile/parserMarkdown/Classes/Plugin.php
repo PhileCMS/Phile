@@ -3,7 +3,13 @@
 namespace Phile\Plugin\Phile\ParserMarkdown;
 
 /**
+ * Class Plugin
  * Default Phile parser plugin for Markdown
+ *
+ * @author  Frank Nägler
+ * @link    https://philecms.com
+ * @license http://opensource.org/licenses/MIT
+ * @package Phile\Plugin\Phile\ParserMarkdown
  */
 class Plugin extends \Phile\Plugin\AbstractPlugin implements \Phile\Gateway\EventObserverInterface {
 	public function __construct() {

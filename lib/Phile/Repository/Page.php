@@ -1,6 +1,7 @@
 <?php
 
 namespace Phile\Repository;
+
 use Phile\Exception;
 use Phile\ServiceLocator;
 use Phile\Utility;
@@ -8,12 +9,15 @@ use Phile\Utility;
 
 /**
  * the Repository class for pages
- * @author Frank Nägler
+ *
+ * @author  Frank Nägler
+ * @link    https://philecms.com
+ * @license http://opensource.org/licenses/MIT
  * @package Phile\Repository
  */
 class Page {
-	const ORDER_ASC   = 'asc';
-	const ORDER_DESC  = 'desc';
+	const ORDER_ASC  = 'asc';
+	const ORDER_DESC = 'desc';
 
 	/**
 	 * @var array object storage for initialized objects, to prevent multiple loading of objects.
@@ -27,18 +31,20 @@ class Page {
 
 	public function __construct() {
 		if (ServiceLocator::hasService('Phile_Cache')) {
-			$this->cache  = ServiceLocator::getService('Phile_Cache');
+			$this->cache = ServiceLocator::getService('Phile_Cache');
 		}
 	}
 
 	/**
 	 * find a page by path
 	 *
-	 * @param $path
+	 * @param string $path
+	 * @param string $folder
+	 *
 	 * @return null|\Phile\Model\Page
 	 */
-	public function findByPath($path, $folder =  CONTENT_DIR) {
-		$path   = str_replace(Utility::getInstallPath(), '', $path);
+	public function findByPath($path, $folder = CONTENT_DIR) {
+		$path = str_replace(Utility::getInstallPath(), '', $path);
 		$file = null;
 		if (file_exists($folder . $path . CONTENT_EXT)) {
 			$file = $folder . $path . CONTENT_EXT;
@@ -58,17 +64,22 @@ class Page {
 
 	/**
 	 * find all pages (*.md) files and returns an array of Page models
+	 *
+	 * @param array  $options
+	 * @param string $folder
+	 *
 	 * @return array of \Phile\Model\Page objects
+	 * @throws \Phile\Exception
 	 */
-	public function findAll(array $options = null, $folder =  CONTENT_DIR) {
-		$files      = Utility::getFiles($folder, '/^.*\\'.CONTENT_EXT.'/');
-		$pages      = array();
+	public function findAll(array $options = null, $folder = CONTENT_DIR) {
+		$files = Utility::getFiles($folder, '/^.*\\' . CONTENT_EXT . '/');
+		$pages = array();
 		foreach ($files as $file) {
-			if (str_replace($folder, '', $file) == '404'.CONTENT_EXT) {
+			if (str_replace($folder, '', $file) == '404' . CONTENT_EXT) {
 				// jump to next page if file is the 404 page
 				continue;
 			}
-			$pages[]    = $this->getPage($file, $folder);
+			$pages[] = $this->getPage($file, $folder);
 		}
 
 		if ($options !== null && isset($options['pages_order_by'])) {
@@ -87,7 +98,7 @@ class Page {
 					if ($options['pages_order'] == self::ORDER_DESC) {
 						usort($pages, array($this, "compareByTitleDesc"));
 					}
-				break;
+					break;
 				case 'date':
 				default:
 					if (strtolower($options['pages_order_by']) == 'date') {
@@ -95,14 +106,14 @@ class Page {
 						$options['pages_order_by'] = 'meta:date';
 					}
 					if (strpos(strtolower($options['pages_order_by']), 'meta:') !== false) {
-						$metaKey = str_replace('meta:', '', strtolower($options['pages_order_by']));
+						$metaKey      = str_replace('meta:', '', strtolower($options['pages_order_by']));
 						$sorted_pages = array();
 						foreach ($pages as $page) {
 							if ($page->getMeta()->get($metaKey) !== null) {
-								$key = '_'.$page->getMeta()->get($metaKey);
+								$key = '_' . $page->getMeta()->get($metaKey);
 								if (array_key_exists($key, $sorted_pages)) {
 									$counter = 1;
-									$tmp = $key;
+									$tmp     = $key;
 									while (array_key_exists($tmp, $sorted_pages)) {
 										$tmp = $key . '_' . $counter++;
 									}
@@ -127,19 +138,23 @@ class Page {
 					} else {
 						throw new Exception("unknown key '{$options['pages_order_by']}' for pages_order_by");
 					}
-				break;
+					break;
 			}
 		}
+
 		return $pages;
 	}
 
 	/**
 	 * get page from cache or filepath
-	 * @param $filePath
-	 * @return \Phile\Model\Page
+	 *
+	 * @param        $filePath
+	 * @param string $folder
+	 *
+	 * @return mixed|\Phile\Model\Page
 	 */
-	protected function getPage($filePath, $folder = CONTENT_DIR ) {
-		$key    = 'Phile_Model_Page_' . md5($filePath);
+	protected function getPage($filePath, $folder = CONTENT_DIR) {
+		$key = 'Phile_Model_Page_' . md5($filePath);
 		if (isset($this->storage[$key])) {
 			return $this->storage[$key];
 		}
@@ -148,32 +163,50 @@ class Page {
 			if ($this->cache->has($key)) {
 				$page = $this->cache->get($key);
 			} else {
-				$page   = new \Phile\Model\Page($filePath, $folder);
+				$page = new \Phile\Model\Page($filePath, $folder);
 				$this->cache->set($key, $page);
 			}
 		} else {
-			$page   = new \Phile\Model\Page($filePath, $folder);
+			$page = new \Phile\Model\Page($filePath, $folder);
 		}
 		$this->storage[$key] = $page;
+
 		return $page;
 	}
 
-	// usort function for Titles Asc
-	protected function compareByTitleAsc($a, $b) {
+	/**
+	 * usort function for Titles Asc
+	 *
+	 * @param \Phile\Model\Page $a
+	 * @param \Phile\Model\Page $b
+	 *
+	 * @return int
+	 */
+	protected function compareByTitleAsc(\Phile\Model\Page $a, \Phile\Model\Page $b) {
 		$al = strtolower($a->getMeta()->get('title'));
 		$bl = strtolower($b->getMeta()->get('title'));
 		if ($al == $bl) {
 			return 0;
 		}
+
 		return ($al > $bl) ? +1 : -1;
 	}
-	// usort function for Titles Desc
-	protected function compareByTitleDesc($a, $b) {
+
+	/**
+	 * usort function for Titles Desc
+	 *
+	 * @param \Phile\Model\Page $a
+	 * @param \Phile\Model\Page $b
+	 *
+	 * @return int
+	 */
+	protected function compareByTitleDesc(\Phile\Model\Page $a, \Phile\Model\Page $b) {
 		$al = strtolower($a->getMeta()->get('title'));
 		$bl = strtolower($b->getMeta()->get('title'));
 		if ($al == $bl) {
 			return 0;
 		}
+
 		return ($al < $bl) ? +1 : -1;
 	}
 }

@@ -3,7 +3,13 @@
 namespace Phile\Plugin\Phile\SimpleFileDataPersistence;
 
 /**
+ * Class Plugin
  * Default Phile data persistence engine
+ *
+ * @author  Frank Nägler
+ * @link    https://philecms.com
+ * @license http://opensource.org/licenses/MIT
+ * @package Phile\Plugin\Phile\SimpleFileDataPersistence
  */
 class Plugin extends \Phile\Plugin\AbstractPlugin implements \Phile\Gateway\EventObserverInterface {
 	public function __construct() {

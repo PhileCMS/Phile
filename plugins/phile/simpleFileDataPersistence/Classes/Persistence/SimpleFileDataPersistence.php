@@ -5,6 +5,14 @@ namespace Phile\Plugin\Phile\SimpleFileDataPersistence\Persistence;
 use Phile\Exception;
 use Phile\ServiceLocator\PersistenceInterface;
 
+/**
+ * Class SimpleFileDataPersistence
+ *
+ * @author  Frank Nägler
+ * @link    https://philecms.com
+ * @license http://opensource.org/licenses/MIT
+ * @package Phile\Plugin\Phile\SimpleFileDataPersistence\Persistence
+ */
 class SimpleFileDataPersistence implements PersistenceInterface {
 	protected $dataDirectory;
 
@@ -20,6 +28,7 @@ class SimpleFileDataPersistence implements PersistenceInterface {
 		if (!$this->has($key)) {
 			throw new Exception("no data storage for key '{$key}' exists!");
 		}
+
 		return unserialize(file_get_contents($this->getStorageFile($key)));
 	}
 
