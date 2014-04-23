@@ -192,7 +192,10 @@ class Core {
 		Event::triggerEvent('after_setup_check');
 	}
 
-	protected function initTemplate() {
+	/**
+	 * initialize template engine
+	 */
+	protected function initializeTemplate() {
 		/**
 		 * @triggerEvent before_init_template this event is triggered before the template engine is init
 		 */
