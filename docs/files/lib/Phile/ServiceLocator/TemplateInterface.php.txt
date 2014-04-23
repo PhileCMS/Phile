@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * The TemplateInterface
+ */
 namespace Phile\ServiceLocator;
 
 /**

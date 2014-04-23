@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * The Event class
+ */
 namespace Phile;
 
 use Phile\Gateway\EventObserverInterface;
@@ -21,6 +23,8 @@ class Event {
 	private static $_registry = array();
 
 	/**
+	 * method to register an event
+	 *
 	 * @param string                 $eventName the event to observe
 	 * @param EventObserverInterface $object
 	 */
@@ -32,6 +36,8 @@ class Event {
 	}
 
 	/**
+	 * method to trigger an event
+	 *
 	 * @param string $eventName the event name (register for this name)
 	 * @param array  $data      array with some additional data
 	 */

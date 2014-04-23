@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * ServiceLocator MetaParser interface
+ */
 namespace Phile\ServiceLocator;
 
 /**
@@ -11,6 +13,8 @@ namespace Phile\ServiceLocator;
  */
 interface MetaInterface {
 	/**
+	 * parse the content
+	 *
 	 * @param $rawData
 	 *
 	 * @return array with key/value store

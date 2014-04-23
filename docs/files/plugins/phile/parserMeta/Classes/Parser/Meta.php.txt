@@ -1,4 +1,7 @@
 <?php
+/**
+ * The Meta Parser Interface
+ */
 namespace Phile\Plugin\Phile\ParserMeta\Parser;
 
 use Phile\ServiceLocator\MetaInterface;
@@ -16,6 +19,8 @@ class Meta implements MetaInterface {
 	private $config;
 
 	/**
+	 * the constructor
+	 *
 	 * @param array $config
 	 */
 	public function __construct(array $config = null) {
@@ -25,6 +30,8 @@ class Meta implements MetaInterface {
 	}
 
 	/**
+	 * parse the content and extract meta informations
+	 *
 	 * @param $rawData
 	 *
 	 * @return array with key/value store

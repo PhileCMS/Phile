@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * The EventObserverInterface
+ */
 namespace Phile\Gateway;
 
 /**

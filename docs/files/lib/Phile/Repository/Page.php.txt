@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * the page repository class
+ */
 namespace Phile\Repository;
 
 use Phile\Exception;
@@ -25,10 +27,13 @@ class Page {
 	protected $storage = array();
 
 	/**
-	 * @var \Phile\ServiceLocator\CacheInterface
+	 * @var \Phile\ServiceLocator\CacheInterface the cache implementation
 	 */
 	protected $cache = null;
 
+	/**
+	 * the constructor
+	 */
 	public function __construct() {
 		if (ServiceLocator::hasService('Phile_Cache')) {
 			$this->cache = ServiceLocator::getService('Phile_Cache');

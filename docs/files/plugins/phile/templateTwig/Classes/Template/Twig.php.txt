@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Template engine class
+ */
 namespace Phile\Plugin\Phile\TemplateTwig\Template;
 
 use Phile\Event;
@@ -26,10 +28,15 @@ class Twig implements TemplateInterface {
 	protected $config;
 
 	/**
-	 * @var \Phile\Model\Page
+	 * @var \Phile\Model\Page the page model
 	 */
 	protected $page;
 
+	/**
+	 * the constructor
+	 *
+	 * @param mixed $config the configuration
+	 */
 	public function __construct($config = null) {
 		if (!is_null($config)) {
 			$this->config = $config;
@@ -37,10 +44,22 @@ class Twig implements TemplateInterface {
 		$this->settings = Registry::get('Phile_Settings');
 	}
 
+	/**
+	 * method to set the current page
+	 *
+	 * @param \Phile\Model\Page $page the page model
+	 *
+	 * @return mixed|void
+	 */
 	public function setCurrentPage(\Phile\Model\Page $page) {
 		$this->page = $page;
 	}
 
+	/**
+	 * method to render the page/template
+	 *
+	 * @return mixed|string
+	 */
 	public function render() {
 		$pageRepository = new \Phile\Repository\Page();
 		$output         = 'No template found!';
