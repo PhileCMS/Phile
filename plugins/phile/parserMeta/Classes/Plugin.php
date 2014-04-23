@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Plugin class
+ */
 namespace Phile\Plugin\Phile\ParserMeta;
 
 /**
@@ -12,10 +14,21 @@ namespace Phile\Plugin\Phile\ParserMeta;
  * @package Phile\Plugin\Phile\ParserMeta
  */
 class Plugin extends \Phile\Plugin\AbstractPlugin implements \Phile\Gateway\EventObserverInterface {
+	/**
+	 * the constructor
+	 */
 	public function __construct() {
 		\Phile\Event::registerEvent('plugins_loaded', $this);
 	}
 
+	/**
+	 * event method
+	 *
+	 * @param string $eventKey
+	 * @param null   $data
+	 *
+	 * @return mixed|void
+	 */
 	public function on($eventKey, $data = null) {
 		// check $eventKey for which you have registered
 		if ($eventKey == 'plugins_loaded') {

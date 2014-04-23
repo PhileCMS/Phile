@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Model class
+ */
 namespace Phile\Model;
 
 use Phile\Event;
@@ -14,12 +16,22 @@ use Phile\ServiceLocator;
  * @package Phile\Model
  */
 class Meta extends AbstractModel {
+
+	/**
+	 * the construtor
+	 * @param string $rawData the raw data to parse
+	 */
 	public function __construct($rawData = null) {
 		if ($rawData !== null) {
 			$this->setRawData($rawData);
 		}
 	}
 
+	/**
+	 * set the raw data to parse
+	 *
+	 * @param string $rawData the raw data
+	 */
 	public function setRawData($rawData) {
 		/**
 		 * @triggerEvent before_read_file_meta this event is triggered before the meta data readed and parsed
@@ -38,6 +50,11 @@ class Meta extends AbstractModel {
 		Event::triggerEvent('after_read_file_meta', array('rawData' => &$rawData, 'meta' => &$this));
 	}
 
+	/**
+	 * get formatted date
+	 *
+	 * @return bool|null|string
+	 */
 	public function getFormattedDate() {
 		global $config;
 		if (isset($this->data['date'])) {
@@ -47,6 +64,11 @@ class Meta extends AbstractModel {
 		return null;
 	}
 
+	/**
+	 * parse the raw data
+	 *
+	 * @param $rawData
+	 */
 	protected function parseRawData($rawData) {
 		/** @var \Phile\ServiceLocator\MetaInterface $metaParser */
 		$metaParser = ServiceLocator::getService('Phile_Parser_Meta');

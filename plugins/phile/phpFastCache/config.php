@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * config file for plugin
+ */
 $config = array(
 	/*
 	 * Default storage

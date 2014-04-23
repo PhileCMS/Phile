@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Interface for a service locator
+ */
 namespace Phile\ServiceLocator;
 
 /**

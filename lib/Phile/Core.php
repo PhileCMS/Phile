@@ -21,17 +21,17 @@ class Core {
 	protected $plugins;
 
 	/**
-	 * @var \Phile\Repository\Page
+	 * @var \Phile\Repository\Page the page repository
 	 */
 	protected $pageRepository;
 
 	/**
-	 * @var null|\Phile\Model\Page
+	 * @var null|\Phile\Model\Page the page model
 	 */
 	protected $page;
 
 	/**
-	 * @var string
+	 * @var string the output (rendered page)
 	 */
 	protected $output;
 
