@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * The page model
+ */
 namespace Phile\Model;
 
 use Phile\Event;
@@ -35,7 +37,7 @@ class Page {
 	protected $rawData;
 
 	/**
-	 * @var \Phile\ServiceLocator\ParserInterface
+	 * @var \Phile\ServiceLocator\ParserInterface the parser
 	 */
 	protected $parser;
 
@@ -45,6 +47,8 @@ class Page {
 	protected $url;
 
 	/**
+	 * the constructor
+	 *
 	 * @param        $filePath
 	 * @param string $folder
 	 */
@@ -81,6 +85,8 @@ class Page {
 	}
 
 	/**
+	 * method to get content of page, this method returned the parsed content
+	 *
 	 * @return mixed
 	 */
 	public function getContent() {
@@ -104,6 +110,8 @@ class Page {
 	}
 
 	/**
+	 * set content of page
+	 *
 	 * @param $content
 	 */
 	public function setContent($content) {
@@ -111,6 +119,8 @@ class Page {
 	}
 
 	/**
+	 * get the meta model
+	 *
 	 * @return Meta
 	 */
 	public function getMeta() {
@@ -137,13 +147,17 @@ class Page {
 	}
 
 	/**
-	 * @return null
+	 * get the title of page from meta information
+	 *
+	 * @return string|null
 	 */
 	public function getTitle() {
 		return $this->getMeta()->get('title');
 	}
 
 	/**
+	 * get the url of page
+	 *
 	 * @return string
 	 */
 	public function getUrl() {
@@ -151,6 +165,8 @@ class Page {
 	}
 
 	/**
+	 * set the filepath of the page
+	 *
 	 * @param string $filePath
 	 */
 	public function setFilePath($filePath) {
@@ -158,6 +174,8 @@ class Page {
 	}
 
 	/**
+	 * get the filepath of the page
+	 *
 	 * @return string
 	 */
 	public function getFilePath() {

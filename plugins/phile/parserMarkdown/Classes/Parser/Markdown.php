@@ -1,4 +1,7 @@
 <?php
+/**
+ * The Mardown parser class
+ */
 namespace Phile\Plugin\Phile\ParserMarkdown\Parser;
 
 use Michelf\MarkdownExtra;
@@ -13,9 +16,12 @@ use Phile\ServiceLocator\ParserInterface;
  * @package Phile\Plugin\Phile\ParserMarkdown\Parser
  */
 class Markdown implements ParserInterface {
+	/** @var mixed the configuration */
 	private $config;
 
 	/**
+	 * the constructor
+	 *
 	 * @param null $config
 	 */
 	public function __construct($config = null) {

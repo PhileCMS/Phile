@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * The SerciveLocator class
+ */
 namespace Phile;
 
 /**
@@ -28,6 +30,8 @@ class ServiceLocator {
 	);
 
 	/**
+	 * method to register a service
+	 *
 	 * @param string $serviceKey the key for the service
 	 * @param mixed  $object
 	 *

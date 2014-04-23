@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Registry class
+ */
 namespace Phile;
 
 /**
@@ -123,6 +125,8 @@ class Registry extends \ArrayObject {
 	}
 
 	/**
+	 * the constructor
+	 *
 	 * @param array   $array data array
 	 * @param integer $flags ArrayObject flags
 	 */
@@ -131,6 +135,8 @@ class Registry extends \ArrayObject {
 	}
 
 	/**
+	 * method to check if offset exists
+	 *
 	 * @param string $index
 	 *
 	 * @returns mixed

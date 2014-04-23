@@ -1,4 +1,7 @@
 <?php
+/**
+ * the configuration file
+ */
 
 return array(
 	'empty_element_suffix' => ' />',

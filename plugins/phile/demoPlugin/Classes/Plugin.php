@@ -32,6 +32,7 @@ class Plugin extends \Phile\Plugin\AbstractPlugin implements \Phile\Gateway\Even
 
 	/**
 	 * event method
+	 *
 	 * @param string $eventKey
 	 * @param null   $data
 	 *

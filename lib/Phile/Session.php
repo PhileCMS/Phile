@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * The Session class
+ */
 namespace Phile;
 
 /**

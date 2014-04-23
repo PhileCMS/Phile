@@ -1,4 +1,7 @@
 <?php
+/**
+ * the core of Phile
+ */
 namespace Phile;
 
 /**

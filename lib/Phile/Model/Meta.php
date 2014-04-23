@@ -19,6 +19,7 @@ class Meta extends AbstractModel {
 
 	/**
 	 * the construtor
+	 *
 	 * @param string $rawData the raw data to parse
 	 */
 	public function __construct($rawData = null) {

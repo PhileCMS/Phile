@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * The Phile Utility class
+ */
 namespace Phile;
 
 /**
@@ -13,6 +15,8 @@ namespace Phile;
 class Utility {
 
 	/**
+	 * method to get the current http protocoll
+	 *
 	 * @return string the current protocol
 	 */
 	public static function getProtocol() {
@@ -101,6 +105,8 @@ class Utility {
 	}
 
 	/**
+	 * method to get files from a directory
+	 *
 	 * @param string $directory
 	 * @param string $fileNamePattern
 	 *

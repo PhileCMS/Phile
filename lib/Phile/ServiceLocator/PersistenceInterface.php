@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * The Persistence ServiceLocator interface
+ */
 namespace Phile\ServiceLocator;
 
 /**

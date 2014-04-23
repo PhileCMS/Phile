@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * The PhpFastCache implemenation class
+ */
 namespace Phile\Plugin\Phile\PhpFastCache;
 
 /**
@@ -12,11 +14,13 @@ namespace Phile\Plugin\Phile\PhpFastCache;
  */
 class PhpFastCache implements \Phile\ServiceLocator\CacheInterface {
 	/**
-	 * @var \phpFastCache
+	 * @var \phpFastCache the cache engine
 	 */
 	protected $cacheEngine;
 
 	/**
+	 * the constructor
+	 *
 	 * @param \phpFastCache $cacheEngine
 	 */
 	public function __construct(\phpFastCache $cacheEngine) {
@@ -24,6 +28,8 @@ class PhpFastCache implements \Phile\ServiceLocator\CacheInterface {
 	}
 
 	/**
+	 * method to check if cache has entry for given key
+	 *
 	 * @param $key
 	 *
 	 * @return bool|mixed
@@ -33,6 +39,8 @@ class PhpFastCache implements \Phile\ServiceLocator\CacheInterface {
 	}
 
 	/**
+	 * method to get cache entry
+	 *
 	 * @param $key
 	 *
 	 * @return mixed|null
@@ -42,6 +50,8 @@ class PhpFastCache implements \Phile\ServiceLocator\CacheInterface {
 	}
 
 	/**
+	 * method to set cache entry
+	 *
 	 * @param string $key
 	 * @param string $value
 	 * @param int    $time
@@ -54,6 +64,8 @@ class PhpFastCache implements \Phile\ServiceLocator\CacheInterface {
 	}
 
 	/**
+	 * method to delete cache entry
+	 *
 	 * @param string $key
 	 * @param array  $options
 	 *

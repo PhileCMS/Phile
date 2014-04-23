@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Plugin class
+ */
 namespace Phile\Plugin;
 
 /**
