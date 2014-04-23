@@ -1,8 +1,9 @@
 <?php
 
-namespace Phile\Persistence;
+namespace Phile\Plugin\PhileSimpleFileDataPersistence\Persistence;
 
 use Phile\Exception;
+use Phile\ServiceLocator\PersistenceInterface;
 
 class SimpleFileDataPersistence implements PersistenceInterface {
 	protected $dataDirectory;

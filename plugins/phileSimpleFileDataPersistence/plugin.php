@@ -11,8 +11,7 @@ class PhileSimpleFileDataPersistence extends \Phile\Plugin\AbstractPlugin implem
 	public function on($eventKey, $data = null) {
 		// check $eventKey for which you have registered
 		if ($eventKey == 'plugins_loaded') {
-			require_once(\Phile\Utility::resolveFilePath('MOD:phileSimpleFileDataPersistence/lib/SimpleFileDataPersistence.php'));
-			\Phile\ServiceLocator::registerService('Phile_Data_Persistence', new \Phile\Persistence\SimpleFileDataPersistence());
+			\Phile\ServiceLocator::registerService('Phile_Data_Persistence', new \Phile\Plugin\PhileSimpleFileDataPersistence\Persistence\SimpleFileDataPersistence());
 		}
 	}
 }

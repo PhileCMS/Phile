@@ -1,6 +1,6 @@
 <?php
 
-namespace Phile\Template;
+namespace Phile\Plugin\PhileTemplateTwig\Template;
 
 use Phile\Registry;
 use Phile\Event;
