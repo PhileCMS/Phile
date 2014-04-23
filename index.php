@@ -20,8 +20,9 @@ spl_autoload_register(function ($className) {
 		if (strpos($className, "Phile\\Plugin\\") === 0) {
 			$className 		= substr($className, 13);
 			$classNameParts = explode('\\', $className);
+			$pluginVendor 	= lcfirst(array_shift($classNameParts));
 			$pluginName 	= lcfirst(array_shift($classNameParts));
-			$classPath		= array_merge(array($pluginName, 'Classes'), $classNameParts);
+			$classPath		= array_merge(array($pluginVendor, $pluginName, 'Classes'), $classNameParts);
 			$fileName 		= PLUGINS_DIR . implode(DIRECTORY_SEPARATOR, $classPath) . '.php';
 			if (file_exists($fileName)) {
 				require_once $fileName;

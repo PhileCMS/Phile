@@ -1,6 +1,6 @@
 <?php
 
-namespace Phile\Plugin\PhileSimpleFileDataPersistence\Persistence;
+namespace Phile\Plugin\Phile\SimpleFileDataPersistence\Persistence;
 
 use Phile\Exception;
 use Phile\ServiceLocator\PersistenceInterface;

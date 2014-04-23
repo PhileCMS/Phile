@@ -1,5 +1,5 @@
 <?php
-namespace Phile\Plugin\PhileParserMarkdown\Parser;
+namespace Phile\Plugin\Phile\ParserMarkdown\Parser;
 
 use \Michelf\MarkdownExtra;
 use \Phile\ServiceLocator\ParserInterface;

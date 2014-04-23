@@ -44,19 +44,19 @@ class Core {
 		$this->pageRepository = new \Phile\Repository\Page();
 
 		// Load the settings
-		$this->initConfiguration();
+		$this->initializeConfiguration();
 
 		// Setup Check
 		$this->checkSetup();
 
 		// Load plugins
-		$this->initPlugins();
+		$this->initializePlugins();
 
 		// init current page
-		$this->initCurrentPage();
+		$this->initializeCurrentPage();
 
 		// init template
-		$this->initTemplate();
+		$this->initializeTemplate();
 	}
 
 	/**
@@ -68,9 +68,9 @@ class Core {
 	}
 
 	/**
-	 * @return null
+	 * initialize the current page
 	 */
-	protected function initCurrentPage() {
+	protected function initializeCurrentPage() {
 		$uri    = (strpos($_SERVER['REQUEST_URI'], '?') !== false) ? substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], '?')) : $_SERVER['REQUEST_URI'];
 		$uri    = str_replace('/' . \Phile\Utility::getInstallPath() . '/', '', $uri);
 		/**
@@ -90,17 +90,21 @@ class Core {
 	}
 
 	/**
-	 * init plugins
+	 * initialize plugins
+	 *
+	 * @throws Exception
 	 */
-	protected function initPlugins() {
+	protected function initializePlugins() {
 		// check to see if there are plugins to be loaded
 		if (isset($this->settings['plugins']) && is_array($this->settings['plugins'])) {
 			foreach ($this->settings['plugins'] as $pluginKey => $pluginConfig) {
+				list($vendor, $pluginName) = explode('\\', $pluginKey);
+
 				if (isset($pluginConfig['active']) && $pluginConfig['active'] === true) {
 					// load plugin configuration...
 					$pluginConfiguration    = null;
 					// load the config file for the plugin
-					$configFile = \Phile\Utility::resolveFilePath("MOD:{$pluginKey}/config.php");
+					$configFile = \Phile\Utility::resolveFilePath("MOD:".$vendor.DIRECTORY_SEPARATOR.$pluginName.DIRECTORY_SEPARATOR."config.php");
 					if ($configFile !== null) {
 						$pluginConfiguration = \Phile\Utility::load($configFile);
 						$globalConfiguration = \Phile\Registry::get('Phile_Settings');
@@ -113,24 +117,20 @@ class Core {
 						$this->settings = $globalConfiguration;
 					}
 					// uppercase first letter convention
-					$pluginClassName    = ucfirst($pluginKey);
-					$pluginFile         = \Phile\Utility::resolveFilePath("MOD:{$pluginKey}/plugin.php");
-					if ($pluginFile !== null) {
-						include_once $pluginFile;
-					} else {
-						throw new \Phile\Exception("the plugin file 'MOD:{$pluginKey}/plugin.php' not exists");
+					$pluginClassName    = '\\Phile\\Plugin\\' . ucfirst($vendor) . '\\'. ucfirst($pluginName) . '\\Plugin';
+					if (!class_exists($pluginClassName)) {
+						throw new \Phile\Exception("the plugin '{$pluginKey}' could not be loaded!");
 					}
-					if (class_exists($pluginClassName)) {
-						$plugin = new $pluginClassName;
-						$plugin->injectSettings($pluginConfiguration);
-						if ($plugin instanceof \Phile\Plugin\AbstractPlugin) {
-							// register plugin
-							$this->plugins[$pluginKey] = $plugin;
-						} else {
-							throw new \Phile\Exception("the plugin '{$pluginKey}' is not an instance of \\Phile\\Plugin\\AbstractPlugin");
-						}
+
+					/** @var \Phile\Plugin\AbstractPlugin $plugin */
+					$plugin = new $pluginClassName;
+					$plugin->injectSettings($pluginConfiguration);
+
+					if ($plugin instanceof \Phile\Plugin\AbstractPlugin) {
+						// register plugin
+						$this->plugins[$pluginKey] = $plugin;
 					} else {
-						throw new \Phile\Exception("the class '{$pluginClassName}' not exists");
+						throw new \Phile\Exception("the plugin '{$pluginKey}' is not an instance of \\Phile\\Plugin\\AbstractPlugin");
 					}
 				}
 			}
@@ -148,9 +148,9 @@ class Core {
 	}
 
 	/**
-	 * init configuration
+	 * initialize configuration
 	 */
-	protected function initConfiguration() {
+	protected function initializeConfiguration() {
 		$defaults       = Utility::load(ROOT_DIR . '/default_config.php');
 		$localSettings  = Utility::load(ROOT_DIR . '/config.php');
 		if (is_array($localSettings)) {
@@ -163,6 +163,9 @@ class Core {
 		date_default_timezone_set($this->settings['timezone']);
 	}
 
+	/**
+	 * check the setup
+	 */
 	protected function checkSetup() {
 		/**
 		 * @triggerEvent before_setup_check this event is triggered before the setup check

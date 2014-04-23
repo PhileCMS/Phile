@@ -1,6 +1,6 @@
 <?php
 
-namespace Phile\Cache;
+namespace Phile\Plugin\Phile\PhpFastCache;
 
 class PhpFastCache implements \Phile\ServiceLocator\CacheInterface {
 	/**
