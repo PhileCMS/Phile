@@ -11,7 +11,7 @@ class PhileParserMarkdown extends \Phile\Plugin\AbstractPlugin implements \Phile
 	public function on($eventKey, $data = null) {
 		// check $eventKey for which you have registered
 		if ($eventKey == 'plugins_loaded') {
-			\Phile\ServiceLocator::registerService('Phile_Parser', new \Phile\Parser\Markdown($this->settings));
+			\Phile\ServiceLocator::registerService('Phile_Parser', new \Phile\Plugin\PhileParserMarkdown\Parser\Markdown($this->settings));
 		}
 	}
 }
