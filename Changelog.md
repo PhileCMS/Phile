@@ -9,7 +9,7 @@
 - plugin class: plugins/*VENDOR*/*PLUGINNAME*/Classes/Plugin.php (see demo plugin)
   - *VENDOR* = lowercase vendor name, e.g. mycompany (phile is reserved for the core plugins)
   - *PLUGINNAME* = first charactre lowercase, e.g. myPlugin
-- namespace: \Phile\Plugin\*VENDOR*\*PLUGINNAME*
+- namespace: \Phile\Plugin\\*VENDOR*\\*PLUGINNAME*
   - *VENDOR* = first character uppercase vendor name, e.g. Mycompany (Phile is reserved for the core plugins)
   - *PLUGINNAME* = first charactre uppercase, e.g. MyPlugin
 
