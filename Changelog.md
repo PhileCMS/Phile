@@ -8,10 +8,10 @@
 - class dir: plugins/*VENDOR*/*PLUGINNAME*/Classes/ (all classes autoloaded)
 - plugin class: plugins/*VENDOR*/*PLUGINNAME*/Classes/Plugin.php (see demo plugin)
   - *VENDOR* = lowercase vendor name, e.g. mycompany (phile is reserved for the core plugins)
-  - *PLUGINNAME* = first charactre lowercase, e.g. myPlugin
+  - *PLUGINNAME* = first character lowercase, e.g. myPlugin
 - namespace: \Phile\Plugin\\*VENDOR*\\*PLUGINNAME*
   - *VENDOR* = first character uppercase vendor name, e.g. Mycompany (Phile is reserved for the core plugins)
-  - *PLUGINNAME* = first charactre uppercase, e.g. MyPlugin
+  - *PLUGINNAME* = first character uppercase, e.g. MyPlugin
 
 - [x] #79 [TASK] preparations for version 1.0.0
 
