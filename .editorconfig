@@ -13,10 +13,10 @@ insert_final_newline = true
 
 # Tab indentation
 [*.js]
-indent_style = space
-indent_size = 2
+indent_style = tab
+indent_size = 4
 
 # Indentation for PHP files
 [*.php]
 indent_style = tab
-indent_size = 2
+indent_size = 4
