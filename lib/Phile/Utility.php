@@ -105,6 +105,18 @@ class Utility {
 	}
 
 	/**
+	 * check if a plugin is loaded
+	 * 
+	 * @param $plugin
+	 *
+	 * @return bool
+	 */
+	public static function isPluginLoaded($plugin) {
+		$config = \Phile\Registry::get('Phile_Settings');
+		return (isset($config['plugins'][$plugin]) && isset($config['plugins'][$plugin]['active']) && $config['plugins'][$plugin]['active'] === true);
+	}
+
+	/**
 	 * method to get files from a directory
 	 *
 	 * @param string $directory
