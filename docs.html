@@ -78,6 +78,7 @@ Title: Welcome
 Description: This description will go in the meta description tag
 Author: Joe Bloggs
 Date: 2013/01/01
+Date Updated: 2014/04/26
 Robots: noindex,nofollow
 */</code></pre>
         <p>Phile also allows HTML style block comments:</p>
@@ -86,9 +87,11 @@ Title: Welcome
 Description: This description will go in the meta description tag
 Author: Joe Bloggs
 Date: 2013/01/01
+Date Updated: 2014/04/26
 Robots: noindex,nofollow
 --&gt;</code></pre>
           <p>These values will be contained in the <code>{{ meta }}</code> variable in themes (see below).</p>
+          <p>If there is a space in the meta attribute (ex: Date Updated) then the key will be converted to a safe name. In this case <code>Date Updated</code> will become <code>{{ meta.date_updated }}</code> in the template.</p>
           <h3 id="themes-section">Themes</h3>
           <p>You can create themes for your Phile installation in the &quot;themes&quot; folder. Check out the default theme for an example of a theme. Phile uses <a href="http://twig.sensiolabs.org/documentation">Twig</a> for it&#39;s templating engine. You can select your theme by setting the <code>$config[&#39;theme&#39;]</code> variable in config.php to your theme folder.</p>
           <p>All themes must include an <code>index.html</code> file to define the HTML structure of the theme. Below are the Twig variables that are available to use in your theme:</p>
