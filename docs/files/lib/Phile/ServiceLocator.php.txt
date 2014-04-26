@@ -3,6 +3,7 @@
  * The SerciveLocator class
  */
 namespace Phile;
+use Phile\Exception\ServiceLocatorException;
 
 /**
  * the Service Locator class
@@ -27,6 +28,7 @@ class ServiceLocator {
 		'Phile_Parser'           => 'Phile\ServiceLocator\ParserInterface',
 		'Phile_Data_Persistence' => 'Phile\ServiceLocator\PersistenceInterface',
 		'Phile_Parser_Meta'      => 'Phile\ServiceLocator\MetaInterface',
+		'Phile_ErrorHandler'	 => 'Phile\ServiceLocator\ErrorHandlerInterface',
 	);
 
 	/**
@@ -41,7 +43,7 @@ class ServiceLocator {
 		$interfaces = class_implements($object);
 		$interface  = self::$serviceMap[$serviceKey];
 		if ($interfaces === false || !in_array($interface, $interfaces)) {
-			throw new Exception("the object must implement the interface: '{$interface}'");
+			throw new ServiceLocatorException("the object must implement the interface: '{$interface}'", 1398536617);
 		}
 		self::$services[$serviceKey] = $object;
 	}
@@ -67,7 +69,7 @@ class ServiceLocator {
 	 */
 	public static function getService($serviceKey) {
 		if (!isset(self::$services[$serviceKey])) {
-			throw new Exception("the service '{$serviceKey}' is not registered");
+			throw new ServiceLocatorException("the service '{$serviceKey}' is not registered", 1398536637);
 		}
 
 		return self::$services[$serviceKey];
