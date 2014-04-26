@@ -26,6 +26,8 @@ class ErrorLog implements ErrorHandlerInterface {
 	}
 
 	/**
+	 * handle all exceptions
+	 *
 	 * @param \Exception $exception
 	 *
 	 * @return mixed

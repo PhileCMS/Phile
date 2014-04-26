@@ -26,6 +26,8 @@ interface ErrorHandlerInterface {
 	public function handleError($errno, $errstr, $errfile, $errline, array $errcontext);
 
 	/**
+	 * handle all exceptions
+	 *
 	 * @param \Exception $exception
 	 *
 	 * @return mixed

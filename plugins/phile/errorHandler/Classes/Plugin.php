@@ -15,6 +15,7 @@ namespace Phile\Plugin\Phile\ErrorHandler;
  */
 class Plugin extends \Phile\Plugin\AbstractPlugin implements \Phile\Gateway\EventObserverInterface {
 	const HANDLER_ERROR_LOG		= 'error_log';
+	const HANDLER_DEVELOPMENT	= 'development';
 
 	/**
 	 * the constructor
@@ -37,6 +38,9 @@ class Plugin extends \Phile\Plugin\AbstractPlugin implements \Phile\Gateway\Even
 			switch ($this->settings['handler']) {
 				case Plugin::HANDLER_ERROR_LOG:
 					\Phile\ServiceLocator::registerService('Phile_ErrorHandler', new \Phile\Plugin\Phile\ErrorHandler\ErrorLog($this->settings));
+				break;
+				case Plugin::HANDLER_DEVELOPMENT:
+					\Phile\ServiceLocator::registerService('Phile_ErrorHandler', new \Phile\Plugin\Phile\ErrorHandler\Development($this->settings));
 				break;
 			}
 		}
