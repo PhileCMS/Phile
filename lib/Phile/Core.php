@@ -54,6 +54,9 @@ class Core {
 		// Load plugins
 		$this->initializePlugins();
 
+		// init error handler
+		$this->initializeErrorHandling();
+
 		// init current page
 		$this->initializeCurrentPage();
 
@@ -165,6 +168,16 @@ class Core {
 
 		\Phile\Registry::set('Phile_Settings', $this->settings);
 		date_default_timezone_set($this->settings['timezone']);
+	}
+
+	/**
+	 * initialize error handling
+	 */
+	protected function initializeErrorHandling() {
+		if (ServiceLocator::hasService('Phile_ErrorHandler')) {
+			$errorHandler = ServiceLocator::getService('Phile_ErrorHandler');
+			set_error_handler(array($errorHandler, 'handleError'));
+		}
 	}
 
 	/**

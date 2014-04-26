@@ -19,6 +19,7 @@ $config['timezone']       = (ini_get('date.timezone')) ? ini_get('date.timezone'
 $config['plugins'] = array(
 	// key = vendor\\pluginName (vendor lowercase, pluginName lowerCamelCase
 	'phile\\demoPlugin'                => array('active' => false),
+	'phile\\errorHandler'              => array('active' => true), // the default error handler
 	'phile\\parserMarkdown'            => array('active' => true), // the default parser
 	'phile\\parserMeta'                => array('active' => true), // the default parser
 	'phile\\templateTwig'              => array('active' => true), // the default template engine

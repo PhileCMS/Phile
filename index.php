@@ -39,5 +39,19 @@ spl_autoload_register(function ($className) {
 
 require(ROOT_DIR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
 
-$phileCore = new \Phile\Core();
-echo $phileCore->render();
+try {
+	$phileCore = new \Phile\Core();
+	echo $phileCore->render();
+} catch (\Phile\Exception $e) {
+	if (\Phile\ServiceLocator::hasService('Phile_ErrorHandler')) {
+		/** @var \Phile\ServiceLocator\ErrorHandlerInterface $errorHandler */
+		$errorHandler = \Phile\ServiceLocator::getService('Phile_ErrorHandler');
+		$errorHandler->handleException($e);
+	}
+} catch (\Exception $e) {
+	if (\Phile\ServiceLocator::hasService('Phile_ErrorHandler')) {
+		/** @var \Phile\ServiceLocator\ErrorHandlerInterface $errorHandler */
+		$errorHandler = \Phile\ServiceLocator::getService('Phile_ErrorHandler');
+		$errorHandler->handleException($e);
+	}
+}

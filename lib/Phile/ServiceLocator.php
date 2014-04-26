@@ -27,6 +27,7 @@ class ServiceLocator {
 		'Phile_Parser'           => 'Phile\ServiceLocator\ParserInterface',
 		'Phile_Data_Persistence' => 'Phile\ServiceLocator\PersistenceInterface',
 		'Phile_Parser_Meta'      => 'Phile\ServiceLocator\MetaInterface',
+		'Phile_ErrorHandler'	 => 'Phile\ServiceLocator\ErrorHandlerInterface',
 	);
 
 	/**
