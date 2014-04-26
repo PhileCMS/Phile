@@ -113,7 +113,7 @@ class Core {
 						$pluginConfiguration = \Phile\Utility::load($configFile);
 						$globalConfiguration = \Phile\Registry::get('Phile_Settings');
 						if ($pluginConfiguration !== null && is_array($pluginConfiguration)) {
-							$globalConfiguration['plugins'][$pluginKey]['settings'] = $pluginConfiguration;
+							$globalConfiguration['plugins'][$pluginKey]['settings'] = array_replace_recursive($pluginConfiguration, $globalConfiguration['plugins'][$pluginKey]);
 						} else {
 							$globalConfiguration['plugins'][$pluginKey]['settings'] = array();
 						}
@@ -128,7 +128,7 @@ class Core {
 
 					/** @var \Phile\Plugin\AbstractPlugin $plugin */
 					$plugin = new $pluginClassName;
-					$plugin->injectSettings($pluginConfiguration);
+					$plugin->injectSettings($globalConfiguration['plugins'][$pluginKey]['settings']);
 
 					if ($plugin instanceof \Phile\Plugin\AbstractPlugin) {
 						// register plugin
