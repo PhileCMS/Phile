@@ -103,6 +103,7 @@ class Core {
 	 * @throws Exception
 	 */
 	protected function initializePlugins() {
+		$loadingErrors = array();
 		// check to see if there are plugins to be loaded
 		if (isset($this->settings['plugins']) && is_array($this->settings['plugins'])) {
 			foreach ($this->settings['plugins'] as $pluginKey => $pluginConfig) {
@@ -127,6 +128,8 @@ class Core {
 					// uppercase first letter convention
 					$pluginClassName = '\\Phile\\Plugin\\' . ucfirst($vendor) . '\\' . ucfirst($pluginName) . '\\Plugin';
 					if (!class_exists($pluginClassName)) {
+						$loadingErrors[] = array("the plugin '{$pluginKey}' could not be loaded!", 1398536479);
+						continue;
 						throw new PluginException("the plugin '{$pluginKey}' could not be loaded!", 1398536479);
 					}
 
@@ -138,6 +141,8 @@ class Core {
 						// register plugin
 						$this->plugins[$pluginKey] = $plugin;
 					} else {
+						$loadingErrors[] = array("the plugin '{$pluginKey}' is not an instance of \\Phile\\Plugin\\AbstractPlugin", 1398536526);
+						continue;
 						throw new PluginException("the plugin '{$pluginKey}' is not an instance of \\Phile\\Plugin\\AbstractPlugin", 1398536526);
 					}
 				}
@@ -148,6 +153,10 @@ class Core {
 		 * This is also where we load the parser, since it is a plugin also. We use the Markdown parser as default. See it in the plugins folder and lib/Phile/Parser/Markdown.php
 		 */
 		Event::triggerEvent('plugins_loaded');
+
+		if (count($loadingErrors) > 0) {
+			throw new PluginException($loadingErrors[0][0], $loadingErrors[0][1]);
+		}
 
 		/**
 		 * @triggerEvent config_loaded this event is triggered after the configuration is fully loaded
