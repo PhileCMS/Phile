@@ -3,6 +3,7 @@
  * the core of Phile
  */
 namespace Phile;
+use Phile\Exception\PluginException;
 
 /**
  * Phile
@@ -126,7 +127,7 @@ class Core {
 					// uppercase first letter convention
 					$pluginClassName = '\\Phile\\Plugin\\' . ucfirst($vendor) . '\\' . ucfirst($pluginName) . '\\Plugin';
 					if (!class_exists($pluginClassName)) {
-						throw new \Phile\Exception("the plugin '{$pluginKey}' could not be loaded!");
+						throw new PluginException("the plugin '{$pluginKey}' could not be loaded!", 1398536479);
 					}
 
 					/** @var \Phile\Plugin\AbstractPlugin $plugin */
@@ -137,7 +138,7 @@ class Core {
 						// register plugin
 						$this->plugins[$pluginKey] = $plugin;
 					} else {
-						throw new \Phile\Exception("the plugin '{$pluginKey}' is not an instance of \\Phile\\Plugin\\AbstractPlugin");
+						throw new PluginException("the plugin '{$pluginKey}' is not an instance of \\Phile\\Plugin\\AbstractPlugin", 1398536526);
 					}
 				}
 			}

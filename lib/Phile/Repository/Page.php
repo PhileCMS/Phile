@@ -141,7 +141,7 @@ class Page {
 						unset($pages);
 						$pages = $sorted_pages;
 					} else {
-						throw new Exception("unknown key '{$options['pages_order_by']}' for pages_order_by");
+						throw new Exception\RepositoryException("unknown key '{$options['pages_order_by']}' for pages_order_by");
 					}
 					break;
 			}
