@@ -47,7 +47,7 @@ class Meta implements MetaInterface {
 		$result  = array();
 		foreach ($headers as $line) {
 			$parts        = explode(':', $line, 2);
-			$key          = strtolower(array_shift($parts));
+			$key          = preg_replace('/[^\w+]/', '_', strtolower(array_shift($parts))); // replace all special characters with underscores
 			$val          = implode($parts);
 			$result[$key] = trim($val);
 		}
