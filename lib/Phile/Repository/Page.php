@@ -114,6 +114,7 @@ class Page {
 						$metaKey      = str_replace('meta:', '', strtolower($options['pages_order_by']));
 						$sorted_pages = array();
 						foreach ($pages as $page) {
+							/** @var \Phile\Model\Page $page */
 							if ($page->getMeta()->get($metaKey) !== null) {
 								$key = '_' . $page->getMeta()->get($metaKey);
 								if (array_key_exists($key, $sorted_pages)) {

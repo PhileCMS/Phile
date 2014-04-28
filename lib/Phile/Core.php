@@ -80,6 +80,7 @@ class Core {
 	protected function initializeCurrentPage() {
 		$uri = (strpos($_SERVER['REQUEST_URI'], '?') !== false) ? substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], '?')) : $_SERVER['REQUEST_URI'];
 		$uri = str_replace('/' . \Phile\Utility::getInstallPath() . '/', '', $uri);
+		$uri = (strpos($uri, '/') === 0) ? substr($uri, 1) : $uri;
 		/**
 		 * @triggerEvent request_uri this event is triggered after the request uri is detected.
 		 *
@@ -130,7 +131,6 @@ class Core {
 					if (!class_exists($pluginClassName)) {
 						$loadingErrors[] = array("the plugin '{$pluginKey}' could not be loaded!", 1398536479);
 						continue;
-						throw new PluginException("the plugin '{$pluginKey}' could not be loaded!", 1398536479);
 					}
 
 					/** @var \Phile\Plugin\AbstractPlugin $plugin */
@@ -143,7 +143,6 @@ class Core {
 					} else {
 						$loadingErrors[] = array("the plugin '{$pluginKey}' is not an instance of \\Phile\\Plugin\\AbstractPlugin", 1398536526);
 						continue;
-						throw new PluginException("the plugin '{$pluginKey}' is not an instance of \\Phile\\Plugin\\AbstractPlugin", 1398536526);
 					}
 				}
 			}
