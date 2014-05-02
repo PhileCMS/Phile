@@ -1,45 +1,32 @@
 body  {
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    background: #b5bdc8; /* Old browsers */
-    /* IE9 SVG, needs conditional override of 'filter' to 'none' */
-    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPHJhZGlhbEdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgY3g9IjUwJSIgY3k9IjUwJSIgcj0iNzUlIj4KICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNiNWJkYzgiIHN0b3Atb3BhY2l0eT0iMSIvPgogICAgPHN0b3Agb2Zmc2V0PSIzNiUiIHN0b3AtY29sb3I9IiM4MjhjOTUiIHN0b3Atb3BhY2l0eT0iMSIvPgogICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMjgzNDNiIiBzdG9wLW9wYWNpdHk9IjEiLz4KICA8L3JhZGlhbEdyYWRpZW50PgogIDxyZWN0IHg9Ii01MCIgeT0iLTUwIiB3aWR0aD0iMTAxIiBoZWlnaHQ9IjEwMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
-    background: -moz-radial-gradient(center, ellipse cover,  #b5bdc8 0%, #828c95 36%, #28343b 100%); /* FF3.6+ */
-    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#b5bdc8), color-stop(36%,#828c95), color-stop(100%,#28343b)); /* Chrome,Safari4+ */
-    background: -webkit-radial-gradient(center, ellipse cover,  #b5bdc8 0%,#828c95 36%,#28343b 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-radial-gradient(center, ellipse cover,  #b5bdc8 0%,#828c95 36%,#28343b 100%); /* Opera 12+ */
-    background: -ms-radial-gradient(center, ellipse cover,  #b5bdc8 0%,#828c95 36%,#28343b 100%); /* IE10+ */
-    background: radial-gradient(ellipse at center,  #b5bdc8 0%,#828c95 36%,#28343b 100%); /* W3C */
+    font: normal normal normal 14px/1.4 Arial, sans-serif;
+    background: white;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    -moz-osx-font-smoothing: grayscale;
 }
+
 header {
     position: absolute;
 }
+
 pre {
-    font-family: 'Courier New', serif;
+    font-family: "Lucida Console", Monaco, monospace;
     margin: 0;
-    font-size: 13px;
-    color: #515151;
-    background-color: #D0D0D0;
+    color: rgba(255,255,255,0.5);
     padding-left: 30px;
-    -webkit-border-radius: 0 0 5px 5px;
-    border-radius: 0 0 5px 5px;
+    background: #1f1f1f;
 }
 pre.entry {
-    color: #69A550;
-    background-color: #414141;
+    color: #FFF;
     padding: 4px 2px 2px 2px;
-    -webkit-border-radius: 5px;
-    border-radius: 5px;
     margin-bottom: 10px;
+    background: #1f1f1f;
 }
 .main {
-    background-color: #B9B9B9;
-    color: #515151;
     margin: 30px 30px 30px 140px;
     padding: 0;
     padding-bottom: 2px;
-    -webkit-border-radius: 15px;
-    border-radius: 15px;
 }
 .header {
     font-size: 14px;
@@ -47,8 +34,6 @@ pre.entry {
     color: #fff;
     padding: 8px;
     margin: 0 0 6px 0;
-    -webkit-border-radius: 15px 15px 0 0;
-    border-radius: 15px 15px 0 0;
 }
 .body {
     padding: 0 8px;
@@ -58,12 +43,12 @@ pre.entry {
     color: #a33236;
 }
 .exception {
-    color: #358813;
+    color: #acc23a;
     font-weight: bold;
     font-family: 'Courier New', serif;
 }
 .file {
-    color: #358813;
+    color: #acc23a;
     font-weight: bold;
     font-family: 'Courier New', serif;
 }
@@ -77,17 +62,16 @@ pre.entry {
     color: #fff;
 }
 .class {
-    color: #358813;
+    color: #acc23a;
     font-style: italic;
 }
-.number {
-    color: #365bff;
-}
-.others {
-    color: #365bff;
+.number, .others {
+    font-weight: bold;
+    color: #6894d1;
 }
 .index {
-    color: #fff;
+    color: #b581cf;
+    font-weight: bold;
     margin-left: 5px;
 }
 .funcArguments {
@@ -99,8 +83,13 @@ pre.entry {
     padding: 3px;
 }
 .currentRow {
-    background-color: #F1F1F1;
-    color: black;
+    background-color: #A33236;
+    color: white;
+    text-shadow: 0 1px 0 rgba(0,0,0,0.2);
     display: block;
+}
+.currentRow .index {
+    color: white;
+    font-weight: normal;
 }
 a {color: inherit;}
