@@ -5,6 +5,7 @@
 namespace Phile\Model;
 
 use Phile\Event;
+use Phile\Registry;
 use Phile\ServiceLocator;
 
 /**
@@ -200,17 +201,10 @@ class Page {
 	public function getPreviousPage() {
 		if ($this->previousPage === null) {
 			$pageRepository = new \Phile\Repository\Page();
-			$allPages = $pageRepository->findAll();
-
-			foreach ($allPages as $page) {
-				/** @var \Phile\Model\Page $page */
-				if ($page->getFilePath() === $this->getFilePath()) {
-					return $this->previousPage;
-				}
-				$this->previousPage = $page;
-			}
-			// no previous page found...
-			$this->previousPage = null;
+			$settings = Registry::get('Phile_Settings');
+			$allPages = $pageRepository->findAll($settings);
+			$place = array_search($this, array_values($allPages));
+			$this->previousPage = $allPages[array_keys($allPages)[$place - 1]];
 		}
 		return $this->previousPage;
 	}
@@ -223,19 +217,10 @@ class Page {
 	public function getNextPage() {
 		if ($this->nextPage === null) {
 			$pageRepository = new \Phile\Repository\Page();
-			$allPages = $pageRepository->findAll();
-			$currentPageFound = false;
-
-			foreach ($allPages as $page) {
-				/** @var \Phile\Model\Page $page */
-				if ($currentPageFound) {
-					$this->nextPage = $page;
-					return $this->nextPage;
-				}
-				if ($page->getFilePath() === $this->getFilePath()) {
-					$currentPageFound = true;
-				}
-			}
+			$settings = Registry::get('Phile_Settings');
+			$allPages = $pageRepository->findAll($settings);
+			$place = array_search('_'.$this->getMeta()->get('title'), array_keys($allPages));
+			$this->nextPage = $allPages[array_keys($allPages)[$place + 1]];
 		}
 		return $this->nextPage;
 	}
