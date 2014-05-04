@@ -219,6 +219,9 @@ class Page {
 			$pageRepository = new \Phile\Repository\Page();
 			$settings = Registry::get('Phile_Settings');
 			$allPages = $pageRepository->findAll($settings);
+			// for some reason using the same code as above returns false
+			// so I have to use this array keys hack
+			// not great, but it seems to work
 			$place = array_search('_'.$this->getMeta()->get('title'), array_keys($allPages));
 			$this->nextPage = $allPages[array_keys($allPages)[$place + 1]];
 		}
