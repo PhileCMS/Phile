@@ -37,7 +37,7 @@ spl_autoload_register(function ($className) {
 	}
 });
 
-require(ROOT_DIR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
+require(LIB_DIR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
 
 ob_start();
 
