@@ -14,7 +14,7 @@ $config = array(
 	 * Use full PATH like /home/username/cache
 	 * Keep it blank "", it will automatic setup for you
 	 */
-	"path"        => ROOT_DIR . "temp/cache/", // default path for files
+	"path"        => CACHE_DIR, // default path for files
 	"securityKey" => "", // default will good. It will create a path by PATH/securityKey
 
 	/*
