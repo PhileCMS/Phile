@@ -23,7 +23,7 @@ class SimpleFileDataPersistence implements PersistenceInterface {
 	 * the constructor
 	 */
 	public function __construct() {
-		$this->dataDirectory = ROOT_DIR . 'datastorage/';
+		$this->dataDirectory = LIB_DIR . 'datastorage/';
 	}
 
 	/**
