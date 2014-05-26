@@ -44,8 +44,8 @@ class Page {
 			$file = $folder . $path . CONTENT_EXT;
 		}
 		if ($file == null) {
-			if (file_exists($folder . $path . '/index' . CONTENT_EXT)) {
-				$file = $folder . $path . '/index' . CONTENT_EXT;
+			if (file_exists($folder . $path . 'index' . CONTENT_EXT)) {
+				$file = $folder . $path . 'index' . CONTENT_EXT;
 			}
 		}
 
