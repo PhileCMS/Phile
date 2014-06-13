@@ -1,6 +1,6 @@
 <?php
 
-define('PHILE_VERSION',    '0.9.2');
+define('PHILE_VERSION',    '0.9.3');
 define('ROOT_DIR',         realpath(dirname(__FILE__)) . DIRECTORY_SEPARATOR);
 define('CONTENT_DIR',      ROOT_DIR . 'content' . DIRECTORY_SEPARATOR);
 define('CONTENT_EXT',      '.md');
