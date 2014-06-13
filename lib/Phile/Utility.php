@@ -61,11 +61,8 @@ class Utility {
 	 */
 	public static function resolveFilePath($path) {
 		// resolve MOD: prefix
-		if (strtoupper(substr($path, 0, 3)) == 'MOD') {
+		if (strtoupper(substr($path, 0, 3)) === 'MOD') {
 			$path = str_ireplace('mod:', PLUGINS_DIR, $path);
-			if (file_exists($path)) {
-				return $path;
-			}
 		}
 		// check if file exists
 		if (file_exists($path)) {
