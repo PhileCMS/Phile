@@ -6,7 +6,7 @@
  * @license http://opensource.org/licenses/MIT
  * @package Phile
  */
-define('PHILE_VERSION',    '1.0.0');
+define('PHILE_VERSION',    '1.1.0');
 define('ROOT_DIR',         realpath(dirname(__FILE__)) . DIRECTORY_SEPARATOR);
 define('CONTENT_DIR',      ROOT_DIR . 'content' . DIRECTORY_SEPARATOR);
 define('CONTENT_EXT',      '.md');
