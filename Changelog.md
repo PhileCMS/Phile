@@ -1,5 +1,12 @@
 # Changelog
 
+## Release v1.1.1
+
+- [x] [f927f41]("https://github.com/AUTHOR/REPO/commit/f927f41d6246b5f1bf72669d63e02ceb6333337b") by james2doyle - **update default michelf/markdown version to 1.4**
+- [x] [2d6384d]("https://github.com/AUTHOR/REPO/commit/2d6384d1feecf61a0c7cab57d2620cb6fb16484c") by james2doyle - update composer.json description, keywords, markdown version and plugin installer version.
+- [x] [e70e03d]("https://github.com/AUTHOR/REPO/commit/e70e03da11e10961bbf3b1a8317a2b32c214b628") by james2doyle - add notes about first run
+- [x] [601fa5c]("https://github.com/AUTHOR/REPO/commit/601fa5cb7a74c8935175d6ba024920b422f70a1c") by james2doyle - lots of updates to the 1.1 readme
+
 ## Release v1.1.0
 
 - [x] [67e07b5]("https://github.com/PhileCMS/Phile/commit/67e07b546bca5b274ea413101f04b08545dda94c") by Frank Nägler - Merge pull request #93 from PhileCMS/1.0.0/dir-organize
