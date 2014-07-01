@@ -48,7 +48,7 @@ Once a plugin is installed, you then need to enable it. Check out the [default_c
 To install via composer, you would run:
 
 ```php
-composer require phile/markdown-extra-extended:dev-master
+composer require phile/rss-feed:dev-master
 ```
 
 ##### With git
