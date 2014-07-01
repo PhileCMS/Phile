@@ -35,6 +35,8 @@ Here is a small list of differences in design from typical flat-file CMSs:
 
 Open the root of PhileCMS on you web server. If you are using MAMP, that would be [http://localhost:8888/Phile](http://localhost:8888/Phile). Using WAMP, [http://localhost/Phile](http://localhost/Phile). If you are using something else, you probably know how to run a typical PHP site.
 
+On first run you will hit a setup page. **Follow the instructions to complete the installation**.
+
 ## Plugins
 
 Phile can be extended with a wide variety of plugins. You can also overwrite the default plugins in order to add extra functionality, speed, or features.
