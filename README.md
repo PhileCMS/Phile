@@ -1,6 +1,8 @@
 Phile
 =====
 
+**[find the pre-release v1 here](https://github.com/PhileCMS/Phile/tree/release/1.0.0)**
+
 A Markdown file-based CMS.
 
 [Check out the starter video](http://www.youtube.com/watch?v=8GLMe371RuI), or [read the wiki for in-depth documenation](https://github.com/PhileCMS/Phile/wiki/_pages).
