@@ -2,8 +2,8 @@
     "name": "phile-cms/phile",
     "version": "1.1.0",
     "type": "project",
-    "description": "A Markdown file-based CMS.",
-    "keywords": ["cms","markdown"],
+    "description": "A file-based CMS with a swappable parser, template engine, cache and storage services, error handler, and meta parser.",
+    "keywords": ["cms", "markdown", "flat", "file", "twig", "plugins"],
     "homepage": "http://philecms.com",
     "license": "MIT",
     "authors": [
@@ -26,7 +26,7 @@
     "require": {
         "php": ">=5.3.0",
         "twig/twig": "1.15.*",
-        "michelf/php-markdown": "1.3",
-        "phile-cms/plugin-installer-plugin": "1.0.0"
+        "michelf/php-markdown": "1.4",
+        "phile-cms/plugin-installer-plugin": "dev-master"
     }
 }
