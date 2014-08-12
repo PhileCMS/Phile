@@ -83,7 +83,7 @@ class Page {
 		 * @param string content the raw data
 		 * @param \Phile\Model\Page page the page model
 		 */
-		Event::triggerEvent('before_parse_content', array('content' => $this->content, 'page' => &$this));
+		Event::triggerEvent('before_parse_content', array('content' => &$this->content, 'page' => &$this));
 		$content = $this->parser->parse($this->content);
 		/**
 		 * @triggerEvent after_parse_content this event is triggered after the content is parsed
