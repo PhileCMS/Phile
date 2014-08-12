@@ -140,7 +140,7 @@ class Page {
 							krsort($sorted_pages);
 						}
 						unset($pages);
-						$pages = $sorted_pages;
+						$pages = array_values($sorted_pages);
 					} else {
 						throw new Exception\RepositoryException("unknown key '{$options['pages_order_by']}' for pages_order_by");
 					}
