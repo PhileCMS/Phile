@@ -44,8 +44,10 @@ class Page {
 	/**
 	 * the constructor
 	 */
-	public function __construct($settings = []) {
-		$this->settings = $settings;
+	public function __construct($settings = null) {
+		if ($settings === null) {
+			$this->settings = \Phile\Registry::get('Phile_Settings');
+		}
 		if (ServiceLocator::hasService('Phile_Cache')) {
 			$this->cache = ServiceLocator::getService('Phile_Cache');
 		}
@@ -174,9 +176,7 @@ class Page {
 	 * @return null|\Phile\Model\Page
 	 */
 	public function getPageOffset(\Phile\Model\Page $page, $offset = 0) {
-		if (empty($this->order)) {
-			$this->findAll();
-		}
+		$this->findAll();
 		$key = array_search($page->getFilePath(), $this->order) + $offset;
 		if (!isset($this->order[$key])) {
 			return null;
@@ -202,11 +202,11 @@ class Page {
 			if ($this->cache->has($key)) {
 				$page = $this->cache->get($key);
 			} else {
-				$page = new \Phile\Model\Page($filePath, $folder, $this);
+				$page = new \Phile\Model\Page($filePath, $folder);
 				$this->cache->set($key, $page);
 			}
 		} else {
-			$page = new \Phile\Model\Page($filePath, $folder, $this);
+			$page = new \Phile\Model\Page($filePath, $folder);
 		}
 		$this->storage[$key] = $page;
 

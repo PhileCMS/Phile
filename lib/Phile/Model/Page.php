@@ -16,12 +16,6 @@ use Phile\ServiceLocator;
  * @package Phile\Model
  */
 class Page {
-
-	/**
-	 * @var \Phile\Repository\Page
-	 */
-	public $pageRepository;
-
 	/**
 	 * @var \Phile\Model\Meta the meta model
 	 */
@@ -67,11 +61,9 @@ class Page {
 	 *
 	 * @param        $filePath
 	 * @param string $folder
-	 * @param mixed $pageRepository null or \Phile\Repository\Page
 	 */
-	public function __construct($filePath, $folder = CONTENT_DIR, $pageRepository = null) {
+	public function __construct($filePath, $folder = CONTENT_DIR) {
 		$this->filePath = $filePath;
-		$this->pageRepository = $pageRepository;
 
 		/**
 		 * @triggerEvent before_load_content this event is triggered before the content is loaded
@@ -206,10 +198,8 @@ class Page {
 	 * @return null|\Phile\Model\Page
 	 */
 	public function getPreviousPage() {
-		if (!$this->pageRepository) {
-			return null;
-		}
-		return $this->pageRepository->getPageOffset($this, 1);
+		$pageRepository = new \Phile\Repository\Page();
+		return $pageRepository->getPageOffset($this, 1);
 	}
 
 	/**
@@ -218,9 +208,7 @@ class Page {
 	 * @return null|\Phile\Model\Page
 	 */
 	public function getNextPage() {
-		if (!$this->pageRepository) {
-			return null;
-		}
-		return $this->pageRepository->getPageOffset($this, -1);
+		$pageRepository = new \Phile\Repository\Page();
+		return $pageRepository->getPageOffset($this, -1);
 	}
 }

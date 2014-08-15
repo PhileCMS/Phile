@@ -47,7 +47,7 @@ class Core {
 		// Load the settings
 		$this->initializeConfiguration();
 
-		$this->pageRepository = new \Phile\Repository\Page($this->settings);
+		$this->pageRepository = new \Phile\Repository\Page();
 
 		// Setup Check
 		$this->checkSetup();
