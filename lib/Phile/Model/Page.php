@@ -16,6 +16,12 @@ use Phile\ServiceLocator;
  * @package Phile\Model
  */
 class Page {
+
+	/**
+	 * @var \Phile\Repository\Page
+	 */
+	public $pageRepository;
+
 	/**
 	 * @var \Phile\Model\Meta the meta model
 	 */
@@ -61,9 +67,11 @@ class Page {
 	 *
 	 * @param        $filePath
 	 * @param string $folder
+	 * @param mixed $pageRepository null or \Phile\Repository\Page
 	 */
-	public function __construct($filePath, $folder = CONTENT_DIR) {
+	public function __construct($filePath, $folder = CONTENT_DIR, $pageRepository = null) {
 		$this->filePath = $filePath;
+		$this->pageRepository = $pageRepository;
 
 		/**
 		 * @triggerEvent before_load_content this event is triggered before the content is loaded
@@ -198,21 +206,10 @@ class Page {
 	 * @return null|\Phile\Model\Page
 	 */
 	public function getPreviousPage() {
-		if ($this->previousPage === null) {
-			$pageRepository = new \Phile\Repository\Page();
-			$allPages = $pageRepository->findAll();
-
-			foreach ($allPages as $page) {
-				/** @var \Phile\Model\Page $page */
-				if ($page->getFilePath() === $this->getFilePath()) {
-					return $this->previousPage;
-				}
-				$this->previousPage = $page;
-			}
-			// no previous page found...
-			$this->previousPage = null;
+		if (!$this->pageRepository) {
+			return null;
 		}
-		return $this->previousPage;
+		return $this->pageRepository->getPageOffset($this, 1);
 	}
 
 	/**
@@ -221,22 +218,9 @@ class Page {
 	 * @return null|\Phile\Model\Page
 	 */
 	public function getNextPage() {
-		if ($this->nextPage === null) {
-			$pageRepository = new \Phile\Repository\Page();
-			$allPages = $pageRepository->findAll();
-			$currentPageFound = false;
-
-			foreach ($allPages as $page) {
-				/** @var \Phile\Model\Page $page */
-				if ($currentPageFound) {
-					$this->nextPage = $page;
-					return $this->nextPage;
-				}
-				if ($page->getFilePath() === $this->getFilePath()) {
-					$currentPageFound = true;
-				}
-			}
+		if (!$this->pageRepository) {
+			return null;
 		}
-		return $this->nextPage;
+		return $this->pageRepository->getPageOffset($this, -1);
 	}
 }

@@ -44,10 +44,10 @@ class Core {
 	 * Does URL routing, Markdown processing and Twig processing.
 	 */
 	public function __construct() {
-		$this->pageRepository = new \Phile\Repository\Page();
-
 		// Load the settings
 		$this->initializeConfiguration();
+
+		$this->pageRepository = new \Phile\Repository\Page($this->settings);
 
 		// Setup Check
 		$this->checkSetup();

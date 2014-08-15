@@ -61,7 +61,7 @@ class Twig implements TemplateInterface {
 	 * @return mixed|string
 	 */
 	public function render() {
-		$pageRepository = new \Phile\Repository\Page();
+		$pageRepository = new \Phile\Repository\Page($this->settings);
 		$output         = 'No template found!';
 		if (file_exists(THEMES_DIR . $this->settings['theme'])) {
 			$loader = new \Twig_Loader_Filesystem(THEMES_DIR . $this->settings['theme']);
@@ -82,7 +82,7 @@ class Twig implements TemplateInterface {
 				'current_page' => $this->page,
 				'meta'         => $this->page->getMeta(),
 				'content'      => $this->page->getContent(),
-				'pages'        => $pageRepository->findAll($this->settings),
+				'pages'        => $pageRepository->findAll(),
 			);
 
 			if (Registry::isRegistered('templateVars')) {

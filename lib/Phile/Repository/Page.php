@@ -22,6 +22,16 @@ class Page {
 	const ORDER_DESC = 'desc';
 
 	/**
+	 * @var array file-paths to pages in sorted order
+	 */
+	protected $order;
+
+	/**
+	 * @var array the settings array
+	 */
+	protected $settings;
+
+	/**
 	 * @var array object storage for initialized objects, to prevent multiple loading of objects.
 	 */
 	protected $storage = array();
@@ -34,7 +44,8 @@ class Page {
 	/**
 	 * the constructor
 	 */
-	public function __construct() {
+	public function __construct($settings = []) {
+		$this->settings = $settings;
 		if (ServiceLocator::hasService('Phile_Cache')) {
 			$this->cache = ServiceLocator::getService('Phile_Cache');
 		}
@@ -76,7 +87,8 @@ class Page {
 	 * @return array of \Phile\Model\Page objects
 	 * @throws \Phile\Exception
 	 */
-	public function findAll(array $options = null, $folder = CONTENT_DIR) {
+	public function findAll(array $options = [], $folder = CONTENT_DIR) {
+		$options += $this->settings;
 		$files = Utility::getFiles($folder, '/^.*\\' . CONTENT_EXT . '/');
 		$pages = array();
 		foreach ($files as $file) {
@@ -87,7 +99,7 @@ class Page {
 			$pages[] = $this->getPage($file, $folder);
 		}
 
-		if ($options !== null && isset($options['pages_order_by'])) {
+		if (isset($options['pages_order_by'])) {
 			switch (strtolower($options['pages_order_by'])) {
 				case 'alpha':
 				case 'title':
@@ -139,8 +151,7 @@ class Page {
 						if ($options['pages_order'] == self::ORDER_DESC) {
 							krsort($sorted_pages);
 						}
-						unset($pages);
-						$pages = array_values($sorted_pages);
+						$pages = $sorted_pages;
 					} else {
 						throw new Exception\RepositoryException("unknown key '{$options['pages_order_by']}' for pages_order_by");
 					}
@@ -148,7 +159,29 @@ class Page {
 			}
 		}
 
+		foreach ($pages as $page) {
+			$this->order[] = $page->getFilePath();
+		}
+
 		return $pages;
+	}
+
+	/**
+	 * return page at offset from $page in applied search order
+	 *
+	 * @param \Phile\Model\Page $page
+	 * @param int $offset
+	 * @return null|\Phile\Model\Page
+	 */
+	public function getPageOffset(\Phile\Model\Page $page, $offset = 0) {
+		if (empty($this->order)) {
+			$this->findAll();
+		}
+		$key = array_search($page->getFilePath(), $this->order) + $offset;
+		if (!isset($this->order[$key])) {
+			return null;
+		}
+		return $this->getPage($this->order[$key]);
 	}
 
 	/**
@@ -169,11 +202,11 @@ class Page {
 			if ($this->cache->has($key)) {
 				$page = $this->cache->get($key);
 			} else {
-				$page = new \Phile\Model\Page($filePath, $folder);
+				$page = new \Phile\Model\Page($filePath, $folder, $this);
 				$this->cache->set($key, $page);
 			}
 		} else {
-			$page = new \Phile\Model\Page($filePath, $folder);
+			$page = new \Phile\Model\Page($filePath, $folder, $this);
 		}
 		$this->storage[$key] = $page;
 
