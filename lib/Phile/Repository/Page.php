@@ -18,14 +18,6 @@ use Phile\Utility;
  * @package Phile\Repository
  */
 class Page {
-	const ORDER_ASC  = 'asc';
-	const ORDER_DESC = 'desc';
-
-	/**
-	 * @var array file-paths to pages in sorted order
-	 */
-	protected $order;
-
 	/**
 	 * @var array the settings array
 	 */
@@ -101,69 +93,45 @@ class Page {
 			$pages[] = $this->getPage($file, $folder);
 		}
 
-		if (isset($options['pages_order_by'])) {
-			switch (strtolower($options['pages_order_by'])) {
-				case 'alpha':
-				case 'title':
-					if (strtolower($options['pages_order_by']) == 'alpha') {
-						error_log('the key alpha for sorting is deprecated, use title instead');
-					}
-					if (!isset($options['pages_order'])) {
-						$options['pages_order'] = self::ORDER_ASC;
-					}
-					if ($options['pages_order'] == self::ORDER_ASC) {
-						usort($pages, array($this, "compareByTitleAsc"));
-					}
-					if ($options['pages_order'] == self::ORDER_DESC) {
-						usort($pages, array($this, "compareByTitleDesc"));
-					}
-					break;
-				case 'date':
-				default:
-					if (strtolower($options['pages_order_by']) == 'date') {
-						error_log('the key date for sorting is deprecated use meta:date or any other meta tag');
-						$options['pages_order_by'] = 'meta:date';
-					}
-					if (strpos(strtolower($options['pages_order_by']), 'meta:') !== false) {
-						$metaKey      = str_replace('meta:', '', strtolower($options['pages_order_by']));
-						$sorted_pages = array();
-						foreach ($pages as $page) {
-							/** @var \Phile\Model\Page $page */
-							if ($page->getMeta()->get($metaKey) !== null) {
-								$key = '_' . $page->getMeta()->get($metaKey);
-								if (array_key_exists($key, $sorted_pages)) {
-									$counter = 1;
-									$tmp     = $key;
-									while (array_key_exists($tmp, $sorted_pages)) {
-										$tmp = $key . '_' . $counter++;
-									}
-									$key = $tmp;
-								}
-								$sorted_pages[$key] = $page;
-							} else {
-								$sorted_pages[] = $page;
-							}
-						}
-						if (!isset($options['pages_order'])) {
-							$options['pages_order'] = self::ORDER_ASC;
-						}
-						if ($options['pages_order'] == self::ORDER_ASC) {
-							ksort($sorted_pages);
-						}
-						if ($options['pages_order'] == self::ORDER_DESC) {
-							krsort($sorted_pages);
-						}
-						$pages = $sorted_pages;
-					} else {
-						throw new Exception\RepositoryException("unknown key '{$options['pages_order_by']}' for pages_order_by");
-					}
-					break;
-			}
+		if (empty($options['pages_order'])) {
+			return $pages;
 		}
 
-		foreach ($pages as $page) {
-			$this->order[] = $page->getFilePath();
+		// parse search criteria
+		$terms = preg_split('/\s+/', $options['pages_order'], -1, PREG_SPLIT_NO_EMPTY);
+		foreach ($terms as $term) {
+			$term = explode('.', $term);
+			if (count($term) > 1) {
+				$type = array_shift($term);
+			} else {
+				$type = null;
+			}
+			$term = explode(':', $term[0]);
+			$sorting[] = ['type' => $type, 'key' => $term[0], 'order' => $term[1]];
 		}
+
+		// prepare search criteria for array_multisort
+		foreach ($sorting as $sort) {
+			$key = $sort['key'];
+			$column = array();
+			foreach ($pages as $page) {
+				$meta = $page->getMeta();
+				if ($sort['type'] === 'page') {
+					$method = 'get' . ucfirst($key);
+					$value = $page->$method();
+				} elseif ($sort['type'] === 'meta') {
+					$value = $meta->get($key);
+				} else {
+					continue 2; // ignore unhandled search term
+				}
+				$column[] = $value;
+			}
+			$sortHelper[] = $column;
+			$sortHelper[] = constant('SORT_' . strtoupper($sort['order']));
+		}
+		$sortHelper[] = &$pages;
+
+		call_user_func_array('array_multisort', $sortHelper);
 
 		return $pages;
 	}
@@ -176,12 +144,15 @@ class Page {
 	 * @return null|\Phile\Model\Page
 	 */
 	public function getPageOffset(\Phile\Model\Page $page, $offset = 0) {
-		$this->findAll();
-		$key = array_search($page->getFilePath(), $this->order) + $offset;
-		if (!isset($this->order[$key])) {
+		$pages = $this->findAll();
+		foreach ($pages as $p) {
+			$order[] = $p->getFilePath();
+		}
+		$key = array_search($page->getFilePath(), $order) + $offset;
+		if (!isset($order[$key])) {
 			return null;
 		}
-		return $this->getPage($this->order[$key]);
+		return $this->getPage($order[$key]);
 	}
 
 	/**

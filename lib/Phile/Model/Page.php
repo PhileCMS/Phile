@@ -192,6 +192,10 @@ class Page {
 		return $this->filePath;
 	}
 
+	public function getFolder() {
+		return basename(dirname($this->getFilePath()));
+	}
+
 	/**
 	 * get the previous page if one exist
 	 *
