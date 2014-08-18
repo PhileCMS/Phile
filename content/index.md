@@ -5,7 +5,7 @@ Description: This description will go in the meta description tag
 
 ## Welcome to Phile
 
-Congratulations, you have successfully installed [Phile](https://github.com/PhileCMS/Phile). Phile is a Markdown file-based CMS.
+Congratulations, you have successfully installed [Phile](https://github.com/PhileCMS/Phile). Phile is a Markdown based flat file CMS.
 
 ### Creating Content
 
@@ -14,7 +14,7 @@ folder and that becomes a page. For example, this file is called `index.md` and 
 
 If you create a folder within the content folder (e.g. `content/sub`) and put an `index.md` inside it, you can access that folder at the URL
 `http://yousite.com/sub`. If you want another page within the sub folder, simply create a text file with the corresponding name (e.g. `content/sub/page.md`)
-and you will be able to access it from the URL `http://yousite.com/sub/page`. Below we've shown some examples of content locations and their corresponing URL's:
+and you will be able to access it from the URL `http://yousite.com/sub/page`. Below we've shown some examples of content locations and their corresponding URL's:
 
 | Physical Location           | URL                   |
 | --------------------------- |:----------------------|
@@ -70,13 +70,13 @@ in config.php to your theme folder.
 
 All themes must include an `index.html` file to define the HTML structure of the theme. Below are the Twig variables that are available to use in your theme:
 
-* `{{ config }}` - Conatins the values you set in config.php (e.g. `{{ config.theme }}` = "default")
+* `{{ config }}` - Contains the values you set in config.php (e.g. `{{ config.theme }}` = "default")
 * `{{ base_dir }}` - The path to your Phile root directory
 * `{{ base_url }}` - The URL to your Phile site
-* `{{ theme_dir }}` - The path to the Phile active theme direcotry
-* `{{ theme_url }}` - The URL to the Phile active theme direcotry
+* `{{ theme_dir }}` - The path to the Phile active theme directory
+* `{{ theme_url }}` - The URL to the Phile active theme directory
 * `{{ content_dir }}` - The path to the content direcotry
-* `{{ content_url }}` - The URL to the content direcotry
+* `{{ content_url }}` - The URL to the content directory
 * `{{ site_title }}` - Shortcut to the site title (defined in config.php)
 * `{{ meta }}` - Contains the meta values from the current page
   * `{{ meta.title }}`
@@ -88,7 +88,7 @@ All themes must include an `index.html` file to define the HTML structure of the
   * `{{ page.content }}`
 * `{{ current_page }}` - A page object of the current_page
 
-Pages can be used like:
+Page listing example:
 
 ~~~ .html
 <ul class="nav">
@@ -158,7 +158,7 @@ this event is triggered after the template is rendered
 
 #### before\_read\_file\_meta
 
-this event is triggered before the meta data readed and parsed
+this event is triggered before the meta data is read and parsed
 
 | param                   | type                | description                                                      |
 | ----------------------- |:--------------------|:-----------------------------------------------------------------|
@@ -167,7 +167,7 @@ this event is triggered before the meta data readed and parsed
 
 #### after\_read\_file\_meta
 
-this event is triggered after the meta data readed and parsed
+this event is triggered after the meta data is read and parsed
 
 | param                   | type                | description                                                      |
 | ----------------------- |:--------------------|:-----------------------------------------------------------------|
