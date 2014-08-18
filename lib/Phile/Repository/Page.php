@@ -82,7 +82,9 @@ class Page {
 	 * @throws \Phile\Exception
 	 */
 	public function findAll(array $options = [], $folder = CONTENT_DIR) {
-		$options += $this->settings;
+		if ($this->settings !== null) {
+			$options += $this->settings;
+		}
 		$files = Utility::getFiles($folder, '/^.*\\' . CONTENT_EXT . '/');
 		$pages = array();
 		foreach ($files as $file) {
