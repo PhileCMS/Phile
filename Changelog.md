@@ -1,5 +1,13 @@
 # Changelog
 
+## Release v1.2.0
+
+- [x] [a98bde4]("https://github.com/AUTHOR/REPO/commit/a98bde419326fe686671dfdc633f3658a70c680a") by james2doyle - fix error when settings was null
+- [x] [de62392]("https://github.com/AUTHOR/REPO/commit/de62392018fca80c072ae110712dfa9c0acdfd56") by Schlaefer - allows page sorting by multiple criteria
+- [x] [790c95e]("https://github.com/AUTHOR/REPO/commit/790c95e2f315de5d8accb463e9bc586b95d50347") by Schlaefer - don't couple \Model\Repository to \Model\Page
+- [x] [8a7812a]("https://github.com/AUTHOR/REPO/commit/8a7812a3ad582305cb77f4d32df98ce0c8c89431") by Schlaefer - refactors nextPage/previousPage
+- [x] [8f5543b]("https://github.com/AUTHOR/REPO/commit/8f5543b01492aa4b95cae93365b4a2ace0ca204b") by Schlaefer - resets pages keys after sorting to numerical values
+
 ## Release v1.1.1
 
 - [x] [f927f41]("https://github.com/AUTHOR/REPO/commit/f927f41d6246b5f1bf72669d63e02ceb6333337b") by james2doyle - **update default michelf/markdown version to 1.4**
