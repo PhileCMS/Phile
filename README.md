@@ -5,7 +5,7 @@ Phile
 
 A Markdown file-based CMS.
 
-[Check out the starter video](http://www.youtube.com/watch?v=8GLMe371RuI), or [read the wiki for in-depth documenation](https://github.com/PhileCMS/Phile/wiki/_pages).
+[Check out the starter video](http://www.youtube.com/watch?v=8GLMe371RuI), or [read the wiki for in-depth documentation](https://github.com/PhileCMS/Phile/wiki/_pages).
 
 ### Help and Community
 
@@ -15,7 +15,7 @@ You can check out the [PhileCMS Community on Google Plus](https://plus.google.co
 
 This project is based on [Pico CMS v0.8](https://github.com/gilbitron/Pico/commit/aa59661ff81dd52c3a2596988372a214b0fc31b9 "0.8 Commit") by [Gilbert Pellegrom](https://github.com/gilbitron).
 
-The desire to fork the project from Pico, came when a few community members wanted to contribute more and increase the rate of development progress.
+The desire to fork the project from Pico came when a few community members wanted to contribute more and increase the rate of development progress.
 
 **Note: Plugins for Pico are not interchangeable with Phile.**
 
@@ -54,7 +54,7 @@ Webgrind Profiling
 
 ### Contributing
 
-Help make Phile better by checking out the GitHub repoistory and submitting pull requests.
+Help make Phile better by checking out the GitHub repository and submitting pull requests.
 
 If you find a bug please report it on the [issues page](https://github.com/PhileCMS/Phile/issues).
 
@@ -62,5 +62,5 @@ If you create a plugin please add it to the [Plugin Wiki](https://github.com/Phi
 
 The Authors of PhileCMS:
 
-* [James Doyle](https://github.com/james2doyle) - great ideas, code a lot of plugins and worked on the core
+* [James Doyle](https://github.com/james2doyle) - great ideas, developed many plugins and worked on the core
 * [Frank Nägler](https://github.com/NeoBlack) - refactoring of the core and introducing OOP concepts
