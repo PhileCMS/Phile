@@ -204,7 +204,7 @@ class Core {
 		 * @triggerEvent before_render_template this event is triggered before the template is rendered
 		 * @param \Phile\ServiceLocator\TemplateInterface the template engine
 		 */
-		Event::triggerEvent('before_render_template', array('templateEngine' => &$templateEngine));
+		Event::triggerEvent('before_render_template', array('templateEngine' => &$templateEngine,'page'=> &$this->page));
 
 		$templateEngine->setCurrentPage($this->page);
 		$output = $templateEngine->render();
