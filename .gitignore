@@ -3,9 +3,7 @@ composer.lock
 composer.phar
 
 # Twig
-vendor/twig/twig/doc/*
-vendor/twig/twig/ext/*
-vendor/twig/twig/test/*
+lib/vendor/*
 
 # OS Generated
 .DS_Store*
@@ -13,6 +11,9 @@ ehthumbs.db
 Icon?
 Thumbs.db
 *.swp
+
+# distribution build directory
+dist/*
 
 # User themes
 themes/*
@@ -32,3 +33,4 @@ temp/cache/*
 # datastorage
 datastorage/*
 !datastorage/.htaccess
+
