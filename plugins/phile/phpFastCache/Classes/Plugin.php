@@ -32,11 +32,14 @@ class Plugin extends \Phile\Plugin\AbstractPlugin implements \Phile\Gateway\Even
 	public function on($eventKey, $data = null) {
 		// check $eventKey for which you have registered
 		if ($eventKey == 'plugins_loaded') {
-			require_once(\Phile\Utility::resolveFilePath('MOD:phile/phpFastCache/lib/phpfastcache/phpfastcache.php'));
+			// phpFastCache not working in CLI mode...
+			if (PHILE_CLI_MODE) {
+				require_once(\Phile\Utility::resolveFilePath('MOD:phile/phpFastCache/lib/phpfastcache/phpfastcache.php'));
 
-			\phpFastCache::setup($this->settings);
-			$cache = phpFastCache();
-			\Phile\ServiceLocator::registerService('Phile_Cache', new \Phile\Plugin\Phile\PhpFastCache\PhpFastCache($cache));
+				\phpFastCache::setup($this->settings);
+				$cache = phpFastCache();
+				\Phile\ServiceLocator::registerService('Phile_Cache', new \Phile\Plugin\Phile\PhpFastCache\PhpFastCache($cache));
+			}
 		}
 	}
 }
