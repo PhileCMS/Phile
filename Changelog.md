@@ -1,5 +1,8 @@
 # Changelog
 
+## Release v1.2.1
+- [x] refactoring of bootstrapping and adding travis ci
+
 ## Release v1.2.0
 
 - [x] [a98bde4](https://github.com/AUTHOR/REPO/commit/a98bde419326fe686671dfdc633f3658a70c680a) by james2doyle - fix error when settings was null

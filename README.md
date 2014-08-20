@@ -7,7 +7,7 @@ A file-based CMS with a swappable parser, template engine, cache and storage ser
 
 ## Build status
 
-[![Build Status](https://travis-ci.org/NeoBlack/Phile.svg?branch=release%2F1.0.0)](https://travis-ci.org/NeoBlack/Phile)
+[![Build Status](https://travis-ci.org/PhileCMS/Phile.svg)](https://travis-ci.org/PhileCMS/Phile)
 
 ## Why use PhileCMS?
 
