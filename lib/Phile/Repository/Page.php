@@ -82,11 +82,9 @@ class Page {
 	 * @throws \Phile\Exception
 	 */
 	public function findAll(array $options = [], $folder = CONTENT_DIR) {
-		if ($this->settings === null) {
-			$this->settings = \Phile\Registry::get('Phile_Settings');
+		if ($this->settings !== null) {
+			$options += $this->settings;
 		}
-		$options += $this->settings;
-
 		// ignore files with a leading '.' in its filename
 		$files = Utility::getFiles($folder, '/^.[^\.]*\\' . CONTENT_EXT . '/');
 		$pages = array();
