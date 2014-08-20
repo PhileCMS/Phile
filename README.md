@@ -5,6 +5,10 @@ A file-based CMS with a swappable parser, template engine, cache and storage ser
 
 [Check out the starter video](http://www.youtube.com/watch?v=8GLMe371RuI), or [read the wiki for in-depth documentation](https://github.com/PhileCMS/Phile/wiki/_pages).
 
+## Build status
+
+[![Build Status](https://travis-ci.org/NeoBlack/Phile.svg?branch=release%2F1.0.0)](https://travis-ci.org/NeoBlack/Phile)
+
 ## Why use PhileCMS?
 
 Here is a small list of differences in design from typical flat-file CMSs:
