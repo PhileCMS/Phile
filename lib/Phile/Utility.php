@@ -20,6 +20,9 @@ class Utility {
 	 * @return string the current protocol
 	 */
 	public static function getProtocol() {
+		if (PHILE_CLI_MODE) {
+			return '';
+		}
 		$protocol = 'http';
 		if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
 			$protocol = 'https';
@@ -34,6 +37,9 @@ class Utility {
 	 * @return string
 	 */
 	public static function getBaseUrl() {
+		if (PHILE_CLI_MODE) {
+			return '';
+		}
 		if (Registry::isRegistered('Phile_Settings')) {
 			$config = Registry::get('Phile_Settings');
 			if (isset($config['base_url']) && $config['base_url']) {
