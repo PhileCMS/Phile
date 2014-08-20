@@ -33,7 +33,7 @@ class Plugin extends \Phile\Plugin\AbstractPlugin implements \Phile\Gateway\Even
 		// check $eventKey for which you have registered
 		if ($eventKey == 'plugins_loaded') {
 			// phpFastCache not working in CLI mode...
-			if (PHILE_CLI_MODE) {
+			if (!PHILE_CLI_MODE) {
 				require_once(\Phile\Utility::resolveFilePath('MOD:phile/phpFastCache/lib/phpfastcache/phpfastcache.php'));
 
 				\phpFastCache::setup($this->settings);
