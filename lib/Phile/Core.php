@@ -15,6 +15,11 @@ use Phile\Exception\PluginException;
  */
 class Core {
 	/**
+	 * @var Bootstrap
+	 */
+	protected $bootstrap;
+
+	/**
 	 * @var array the settings array
 	 */
 	protected $settings;
@@ -42,18 +47,18 @@ class Core {
 	/**
 	 * The constructor carries out all the processing in Phile.
 	 * Does URL routing, Markdown processing and Twig processing.
+	 *
+	 * @param Bootstrap $bootstrap
 	 */
-	public function __construct() {
-		// Load the settings
-		$this->initializeConfiguration();
+	public function __construct(Bootstrap $bootstrap) {
+		$this->bootstrap = $bootstrap;
+
+		$this->settings = \Phile\Registry::get('Phile_Settings');
 
 		$this->pageRepository = new \Phile\Repository\Page();
 
 		// Setup Check
 		$this->checkSetup();
-
-		// Load plugins
-		$this->initializePlugins();
 
 		// init error handler
 		$this->initializeErrorHandling();
