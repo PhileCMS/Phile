@@ -85,7 +85,8 @@ class Page {
 		if ($this->settings !== null) {
 			$options += $this->settings;
 		}
-		$files = Utility::getFiles($folder, '/^.*\\' . CONTENT_EXT . '/');
+		// ignore files with a leading '.' in its filename
+		$files = Utility::getFiles($folder, '/^.[^\.]*\\' . CONTENT_EXT . '/');
 		$pages = array();
 		foreach ($files as $file) {
 			if (str_replace($folder, '', $file) == '404' . CONTENT_EXT) {
