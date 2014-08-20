@@ -30,6 +30,7 @@
         "phile-cms/plugin-installer-plugin": "dev-master"
     },
     "require-dev": {
+        "phpdocumentor/phpdocumentor": "2.*",
         "phing/phing": "2.*"
     }
 }

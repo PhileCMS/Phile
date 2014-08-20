@@ -76,4 +76,18 @@
         <phingcall target="clean-build-dir"/>
     </target>
 
+    <!-- ## phpdoc ## -->
+    <target name="phpdoc">
+        <echo msg="Create phpdoc in docs/"/>
+        <delete dir="docs" includeemptydirs="true"/>
+        <mkdir dir="docs"/>
+        <phpdoc2 destdir="docs" template="clean">
+            <fileset dir="${project.basedir}">
+                <include name="lib/Phile/**/*.php"/>
+                <include name="plugins/phile/**/*.php"/>
+                <exclude name="plugins/phile/phpFastCache/lib/phpfastcache/**"/>
+            </fileset>
+        </phpdoc2>
+    </target>
+
 </project>
