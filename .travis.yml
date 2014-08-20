@@ -20,7 +20,7 @@ script:
     echo;
     echo "Running php lint";
     /bin/bash -c "
-      if ! find lib/ -name \*.php | parallel --gnu 'php -l {}' > /tmp/errors 2>&1; then
+      if ! find lib/ -name \*.php -exec php -l {} \; > /tmp/errors 2>&1; then
         grep -v \"No syntax errors detected in\" /tmp/errors;
         exit 99;
       fi
