@@ -1,11 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<project name="PhileCMS" default="release">
+<project name="PhileCMS" default="menu">
 
     <property name="dirs.dist" value="dist"/>
     <property name="dirs.build" value="${dirs.dist}/build-temp"/>
     <property name="dirs.git" value="${dirs.build}/Phile"/>
     <property name="git.url" value="https://github.com/PhileCMS/Phile.git"/>
 
+    <!-- ## menu ## -->
+    <target name="menu">
+        <echo msg="1) build distribution zip"/>
+        <echo msg="2) build phpdoc"/>
+        <echo msg="x) exit"/>
+
+        <input message="Choose" propertyName="choice" validArgs="1,2,x"/>
+
+        <if>
+            <equals arg1="${choice}" arg2="1"/>
+            <then>
+                <phingcall target="dist"/>
+            </then>
+
+            <elseif>
+                <equals arg1="${choice}" arg2="2"/>
+                <then>
+                    <phingcall target="phpdoc"/>
+                </then>
+            </elseif>
+
+            <elseif>
+                <equals arg1="${choice}" arg2="x"/>
+                <then>
+                    <php expression="exit();"/>
+                </then>
+            </elseif>
+        </if>
+    </target>
+
+    <!-- ## dist ## -->
     <fileset id="release-fileset" dir="${dirs.git}">
         <include name=".editorconfig"/>
         <include name=".htaccess"/>
@@ -27,7 +58,6 @@
         <exclude name="lib/vendor/twig/twig/test/**"/>
     </fileset>
 
-    <!-- ## setup directories ## -->
     <target name="clean-build-dir">
         <echo msg="Cleanup build dir"/>
         <delete dir="${dirs.build}" includeemptydirs="true"/>
@@ -43,8 +73,7 @@
         <mkdir dir="${dirs.dist}"/>
     </target>
 
-    <!-- ## release ## -->
-    <target name="release">
+    <target name="dist">
         <input propertyName="git.branch" defaultValue="master" message="Remote git branch to use?"></input>
         <input propertyName="git.tag" defaultValue="head" message="Tag to use?"></input>
 
