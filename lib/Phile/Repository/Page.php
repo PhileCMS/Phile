@@ -38,8 +38,9 @@ class Page {
 	 */
 	public function __construct($settings = null) {
 		if ($settings === null) {
-			$this->settings = \Phile\Registry::get('Phile_Settings');
+			$settings = \Phile\Registry::get('Phile_Settings');
 		}
+		$this->settings = $settings;
 		if (ServiceLocator::hasService('Phile_Cache')) {
 			$this->cache = ServiceLocator::getService('Phile_Cache');
 		}
@@ -82,9 +83,7 @@ class Page {
 	 * @throws \Phile\Exception
 	 */
 	public function findAll(array $options = [], $folder = CONTENT_DIR) {
-		if ($this->settings !== null) {
-			$options += $this->settings;
-		}
+		$options += $this->settings;
 		// ignore files with a leading '.' in its filename
 		$files = Utility::getFiles($folder, '/^.[^\.]*\\' . CONTENT_EXT . '/');
 		$pages = array();
