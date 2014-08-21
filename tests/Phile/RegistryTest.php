@@ -20,11 +20,6 @@ class RegistryTest extends \PHPUnit_Framework_TestCase {
 		$this->registry = \Phile\Registry::getInstance();
 	}
 
-	protected function tearDown() {
-		parent::tearDown();
-		$this->registry->_unsetInstance();
-	}
-
 	public function testValueCanSetToRegistry() {
 		$this->registry->set('test', 'testvalue');
 		$this->assertEquals('testvalue', $this->registry->get('test'));
