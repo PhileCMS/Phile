@@ -22,7 +22,11 @@ class PageTest extends \PHPUnit_Framework_TestCase {
 
 	public function testPageCanBeFindByPath() {
 		$page = $this->pageRepository->findByPath('/');
-		$this->assertInstanceOf('\Phile\Page', $page);
+		$this->assertInstanceOf('\Phile\Model\Page', $page);
+		$this->assertEquals('Welcome', $page->getTitle());
+	}
+
+	public function testCanFindAllPagesOrderdByTitle() {
+		$this->markTestIncomplete('not implemented yet');
 	}
 }
- 
