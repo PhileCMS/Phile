@@ -1,29 +1,60 @@
 # Changelog
 
-## Release v0.9.4
+## Release v1.2.1
 
-**Ok so there is a problem here. Turns out we messed up version numbers. 0.9.2 was tagged as a release. But when the changelog was bumped to 0.9.3 the phile version was kept at 0.9.2. Also there was no tag for 0.9.3. So we are going to jump to 0.9.4 now.**
+- [x] [XXXXXXX](https://github.com/PhileCMS/Phile/commit/) by Frank Nägler - refactoring of bootstrapping and adding travis ci
 
-- [x] [4053bb2]("https://github.com/PhileCMS/Phile/commit/4053bb26c3403914ee8436711ee5aef1fc0f28b5") by James Doyle - index.php version bump
-- [x] [c7c519b]("https://github.com/PhileCMS/Phile/commit/c7c519ba12cdf5e7e92762de4721a93ec62ccc63") by James Doyle - version bump
-- [x] [a1cb008]("https://github.com/PhileCMS/Phile/commit/a1cb008246864295310a501bbd3253dbc5db315c") by James Doyle - Merge pull request #98 from Schlaefer/patch-1
-- [x] [83dd413]("https://github.com/PhileCMS/Phile/commit/83dd4139ad201daf56b7beaa952f17fc525f67f3") by Schlaefer - refactors Utility::resolveFilePath
-- [x] [6956fe0]("https://github.com/PhileCMS/Phile/commit/6956fe00c46035eff4c6a66cf80420f0c159ed9c") by Frank Nägler - Merge pull request #95 from quasipickle/patch-1
-- [x] [72844cc]("https://github.com/PhileCMS/Phile/commit/72844cc1d50818e9bc7d5fc26a81f982dc197c33") by quasipickle - Update Page.php
-- [x] [0010569]("https://github.com/PhileCMS/Phile/commit/0010569d3ae2df89c9edfb203a51044c22f64a95") by James Doyle - Merge pull request #86 from PhileCMS/bugfix/spaces-in-meta
-- [x] [4df1164]("https://github.com/PhileCMS/Phile/commit/4df11649aaa604719d112580c62ec613b2e428cd") by james2doyle - fix issue with using spaces in meta. Now they are converted to underscores. So "Area Title:" would become "{{ current_page.meta.area_title }}"
-- [x] [2894cfb]("https://github.com/PhileCMS/Phile/commit/2894cfb11d4e95fca20019efdf5fc0154e517506") by James Doyle - Merge pull request #83 from pschmitt/master
-- [x] [556e18e]("https://github.com/PhileCMS/Phile/commit/556e18e90712d7626e94ac9be811181de013d903") by Philipp Schmitt - Grammar
-- [x] [480bd83]("https://github.com/PhileCMS/Phile/commit/480bd8325bf346845d0307c981fa934ad0c59107") by James Doyle - added philecms google plus community
-- [x] [6393d64]("https://github.com/PhileCMS/Phile/commit/6393d64d7efa94657aef0a17b49cbdfac391370b") by james2doyle - Merge branch 'feature/RefactoringInterfaces'
-- [x] [04a2418]("https://github.com/PhileCMS/Phile/commit/04a2418ded02273cb5e2c8070f354709a90a07e6") by James Doyle - Merge pull request #77 from PhileCMS/feature/MetaParserService
-- [x] [e91d602]("https://github.com/PhileCMS/Phile/commit/e91d6020518eed2a08ad9e63abbd4e5cc864fbbf") by Frank Nägler - reformat the readme file
-- [x] [363b099]("https://github.com/PhileCMS/Phile/commit/363b0991dad2592ec6a44856550559099b1c3c7f") by Frank Nägler - [TASK] added Changelog.md to the project
-- [x] [220681f]("https://github.com/PhileCMS/Phile/commit/220681f022bd9193c79522045edd35a9b855ddcf") by Frank Nägler - [TASK] code cleanup: restructure interfaces
-- [x] [a223521]("https://github.com/PhileCMS/Phile/commit/a22352189f3d84933db4bf8e036945403d2f13ad") by Frank Nägler - Merge branch 'refs/heads/feature/MetaParserService' into feature/RefactoringInterfaces
-- [x] [fea19e2]("https://github.com/PhileCMS/Phile/commit/fea19e241154606953fea3f3a084a0abdfa8eb4d") by Frank Nägler - [BUGFIX] change requirement of plugin-installer-plugin to "dev-master", because we have currently no final version
-- [x] [475b7b0]("https://github.com/PhileCMS/Phile/commit/475b7b0cf1a0ccf826678a0c807d3d548a5985eb") by Frank Nägler - [TASK] added git commit message template
-- [x] [0a8f7c2]("https://github.com/PhileCMS/Phile/commit/0a8f7c239674da66ada714f3b57df7c1f5639999") by Frank Nägler - [FEATURE] change code of meta parser to use a service
+## Release v1.2.0
+
+- [x] [a98bde4](https://github.com/PhileCMS/Phile/commit/a98bde419326fe686671dfdc633f3658a70c680a) by james2doyle - fix error when settings was null
+- [x] [de62392](https://github.com/PhileCMS/Phile/commit/de62392018fca80c072ae110712dfa9c0acdfd56) by Schlaefer - allows page sorting by multiple criteria
+- [x] [790c95e](https://github.com/PhileCMS/Phile/commit/790c95e2f315de5d8accb463e9bc586b95d50347) by Schlaefer - don't couple \Model\Repository to \Model\Page
+- [x] [8a7812a](https://github.com/PhileCMS/Phile/commit/8a7812a3ad582305cb77f4d32df98ce0c8c89431) by Schlaefer - refactors nextPage/previousPage
+- [x] [8f5543b](https://github.com/PhileCMS/Phile/commit/8f5543b01492aa4b95cae93365b4a2ace0ca204b) by Schlaefer - resets pages keys after sorting to numerical values
+
+## Release v1.1.1
+
+- [x] [f927f41](https://github.com/PhileCMS/Phile/commit/f927f41d6246b5f1bf72669d63e02ceb6333337b) by james2doyle - **update default michelf/markdown version to 1.4**
+- [x] [2d6384d](https://github.com/PhileCMS/Phile/commit/2d6384d1feecf61a0c7cab57d2620cb6fb16484c) by james2doyle - update composer.json description, keywords, markdown version and plugin installer version.
+- [x] [e70e03d](https://github.com/PhileCMS/Phile/commit/e70e03da11e10961bbf3b1a8317a2b32c214b628) by james2doyle - add notes about first run
+- [x] [601fa5c](https://github.com/PhileCMS/Phile/commit/601fa5cb7a74c8935175d6ba024920b422f70a1c) by james2doyle - lots of updates to the 1.1 readme
+
+## Release v1.1.0
+
+- [x] [67e07b5](https://github.com/PhileCMS/Phile/commit/67e07b546bca5b274ea413101f04b08545dda94c) by Frank Nägler - Merge pull request #93 from PhileCMS/1.0.0/dir-organize
+- [x] [f2a5cdb](https://github.com/PhileCMS/Phile/commit/f2a5cdb8f23547b2a002b1d5dba9e0f0b400d37e) by james2doyle - update generator for new vendor path
+- [x] [73b5670](https://github.com/PhileCMS/Phile/commit/73b5670cc1602084b2cf61eba8cab1245fb5a130) by james2doyle - move vendor directory to lib/vendor
+- [x] [51f9d76](https://github.com/PhileCMS/Phile/commit/51f9d76f372c77af2767e10d1f8c106686fc7830) by james2doyle - update phpFastCache config to use CACHE_DIR
+- [x] [a3f7414](https://github.com/PhileCMS/Phile/commit/a3f7414376615ace0d780b5c265cd1f1cef668c5) by james2doyle - move datastorage and update plugin
+- [x] [67a93b8](https://github.com/PhileCMS/Phile/commit/67a93b8e4e92640605091f1ddae8f0ed9efd3701) by James Doyle - update error handler references
+- [x] [b9f8d68](https://github.com/PhileCMS/Phile/commit/b9f8d68bec8498c5fd14d3180a8014c5dc5de26b) by James Doyle - update error stylesheet
+- [x] [68f63a5](https://github.com/PhileCMS/Phile/commit/68f63a5dfc2efc6cec426ecd2591d3a6ef8001e9) by Frank Nägler - Merge branch 'release/1.0.0' of github.com:PhileCMS/Phile into release/1.0.0
+- [x] [7c178df](https://github.com/PhileCMS/Phile/commit/7c178df0ca4cea57dc7d612460f84525baf0fbb8) by Frank Nägler - added getPreviousPage and getNextPage to page model
+- [x] [5a66571](https://github.com/PhileCMS/Phile/commit/5a6657125f2721a3556c786c341a848bca89efdc) by Frank Nägler - Merge pull request #87 from PhileCMS/bugfix/special-chars-meta
+- [x] [3f09421](https://github.com/PhileCMS/Phile/commit/3f094215fa8bd994f63046edcac72e7460366d0a) by Frank Nägler - added development error handler
+- [x] [f2b5d15](https://github.com/PhileCMS/Phile/commit/f2b5d157753a7f5babbabed1daff9aa1151de55a) by Frank Nägler - update documentation
+- [x] [9a65b32](https://github.com/PhileCMS/Phile/commit/9a65b32dbca9e4942d8905b7974e7cd680f4e825) by Frank Nägler - collect plugin loading error and throw PluginException after all other plugins (incl. errorHandler plugin) has initialize
+- [x] [a7cd7f2](https://github.com/PhileCMS/Phile/commit/a7cd7f24f30b357a25810b41c99a10a8491d5d00) by Frank Nägler - added output buffering to make it possible to show a custom error page by error handlers
+- [x] [ae518e6](https://github.com/PhileCMS/Phile/commit/ae518e6f12c21c86b374f0c7360916fd5dfd412a) by Frank Nägler - [FEATURE] added some new types of exceptions and added a unique code for each thrown exception
+- [x] [851c328](https://github.com/PhileCMS/Phile/commit/851c328163661d8977fd98926e4ce5d659c4e6f5) by Frank Nägler - [FEATURE] ErrorHandling
+- [x] [7b3a862](https://github.com/PhileCMS/Phile/commit/7b3a862e0ce371b47173b7c559bc30bb45faddf8) by Frank Nägler - added utility method to check if a plugin is loaded
+- [x] [e5478be](https://github.com/PhileCMS/Phile/commit/e5478bec46ba71a05154e11b564362dc10aedc97) by james2doyle - replace special chars in meta with underscores
+- [x] [beb8b90](https://github.com/PhileCMS/Phile/commit/beb8b90500f113362d396c4e30d247569b4919b1) by Frank Nägler - [BUGFIX] fix configuration overwrite.
+
+## Release v1.0.0
+
+**important notice: new plugin structure**
+
+- folder: plugins/*VENDOR*/*PLUGINNAME*
+- class dir: plugins/*VENDOR*/*PLUGINNAME*/Classes/ (all classes autoloaded)
+- plugin class: plugins/*VENDOR*/*PLUGINNAME*/Classes/Plugin.php (see demo plugin)
+  - *VENDOR* = lowercase vendor name, e.g. mycompany (phile is reserved for the core plugins)
+  - *PLUGINNAME* = first character lowercase, e.g. myPlugin
+- namespace: \Phile\Plugin\\*VENDOR*\\*PLUGINNAME*
+  - *VENDOR* = first character uppercase vendor name, e.g. Mycompany (Phile is reserved for the core plugins)
+  - *PLUGINNAME* = first character uppercase, e.g. MyPlugin
+
+- [x] #79 [TASK] preparations for version 1.0.0
 
 ## Release v0.9.3
 

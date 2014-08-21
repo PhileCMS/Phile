@@ -1,16 +1,24 @@
 <?php
+/**
+ * the core of Phile
+ */
 namespace Phile;
+use Phile\Exception\PluginException;
 
 /**
  * Phile
  *
- * @author PhileCMS Community, Gilbert Pellegrom(Pico 0.8)
- * @link https://github.com/PhileCMS/Phile
+ * @author  PhileCMS Community, Gilbert Pellegrom(Pico 0.8)
+ * @link    https://philecms.com
  * @license http://opensource.org/licenses/MIT
- * @version 0.1
+ * @package Phile
  */
-
 class Core {
+	/**
+	 * @var Bootstrap
+	 */
+	protected $bootstrap;
+
 	/**
 	 * @var array the settings array
 	 */
@@ -22,45 +30,49 @@ class Core {
 	protected $plugins;
 
 	/**
-	 * @var \Phile\Repository\Page
+	 * @var \Phile\Repository\Page the page repository
 	 */
 	protected $pageRepository;
 
 	/**
-	 * @var null|\Phile\Model\Page
+	 * @var null|\Phile\Model\Page the page model
 	 */
 	protected $page;
 
 	/**
-	 * @var string
+	 * @var string the output (rendered page)
 	 */
 	protected $output;
 
 	/**
 	 * The constructor carries out all the processing in Phile.
 	 * Does URL routing, Markdown processing and Twig processing.
+	 *
+	 * @param Bootstrap $bootstrap
 	 */
-	public function __construct() {
-		$this->pageRepository = new \Phile\Repository\Page();
+	public function __construct(Bootstrap $bootstrap) {
+		$this->bootstrap = $bootstrap;
 
-		// Load the settings
-		$this->initConfiguration();
+		$this->settings = \Phile\Registry::get('Phile_Settings');
+
+		$this->pageRepository = new \Phile\Repository\Page();
 
 		// Setup Check
 		$this->checkSetup();
 
-		// Load plugins
-		$this->initPlugins();
+		// init error handler
+		$this->initializeErrorHandling();
 
 		// init current page
-		$this->initCurrentPage();
+		$this->initializeCurrentPage();
 
 		// init template
-		$this->initTemplate();
+		$this->initializeTemplate();
 	}
 
 	/**
 	 * return the page
+	 *
 	 * @return string
 	 */
 	public function render() {
@@ -68,13 +80,15 @@ class Core {
 	}
 
 	/**
-	 * @return null
+	 * initialize the current page
 	 */
-	protected function initCurrentPage() {
-		$uri    = (strpos($_SERVER['REQUEST_URI'], '?') !== false) ? substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], '?')) : $_SERVER['REQUEST_URI'];
-		$uri    = str_replace('/' . \Phile\Utility::getInstallPath() . '/', '', $uri);
+	protected function initializeCurrentPage() {
+		$uri = (strpos($_SERVER['REQUEST_URI'], '?') !== false) ? substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], '?')) : $_SERVER['REQUEST_URI'];
+		$uri = str_replace('/' . \Phile\Utility::getInstallPath() . '/', '', $uri);
+		$uri = (strpos($uri, '/') === 0) ? substr($uri, 1) : $uri;
 		/**
 		 * @triggerEvent request_uri this event is triggered after the request uri is detected.
+		 *
 		 * @param uri the uri
 		 */
 		Event::triggerEvent('request_uri', array('uri' => $uri));
@@ -84,28 +98,33 @@ class Core {
 		if ($page instanceof \Phile\Model\Page) {
 			$this->page = $page;
 		} else {
-			header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
+			header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
 			$this->page = $this->pageRepository->findByPath('404');
 		}
 	}
 
 	/**
-	 * init plugins
+	 * initialize plugins
+	 *
+	 * @throws Exception
 	 */
-	protected function initPlugins() {
+	protected function initializePlugins() {
+		$loadingErrors = array();
 		// check to see if there are plugins to be loaded
 		if (isset($this->settings['plugins']) && is_array($this->settings['plugins'])) {
 			foreach ($this->settings['plugins'] as $pluginKey => $pluginConfig) {
+				list($vendor, $pluginName) = explode('\\', $pluginKey);
+
 				if (isset($pluginConfig['active']) && $pluginConfig['active'] === true) {
 					// load plugin configuration...
-					$pluginConfiguration    = null;
+					$pluginConfiguration = null;
 					// load the config file for the plugin
-					$configFile = \Phile\Utility::resolveFilePath("MOD:{$pluginKey}/config.php");
+					$configFile = \Phile\Utility::resolveFilePath("MOD:" . $vendor . DIRECTORY_SEPARATOR . $pluginName . DIRECTORY_SEPARATOR . "config.php");
 					if ($configFile !== null) {
 						$pluginConfiguration = \Phile\Utility::load($configFile);
 						$globalConfiguration = \Phile\Registry::get('Phile_Settings');
 						if ($pluginConfiguration !== null && is_array($pluginConfiguration)) {
-							$globalConfiguration['plugins'][$pluginKey]['settings'] = $pluginConfiguration;
+							$globalConfiguration['plugins'][$pluginKey]['settings'] = array_replace_recursive($pluginConfiguration, $globalConfiguration['plugins'][$pluginKey]);
 						} else {
 							$globalConfiguration['plugins'][$pluginKey]['settings'] = array();
 						}
@@ -113,24 +132,22 @@ class Core {
 						$this->settings = $globalConfiguration;
 					}
 					// uppercase first letter convention
-					$pluginClassName    = ucfirst($pluginKey);
-					$pluginFile         = \Phile\Utility::resolveFilePath("MOD:{$pluginKey}/plugin.php");
-					if ($pluginFile !== null) {
-						include_once $pluginFile;
-					} else {
-						throw new \Phile\Exception("the plugin file 'MOD:{$pluginKey}/plugin.php' does not exist");
+					$pluginClassName = '\\Phile\\Plugin\\' . ucfirst($vendor) . '\\' . ucfirst($pluginName) . '\\Plugin';
+					if (!class_exists($pluginClassName)) {
+						$loadingErrors[] = array("the plugin '{$pluginKey}' could not be loaded!", 1398536479);
+						continue;
 					}
-					if (class_exists($pluginClassName)) {
-						$plugin = new $pluginClassName;
-						$plugin->injectSettings($pluginConfiguration);
-						if ($plugin instanceof \Phile\Plugin\AbstractPlugin) {
-							// register plugin
-							$this->plugins[$pluginKey] = $plugin;
-						} else {
-							throw new \Phile\Exception("the plugin '{$pluginKey}' is not an instance of \\Phile\\Plugin\\AbstractPlugin");
-						}
+
+					/** @var \Phile\Plugin\AbstractPlugin $plugin */
+					$plugin = new $pluginClassName;
+					$plugin->injectSettings($globalConfiguration['plugins'][$pluginKey]['settings']);
+
+					if ($plugin instanceof \Phile\Plugin\AbstractPlugin) {
+						// register plugin
+						$this->plugins[$pluginKey] = $plugin;
 					} else {
-						throw new \Phile\Exception("the class '{$pluginClassName}' not exists");
+						$loadingErrors[] = array("the plugin '{$pluginKey}' is not an instance of \\Phile\\Plugin\\AbstractPlugin", 1398536526);
+						continue;
 					}
 				}
 			}
@@ -141,6 +158,10 @@ class Core {
 		 */
 		Event::triggerEvent('plugins_loaded');
 
+		if (count($loadingErrors) > 0) {
+			throw new PluginException($loadingErrors[0][0], $loadingErrors[0][1]);
+		}
+
 		/**
 		 * @triggerEvent config_loaded this event is triggered after the configuration is fully loaded
 		 */
@@ -148,11 +169,11 @@ class Core {
 	}
 
 	/**
-	 * init configuration
+	 * initialize configuration
 	 */
-	protected function initConfiguration() {
-		$defaults       = Utility::load(ROOT_DIR . '/default_config.php');
-		$localSettings  = Utility::load(ROOT_DIR . '/config.php');
+	protected function initializeConfiguration() {
+		$defaults      = Utility::load(ROOT_DIR . '/default_config.php');
+		$localSettings = Utility::load(ROOT_DIR . '/config.php');
 		if (is_array($localSettings)) {
 			$this->settings = array_replace_recursive($defaults, $localSettings);
 		} else {
@@ -163,6 +184,19 @@ class Core {
 		date_default_timezone_set($this->settings['timezone']);
 	}
 
+	/**
+	 * initialize error handling
+	 */
+	protected function initializeErrorHandling() {
+		if (ServiceLocator::hasService('Phile_ErrorHandler')) {
+			$errorHandler = ServiceLocator::getService('Phile_ErrorHandler');
+			set_error_handler(array($errorHandler, 'handleError'));
+		}
+	}
+
+	/**
+	 * check the setup
+	 */
 	protected function checkSetup() {
 		/**
 		 * @triggerEvent before_setup_check this event is triggered before the setup check
@@ -174,8 +208,8 @@ class Core {
 				Utility::redirect($this->settings['base_url'] . '/setup');
 			}
 		} else {
-			if (is_file(CONTENT_DIR.'setup.md')) {
-				unlink(CONTENT_DIR.'setup.md');
+			if (is_file(CONTENT_DIR . 'setup.md')) {
+				unlink(CONTENT_DIR . 'setup.md');
 			}
 		}
 		if (Registry::isRegistered('templateVars')) {
@@ -192,16 +226,20 @@ class Core {
 		Event::triggerEvent('after_setup_check');
 	}
 
-	protected function initTemplate() {
+	/**
+	 * initialize template engine
+	 */
+	protected function initializeTemplate() {
 		/**
 		 * @triggerEvent before_init_template this event is triggered before the template engine is init
 		 */
 		Event::triggerEvent('before_init_template');
 
-		$templateEngine   = ServiceLocator::getService('Phile_Template');
+		$templateEngine = ServiceLocator::getService('Phile_Template');
 
 		/**
 		 * @triggerEvent before_render_template this event is triggered before the template is rendered
+		 *
 		 * @param \Phile\ServiceLocator\TemplateInterface the template engine
 		 */
 		Event::triggerEvent('before_render_template', array('templateEngine' => &$templateEngine));
@@ -211,8 +249,9 @@ class Core {
 
 		/**
 		 * @triggerEvent after_render_template this event is triggered after the template is rendered
-		 * @param \Phile\ServiceLocator\TemplateInterface the template engine
-		 * @param string the generated ouput
+		 *
+		 * @param \Phile\ServiceLocator\TemplateInterface the    template engine
+		 * @param                                         string the generated ouput
 		 */
 		Event::triggerEvent('after_render_template', array('templateEngine' => &$templateEngine, 'output' => &$output));
 		$this->output = $output;

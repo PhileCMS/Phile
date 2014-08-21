@@ -1,12 +1,18 @@
 <?php
-
+/**
+ * The page model
+ */
 namespace Phile\Model;
+
 use Phile\Event;
 use Phile\ServiceLocator;
 
 /**
  * the Model class for a page
- * @author Frank Nägler
+ *
+ * @author  Frank Nägler
+ * @link    https://philecms.com
+ * @license http://opensource.org/licenses/MIT
  * @package Phile\Model
  */
 class Page {
@@ -31,7 +37,7 @@ class Page {
 	protected $rawData;
 
 	/**
-	 * @var \Phile\ServiceLocator\ParserInterface
+	 * @var \Phile\ServiceLocator\ParserInterface the parser
 	 */
 	protected $parser;
 
@@ -41,6 +47,18 @@ class Page {
 	protected $url;
 
 	/**
+	 * @var \Phile\Model\Page the previous page if one exist
+	 */
+	protected $previousPage;
+
+	/**
+	 * @var \Phile\Model\Page the next page if one exist
+	 */
+	protected $nextPage;
+
+	/**
+	 * the constructor
+	 *
 	 * @param        $filePath
 	 * @param string $folder
 	 */
@@ -49,8 +67,9 @@ class Page {
 
 		/**
 		 * @triggerEvent before_load_content this event is triggered before the content is loaded
-		 * @param string filePath the path to the file
-		 * @param \Phile\Model\Page page the page model
+		 *
+		 * @param                   string filePath the path to the file
+		 * @param \Phile\Model\Page page   the page model
 		 */
 		Event::triggerEvent('before_load_content', array('filePath' => &$this->filePath, 'page' => &$this));
 		if (file_exists($this->filePath)) {
@@ -59,42 +78,50 @@ class Page {
 		}
 		/**
 		 * @triggerEvent after_load_content this event is triggered after the content is loaded
-		 * @param string filePath the path to the file
-		 * @param string rawData the raw data
-		 * @param \Phile\Model\Page page the page model
+		 *
+		 * @param                   string filePath the path to the file
+		 * @param                   string rawData the raw data
+		 * @param \Phile\Model\Page page   the page model
 		 */
 		Event::triggerEvent('after_load_content', array('filePath' => &$this->filePath, 'rawData' => $this->rawData, 'page' => &$this));
-		$this->url  = str_replace($folder, '', $this->filePath);
-		$this->url  = str_replace(CONTENT_EXT, '', $this->url);
-		$this->url  = str_replace(DIRECTORY_SEPARATOR, '/', $this->url);
+		$this->url = str_replace($folder, '', $this->filePath);
+		$this->url = str_replace(CONTENT_EXT, '', $this->url);
+		$this->url = str_replace(DIRECTORY_SEPARATOR, '/', $this->url);
 		if (strpos($this->url, '/') === 0) {
 			$this->url = substr($this->url, 1);
 		}
 
-		$this->parser   = ServiceLocator::getService('Phile_Parser');
+		$this->parser = ServiceLocator::getService('Phile_Parser');
 	}
 
 	/**
+	 * method to get content of page, this method returned the parsed content
+	 *
 	 * @return mixed
 	 */
 	public function getContent() {
 		/**
 		 * @triggerEvent before_parse_content this event is triggered before the content is parsed
-		 * @param string content the raw data
-		 * @param \Phile\Model\Page page the page model
+		 *
+		 * @param                   string content the raw data
+		 * @param \Phile\Model\Page page   the page model
 		 */
 		Event::triggerEvent('before_parse_content', array('content' => $this->content, 'page' => &$this));
 		$content = $this->parser->parse($this->content);
 		/**
 		 * @triggerEvent after_parse_content this event is triggered after the content is parsed
-		 * @param string content the parsed content
-		 * @param \Phile\Model\Page page the page model
+		 *
+		 * @param                   string content the parsed content
+		 * @param \Phile\Model\Page page   the page model
 		 */
 		Event::triggerEvent('after_parse_content', array('content' => &$content, 'page' => &$this));
+
 		return $content;
 	}
 
 	/**
+	 * set content of page
+	 *
 	 * @param $content
 	 */
 	public function setContent($content) {
@@ -102,6 +129,8 @@ class Page {
 	}
 
 	/**
+	 * get the meta model
+	 *
 	 * @return Meta
 	 */
 	public function getMeta() {
@@ -115,10 +144,10 @@ class Page {
 		$this->meta = new Meta($this->rawData);
 		// Remove only the optional, leading meta-block comment
 		$rawData = trim($this->rawData);
-		if(strncmp('<!--', $rawData, 4) === 0) {
+		if (strncmp('<!--', $rawData, 4) === 0) {
 			// leading meta-block comment uses the <!-- --> style
 			$this->content = substr($rawData, max(4, strpos($rawData, '-->') + 3));
-		} elseif(strncmp('/*', $rawData, 2) === 0) {
+		} elseif (strncmp('/*', $rawData, 2) === 0) {
 			// leading meta-block comment uses the /* */ style
 			$this->content = substr($rawData, strpos($rawData, '*/') + 2);
 		} else {
@@ -128,13 +157,17 @@ class Page {
 	}
 
 	/**
-	 * @return null
+	 * get the title of page from meta information
+	 *
+	 * @return string|null
 	 */
 	public function getTitle() {
 		return $this->getMeta()->get('title');
 	}
 
 	/**
+	 * get the url of page
+	 *
 	 * @return string
 	 */
 	public function getUrl() {
@@ -142,6 +175,8 @@ class Page {
 	}
 
 	/**
+	 * set the filepath of the page
+	 *
 	 * @param string $filePath
 	 */
 	public function setFilePath($filePath) {
@@ -149,9 +184,35 @@ class Page {
 	}
 
 	/**
+	 * get the filepath of the page
+	 *
 	 * @return string
 	 */
 	public function getFilePath() {
 		return $this->filePath;
+	}
+
+	public function getFolder() {
+		return basename(dirname($this->getFilePath()));
+	}
+
+	/**
+	 * get the previous page if one exist
+	 *
+	 * @return null|\Phile\Model\Page
+	 */
+	public function getPreviousPage() {
+		$pageRepository = new \Phile\Repository\Page();
+		return $pageRepository->getPageOffset($this, 1);
+	}
+
+	/**
+	 * get the next page if one exist
+	 *
+	 * @return null|\Phile\Model\Page
+	 */
+	public function getNextPage() {
+		$pageRepository = new \Phile\Repository\Page();
+		return $pageRepository->getPageOffset($this, -1);
 	}
 }

@@ -1,10 +1,14 @@
 <?php
-
+/**
+ * Interface for a service locator
+ */
 namespace Phile\ServiceLocator;
 
 /**
  * Interface CacheInterface
  *
+ * @link    https://philecms.com
+ * @license http://opensource.org/licenses/MIT
  * @package Phile\ServiceLocator
  */
 interface CacheInterface {

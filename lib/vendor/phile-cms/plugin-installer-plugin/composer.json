@@ -1,0 +1,26 @@
+{
+    "name": "phile-cms/plugin-installer-plugin",
+    "version": "1.0.0",
+    "type": "composer-plugin",
+    "license": "MIT",
+    "description": "Composer installer plugin for phile plugins",
+    "homepage": "http://philecms.com",
+    "keywords": ["cms","markdown","phile","composer"],
+    "authors": [
+    	{
+		"name": "Frank Nägler",
+		"email": "mail@naegler.net",
+		"homepage": "http://www.frank-naegler.de",
+		"role": "Developer"
+	}
+    ],
+    "autoload": {
+        "psr-0": {"Phile\\Composer": "src/"}
+    },
+    "extra": {
+        "class": "Phile\\Composer\\PluginInstallerPlugin"
+    },
+    "require": {
+        "composer-plugin-api": "1.0.0"
+    }
+}

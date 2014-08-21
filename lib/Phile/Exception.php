@@ -10,7 +10,10 @@ namespace Phile;
 
 /**
  * the Exception class
- * @author Frank Nägler
+ *
+ * @author  Frank Nägler
+ * @link    https://philecms.com
+ * @license http://opensource.org/licenses/MIT
  * @package Phile
  */
 class Exception extends \Exception {
