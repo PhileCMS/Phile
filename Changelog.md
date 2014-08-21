@@ -3,8 +3,7 @@
 ## Release v1.2.1
 
 - [x] [XXXXXXX](https://github.com/PhileCMS/Phile/commit/) by Frank Nägler - refactoring of bootstrapping and adding travis ci
-- [x] [XXXXXXX](https://github.com/PhileCMS/Phile/commit/) by Stijn-Flipper - [BUGFIX] Make sorting *actually* works after release v1.2.0
-- [x] [XXXXXXX](https://github.com/PhileCMS/Phile/commit/) by Frank Nägler - [BUGFIX] fix trailing slash rewrite in htaccess
+- [ ] [XXXXXXX](https://github.com/PhileCMS/Phile/commit/) by Stijn-Flipper - [BUGFIX] Make sorting *actually* works after release v1.2.0
 
 ## Release v1.2.0
 
