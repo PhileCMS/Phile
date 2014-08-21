@@ -23,7 +23,12 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-l
+    RewriteCond %{REQUEST_URI} (.*)$
+    RewriteRule ^(.+)/$ http://%{HTTP_HOST}/$1 [R=301,L]
 
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-l
     RewriteRule .* index.php [L]
 </IfModule>
 
