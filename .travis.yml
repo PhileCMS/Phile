@@ -12,7 +12,7 @@ notifications:
   - secure: cuIQFttoMDtatAYye2MZ6dle2b4uXmCOQiLTzlzDmu0vYxNnEwjxwlGvcXHFyXVrZXe/NoXKqdYSWR9QEHAvvsOyfHbU+BjYt/faw7wBFYoc6BBntTc9ytI965QUzFb56xrI6J1j9CwO7c+8Ih+okmS0sDWmBrT7mSmCdUlMucE=
   webhooks:
     urls:
-      secure: "N9e+adPcQq1x9rkSXDtmfmNUPqxA66BS3sCWrMcir+Cm1ZtigbAZ8LXayT/d7l1I8cAf2dQggstVMoV/gR6YUd4jQSESIxzxGwHZ8Pmnmc8xz9a2R8F2ToQ+8ICNIkM/EUmShmKyvTTe9H7QnjJq/2xubk63jy3ekGglu+Tqqbo="
+      - https://webhooks.gitter.im/e/35cf3fe15ee30d437dfa
     on_success: change
     on_failure: always
     on_start: false
