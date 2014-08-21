@@ -10,6 +10,12 @@ notifications:
     secure: QOArjMZ42xRjGPbqQwGm8xpaEGOe2M1Z8OB58zAnHRcxhfhmewiM/F73D6kVkDIUWe7PbaG9z3WZt+x0I0wu7wXdzjTq1lCA+e0B8xZFNxHtSzrbBm6frVbvDS9/j45HXQPxFhb98aJm/3KwegqPKQd/2jXy1DqNlwlrgIU81Ok=
   email:
   - secure: cuIQFttoMDtatAYye2MZ6dle2b4uXmCOQiLTzlzDmu0vYxNnEwjxwlGvcXHFyXVrZXe/NoXKqdYSWR9QEHAvvsOyfHbU+BjYt/faw7wBFYoc6BBntTc9ytI965QUzFb56xrI6J1j9CwO7c+8Ih+okmS0sDWmBrT7mSmCdUlMucE=
+  webhooks:
+    urls:
+      secure: "N9e+adPcQq1x9rkSXDtmfmNUPqxA66BS3sCWrMcir+Cm1ZtigbAZ8LXayT/d7l1I8cAf2dQggstVMoV/gR6YUd4jQSESIxzxGwHZ8Pmnmc8xz9a2R8F2ToQ+8ICNIkM/EUmShmKyvTTe9H7QnjJq/2xubk63jy3ekGglu+Tqqbo="
+    on_success: change
+    on_failure: always
+    on_start: false
 # start unit tests
 script:
   - >
