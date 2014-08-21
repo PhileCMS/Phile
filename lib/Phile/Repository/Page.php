@@ -37,9 +37,8 @@ class Page {
 	 * the constructor
 	 */
 	public function __construct($settings = null) {
-		if ($settings === null) {
-			$this->settings = \Phile\Registry::get('Phile_Settings');
-		}
+		$this->settings = ($settings === null) ? \Phile\Registry::get('Phile_Settings') : $settings;
+
 		if (ServiceLocator::hasService('Phile_Cache')) {
 			$this->cache = ServiceLocator::getService('Phile_Cache');
 		}
