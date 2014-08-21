@@ -1,19 +1,23 @@
 # Changelog
 
+## Release v1.2.1
+
+- [x] [XXXXXXX](https://github.com/PhileCMS/Phile/commit/) by Frank Nägler - refactoring of bootstrapping and adding travis ci
+
 ## Release v1.2.0
 
-- [x] [a98bde4](https://github.com/AUTHOR/REPO/commit/a98bde419326fe686671dfdc633f3658a70c680a) by james2doyle - fix error when settings was null
-- [x] [de62392](https://github.com/AUTHOR/REPO/commit/de62392018fca80c072ae110712dfa9c0acdfd56) by Schlaefer - allows page sorting by multiple criteria
-- [x] [790c95e](https://github.com/AUTHOR/REPO/commit/790c95e2f315de5d8accb463e9bc586b95d50347) by Schlaefer - don't couple \Model\Repository to \Model\Page
-- [x] [8a7812a](https://github.com/AUTHOR/REPO/commit/8a7812a3ad582305cb77f4d32df98ce0c8c89431) by Schlaefer - refactors nextPage/previousPage
-- [x] [8f5543b](https://github.com/AUTHOR/REPO/commit/8f5543b01492aa4b95cae93365b4a2ace0ca204b) by Schlaefer - resets pages keys after sorting to numerical values
+- [x] [a98bde4](https://github.com/PhileCMS/Phile/commit/a98bde419326fe686671dfdc633f3658a70c680a) by james2doyle - fix error when settings was null
+- [x] [de62392](https://github.com/PhileCMS/Phile/commit/de62392018fca80c072ae110712dfa9c0acdfd56) by Schlaefer - allows page sorting by multiple criteria
+- [x] [790c95e](https://github.com/PhileCMS/Phile/commit/790c95e2f315de5d8accb463e9bc586b95d50347) by Schlaefer - don't couple \Model\Repository to \Model\Page
+- [x] [8a7812a](https://github.com/PhileCMS/Phile/commit/8a7812a3ad582305cb77f4d32df98ce0c8c89431) by Schlaefer - refactors nextPage/previousPage
+- [x] [8f5543b](https://github.com/PhileCMS/Phile/commit/8f5543b01492aa4b95cae93365b4a2ace0ca204b) by Schlaefer - resets pages keys after sorting to numerical values
 
 ## Release v1.1.1
 
-- [x] [f927f41](https://github.com/AUTHOR/REPO/commit/f927f41d6246b5f1bf72669d63e02ceb6333337b) by james2doyle - **update default michelf/markdown version to 1.4**
-- [x] [2d6384d](https://github.com/AUTHOR/REPO/commit/2d6384d1feecf61a0c7cab57d2620cb6fb16484c) by james2doyle - update composer.json description, keywords, markdown version and plugin installer version.
-- [x] [e70e03d](https://github.com/AUTHOR/REPO/commit/e70e03da11e10961bbf3b1a8317a2b32c214b628) by james2doyle - add notes about first run
-- [x] [601fa5c](https://github.com/AUTHOR/REPO/commit/601fa5cb7a74c8935175d6ba024920b422f70a1c) by james2doyle - lots of updates to the 1.1 readme
+- [x] [f927f41](https://github.com/PhileCMS/Phile/commit/f927f41d6246b5f1bf72669d63e02ceb6333337b) by james2doyle - **update default michelf/markdown version to 1.4**
+- [x] [2d6384d](https://github.com/PhileCMS/Phile/commit/2d6384d1feecf61a0c7cab57d2620cb6fb16484c) by james2doyle - update composer.json description, keywords, markdown version and plugin installer version.
+- [x] [e70e03d](https://github.com/PhileCMS/Phile/commit/e70e03da11e10961bbf3b1a8317a2b32c214b628) by james2doyle - add notes about first run
+- [x] [601fa5c](https://github.com/PhileCMS/Phile/commit/601fa5cb7a74c8935175d6ba024920b422f70a1c) by james2doyle - lots of updates to the 1.1 readme
 
 ## Release v1.1.0
 
