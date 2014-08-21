@@ -12,9 +12,12 @@ namespace PhileTest;
 class EventTest extends \PHPUnit_Framework_TestCase {
 
 	public function testEventCanBeRegistered() {
-		$eventObserverClass = $this->getMock('\Phile\Gateway\EventObserverInterface');
-		\Phile\Event::registerEvent('myTestEvent', $eventObserverClass);
-		$this->assertArrayHasKey('myTestEvent', \PHPUnit_Framework_Assert::readAttribute(\Phile\Event, '_registry'));
+		$mock = $this->getMock('Phile\Gateway\EventObserverInterface', array('on'));
+		$mock->expects($this->once())
+			->method('on');
+
+		\Phile\Event::registerEvent('myTestEvent', $mock);
+		\Phile\Event::triggerEvent('myTestEvent');
 	}
 }
  
