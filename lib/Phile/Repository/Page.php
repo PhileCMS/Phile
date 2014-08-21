@@ -82,7 +82,7 @@ class Page {
 	 * @return array of \Phile\Model\Page objects
 	 * @throws \Phile\Exception
 	 */
-	public function findAll(array $options = [], $folder = CONTENT_DIR) {
+	public function findAll(array $options = array(), $folder = CONTENT_DIR) {
 		$options += $this->settings;
 		// ignore files with a leading '.' in its filename
 		$files = Utility::getFiles($folder, '/^.[^\.]*\\' . CONTENT_EXT . '/');
@@ -109,7 +109,7 @@ class Page {
 				$type = null;
 			}
 			$term = explode(':', $term[0]);
-			$sorting[] = ['type' => $type, 'key' => $term[0], 'order' => $term[1]];
+			$sorting[] = array('type' => $type, 'key' => $term[0], 'order' => $term[1]);
 		}
 
 		// prepare search criteria for array_multisort
