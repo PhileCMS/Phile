@@ -21,7 +21,6 @@ class SessionTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
 	 */
 	public function testSessionCanBeStarted() {
 		$this->assertEquals(false, \Phile\Session::$isStarted);
@@ -31,7 +30,6 @@ class SessionTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
 	 */
 	public function testSessionCanStoreString() {
 		\Phile\Session::set('myTestString', 'myTestString');
@@ -40,7 +38,6 @@ class SessionTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
 	 */
 	public function testSessionCanStoreInteger() {
 		\Phile\Session::set('myTestInteger', 123);
@@ -49,7 +46,6 @@ class SessionTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
 	 */
 	public function testSessionCanStoreBoolean() {
 		\Phile\Session::set('myTestBoolean', true);
@@ -58,7 +54,6 @@ class SessionTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
 	 */
 	public function testSessionCanStoreFloat() {
 		\Phile\Session::set('myTestFloat', 1.123);
@@ -67,7 +62,6 @@ class SessionTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
 	 */
 	public function testSessionCanStoreStdClass() {
 		\Phile\Session::set('myTestStdClass', new \stdClass());
@@ -76,7 +70,6 @@ class SessionTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
 	 */
 	public function testSessionHasSessionId() {
 		$this->assertEquals(0, strlen(\Phile\Session::$sessionId));
