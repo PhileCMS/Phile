@@ -7,7 +7,7 @@ A Markdown file-based CMS.
 
 ## Build status
 
-[![Build Status](https://travis-ci.org/PhileCMS/Phile.svg)](https://travis-ci.org/PhileCMS/Phile)
+[![Build Status](https://travis-ci.org/PhileCMS/Phile.svg?branch=master)](https://travis-ci.org/PhileCMS/Phile)
 
 ## Why use PhileCMS?
 
