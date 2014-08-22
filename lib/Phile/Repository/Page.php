@@ -55,12 +55,13 @@ class Page {
 	public function findByPath($path, $folder = CONTENT_DIR) {
 		$path = str_replace(Utility::getInstallPath(), '', $path);
 		$file = null;
-		if (file_exists($folder . $path . CONTENT_EXT)) {
-			$file = $folder . $path . CONTENT_EXT;
+		$fullPath =  str_replace(array("\\", "//", "\\/", "/\\"), DIRECTORY_SEPARATOR, $folder.$path);
+		if (file_exists($fullPath . CONTENT_EXT)) {
+			$file = $fullPath . CONTENT_EXT;
 		}
 		if ($file == null) {
-			if (file_exists($folder . $path . 'index' . CONTENT_EXT)) {
-				$file = $folder . $path . 'index' . CONTENT_EXT;
+			if (file_exists($fullPath . 'index' . CONTENT_EXT)) {
+				$file = $fullPath . 'index' . CONTENT_EXT;
 			}
 		}
 

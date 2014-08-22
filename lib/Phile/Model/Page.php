@@ -203,7 +203,7 @@ class Page {
 	 */
 	public function getPreviousPage() {
 		$pageRepository = new \Phile\Repository\Page();
-		return $pageRepository->getPageOffset($this, 1);
+		return $pageRepository->getPageOffset($this, -1);
 	}
 
 	/**
@@ -213,6 +213,6 @@ class Page {
 	 */
 	public function getNextPage() {
 		$pageRepository = new \Phile\Repository\Page();
-		return $pageRepository->getPageOffset($this, -1);
+		return $pageRepository->getPageOffset($this, 1);
 	}
 }
