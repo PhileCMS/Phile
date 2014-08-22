@@ -9,6 +9,14 @@
 namespace PhileTest;
 
 
+/**
+ * the SessionTest class
+ *
+ * @author  Frank Nägler
+ * @link    https://philecms.com
+ * @license http://opensource.org/licenses/MIT
+ * @package PhileTest
+ */
 class SessionTest extends \PHPUnit_Framework_TestCase {
 
 	/**
