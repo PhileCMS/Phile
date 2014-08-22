@@ -148,6 +148,7 @@ class Page {
 	 */
 	public function getPageOffset(\Phile\Model\Page $page, $offset = 0) {
 		$pages = $this->findAll();
+		$order = array();
 		foreach ($pages as $p) {
 			$order[] = $p->getFilePath();
 		}
