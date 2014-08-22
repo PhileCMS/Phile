@@ -67,15 +67,18 @@ class Bootstrap {
 	 * initialize the global definitions
 	 */
 	protected function initializeDefinitions() {
-		define('PHILE_VERSION',    '1.2.0');
-		define('PHILE_CLI_MODE',	(php_sapi_name() == "cli") ? true : false);
-		define('ROOT_DIR',         realpath(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR);
-		define('CONTENT_DIR',      ROOT_DIR . 'content' . DIRECTORY_SEPARATOR);
-		define('CONTENT_EXT',      '.md');
-		define('LIB_DIR',          ROOT_DIR . 'lib' . DIRECTORY_SEPARATOR);
-		define('PLUGINS_DIR',      ROOT_DIR . 'plugins' . DIRECTORY_SEPARATOR);
-		define('THEMES_DIR',       ROOT_DIR . 'themes' . DIRECTORY_SEPARATOR);
-		define('CACHE_DIR',        LIB_DIR . 'cache' . DIRECTORY_SEPARATOR);
+		// for php unit testings, we need to check if constant is defined
+		// before setting them, because there is a bug in PHPUnit which
+		// init our bootstrap multiple times.
+		defined('PHILE_VERSION') 	or define('PHILE_VERSION',   '1.2.0');
+		defined('PHILE_CLI_MODE') 	or define('PHILE_CLI_MODE',  (php_sapi_name() == "cli") ? true : false);
+		defined('ROOT_DIR') 		or define('ROOT_DIR',        realpath(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR);
+		defined('CONTENT_DIR') 		or define('CONTENT_DIR',     ROOT_DIR . 'content' . DIRECTORY_SEPARATOR);
+		defined('CONTENT_EXT') 		or define('CONTENT_EXT',     '.md');
+		defined('LIB_DIR') 			or define('LIB_DIR',         ROOT_DIR . 'lib' . DIRECTORY_SEPARATOR);
+		defined('PLUGINS_DIR') 		or define('PLUGINS_DIR',     ROOT_DIR . 'plugins' . DIRECTORY_SEPARATOR);
+		defined('THEMES_DIR') 		or define('THEMES_DIR',      ROOT_DIR . 'themes' . DIRECTORY_SEPARATOR);
+		defined('CACHE_DIR') 		or define('CACHE_DIR',       LIB_DIR . 'cache' . DIRECTORY_SEPARATOR);
 	}
 
 	/**

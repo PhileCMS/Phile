@@ -30,6 +30,9 @@ class Session {
 				self::$isStarted = true;
 			}
 			if (self::$isStarted) {
+				if (PHILE_CLI_MODE) {
+					$_SERVER['REMOTE_ADDR'] = (isset($_SERVER['REMOTE_ADDR'])) ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1';
+				}
 				if (self::get('REMOTE_ADDR') != $_SERVER['REMOTE_ADDR']) {
 					session_destroy();
 					session_start();
