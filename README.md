@@ -33,7 +33,7 @@ Here is a small list of differences in design from typical flat-file CMSs:
 
 ##### Requirements
 
-* PHP `>=5.3`
+* PHP `>=5.4.0`
 * Apache with `mod_rewrite` enabled
 * [Composer](https://getcomposer.org/) (unless you use `git` and `zip` files for everything)
 

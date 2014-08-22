@@ -24,7 +24,7 @@
         "vendor-dir": "lib/vendor"
     },
     "require": {
-        "php": ">=5.3.0",
+        "php": ">=5.4.0",
         "twig/twig": "1.15.*",
         "michelf/php-markdown": ">=1.4",
         "phile-cms/plugin-installer-plugin": "dev-master"
