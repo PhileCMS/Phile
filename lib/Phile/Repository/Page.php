@@ -56,22 +56,16 @@ class Page {
 	 */
 	public function findByPath($path, $folder = CONTENT_DIR) {
 		$path = str_replace(Utility::getInstallPath(), '', $path);
-		$file = null;
 		$fullPath =  str_replace(array("\\", "//", "\\/", "/\\"), DIRECTORY_SEPARATOR, $folder.$path);
-		if (file_exists($fullPath . CONTENT_EXT)) {
-			$file = $fullPath . CONTENT_EXT;
-		}
-		if ($file == null) {
-			if (file_exists($fullPath . 'index' . CONTENT_EXT)) {
-				$file = $fullPath . 'index' . CONTENT_EXT;
-			}
+
+		$file = $fullPath . CONTENT_EXT;
+
+		// append '/index' to full path if file not found
+		if (!file_exists($file)) {
+			$file = $fullPath . '/index' . CONTENT_EXT;
 		}
 
-		if ($file !== null) {
-			return $this->getPage($file, $folder);
-		}
-
-		return null;
+		return (file_exists($file)) ? $this->getPage($file, $folder) : null;
 	}
 
 	/**
