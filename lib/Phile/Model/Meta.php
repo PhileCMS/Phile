@@ -57,7 +57,7 @@ class Meta extends AbstractModel {
 	 * @return bool|null|string
 	 */
 	public function getFormattedDate() {
-		global $config;
+		$config = \Phile\Registry::get('Phile_Settings');
 		if (isset($this->data['date'])) {
 			return date($config['date_format'], strtotime($this->data['date']));
 		}
