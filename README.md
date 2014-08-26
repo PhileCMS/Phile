@@ -9,6 +9,10 @@ A Markdown file-based CMS.
 
 [![Build Status](https://travis-ci.org/PhileCMS/Phile.svg?branch=master)](https://travis-ci.org/PhileCMS/Phile)
 
+## Gitter Developer & Support-System
+
+[![Gitter chat](https://badges.gitter.im/PhileCMS/Phile.png)](https://gitter.im/PhileCMS/Phile)
+
 ## Why use PhileCMS?
 
 The desire to fork the project from Pico, came when a few community members wanted to contribute more and increase the rate of development progress.
