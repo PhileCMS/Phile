@@ -127,10 +127,10 @@ class Utility {
 	 *
 	 * @return array
 	 */
-	public static function getFiles($directory, $fileNamePattern = '/^.*/') {
+	public static function getFiles($directory, $fileNamePattern = '/^.*/i') {
 		$dir    = new \RecursiveDirectoryIterator($directory);
 		$ite    = new \RecursiveIteratorIterator($dir);
-		$files  = new \RegexIterator($ite, $fileNamePattern, \RegexIterator::GET_MATCH);
+		$files  = new \RegexIterator($ite, $fileNamePattern, \RecursiveRegexIterator::GET_MATCH);
 		$result = array();
 		foreach ($files as $file) {
 			$result[] = (string)$file[0];
