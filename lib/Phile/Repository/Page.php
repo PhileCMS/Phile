@@ -79,7 +79,8 @@ class Page {
 	 */
 	public function findAll(array $options = array(), $folder = CONTENT_DIR) {
 		$options += $this->settings;
-		$files = Utility::getFiles($folder, '/^.*\\' . CONTENT_EXT . '$/i');
+		// ignore files with a leading '.' in its filename
+		$files = Utility::getFiles($folder, '/^.[^\.]*\\' . CONTENT_EXT . '/');
 		$pages = array();
 		foreach ($files as $file) {
 			if (str_replace($folder, '', $file) == '404' . CONTENT_EXT) {
