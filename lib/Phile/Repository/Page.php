@@ -86,7 +86,7 @@ class Page {
 			$options += $this->settings;
 		}
 		// ignore files with a leading '.' in its filename
-		$files = Utility::getFiles($folder, '/^.[^\.]*\\' . CONTENT_EXT . '/');
+		$files = Utility::getFiles($folder, '\Phile\ContentFileFilterIterator');
 		$pages = array();
 		foreach ($files as $file) {
 			if (str_replace($folder, '', $file) == '404' . CONTENT_EXT) {
@@ -118,6 +118,7 @@ class Page {
 			$key = $sort['key'];
 			$column = array();
 			foreach ($pages as $page) {
+				/** @var \Phile\Model\Page $page */
 				$meta = $page->getMeta();
 				if ($sort['type'] === 'page') {
 					$method = 'get' . ucfirst($key);

@@ -120,20 +120,17 @@ class Utility {
 	}
 
 	/**
-	 * method to get files from a directory
-	 *
-	 * @param string $directory
-	 * @param string $fileNamePattern
+	 * @param        $directory
+	 * @param string $filter
 	 *
 	 * @return array
 	 */
-	public static function getFiles($directory, $fileNamePattern = '/^.*/') {
-		$dir    = new \RecursiveDirectoryIterator($directory);
-		$ite    = new \RecursiveIteratorIterator($dir);
-		$files  = new \RegexIterator($ite, $fileNamePattern, \RegexIterator::GET_MATCH);
+	public static function getFiles($directory, $filter = '\Phile\GeneralFileFilterIterator') {
+		$files  = new $filter(new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($directory)));
 		$result = array();
 		foreach ($files as $file) {
-			$result[] = (string)$file[0];
+			/** @var \SplFileInfo $file */
+			$result[] = $file->getRealPath();
 		}
 
 		return $result;
