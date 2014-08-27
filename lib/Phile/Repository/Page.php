@@ -86,7 +86,7 @@ class Page {
 			$options += $this->settings;
 		}
 		// ignore files with a leading '.' in its filename
-		$files = Utility::getFiles($folder, '\Phile\ContentFileFilterIterator');
+		$files = Utility::getFiles($folder, '\Phile\FilterIterator\ContentFileFilterIterator');
 		$pages = array();
 		foreach ($files as $file) {
 			if (str_replace($folder, '', $file) == '404' . CONTENT_EXT) {

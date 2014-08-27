@@ -1,6 +1,6 @@
 <?php
 
-namespace Phile;
+namespace Phile\FilterIterator;
 
 class GeneralFileFilterIterator extends \FilterIterator {
 	/**

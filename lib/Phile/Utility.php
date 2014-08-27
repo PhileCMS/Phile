@@ -125,7 +125,7 @@ class Utility {
 	 *
 	 * @return array
 	 */
-	public static function getFiles($directory, $filter = '\Phile\GeneralFileFilterIterator') {
+	public static function getFiles($directory, $filter = '\Phile\FilterIterator\GeneralFileFilterIterator') {
 		$files  = new $filter(new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($directory)));
 		$result = array();
 		foreach ($files as $file) {
