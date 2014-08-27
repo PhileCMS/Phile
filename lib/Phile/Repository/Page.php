@@ -182,39 +182,4 @@ class Page {
 		return $page;
 	}
 
-	/**
-	 * usort function for Titles Asc
-	 *
-	 * @param \Phile\Model\Page $a
-	 * @param \Phile\Model\Page $b
-	 *
-	 * @return int
-	 */
-	protected function compareByTitleAsc(\Phile\Model\Page $a, \Phile\Model\Page $b) {
-		$al = strtolower($a->getMeta()->get('title'));
-		$bl = strtolower($b->getMeta()->get('title'));
-		if ($al == $bl) {
-			return 0;
-		}
-
-		return ($al > $bl) ? +1 : -1;
-	}
-
-	/**
-	 * usort function for Titles Desc
-	 *
-	 * @param \Phile\Model\Page $a
-	 * @param \Phile\Model\Page $b
-	 *
-	 * @return int
-	 */
-	protected function compareByTitleDesc(\Phile\Model\Page $a, \Phile\Model\Page $b) {
-		$al = strtolower($a->getMeta()->get('title'));
-		$bl = strtolower($b->getMeta()->get('title'));
-		if ($al == $bl) {
-			return 0;
-		}
-
-		return ($al < $bl) ? +1 : -1;
-	}
 }
