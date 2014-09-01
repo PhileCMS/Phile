@@ -1,33 +1,40 @@
-# language php
+# Env
+env:
+  global:
+  - secure: "Bpk0MKl7UBsIlNd0LrbDzElBZxS3OQJaetXlQHbNus6YZiVLC60/bo9Gu9StrBKcdrGifqzpgdETBuCUNl9ncODGba5bj4i/n6EbrXUaSWagwi6wnNjMJW3BzeUqaJabrpb6FVg9oKqdI7cfRelasJhVjpcVPnMULRxGnKtnMaY="
+# Language
 language: php
 php:
-- 5.5
 - 5.4
+- 5.5
+- 5.6
 - hhvm
 # Notifications
 notifications:
   flowdock:
     secure: QOArjMZ42xRjGPbqQwGm8xpaEGOe2M1Z8OB58zAnHRcxhfhmewiM/F73D6kVkDIUWe7PbaG9z3WZt+x0I0wu7wXdzjTq1lCA+e0B8xZFNxHtSzrbBm6frVbvDS9/j45HXQPxFhb98aJm/3KwegqPKQd/2jXy1DqNlwlrgIU81Ok=
   email:
-  - secure: cuIQFttoMDtatAYye2MZ6dle2b4uXmCOQiLTzlzDmu0vYxNnEwjxwlGvcXHFyXVrZXe/NoXKqdYSWR9QEHAvvsOyfHbU+BjYt/faw7wBFYoc6BBntTc9ytI965QUzFb56xrI6J1j9CwO7c+8Ih+okmS0sDWmBrT7mSmCdUlMucE=
+    secure: OhUqB3QHtfaKiAtKE6WXOr/SChfG1r6tqNltrI90srxrtHAdMgfj5Nw6gVQaYibE6dxT65fomLbhNbZgfvdcQBGGLQgo27S9acVIsamfz4gvIP/TxNl+fv9aSEqnEn9t+aAlhGMW/K0W0vxWSzJ/J7DFB8J4R4OoJmbFdFQRPT4=
   webhooks:
     urls:
-      - https://webhooks.gitter.im/e/35cf3fe15ee30d437dfa
-    on_success: change
+      # Gitter.im channel hook
+      secure: I/k3DJq2crx71BMW4UjTxgnx9Qj/H8ttmt7G0Qhyz47yqUJ8dfsYiyLu0QX19kIF/IXWU6BDXZxCvdM8/5vN5D3TFaNXu6VCK6CtXutgAEyj7Fgeg5tDq5Jt+c5j2E+jjIMWeeUCKYIY+zsKFMtQLx68Fa613tNQIUcnxpy5HYY=
+    on_success: always
     on_failure: always
-    on_start: false
-# start unit tests
+# Scripts
+before_script:
+- composer selfupdate --quiet
+- composer require 'phpunit/phpunit=4.2.*' --prefer-source
+- composer install -n --prefer-source --dev
 script:
-  - >
-    echo;
-    echo "Running unit tests";
-    phpunit --bootstrap tests/phpunit_bootstrap.php  tests/
-  - >
-    echo;
-    echo "Running php lint";
-    /bin/bash -c "
-      if ! find lib/ -name \*.php -exec php -l {} \; > /tmp/errors 2>&1; then
-        grep -v \"No syntax errors detected in\" /tmp/errors;
-        exit 99;
-      fi
-    "
+- |
+  echo;
+  echo "Running unit tests";
+  lib/vendor/phpunit/phpunit/phpunit --bootstrap tests/phpunit_bootstrap.php tests/
+- |
+  echo; echo "Running php lint"; /bin/bash -c "
+    if ! find lib -name \*.php -not -path 'lib/vendor/*' -exec php -l {} \; > /tmp/errors 2>&1; then
+      grep -v \"No syntax errors detected in\" /tmp/errors;
+      exit 99;
+    fi
+  "

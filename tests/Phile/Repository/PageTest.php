@@ -7,6 +7,7 @@
  */
 
 namespace PhileTest\Repository;
+use Phile\Model\Page;
 
 
 /**
@@ -44,6 +45,11 @@ class PageTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 	public function testCanFindAllPagesOrderdByTitle() {
-		$this->markTestIncomplete('not implemented yet');
+		// @TODO: maybe find a better way to check the correct order
+		$titles	= ["Sub Page", "Sub Page Index", "Setup", "Welcome"];
+		$pages = $this->pageRepository->findAll(array('pages_order' => 'meta:title'));
+		for ($i=0; $i<count($pages); $i++) {
+			$this->assertEquals($pages[$i]->getTitle(), $titles[$i]);
+		}
 	}
 }

@@ -56,22 +56,16 @@ class Page {
 	 */
 	public function findByPath($path, $folder = CONTENT_DIR) {
 		$path = str_replace(Utility::getInstallPath(), '', $path);
-		$file = null;
 		$fullPath =  str_replace(array("\\", "//", "\\/", "/\\"), DIRECTORY_SEPARATOR, $folder.$path);
-		if (file_exists($fullPath . CONTENT_EXT)) {
-			$file = $fullPath . CONTENT_EXT;
-		}
-		if ($file == null) {
-			if (file_exists($fullPath . 'index' . CONTENT_EXT)) {
-				$file = $fullPath . 'index' . CONTENT_EXT;
-			}
+
+		$file = $fullPath . CONTENT_EXT;
+
+		// append '/index' to full path if file not found
+		if (!file_exists($file)) {
+			$file = $fullPath . '/index' . CONTENT_EXT;
 		}
 
-		if ($file !== null) {
-			return $this->getPage($file, $folder);
-		}
-
-		return null;
+		return (file_exists($file)) ? $this->getPage($file, $folder) : null;
 	}
 
 	/**
@@ -86,7 +80,7 @@ class Page {
 	public function findAll(array $options = array(), $folder = CONTENT_DIR) {
 		$options += $this->settings;
 		// ignore files with a leading '.' in its filename
-		$files = Utility::getFiles($folder, '/^.[^\.]*\\' . CONTENT_EXT . '/');
+		$files = Utility::getFiles($folder, '\Phile\FilterIterator\ContentFileFilterIterator');
 		$pages = array();
 		foreach ($files as $file) {
 			if (str_replace($folder, '', $file) == '404' . CONTENT_EXT) {
@@ -118,6 +112,7 @@ class Page {
 			$key = $sort['key'];
 			$column = array();
 			foreach ($pages as $page) {
+				/** @var \Phile\Model\Page $page */
 				$meta = $page->getMeta();
 				if ($sort['type'] === 'page') {
 					$method = 'get' . ucfirst($key);
@@ -188,39 +183,4 @@ class Page {
 		return $page;
 	}
 
-	/**
-	 * usort function for Titles Asc
-	 *
-	 * @param \Phile\Model\Page $a
-	 * @param \Phile\Model\Page $b
-	 *
-	 * @return int
-	 */
-	protected function compareByTitleAsc(\Phile\Model\Page $a, \Phile\Model\Page $b) {
-		$al = strtolower($a->getMeta()->get('title'));
-		$bl = strtolower($b->getMeta()->get('title'));
-		if ($al == $bl) {
-			return 0;
-		}
-
-		return ($al > $bl) ? +1 : -1;
-	}
-
-	/**
-	 * usort function for Titles Desc
-	 *
-	 * @param \Phile\Model\Page $a
-	 * @param \Phile\Model\Page $b
-	 *
-	 * @return int
-	 */
-	protected function compareByTitleDesc(\Phile\Model\Page $a, \Phile\Model\Page $b) {
-		$al = strtolower($a->getMeta()->get('title'));
-		$bl = strtolower($b->getMeta()->get('title'));
-		if ($al == $bl) {
-			return 0;
-		}
-
-		return ($al < $bl) ? +1 : -1;
-	}
 }
