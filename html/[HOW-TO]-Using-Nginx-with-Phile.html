@@ -1,0 +1,17 @@
+<h3 id="using-phile-from-root">Using Phile from root</h3>
+<p>Use this if you plan to host Phile from <a href="http://yourdomain.com/">http://yourdomain.com/</a> or the root of a subdomain.</p>
+<p>An example Nginx config:</p>
+<pre><code>  location / {
+    try_files $uri $uri/ /index.php$args;
+  }
+</code></pre><h3 id="using-phile-from-a-subdirectory">Using Phile from a subdirectory</h3>
+<p>Use this if you plan to host Phile from <a href="http://yourdomain.com/blog">http://yourdomain.com/blog</a></p>
+<p>An example Nginx config:</p>
+<pre><code>  location /blog {
+    try_files $uri $uri/ @blog;
+  }
+
+  location @blog {
+    rewrite ^/blog/(.*)$ /blog/index.php/$1;
+  }
+</code></pre>

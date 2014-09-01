@@ -1,4 +1,55 @@
 <p>The new plugin concept of Phile is a little bit different to pico, but also easy to understand. A lot of logic follows the concept <strong>convention over configuration</strong>, so please read the following list of conventions.</p>
+<h2 id="plugins-since-version-1-0-0">Plugins since version 1.0.0</h2>
+<ul>
+<li>Your Plugin requires it&#39;s own vendor folder and package folder under the <code>plugins/</code> folder<ul>
+<li>The name of the vendor folder must be lowercase like <code>mycompany</code></li>
+<li>The name of the package folder must be lowerCamelCase like <code>myCoolPlugin</code></li>
+</ul>
+</li>
+<li>The class name of your plugin is <code>Plugin</code> but it lives in an own namespace like <code>Phile\Plugin\Mycompany\MyCoolPlugin</code></li>
+<li>a new feature: all classes within this namespace will be autoloaded, you only have to put your classes into the subfolder <code>Classes</code></li>
+<li>Within your plugin folder you need at least two files:<ol>
+<li><code>config.php</code> this file must return an array.</li>
+<li><code>Classes\Plugin.php</code> this file contains your <code>Plugin</code> class which must <strong>extend</strong> the <code>\Phile\Plugin\AbstractPlugin</code> class. It also should implement the <code>\Phile\Gateway\EventObserverInterface</code> to register and receive the core events. </li>
+</ol>
+</li>
+<li>here is an example plugin class file:</li>
+</ul>
+<pre><code class="lang-php">&lt;?php
+namespace Phile\Plugin\Mycompany\MyCoolPlugin;
+
+class Plugin extends \Phile\Plugin\AbstractPlugin implements \Phile\Gateway\EventObserverInterface {}
+</code></pre>
+<p>For an example of all these conventions, take a look at the <a href="https://github.com/PhileCMS/Phile/tree/release/1.0.0/plugins/phile/demoPlugin">example plugin</a></p>
+<h3 id="composer-json">composer.json</h3>
+<p>We recommend to create a <code>composer.json</code> file for each plugin. we have created a composer installer for plugins, which make it easy to install plugins in the correct folder by a single line of code:</p>
+<pre><code class="lang-bash">composer require mycompany/my-cool-plugin:dev-master
+</code></pre>
+<p>here is an example <code>composer.json</code> file which must be located in the root of your repository, if you add a <code>composer.json</code> file to your repository please also add your repository to <a href="https://packagist.org/">Packagist.org</a></p>
+<pre><code class="lang-json">{
+    &quot;name&quot;: &quot;mycompany/my-cool-plugin&quot;, // will result in install path: plugins/mycompany/myCoolPlugin
+    &quot;type&quot;: &quot;phile-plugin&quot;, // this type is important
+    &quot;version&quot;: &quot;1.0.0&quot;,
+    &quot;license&quot;: &quot;MIT&quot;,
+    &quot;description&quot;: &quot;a short description of your plugin&quot;, // add a short description here
+    &quot;homepage&quot;: &quot;http://philecms.com&quot;, // feel free to add your homepage or repo url
+    &quot;keywords&quot;: [&quot;cms&quot;, &quot;phile&quot;, &quot;myTag&quot;], // please use the tags &quot;cms&quot; and &quot;phile&quot; for each plugin and add your own
+    &quot;authors&quot;: [
+        {
+            &quot;name&quot;: &quot;Dave Developer&quot;,
+            &quot;email&quot;: &quot;dave@example.com&quot;,
+            &quot;homepage&quot;: &quot;http://example.com/&quot;,
+            &quot;role&quot;: &quot;Developer&quot;
+        }
+    ],
+    &quot;require&quot;: {
+        // feel free to add more requirements for your plugin here
+        &quot;phile-cms/phile&quot;: &quot;1.0.0&quot;, // version 1.0.0 of phile cms is required
+        &quot;phile-cms/plugin-installer-plugin&quot;: &quot;1.0.0&quot; // version 1.0.0 of the composer plugin installer is required
+    }
+}
+</code></pre>
+<h2 id="plugins-before-version-1-0-0">Plugins before version 1.0.0</h2>
 <ul>
 <li>Your Plugin need an own folder under the <code>plugins/</code> folder</li>
 <li>The name of the folder is the name of your class, but first character has to be lowercase!</li>
@@ -7,4 +58,4 @@
 <li>Within your plugin folder you can add a file with the name <code>config.php</code>, this file must return an array.</li>
 <li>Your plugin class must <strong>extend</strong> the <code>\Phile\Plugin\AbstractPlugin</code> class.</li>
 </ul>
-<p>For an example of all these conventions, take a look at the <a href="https://github.com/PhileCMS/Phile/tree/master/plugins/phileDemoPlugin">example plugin</a></p>
+<p>For an example of all these conventions, take a look at the <a href="https://github.com/PhileCMS/Phile/tree/0.9.2/plugins/phileDemoPlugin">example plugin</a></p>

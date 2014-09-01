@@ -1,0 +1,57 @@
+<h2 id="since-phile-1-2">Since Phile 1.2</h2>
+<p>Let&#39;s assume you content folder looks like this:</p>
+<pre><code>content/
+|-- 404.md
+|-- blog
+|   |-- 1.md
+|   |-- 2.md
+|-- index.md
+|-- projects
+    |-- 1.md
+    `-- 2.md
+</code></pre><p>and you want a navigation in the blog pages. First you should group all pages by subfolder and sort by date (a usual meta-tag for blog pages): in your config.php set</p>
+<pre><code>$config[&#39;pages_order&#39;]     = &#39;page.folder:asc meta.date.asc meta.title:desc&#39;;
+</code></pre><p>Then use in your twig template for the blog pages:</p>
+<pre><code>{% for page in pages %}
+    {% if current_page.title == page.title %}
+        {% if page.previousPage is defined and page.previousPage.folder == &quot;blog&quot; %}
+            &lt;a href=&quot;{{ page.previousPage.url }}&quot;&gt; Previous &lt;/a&gt;
+        {% endif %}
+
+        {% if page.nextPage is defined and page.nextPage.folder == &quot;blog&quot; %}
+            &lt;a href=&quot;{{ page.nextPage.url }}&quot;&gt; Next &lt;/a&gt;
+        {% endif %}
+    {% endif %}
+{% endfor %}
+</code></pre><h2 id="directory-hierarchy-pre-phile-1-2-">Directory hierarchy (pre Phile 1.2)</h2>
+<p>Phile doesn&#39;t provide a good general solution for previous/next pagination (yet). This wiki shows you several workarounds to provide a previous/next pagination on your Phile site. Feel free to add another solution if you have implemented one.</p>
+<p>This paginator relies on the directory hierarchy. For example, if your Phile site has the following hierarchy:</p>
+<pre><code>content/
+|-- 404.md
+|-- blog
+|   |-- 1.md
+|   |-- 2.md
+|   |-- 3.md
+|   |-- 4.md
+|   `-- 5.md
+|-- index.md
+|-- projects
+    |-- 1.md
+    `-- 2.md
+</code></pre><p>Then you can just take a look at the url of the current page and replace the number (the ID) by its predecessor/successor:</p>
+<pre><code class="lang-html">&lt;ul class=&quot;pager&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;{{ base_url }}/blog/{{ current_page.url | split(&#39;/&#39;) | last - 1}}&quot;&gt;&amp;laquo;&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;{{ base_url }}/blog/&quot;&gt;More posts&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;{{ base_url }}/blog/{{ current_page.url | split(&#39;/&#39;) | last + 1}}&quot;&gt;&amp;raquo;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</code></pre>
+<p><strong>Pro</strong></p>
+<ul>
+<li>Takes into account in which directory the posts are stored (e.g. project posts vs. blog posts).</li>
+</ul>
+<p><strong>Cons</strong></p>
+<ul>
+<li>Directory hierarchy assumes the post with the highest ID is the latest post (they <em>are</em> most of the cases)</li>
+<li>There&#39;s no possibility to check whether the URL is valid, so the <code>next</code> button of the latest post will redirect you to the 404 page, likewise for the <code>previous</code> button for the first post.</li>
+</ul>
+<p><strong>Credits:</strong> <a href="https://github.com/Stijn-Flipper/">Stijn-Flipper</a></p>

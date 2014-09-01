@@ -6,6 +6,7 @@
 <li>Upload all the files to your server (via FTP or some other deployment)</li>
 </ul>
 <p>You can override the default Phile settings (and add your own custom settings) by editing config.php in the root Phile directory. The <code>config.php</code> file lists all of the settings and their defaults. To override a setting simply uncomment it in <code>config.php</code> and set your custom value.</p>
+<p>Make sure you have an <a href="https://github.com/PhileCMS/Phile/blob/master/.htaccess">.htaccess</a> file in the root of your phile installation.</p>
 <h4 id="installation-method-two-the-nerd-way">Installation - Method Two: the nerd way</h4>
 <p>Install composer</p>
 <pre><code class="lang-shell">curl -s https://getcomposer.org/installer | php
@@ -29,15 +30,19 @@ php /path/to/composer.phar create-project phile-cms/phile
 <p>You must set the <a href="https://github.com/PhileCMS/Phile/blob/master/config.php#L8">encryptionKey</a> value in the config to a non-empty string. There is a <a href="https://github.com/PhileCMS/Phile/blob/master/generator.php">generator.php</a> file that, when run, will generate a random string for you.</p>
 <h4 id="permissions">Permissions</h4>
 <p>Make sure you have full privileges on the cache folders.</p>
-<p>Own the temp/cache folder</p>
+<p>Own the <code>content</code> folder</p>
+<pre><code class="lang-shell">chmod 777 content
+</code></pre>
+<p>Own the <code>temp/cache</code> folder</p>
 <pre><code class="lang-shell">chmod 777 temp/cache
 </code></pre>
-<p>Own the lib/cache folder</p>
+<p>Own the <code>lib/cache</code> folder</p>
 <pre><code class="lang-shell">chmod 777 lib/cache
 </code></pre>
 <p>The temp/cache is needed for the <a href="https://github.com/PhileCMS/Phile/tree/master/plugins/philePhpFastCache">philePhpFastCache</a>. The lib/cache is needed for <a href="https://github.com/PhileCMS/Phile/tree/master/plugins/phileTemplateTwig">phileTemplateTwig</a>.</p>
 <h4 id="development">Development</h4>
 <p>You can turn <a href="https://github.com/PhileCMS/Phile/blob/master/plugins/phileTemplateTwig/config.php#L6">debug to true</a> when building a theme. It exposes the <a href="http://twig.sensiolabs.org/doc/functions/dump.html">dump()</a> function in Twig.</p>
 <h4 id="production">Production</h4>
-<p>Keep the <a href="https://github.com/PhileCMS/Phile/blob/master/default_config.php#L24">philePhpFastCache plugin</a> enabled. This caches page requests. Which will decrease server load immensely.</p>
+<p>Keep the <a href="https://github.com/PhileCMS/Phile/blob/master/default_config.php#L24">philePhpFastCache plugin</a> enabled. This caches page requests, which will decrease server load immensely.</p>
 <p>Make sure you turn the <a href="https://github.com/PhileCMS/Phile/blob/master/plugins/phileTemplateTwig/config.php#L4">Twig cache</a> on during production. This will greatly increase the speed of your site.</p>
+<p>Lastly, be sure to run <code>composer dump-autoload --optimize</code> so that composer can serve the optimized version of the autoloader. There is speculation that this could increase the performance of your site by ~20%.</p>
