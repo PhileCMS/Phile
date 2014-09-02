@@ -75,7 +75,7 @@ You can clone or download the plugin into the `plugins/{namespace}/{pluginClassN
 
 ## Getting Help
 
-If you are looking for some general help, please check out the [Google Plus Community](https://plus.google.com/u/0/communities/105363272048954062353 "PhileCMS Community"). 
+You can [read the wiki](https://github.com/PhileCMS/Phile/wiki) if you are looking for examples and [read the intro-docs](http://philecms.com/docs.html) for more development information. If you are looking for some general help and have some questions, please post in the [Google Plus Community](https://plus.google.com/u/0/communities/105363272048954062353 "PhileCMS Community").
 
 If you *find a bug* please report it on the [issues page](https://github.com/PhileCMS/Phile/issues), but remember to include a bunch of details and also what someone can do to re-create the issue.
 
