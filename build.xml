@@ -38,21 +38,23 @@
 
     <!-- ## dist ## -->
     <fileset id="release-fileset" dir="${dirs.git}">
-        <include name=".editorconfig"/>
+        <!-- ## Files for package ## -->
         <include name=".htaccess"/>
         <include name="Changelog.md"/>
         <include name="config.php"/>
-        <include name="content/**"/>
         <include name="default_config.php"/>
         <include name="generator.php"/>
-        <include name="Icon.png"/>
         <include name="index.php"/>
-        <include name="lib/**"/>
         <include name="LICENSE"/>
-        <include name="plugins/**"/>
         <include name="README.md"/>
+
+        <!-- ## Folders for package ## -->
+        <include name="content/**"/>
+        <include name="lib/**"/>
+        <include name="plugins/**"/>
         <include name="themes/**"/>
 
+        <!-- ## Excludes for package ## -->
         <exclude name="lib/vendor/twig/twig/doc/**"/>
         <exclude name="lib/vendor/twig/twig/ext/**"/>
         <exclude name="lib/vendor/twig/twig/test/**"/>
