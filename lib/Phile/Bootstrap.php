@@ -1,4 +1,7 @@
 <?php
+/**
+ * the Bootstrap of Phile
+ */
 namespace Phile;
 use Phile\Plugin\AbstractPlugin;
 use Phile\Exception\PluginException;
@@ -13,7 +16,7 @@ use Phile\Exception\PluginException;
  */
 class Bootstrap {
 	/**
-	 * @var \Phile\Bootstrap
+	 * @var \Phile\Bootstrap instance of Bootstrap class
 	 */
 	static protected $instance = NULL;
 
@@ -191,6 +194,7 @@ class Bootstrap {
 	}
 
 	/**
+	 * method to get plugins
 	 * @return array
 	 */
 	public function getPlugins() {
