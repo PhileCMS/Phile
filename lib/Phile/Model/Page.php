@@ -192,6 +192,11 @@ class Page {
 		return $this->filePath;
 	}
 
+	/**
+	 * get the folder name
+	 *
+	 * @return string
+	 */
 	public function getFolder() {
 		return basename(dirname($this->getFilePath()));
 	}
