@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="PhileCMS" default="menu">
+
+    <property name="dirs.dist" value="dist"/>
+    <property name="dirs.build" value="${dirs.dist}/build-temp"/>
+    <property name="dirs.git" value="${dirs.build}/Phile"/>
+    <property name="git.url" value="https://github.com/PhileCMS/Phile.git"/>
+
+    <!-- ## menu ## -->
+    <target name="menu">
+        <echo msg="1) build distribution zip"/>
+        <echo msg="2) build phpdoc"/>
+        <echo msg="x) exit"/>
+
+        <input message="Choose" propertyName="choice" validArgs="1,2,x"/>
+
+        <if>
+            <equals arg1="${choice}" arg2="1"/>
+            <then>
+                <phingcall target="dist"/>
+            </then>
+
+            <elseif>
+                <equals arg1="${choice}" arg2="2"/>
+                <then>
+                    <phingcall target="phpdoc"/>
+                </then>
+            </elseif>
+
+            <elseif>
+                <equals arg1="${choice}" arg2="x"/>
+                <then>
+                    <php expression="exit();"/>
+                </then>
+            </elseif>
+        </if>
+    </target>
+
+    <!-- ## dist ## -->
+    <fileset id="release-fileset" dir="${dirs.git}">
+        <include name=".editorconfig"/>
+        <include name=".htaccess"/>
+        <include name="Changelog.md"/>
+        <include name="config.php"/>
+        <include name="content/**"/>
+        <include name="default_config.php"/>
+        <include name="generator.php"/>
+        <include name="Icon.png"/>
+        <include name="index.php"/>
+        <include name="lib/**"/>
+        <include name="LICENSE"/>
+        <include name="plugins/**"/>
+        <include name="README.md"/>
+        <include name="themes/**"/>
+
+        <exclude name="lib/vendor/twig/twig/doc/**"/>
+        <exclude name="lib/vendor/twig/twig/ext/**"/>
+        <exclude name="lib/vendor/twig/twig/test/**"/>
+    </fileset>
+
+    <target name="clean-build-dir">
+        <echo msg="Cleanup build dir"/>
+        <delete dir="${dirs.build}" includeemptydirs="true"/>
+    </target>
+
+    <target name="clean" depends="clean-build-dir">
+        <delete dir="${dirs.dist}" includeemptydirs="true"/>
+    </target>
+
+    <target name="create-dirs" depends="clean">
+        <echo msg="Creating build + dist directories."/>
+        <mkdir dir="${dirs.build}"/>
+        <mkdir dir="${dirs.dist}"/>
+    </target>
+
+    <target name="dist">
+        <input propertyName="git.branch" defaultValue="master" message="Remote git branch to use?"></input>
+        <input propertyName="git.tag" defaultValue="head" message="Tag to use?"></input>
+
+        <phingcall target="create-dirs"/>
+
+        <echo msg="Checkout git branch ${git.branch}"/>
+        <exec command="git clone -b ${git.branch} ${git.url}" dir="${dirs.build}"/>
+
+        <if>
+            <not>
+                <equals arg1="${git.tag}" arg2="head"/>
+            </not>
+            <then>
+                <echo msg="Switch to git tag ${git.tag}"/>
+                <exec command="git checkout tags/${git.tag}" dir="${dirs.git}"/>
+            </then>
+        </if>
+
+        <echo msg="Install composer packages"/>
+        <exec command="composer install --optimize-autoloader --no-dev"
+              dir="${dirs.git}"/>
+
+        <echo msg="Creating Zip"/>
+        <php expression="str_replace('/', '-', '${git.branch}');" returnProperty="git.branch.clean"/>
+        <zip destfile="${dirs.dist}/phile-${git.branch.clean}-${git.tag}.zip" basedir="${dirs.git}">
+            <fileset refid="release-fileset"/>
+        </zip>
+
+        <phingcall target="clean-build-dir"/>
+    </target>
+
+    <!-- ## phpdoc ## -->
+    <target name="phpdoc">
+        <echo msg="Create phpdoc in docs/"/>
+        <delete dir="docs" includeemptydirs="true"/>
+        <mkdir dir="docs"/>
+        <phpdoc2 destdir="docs" template="clean">
+            <fileset dir="${project.basedir}">
+                <include name="lib/Phile/**/*.php"/>
+                <include name="plugins/phile/**/*.php"/>
+                <exclude name="plugins/phile/phpFastCache/lib/phpfastcache/**"/>
+            </fileset>
+        </phpdoc2>
+    </target>
+
+</project>
