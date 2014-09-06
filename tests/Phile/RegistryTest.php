@@ -28,7 +28,7 @@ class RegistryTest extends \PHPUnit_Framework_TestCase {
 	 */
 	protected function setUp() {
 		parent::setUp();
-		$this->registry = \Phile\Registry::getInstance();
+		$this->registry = \Phile\Core\Registry::getInstance();
 	}
 
 	/**
@@ -43,8 +43,8 @@ class RegistryTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 	public function testGettingInstance() {
-		$this->registry = \Phile\Registry::getInstance();
-		$this->assertInstanceOf('\Phile\Registry', $this->registry);
+		$this->registry = \Phile\Core\Registry::getInstance();
+		$this->assertInstanceOf('\Phile\Core\Registry', $this->registry);
 	}
 
 	/**
