@@ -4,6 +4,7 @@
  */
 
 namespace Phile\Exception;
+use Phile\Exception;
 
 /**
  * the PluginException class
@@ -13,4 +14,4 @@ namespace Phile\Exception;
  * @license http://opensource.org/licenses/MIT
  * @package Phile
  */
-class PluginException extends AbstractException {}
+class PluginException extends Exception {}
