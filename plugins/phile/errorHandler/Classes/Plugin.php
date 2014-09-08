@@ -21,7 +21,7 @@ class Plugin extends \Phile\Plugin\AbstractPlugin implements \Phile\Gateway\Even
 	 * the constructor
 	 */
 	public function __construct() {
-		\Phile\Event::registerEvent('plugins_loaded', $this);
+		\Phile\Core\Event::registerEvent('plugins_loaded', $this);
 	}
 
 	/**
@@ -37,10 +37,10 @@ class Plugin extends \Phile\Plugin\AbstractPlugin implements \Phile\Gateway\Even
 		if ($eventKey == 'plugins_loaded') {
 			switch ($this->settings['handler']) {
 				case Plugin::HANDLER_ERROR_LOG:
-					\Phile\ServiceLocator::registerService('Phile_ErrorHandler', new \Phile\Plugin\Phile\ErrorHandler\ErrorLog($this->settings));
+					\Phile\Core\ServiceLocator::registerService('Phile_ErrorHandler', new \Phile\Plugin\Phile\ErrorHandler\ErrorLog($this->settings));
 				break;
 				case Plugin::HANDLER_DEVELOPMENT:
-					\Phile\ServiceLocator::registerService('Phile_ErrorHandler', new \Phile\Plugin\Phile\ErrorHandler\Development($this->settings));
+					\Phile\Core\ServiceLocator::registerService('Phile_ErrorHandler', new \Phile\Plugin\Phile\ErrorHandler\Development($this->settings));
 				break;
 			}
 		}

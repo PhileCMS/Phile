@@ -23,58 +23,58 @@ class SessionTest extends \PHPUnit_Framework_TestCase {
 	 * @runInSeparateProcess
 	 */
 	public function testSessionCanBeStarted() {
-		$this->assertEquals(false, \Phile\Session::$isStarted);
-		\Phile\Session::start();
-		$this->assertEquals(true, \Phile\Session::$isStarted);
+		$this->assertEquals(false, \Phile\Core\Session::$isStarted);
+		\Phile\Core\Session::start();
+		$this->assertEquals(true, \Phile\Core\Session::$isStarted);
 	}
 
 	/**
 	 * @runInSeparateProcess
 	 */
 	public function testSessionCanStoreString() {
-		\Phile\Session::set('myTestString', 'myTestString');
-		$this->assertEquals('myTestString', \Phile\Session::get('myTestString'));
+		\Phile\Core\Session::set('myTestString', 'myTestString');
+		$this->assertEquals('myTestString', \Phile\Core\Session::get('myTestString'));
 	}
 
 	/**
 	 * @runInSeparateProcess
 	 */
 	public function testSessionCanStoreInteger() {
-		\Phile\Session::set('myTestInteger', 123);
-		$this->assertEquals(123, \Phile\Session::get('myTestInteger'));
+		\Phile\Core\Session::set('myTestInteger', 123);
+		$this->assertEquals(123, \Phile\Core\Session::get('myTestInteger'));
 	}
 
 	/**
 	 * @runInSeparateProcess
 	 */
 	public function testSessionCanStoreBoolean() {
-		\Phile\Session::set('myTestBoolean', true);
-		$this->assertEquals(true, \Phile\Session::get('myTestBoolean'));
+		\Phile\Core\Session::set('myTestBoolean', true);
+		$this->assertEquals(true, \Phile\Core\Session::get('myTestBoolean'));
 	}
 
 	/**
 	 * @runInSeparateProcess
 	 */
 	public function testSessionCanStoreFloat() {
-		\Phile\Session::set('myTestFloat', 1.123);
-		$this->assertEquals(1.123, \Phile\Session::get('myTestFloat'));
+		\Phile\Core\Session::set('myTestFloat', 1.123);
+		$this->assertEquals(1.123, \Phile\Core\Session::get('myTestFloat'));
 	}
 
 	/**
 	 * @runInSeparateProcess
 	 */
 	public function testSessionCanStoreStdClass() {
-		\Phile\Session::set('myTestStdClass', new \stdClass());
-		$this->assertInstanceOf('\stdClass', \Phile\Session::get('myTestStdClass'));
+		\Phile\Core\Session::set('myTestStdClass', new \stdClass());
+		$this->assertInstanceOf('\stdClass', \Phile\Core\Session::get('myTestStdClass'));
 	}
 
 	/**
 	 * @runInSeparateProcess
 	 */
 	public function testSessionHasSessionId() {
-		$this->assertEquals(0, strlen(\Phile\Session::$sessionId));
-		\Phile\Session::start();
-		$this->assertGreaterThan(0, strlen(\Phile\Session::$sessionId));
+		$this->assertEquals(0, strlen(\Phile\Core\Session::$sessionId));
+		\Phile\Core\Session::start();
+		$this->assertGreaterThan(0, strlen(\Phile\Core\Session::$sessionId));
 	}
 }
  

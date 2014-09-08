@@ -1,7 +1,7 @@
 <?php
 
 // try to figure out the install path
-$config['base_url']       = \Phile\Utility::getBaseUrl(); // use the Utility class to guess the base_url
+$config['base_url']       = \Phile\Core\Utility::getBaseUrl(); // use the Utility class to guess the base_url
 $config['site_title']     = 'PhileCMS'; // Site title
 $config['theme']          = 'default'; // Set the theme
 $config['date_format']    = 'jS M Y'; // Set the PHP date format

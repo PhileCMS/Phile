@@ -18,7 +18,7 @@ class Plugin extends \Phile\Plugin\AbstractPlugin implements \Phile\Gateway\Even
 	 * the constructor
 	 */
 	public function __construct() {
-		\Phile\Event::registerEvent('plugins_loaded', $this);
+		\Phile\Core\Event::registerEvent('plugins_loaded', $this);
 	}
 
 	/**
@@ -34,11 +34,11 @@ class Plugin extends \Phile\Plugin\AbstractPlugin implements \Phile\Gateway\Even
 		if ($eventKey == 'plugins_loaded') {
 			// phpFastCache not working in CLI mode...
 			if (!PHILE_CLI_MODE) {
-				require_once(\Phile\Utility::resolveFilePath('MOD:phile/phpFastCache/lib/phpfastcache/phpfastcache.php'));
+				require_once(\Phile\Core\Utility::resolveFilePath('MOD:phile/phpFastCache/lib/phpfastcache/phpfastcache.php'));
 
 				\phpFastCache::setup($this->settings);
 				$cache = phpFastCache();
-				\Phile\ServiceLocator::registerService('Phile_Cache', new \Phile\Plugin\Phile\PhpFastCache\PhpFastCache($cache));
+				\Phile\Core\ServiceLocator::registerService('Phile_Cache', new \Phile\Plugin\Phile\PhpFastCache\PhpFastCache($cache));
 			}
 		}
 	}

@@ -27,8 +27,8 @@ class EventTest extends \PHPUnit_Framework_TestCase {
 		$mock->expects($this->once())
 			->method('on');
 
-		\Phile\Event::registerEvent('myTestEvent', $mock);
-		\Phile\Event::triggerEvent('myTestEvent');
+		\Phile\Core\Event::registerEvent('myTestEvent', $mock);
+		\Phile\Core\Event::triggerEvent('myTestEvent');
 	}
 }
  

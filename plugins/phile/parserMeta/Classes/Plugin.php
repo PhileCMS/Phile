@@ -18,7 +18,7 @@ class Plugin extends \Phile\Plugin\AbstractPlugin implements \Phile\Gateway\Even
 	 * the constructor
 	 */
 	public function __construct() {
-		\Phile\Event::registerEvent('plugins_loaded', $this);
+		\Phile\Core\Event::registerEvent('plugins_loaded', $this);
 	}
 
 	/**
@@ -32,7 +32,7 @@ class Plugin extends \Phile\Plugin\AbstractPlugin implements \Phile\Gateway\Even
 	public function on($eventKey, $data = null) {
 		// check $eventKey for which you have registered
 		if ($eventKey == 'plugins_loaded') {
-			\Phile\ServiceLocator::registerService('Phile_Parser_Meta', new \Phile\Plugin\Phile\ParserMeta\Parser\Meta($this->settings));
+			\Phile\Core\ServiceLocator::registerService('Phile_Parser_Meta', new \Phile\Plugin\Phile\ParserMeta\Parser\Meta($this->settings));
 		}
 	}
 }

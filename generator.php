@@ -25,4 +25,4 @@ spl_autoload_register(function ($className) {
 
 require(LIB_DIR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
 
-echo \Phile\Utility::generateSecureToken(64);
+echo \Phile\Core\Utility::generateSecureToken(64);

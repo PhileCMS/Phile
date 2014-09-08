@@ -3,7 +3,12 @@
  * the core of Phile
  */
 namespace Phile;
+use Phile\Core\Event;
+use Phile\Core\Registry;
+use Phile\Core\ServiceLocator;
+use Phile\Core\Utility;
 use Phile\Exception\PluginException;
+use Phile\Plugin\AbstractPlugin;
 
 /**
  * Phile
@@ -30,12 +35,12 @@ class Core {
 	protected $plugins;
 
 	/**
-	 * @var \Phile\Repository\Page the page repository
+	 * @var Page the page repository
 	 */
 	protected $pageRepository;
 
 	/**
-	 * @var null|\Phile\Model\Page the page model
+	 * @var null|Model\Page the page model
 	 */
 	protected $page;
 
@@ -53,9 +58,9 @@ class Core {
 	public function __construct(Bootstrap $bootstrap) {
 		$this->bootstrap = $bootstrap;
 
-		$this->settings = \Phile\Registry::get('Phile_Settings');
+		$this->settings = Registry::get('Phile_Settings');
 
-		$this->pageRepository = new \Phile\Repository\Page();
+		$this->pageRepository = new Repository\Page();
 
 		// Setup Check
 		$this->checkSetup();
@@ -84,18 +89,18 @@ class Core {
 	 */
 	protected function initializeCurrentPage() {
 		$uri = (strpos($_SERVER['REQUEST_URI'], '?') !== false) ? substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], '?')) : $_SERVER['REQUEST_URI'];
-		$uri = str_replace('/' . \Phile\Utility::getInstallPath() . '/', '', $uri);
+		$uri = str_replace('/' . Utility::getInstallPath() . '/', '', $uri);
 		$uri = (strpos($uri, '/') === 0) ? substr($uri, 1) : $uri;
 		/**
 		 * @triggerEvent request_uri this event is triggered after the request uri is detected.
 		 *
-		 * @param uri the uri
+		 * @param uri string the uri
 		 */
 		Event::triggerEvent('request_uri', array('uri' => $uri));
 
 		// use the current url to find the page
 		$page = $this->pageRepository->findByPath($uri);
-		if ($page instanceof \Phile\Model\Page) {
+		if ($page instanceof Model\Page) {
 			$this->page = $page;
 		} else {
 			header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
@@ -106,7 +111,7 @@ class Core {
 	/**
 	 * initialize plugins
 	 *
-	 * @throws Exception
+	 * @throws Exception\PluginException
 	 */
 	protected function initializePlugins() {
 		$loadingErrors = array();
@@ -119,16 +124,16 @@ class Core {
 					// load plugin configuration...
 					$pluginConfiguration = null;
 					// load the config file for the plugin
-					$configFile = \Phile\Utility::resolveFilePath("MOD:" . $vendor . DIRECTORY_SEPARATOR . $pluginName . DIRECTORY_SEPARATOR . "config.php");
+					$configFile = Utility::resolveFilePath("MOD:" . $vendor . DIRECTORY_SEPARATOR . $pluginName . DIRECTORY_SEPARATOR . "config.php");
 					if ($configFile !== null) {
-						$pluginConfiguration = \Phile\Utility::load($configFile);
-						$globalConfiguration = \Phile\Registry::get('Phile_Settings');
+						$pluginConfiguration = Utility::load($configFile);
+						$globalConfiguration = Registry::get('Phile_Settings');
 						if ($pluginConfiguration !== null && is_array($pluginConfiguration)) {
 							$globalConfiguration['plugins'][$pluginKey]['settings'] = array_replace_recursive($pluginConfiguration, $globalConfiguration['plugins'][$pluginKey]);
 						} else {
 							$globalConfiguration['plugins'][$pluginKey]['settings'] = array();
 						}
-						\Phile\Registry::set('Phile_Settings', $globalConfiguration);
+						Registry::set('Phile_Settings', $globalConfiguration);
 						$this->settings = $globalConfiguration;
 					}
 					// uppercase first letter convention
@@ -138,11 +143,11 @@ class Core {
 						continue;
 					}
 
-					/** @var \Phile\Plugin\AbstractPlugin $plugin */
+					/** @var AbstractPlugin $plugin */
 					$plugin = new $pluginClassName;
 					$plugin->injectSettings($globalConfiguration['plugins'][$pluginKey]['settings']);
 
-					if ($plugin instanceof \Phile\Plugin\AbstractPlugin) {
+					if ($plugin instanceof AbstractPlugin) {
 						// register plugin
 						$this->plugins[$pluginKey] = $plugin;
 					} else {
@@ -180,7 +185,7 @@ class Core {
 			$this->settings = $defaults;
 		}
 
-		\Phile\Registry::set('Phile_Settings', $this->settings);
+		Registry::set('Phile_Settings', $this->settings);
 		date_default_timezone_set($this->settings['timezone']);
 	}
 

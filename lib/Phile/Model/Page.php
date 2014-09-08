@@ -3,9 +3,8 @@
  * The page model
  */
 namespace Phile\Model;
-
-use Phile\Event;
-use Phile\ServiceLocator;
+use Phile\Core\Event;
+use Phile\Core\ServiceLocator;
 
 /**
  * the Model class for a page

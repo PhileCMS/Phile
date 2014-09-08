@@ -1,7 +1,10 @@
 <?php
 namespace Phile;
-use Phile\Plugin\AbstractPlugin;
+use Phile\Core\Event;
+use Phile\Core\Registry;
+use Phile\Core\Utility;
 use Phile\Exception\PluginException;
+use Phile\Plugin\AbstractPlugin;
 
 /**
  * Phile
@@ -121,14 +124,14 @@ class Bootstrap {
 			$this->settings = $defaults;
 		}
 
-		\Phile\Registry::set('Phile_Settings', $this->settings);
+		Registry::set('Phile_Settings', $this->settings);
 		date_default_timezone_set($this->settings['timezone']);
 	}
 
 	/**
 	 * initialize plugins
 	 *
-	 * @throws Exception
+	 * @throws Exception\PluginException
 	 */
 	protected function initializePlugins() {
 		$loadingErrors = array();
@@ -141,16 +144,16 @@ class Bootstrap {
 					// load plugin configuration...
 					$pluginConfiguration = null;
 					// load the config file for the plugin
-					$configFile = \Phile\Utility::resolveFilePath("MOD:" . $vendor . DIRECTORY_SEPARATOR . $pluginName . DIRECTORY_SEPARATOR . "config.php");
+					$configFile = Utility::resolveFilePath("MOD:" . $vendor . DIRECTORY_SEPARATOR . $pluginName . DIRECTORY_SEPARATOR . "config.php");
 					if ($configFile !== null) {
-						$pluginConfiguration = \Phile\Utility::load($configFile);
-						$globalConfiguration = \Phile\Registry::get('Phile_Settings');
+						$pluginConfiguration = Utility::load($configFile);
+						$globalConfiguration = Registry::get('Phile_Settings');
 						if ($pluginConfiguration !== null && is_array($pluginConfiguration)) {
 							$globalConfiguration['plugins'][$pluginKey]['settings'] = array_replace_recursive($pluginConfiguration, $globalConfiguration['plugins'][$pluginKey]);
 						} else {
 							$globalConfiguration['plugins'][$pluginKey]['settings'] = array();
 						}
-						\Phile\Registry::set('Phile_Settings', $globalConfiguration);
+						Registry::set('Phile_Settings', $globalConfiguration);
 						$this->settings = $globalConfiguration;
 					}
 					// uppercase first letter convention
@@ -160,11 +163,11 @@ class Bootstrap {
 						continue;
 					}
 
-					/** @var \Phile\Plugin\AbstractPlugin $plugin */
+					/** @var AbstractPlugin $plugin */
 					$plugin = new $pluginClassName;
 					$plugin->injectSettings($globalConfiguration['plugins'][$pluginKey]['settings']);
 
-					if ($plugin instanceof \Phile\Plugin\AbstractPlugin) {
+					if ($plugin instanceof AbstractPlugin) {
 						// register plugin
 						$this->plugins[$pluginKey] = $plugin;
 					} else {
