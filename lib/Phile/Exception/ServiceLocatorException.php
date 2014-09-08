@@ -4,7 +4,6 @@
  */
 
 namespace Phile\Exception;
-use Phile\Exception;
 
 /**
  * the ServiceLocatorException class
@@ -14,4 +13,4 @@ use Phile\Exception;
  * @license http://opensource.org/licenses/MIT
  * @package Phile
  */
-class ServiceLocatorException extends Exception {}
+class ServiceLocatorException extends AbstractException {}
