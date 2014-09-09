@@ -85,7 +85,7 @@ class Core {
 	protected function initializeCurrentPage() {
 		$uri = (strpos($_SERVER['REQUEST_URI'], '?') !== false) ? substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], '?')) : $_SERVER['REQUEST_URI'];
 		$uri = str_replace('/' . \Phile\Utility::getInstallPath() . '/', '', $uri);
-		$uri = (strpos($uri, '/') === 0) ? substr($uri, 1) : $uri;
+		$uri = trim($uri, '/');
 		/**
 		 * @triggerEvent request_uri this event is triggered after the request uri is detected.
 		 *
