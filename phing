@@ -1,0 +1,4 @@
+#! /bin/bash
+# convenience alias for phing
+
+lib/vendor/bin/phing "$@"
