@@ -31,6 +31,7 @@
     },
     "require-dev": {
         "phpdocumentor/phpdocumentor": "2.6.*",
-        "phing/phing": "2.*"
+        "phing/phing": "2.*",
+        "phpunit/phpunit": "*"
     }
 }
