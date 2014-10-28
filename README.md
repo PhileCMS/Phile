@@ -13,6 +13,10 @@ A Markdown file-based CMS.
 
 [![Gitter chat](https://badges.gitter.im/PhileCMS/Phile.png)](https://gitter.im/PhileCMS/Phile)
 
+## waffle.io board
+
+[![Stories in Ready](https://badge.waffle.io/PhileCMS/Phile.svg?label=ready&title=Ready)](http://waffle.io/PhileCMS/Phile)
+
 ## Why use PhileCMS?
 
 The desire to fork the project from Pico, came when a few community members wanted to contribute more and increase the rate of development progress.
