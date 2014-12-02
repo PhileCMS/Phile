@@ -14,4 +14,12 @@
   location @blog {
     rewrite ^/blog/(.*)$ /blog/index.php/$1;
   }
+</code></pre><h3 id="blocking-access-to-files-that-users-should-not-see">Blocking access to files that users should not see</h3>
+<p>You should spend some time making sure that at least your config.php file cannot be accessed. Especially since it holds an encryption key.</p>
+<p>I think the following is a fairly comprehensive list of the files that you should block</p>
+<pre><code>location ~ /.git/ { access_log off; log_not_found off; deny all; }
+  location ~ /(.gitignore|.gitmodules) { access_log off; log_not_found off; deny all; }
+  location ~ /(build.xml|composer.json|composer.phar|generator.php|lib|phing|README.md) { access_log off; log_not_found off; deny all; }
+  location ~ /(Changelog.md|composer.lock|config.php|default_config.php|LICENSE) { access_log off; log_not_found off; deny all; }
+  location ~ /\.          { access_log off; log_not_found off; deny all; }
 </code></pre>
