@@ -10,7 +10,7 @@
     |-- 1.md
     `-- 2.md
 </code></pre><p>and you want a navigation in the blog pages. First you should group all pages by subfolder and sort by date (a usual meta-tag for blog pages): in your config.php set</p>
-<pre><code>$config[&#39;pages_order&#39;]     = &#39;page.folder:asc meta.date.asc meta.title:desc&#39;;
+<pre><code>$config[&#39;pages_order&#39;]     = &#39;page.folder:asc meta.date:asc meta.title:desc&#39;;
 </code></pre><p>Then use in your twig template for the blog pages:</p>
 <pre><code>{% for page in pages %}
     {% if current_page.title == page.title %}
