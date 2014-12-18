@@ -87,8 +87,8 @@ class Page {
 		$this->url = str_replace($folder, '', $this->filePath);
 		$this->url = str_replace(CONTENT_EXT, '', $this->url);
 		$this->url = str_replace(DIRECTORY_SEPARATOR, '/', $this->url);
-		$this->url = preg_replace('#(.*)/index$#', '$1', $this->url);
-		$this->url = trim($this->url, '/');
+		$this->url = preg_replace('#(.*)/?index$#', '$1', $this->url);
+		$this->url = ltrim($this->url, '/');
 
 		$this->parser = ServiceLocator::getService('Phile_Parser');
 	}
