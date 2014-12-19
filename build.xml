@@ -10,9 +10,10 @@
     <target name="menu">
         <echo msg="1) build distribution zip"/>
         <echo msg="2) build phpdoc"/>
+        <echo msg="3) run test suite"/>
         <echo msg="x) exit"/>
 
-        <input message="Choose" propertyName="choice" validArgs="1,2,x"/>
+        <input message="Choose" propertyName="choice" validArgs="1,2,3,x"/>
 
         <if>
             <equals arg1="${choice}" arg2="1"/>
@@ -24,6 +25,13 @@
                 <equals arg1="${choice}" arg2="2"/>
                 <then>
                     <phingcall target="phpdoc"/>
+                </then>
+            </elseif>
+
+            <elseif>
+                <equals arg1="${choice}" arg2="3"/>
+                <then>
+                    <phingcall target="tests"/>
                 </then>
             </elseif>
 
@@ -119,6 +127,14 @@
                 <exclude name="plugins/phile/phpFastCache/lib/phpfastcache/**"/>
             </fileset>
         </phpdoc2>
+    </target>
+
+    <!-- ## tests ## -->
+    <target name="tests">
+        <property name="tests.all" value="lib/vendor/phpunit/phpunit/phpunit --colors --bootstrap tests/phpunit_bootstrap.php tests/"/>
+        <echo msg="Running PHPUnit test cases…"/>
+        <echo msg="Command run: '${tests.all}'"/>
+        <exec command="${tests.all}" logoutput="true" />
     </target>
 
 </project>
