@@ -3,7 +3,6 @@
  * The Event class
  */
 namespace Phile\Core;
-
 use Phile\Gateway\EventObserverInterface;
 
 /**
@@ -26,7 +25,7 @@ class Event {
 	 * method to register an event
 	 *
 	 * @param string                 $eventName the event to observe
-	 * @param EventObserverInterface $object
+	 * @param EventObserverInterface $object the event observer object
 	 */
 	public static function registerEvent($eventName, EventObserverInterface $object) {
 		if (!isset(self::$_registry[$eventName])) {

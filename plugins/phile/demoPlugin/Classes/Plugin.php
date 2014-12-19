@@ -27,7 +27,7 @@ class Plugin extends \Phile\Plugin\AbstractPlugin implements \Phile\Gateway\Even
 	 * the contructor
 	 */
 	public function __construct() {
-		\Phile\Event::registerEvent('before_render_template', $this);
+		\Phile\Core\Event::registerEvent('before_render_template', $this);
 	}
 
 	/**

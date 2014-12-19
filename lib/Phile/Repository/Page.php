@@ -4,10 +4,9 @@
  */
 namespace Phile\Repository;
 
-use Phile\Exception;
-use Phile\ServiceLocator;
-use Phile\Utility;
-
+use Phile\Core\Registry;
+use Phile\Core\ServiceLocator;
+use Phile\Core\Utility;
 
 /**
  * the Repository class for pages
@@ -38,7 +37,7 @@ class Page {
 	 */
 	public function __construct($settings = null) {
 		if ($settings === null) {
-			$settings = \Phile\Registry::get('Phile_Settings');
+			$settings = Registry::get('Phile_Settings');
 		}
 		$this->settings = $settings;
 		if (ServiceLocator::hasService('Phile_Cache')) {
@@ -75,7 +74,6 @@ class Page {
 	 * @param string $folder
 	 *
 	 * @return array of \Phile\Model\Page objects
-	 * @throws \Phile\Exception
 	 */
 	public function findAll(array $options = array(), $folder = CONTENT_DIR) {
 		$options += $this->settings;
