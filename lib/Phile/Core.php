@@ -83,15 +83,19 @@ class Core {
 	 * initialize the current page
 	 */
 	protected function initializeCurrentPage() {
-		$uri = (strpos($_SERVER['REQUEST_URI'], '?') !== false) ? substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], '?')) : $_SERVER['REQUEST_URI'];
-		$uri = str_replace('/' . \Phile\Utility::getInstallPath() . '/', '', $uri);
-		$uri = (strpos($uri, '/') === 0) ? substr($uri, 1) : $uri;
+		$uri = $_SERVER['REQUEST_URI'];
+		if (strpos($uri, '?') !== false) {
+			$uri = substr($uri, 0, strpos($uri, '?'));
+		}
+		$uri = str_replace('/' . Utility::getInstallPath() . '/', '', $uri);
+		$uri = rtrim($uri, '/');
+
 		/**
 		 * @triggerEvent request_uri this event is triggered after the request uri is detected.
 		 *
 		 * @param uri the uri
 		 */
-		Event::triggerEvent('request_uri', array('uri' => $uri));
+		Event::triggerEvent('request_uri', ['uri' => $uri]);
 
 		// use the current url to find the page
 		$page = $this->pageRepository->findByPath($uri);

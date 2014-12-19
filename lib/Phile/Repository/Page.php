@@ -8,7 +8,6 @@ use Phile\Exception;
 use Phile\ServiceLocator;
 use Phile\Utility;
 
-
 /**
  * the Repository class for pages
  *
@@ -55,17 +54,26 @@ class Page {
 	 * @return null|\Phile\Model\Page
 	 */
 	public function findByPath($path, $folder = CONTENT_DIR) {
-		$path = str_replace(Utility::getInstallPath(), '', $path);
-		$fullPath =  str_replace(array("\\", "//", "\\/", "/\\"), DIRECTORY_SEPARATOR, $folder.$path);
+		$page = null;
+		$DS = DIRECTORY_SEPARATOR;
 
+		$path = str_replace(Utility::getInstallPath(), '', $path);
+		$fullPath = str_replace(["\\", "//", "\\/", "/\\"], $DS, $folder . $path);
+		$fullPath = rtrim($fullPath, $DS);
 		$file = $fullPath . CONTENT_EXT;
 
-		// append '/index' to full path if file not found
-		if (!file_exists($file)) {
-			$file = $fullPath . '/index' . CONTENT_EXT;
+		$exists = file_exists($file);
+		if (!$exists) {
+			// if file isn't found check if it's a sub and a sub/index exists
+			$file = $fullPath . $DS . 'index' . CONTENT_EXT;
+			$exists = file_exists($file);
 		}
 
-		return (file_exists($file)) ? $this->getPage($file, $folder) : null;
+		if ($exists) {
+			$page = $this->getPage($file, $folder);
+		}
+
+		return $page;
 	}
 
 	/**
