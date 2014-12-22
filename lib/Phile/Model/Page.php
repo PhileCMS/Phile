@@ -63,7 +63,7 @@ class Page {
 	 * @param string $folder
 	 */
 	public function __construct($filePath, $folder = CONTENT_DIR) {
-		$this->filePath = $filePath;
+		$this->setFilePath($filePath);
 
 		/**
 		 * @triggerEvent before_load_content this event is triggered before the content is loaded
@@ -84,11 +84,7 @@ class Page {
 		 * @param \Phile\Model\Page page     the page model
 		 */
 		Event::triggerEvent('after_load_content', array('filePath' => &$this->filePath, 'rawData' => $this->rawData, 'page' => &$this));
-		$this->url = str_replace($folder, '', $this->filePath);
-		$this->url = str_replace(CONTENT_EXT, '', $this->url);
-		$this->url = str_replace(DIRECTORY_SEPARATOR, '/', $this->url);
-		$this->url = preg_replace('#(.*)/?index$#', '$1', $this->url);
-		$this->url = ltrim($this->url, '/');
+		$this->url = $this->buildUrl($this->filePath, $folder);
 
 		$this->parser = ServiceLocator::getService('Phile_Parser');
 	}
@@ -162,6 +158,23 @@ class Page {
 	 */
 	public function getTitle() {
 		return $this->getMeta()->get('title');
+	}
+
+	/**
+	 * Generate a pretty URL for the provided filename (and folder)
+	 *
+	 * @param string $filePath
+	 * @param string $folder
+	 * @return string
+	 */
+	public function buildUrl($filePath, $folder = CONTENT_DIR) {
+		$url = str_replace($folder, '', $filePath);
+		$url = str_replace(CONTENT_EXT, '', $url);
+		$url = str_replace(DIRECTORY_SEPARATOR, '/', $url);
+		$url = preg_replace('#(.*)/?index$#', '$1', $url);
+		$url = ltrim($url, '/');
+
+		return $url;
 	}
 
 	/**
