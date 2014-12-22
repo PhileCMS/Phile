@@ -49,7 +49,35 @@ class PageTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 	public function testPageHasUrl() {
-		$this->assertGreaterThan(0, strlen($this->pageRepository->findByPath('/')->getUrl()));
+		// root index
+		$this->assertEquals(
+			'',
+			$this->pageRepository->findByPath('/')->getUrl()
+		);
+
+		// check if '/index' is stripped correctly
+		$this->assertEquals(
+			'',
+			$this->pageRepository->findByPath('/index')->getUrl()
+		);
+
+		// root page
+		$this->assertEquals(
+			'setup',
+			$this->pageRepository->findByPath('/setup')->getUrl()
+		);
+
+		// sub index
+		$this->assertEquals(
+			'sub',
+			$this->pageRepository->findByPath('/sub/index')->getUrl()
+		);
+
+		// sub page
+		$this->assertEquals(
+			'sub/page',
+			$this->pageRepository->findByPath('/sub/page')->getUrl()
+		);
 	}
 
 	/**
