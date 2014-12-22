@@ -171,7 +171,14 @@ class Page {
 		$url = str_replace($folder, '', $filePath);
 		$url = str_replace(CONTENT_EXT, '', $url);
 		$url = str_replace(DIRECTORY_SEPARATOR, '/', $url);
-		$url = preg_replace('#(.*)/?index$#', '$1', $url);
+
+		// strip '/index' from the URL (can't just check if last 5 letters are 'index',
+		// because then URL's like "example.com/blog/global-economic-index" would also
+		// be chopped...)
+		$url = preg_replace('#(.*)/index$#', '$1', $url);
+
+		// if the whole url is 'index', then drop that as well
+		$url = preg_replace('#^index$#', '', $url);
 		$url = ltrim($url, '/');
 
 		return $url;
