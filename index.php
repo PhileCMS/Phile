@@ -12,8 +12,8 @@ require_once __DIR__ . '/lib/Phile/Bootstrap.php';
 ob_start();
 
 try {
-	$boostrap = \Phile\Bootstrap::getInstance()->initializeBasics();
-	$phileCore = new \Phile\Core($boostrap);
+	$bootstrap = \Phile\Bootstrap::getInstance()->initializeBasics();
+	$phileCore = new \Phile\Core($bootstrap);
 	echo $phileCore->render();
 } catch (\Phile\Exception $e) {
 	if (\Phile\ServiceLocator::hasService('Phile_ErrorHandler')) {
