@@ -68,8 +68,8 @@ class Page {
 		/**
 		 * @triggerEvent before_load_content this event is triggered before the content is loaded
 		 *
-		 * @param                   string filePath the path to the file
-		 * @param \Phile\Model\Page page   the page model
+		 * @param            string filePath the path to the file
+		 * @param \Phile\Model\Page page     the page model
 		 */
 		Event::triggerEvent('before_load_content', array('filePath' => &$this->filePath, 'page' => &$this));
 		if (file_exists($this->filePath)) {
@@ -79,9 +79,9 @@ class Page {
 		/**
 		 * @triggerEvent after_load_content this event is triggered after the content is loaded
 		 *
-		 * @param                   string filePath the path to the file
-		 * @param                   string rawData the raw data
-		 * @param \Phile\Model\Page page   the page model
+		 * @param            string filePath the path to the file
+		 * @param            string rawData  the raw data
+		 * @param \Phile\Model\Page page     the page model
 		 */
 		Event::triggerEvent('after_load_content', array('filePath' => &$this->filePath, 'rawData' => $this->rawData, 'page' => &$this));
 		$this->url = str_replace($folder, '', $this->filePath);
@@ -102,16 +102,16 @@ class Page {
 		/**
 		 * @triggerEvent before_parse_content this event is triggered before the content is parsed
 		 *
-		 * @param                   string content the raw data
-		 * @param \Phile\Model\Page page   the page model
+		 * @param            string content the raw data
+		 * @param \Phile\Model\Page page    the page model
 		 */
 		Event::triggerEvent('before_parse_content', array('content' => $this->content, 'page' => &$this));
 		$content = $this->parser->parse($this->content);
 		/**
 		 * @triggerEvent after_parse_content this event is triggered after the content is parsed
 		 *
-		 * @param                   string content the parsed content
-		 * @param \Phile\Model\Page page   the page model
+		 * @param            string content the parsed content
+		 * @param \Phile\Model\Page page    the page model
 		 */
 		Event::triggerEvent('after_parse_content', array('content' => &$content, 'page' => &$this));
 
