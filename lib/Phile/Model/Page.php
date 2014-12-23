@@ -57,12 +57,18 @@ class Page {
 	protected $nextPage;
 
 	/**
+	 * @var string The content folder, as passed to the class constructor when initiating the object.
+	 */
+	protected $contentFolder = CONTENT_DIR;
+
+	/**
 	 * the constructor
 	 *
 	 * @param        $filePath
 	 * @param string $folder
 	 */
 	public function __construct($filePath, $folder = CONTENT_DIR) {
+		$this->contentFolder = $folder;
 		$this->setFilePath($filePath);
 
 		/**
@@ -160,14 +166,13 @@ class Page {
 	}
 
 	/**
-	 * Generate a pretty URL for the provided filename (and folder)
+	 * Generate a pretty URL for the provided filename
 	 *
 	 * @param string $filePath
-	 * @param string $folder
 	 * @return string
 	 */
-	protected function buildUrl($filePath, $folder = CONTENT_DIR) {
-		$url = str_replace($folder, '', $filePath);
+	protected function buildUrl($filePath) {
+		$url = str_replace($this->contentFolder, '', $filePath);
 		$url = str_replace(CONTENT_EXT, '', $url);
 		$url = str_replace(DIRECTORY_SEPARATOR, '/', $url);
 
