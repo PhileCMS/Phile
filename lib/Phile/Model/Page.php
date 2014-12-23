@@ -84,7 +84,6 @@ class Page {
 		 * @param \Phile\Model\Page page     the page model
 		 */
 		Event::triggerEvent('after_load_content', array('filePath' => &$this->filePath, 'rawData' => $this->rawData, 'page' => &$this));
-		$this->url = $this->buildUrl($this->filePath, $folder);
 
 		$this->parser = ServiceLocator::getService('Phile_Parser');
 	}
@@ -167,7 +166,7 @@ class Page {
 	 * @param string $folder
 	 * @return string
 	 */
-	public function buildUrl($filePath, $folder = CONTENT_DIR) {
+	protected function buildUrl($filePath, $folder = CONTENT_DIR) {
 		$url = str_replace($folder, '', $filePath);
 		$url = str_replace(CONTENT_EXT, '', $url);
 		$url = str_replace(DIRECTORY_SEPARATOR, '/', $url);
@@ -200,6 +199,7 @@ class Page {
 	 */
 	public function setFilePath($filePath) {
 		$this->filePath = $filePath;
+		$this->url = $this->buildUrl($this->filePath);
 	}
 
 	/**
