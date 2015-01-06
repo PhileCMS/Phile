@@ -1,21 +1,11 @@
 <h4 id="requirements">Requirements</h4>
 <p>To run Phile requires PHP 5.3.0+. If you&#39;re running Apache, <em>mod_rewrite</em> must be enabled.</p>
-<h4 id="installation-method-one-the-easy-way">Installation - Method One: the easy way</h4>
-<ul>
-<li>Extract the latest version of Phile</li>
-<li>Upload all the files to your server (via FTP or some other deployment)</li>
-</ul>
-<p>You can override the default Phile settings (and add your own custom settings) by editing config.php in the root Phile directory. The <code>config.php</code> file lists all of the settings and their defaults. To override a setting simply uncomment it in <code>config.php</code> and set your custom value.</p>
-<p>Make sure you have an <a href="https://github.com/PhileCMS/Phile/blob/master/.htaccess">.htaccess</a> file in the root of your phile installation.</p>
-<h4 id="installation-method-two-the-nerd-way">Installation - Method Two: the nerd way</h4>
-<p>Install composer</p>
-<pre><code class="lang-shell">curl -s https://getcomposer.org/installer | php
-</code></pre>
-<p>Go to your htdocs directory and download the PhileCMS base distribution with all the dependencies:</p>
-<pre><code class="lang-shell">cd /your/htdocs/
-php /path/to/composer.phar create-project phile-cms/phile
-</code></pre>
-<p>Set up a virtual host inside your apache.conf, and then restart apache:</p>
+<h4 id="installation">Installation</h4>
+<p>Install <a href="https://getcomposer.org/doc/00-intro.md#system-requirements">composer</a>.</p>
+<p><a href="https://github.com/PhileCMS/Phile/archive/master.zip">Download</a> or clone (<code>git clone https://github.com/PhileCMS/Phile</code>) the PhileCMS base distribution and then run <code>composer install</code> in the root directory (the root has the <code>composer.json</code> file).</p>
+<p>Make sure you have the proper <a href="https://github.com/PhileCMS/Phile/wiki/%5BHOW-TO%5D-Installation#permissions">folder permissions</a>.</p>
+<h5 id="virtual-host-setup">Virtual Host Setup</h5>
+<p>Set up a virtual host inside your <code>apache.conf</code>, and then restart apache:</p>
 <pre><code class="lang-apache">NameVirtualHost *:80 # if needed
 
 &lt;VirtualHost *:80&gt;
