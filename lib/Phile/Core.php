@@ -86,6 +86,15 @@ class Core {
 		$uri = (strpos($_SERVER['REQUEST_URI'], '?') !== false) ? substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], '?')) : $_SERVER['REQUEST_URI'];
 		$uri = str_replace('/' . \Phile\Utility::getInstallPath() . '/', '', $uri);
 		$uri = (strpos($uri, '/') === 0) ? substr($uri, 1) : $uri;
+
+		// strip '/index' if it exists (as per https://github.com/PhileCMS/Phile/pull/170)
+		if ($uri=="index" || preg_match("#/index$#", $uri)>0) {
+			// we can't just check if 'index' are the last 5 letters, because then URLs
+			// like 'example.com/blog/global-economic-index' would also be stripped...
+			$uri = rtrim(Utility::getBaseUrl() . '/' . substr($uri, 0, -5), '/');
+			Utility::redirect($uri, 301);
+		}
+
 		/**
 		 * @triggerEvent request_uri this event is triggered after the request uri is detected.
 		 *

@@ -57,19 +57,25 @@ class Page {
 	protected $nextPage;
 
 	/**
+	 * @var string The content folder, as passed to the class constructor when initiating the object.
+	 */
+	protected $contentFolder = CONTENT_DIR;
+
+	/**
 	 * the constructor
 	 *
 	 * @param        $filePath
 	 * @param string $folder
 	 */
 	public function __construct($filePath, $folder = CONTENT_DIR) {
-		$this->filePath = $filePath;
+		$this->contentFolder = $folder;
+		$this->setFilePath($filePath);
 
 		/**
 		 * @triggerEvent before_load_content this event is triggered before the content is loaded
 		 *
-		 * @param                   string filePath the path to the file
-		 * @param \Phile\Model\Page page   the page model
+		 * @param            string filePath the path to the file
+		 * @param \Phile\Model\Page page     the page model
 		 */
 		Event::triggerEvent('before_load_content', array('filePath' => &$this->filePath, 'page' => &$this));
 		if (file_exists($this->filePath)) {
@@ -79,17 +85,11 @@ class Page {
 		/**
 		 * @triggerEvent after_load_content this event is triggered after the content is loaded
 		 *
-		 * @param                   string filePath the path to the file
-		 * @param                   string rawData the raw data
-		 * @param \Phile\Model\Page page   the page model
+		 * @param            string filePath the path to the file
+		 * @param            string rawData  the raw data
+		 * @param \Phile\Model\Page page     the page model
 		 */
 		Event::triggerEvent('after_load_content', array('filePath' => &$this->filePath, 'rawData' => $this->rawData, 'page' => &$this));
-		$this->url = str_replace($folder, '', $this->filePath);
-		$this->url = str_replace(CONTENT_EXT, '', $this->url);
-		$this->url = str_replace(DIRECTORY_SEPARATOR, '/', $this->url);
-		if (strpos($this->url, '/') === 0) {
-			$this->url = substr($this->url, 1);
-		}
 
 		$this->parser = ServiceLocator::getService('Phile_Parser');
 	}
@@ -103,16 +103,16 @@ class Page {
 		/**
 		 * @triggerEvent before_parse_content this event is triggered before the content is parsed
 		 *
-		 * @param                   string content the raw data
-		 * @param \Phile\Model\Page page   the page model
+		 * @param            string content the raw data
+		 * @param \Phile\Model\Page page    the page model
 		 */
 		Event::triggerEvent('before_parse_content', array('content' => $this->content, 'page' => &$this));
 		$content = $this->parser->parse($this->content);
 		/**
 		 * @triggerEvent after_parse_content this event is triggered after the content is parsed
 		 *
-		 * @param                   string content the parsed content
-		 * @param \Phile\Model\Page page   the page model
+		 * @param            string content the parsed content
+		 * @param \Phile\Model\Page page    the page model
 		 */
 		Event::triggerEvent('after_parse_content', array('content' => &$content, 'page' => &$this));
 
@@ -166,6 +166,29 @@ class Page {
 	}
 
 	/**
+	 * Generate a pretty URL for the provided filename
+	 *
+	 * @param string $filePath
+	 * @return string
+	 */
+	protected function buildUrl($filePath) {
+		$url = str_replace($this->contentFolder, '', $filePath);
+		$url = str_replace(CONTENT_EXT, '', $url);
+		$url = str_replace(DIRECTORY_SEPARATOR, '/', $url);
+
+		// strip '/index' from the URL (can't just check if last 5 letters are 'index',
+		// because then URL's like "example.com/blog/global-economic-index" would also
+		// be chopped...)
+		$url = preg_replace('#(.*)/index$#', '$1', $url);
+
+		// if the whole url is 'index', then drop that as well
+		$url = preg_replace('#^index$#', '', $url);
+		$url = ltrim($url, '/');
+
+		return $url;
+	}
+
+	/**
 	 * get the url of page
 	 *
 	 * @return string
@@ -181,6 +204,7 @@ class Page {
 	 */
 	public function setFilePath($filePath) {
 		$this->filePath = $filePath;
+		$this->url = $this->buildUrl($this->filePath);
 	}
 
 	/**
