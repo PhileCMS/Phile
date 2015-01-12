@@ -24,7 +24,7 @@ class Utility {
 			return '';
 		}
 		$protocol = 'http';
-		if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
+		if (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off' ) {
 			$protocol = 'https';
 		}
 
