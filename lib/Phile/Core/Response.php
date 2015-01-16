@@ -42,8 +42,15 @@
       return $this;
     }
 
+    /**
+     * Set HTTP-header
+     *
+     * @param string $key
+     * @param string $value
+     * @return $this
+     */
     public function setHeader($key, $value) {
-      $this->headers[] = "$key: $value";
+      $this->headers[$key] = "$key: $value";
       return $this;
     }
 
