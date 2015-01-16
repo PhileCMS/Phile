@@ -54,11 +54,15 @@
 
     public function send() {
       $this->setHeader('Content-Type', 'text/html; charset=' . $this->charset);
+      $this->_outputHeader();
+      http_response_code($this->statusCode);
+      echo $this->body;
+    }
+
+    protected function _outputHeader(){
       foreach($this->headers as $header) {
         header($header);
       }
-      http_response_code($this->statusCode);
-      echo $this->body;
     }
 
   }

@@ -21,7 +21,7 @@ class ResponseTest extends \PHPUnit_Framework_TestCase {
 
   protected function setUp() {
     parent::setUp();
-    $this->response = $this->getMock('\Phile\Core\Response', ['setHeader']);
+    $this->response = $this->getMock('\Phile\Core\Response', ['_outputHeader']);
   }
 
   protected function tearDown() {
@@ -29,6 +29,7 @@ class ResponseTest extends \PHPUnit_Framework_TestCase {
   }
 
   public function testDefaultCharset() {
+    $this->response = $this->getMock('\Phile\Core\Response', ['setHeader']);
     $this->response->expects($this->once())
       ->method('setHeader')
       ->with('Content-Type', 'text/html; charset=utf-8');
@@ -36,6 +37,7 @@ class ResponseTest extends \PHPUnit_Framework_TestCase {
   }
 
   public function testSetCharset() {
+    $this->response = $this->getMock('\Phile\Core\Response', ['setHeader']);
     $this->response->expects($this->once())
       ->method('setHeader')
       ->with('Content-Type', 'text/html; charset=latin-1');
@@ -43,8 +45,7 @@ class ResponseTest extends \PHPUnit_Framework_TestCase {
   }
 
   public function testSetBody() {
-    $this->response->setBody('foo');
-    $this->response->send();
+    $this->response->setBody('foo')->send();
     $this->expectOutputString('foo');
   }
 
