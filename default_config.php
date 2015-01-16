@@ -10,6 +10,8 @@ $config['pages_order']    = 'meta.title:desc'; // Order pages by "title" (alpha)
 // figure out the timezone
 $config['timezone']       = (ini_get('date.timezone')) ? ini_get('date.timezone') : 'UTC'; // The default timezone
 
+$config['charset']    = 'utf-8'; // charset used for HTML & Markdown files
+
 // only extend $config['plugins'] and not overwrite it, because some core plugins
 // will be added to this config option by default. So, use this option in this way:
 // $config['plugins']['myCustomPlugin'] = array('active' => true);

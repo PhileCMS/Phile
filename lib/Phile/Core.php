@@ -3,6 +3,7 @@
  * the core of Phile
  */
 namespace Phile;
+use Phile\Core\Response;
 use Phile\Exception\PluginException;
 
 /**
@@ -45,6 +46,11 @@ class Core {
 	protected $output;
 
 	/**
+	 * @var \Phile\Core\Response
+	 */
+	protected $response;
+
+	/**
 	 * The constructor carries out all the processing in Phile.
 	 * Does URL routing, Markdown processing and Twig processing.
 	 *
@@ -56,6 +62,7 @@ class Core {
 		$this->settings = \Phile\Registry::get('Phile_Settings');
 
 		$this->pageRepository = new \Phile\Repository\Page();
+		$this->response = (new Response)->setCharset($this->settings['charset']);
 
 		// Setup Check
 		$this->checkSetup();
@@ -76,7 +83,7 @@ class Core {
 	 * @return string
 	 */
 	public function render() {
-		return $this->output;
+		return $this->response->send();
 	}
 
 	/**
@@ -107,7 +114,7 @@ class Core {
 		if ($page instanceof \Phile\Model\Page) {
 			$this->page = $page;
 		} else {
-			header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
+			$this->response->setStatusCode(404);
 			$this->page = $this->pageRepository->findByPath('404');
 		}
 	}
@@ -198,6 +205,6 @@ class Core {
 		 * @param                                         string the generated ouput
 		 */
 		Event::triggerEvent('after_render_template', array('templateEngine' => &$templateEngine, 'output' => &$output));
-		$this->output = $output;
+		$this->response->setBody($output);
 	}
 }
