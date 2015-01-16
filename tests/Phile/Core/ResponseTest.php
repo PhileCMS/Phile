@@ -21,7 +21,7 @@ class ResponseTest extends \PHPUnit_Framework_TestCase {
 
   protected function setUp() {
     parent::setUp();
-    $this->response = $this->getMock('\Phile\Core\Response', ['_outputHeader']);
+    $this->response = $this->getMock('\Phile\Core\Response', ['outputHeader']);
   }
 
   protected function tearDown() {
