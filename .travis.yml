@@ -30,7 +30,7 @@ script:
 - |
   echo;
   echo "Running unit tests";
-  lib/vendor/bin/phpunit/phpunit
+  lib/vendor/bin/phpunit
 - |
   echo; echo "Running php lint"; /bin/bash -c "
     if ! find lib -name \*.php -not -path 'lib/vendor/*' -exec php -l {} \; > /tmp/errors 2>&1; then
