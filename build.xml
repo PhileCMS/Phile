@@ -131,9 +131,9 @@
 
     <!-- ## tests ## -->
     <target name="tests">
-        <property name="tests.all" value="lib/vendor/phpunit/phpunit/phpunit --colors --bootstrap tests/phpunit_bootstrap.php tests/"/>
+        <property name="tests.all" value="lib/vendor/bin/phpunit"/>
+        <echo msg="Command run: '${tests.all}' (using phpunit.xml configuration file)"/>
         <echo msg="Running PHPUnit test cases…"/>
-        <echo msg="Command run: '${tests.all}'"/>
         <exec command="${tests.all}" logoutput="true" />
     </target>
 
