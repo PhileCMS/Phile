@@ -88,7 +88,7 @@ class Core {
 			$uri = substr($uri, 0, strpos($uri, '?'));
 		}
 		$uri = str_replace('/' . Utility::getInstallPath() . '/', '', $uri);
-		$uri = rtrim($uri, '/');
+		$uri = ltrim($uri, '/');
 
 		/**
 		 * @triggerEvent request_uri this event is triggered after the request uri is detected.
