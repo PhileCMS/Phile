@@ -109,7 +109,7 @@ class Utility {
 
 	/**
 	 * check if a plugin is loaded
-	 * 
+	 *
 	 * @param $plugin
 	 *
 	 * @return bool
@@ -120,6 +120,8 @@ class Utility {
 	}
 
 	/**
+	 * static method to get files by directory and file filter
+	 *
 	 * @param        $directory
 	 * @param string $filter
 	 *
