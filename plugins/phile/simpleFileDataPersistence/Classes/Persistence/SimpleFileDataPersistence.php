@@ -24,6 +24,9 @@ class SimpleFileDataPersistence implements PersistenceInterface {
 	 */
 	public function __construct() {
 		$this->dataDirectory = LIB_DIR . 'datastorage/';
+		if (!is_dir($this->dataDirectory)) {
+			mkdir($this->dataDirectory, 0755);
+		}
 	}
 
 	/**

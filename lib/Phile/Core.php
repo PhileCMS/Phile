@@ -16,7 +16,7 @@ use Phile\Exception\PluginException;
  */
 class Core {
 	/**
-	 * @var Bootstrap
+	 * @var Bootstrap the bootstrap class
 	 */
 	protected $bootstrap;
 
