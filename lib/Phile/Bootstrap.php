@@ -148,10 +148,11 @@ class Bootstrap {
 			}
 			if ($dir['protected']) {
 				$file = "$path.htaccess";
-				$content = "order deny, allow\ndeny from all\nallow from 127.0.0.1";
-				file_put_contents($file, $content);
+				if (!file_exists($file)) {
+					$content = "order deny, allow\ndeny from all\nallow from 127.0.0.1";
+					file_put_contents($file, $content);
+				}
 			}
-
 		}
 	}
 
