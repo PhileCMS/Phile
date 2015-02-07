@@ -59,6 +59,7 @@ class Bootstrap {
 		$this->initializeDefinitions();
 		$this->initializeAutoloader();
 		$this->initializeConfiguration();
+		$this->initializeFilesAndFolders();
 		$this->initializePlugins();
 		return $this;
 	}
@@ -79,6 +80,7 @@ class Bootstrap {
 		defined('PLUGINS_DIR') 		or define('PLUGINS_DIR',     ROOT_DIR . 'plugins' . DIRECTORY_SEPARATOR);
 		defined('THEMES_DIR') 		or define('THEMES_DIR',      ROOT_DIR . 'themes' . DIRECTORY_SEPARATOR);
 		defined('CACHE_DIR') 		or define('CACHE_DIR',       LIB_DIR . 'cache' . DIRECTORY_SEPARATOR);
+		defined('STORAGE_DIR') or define('STORAGE_DIR', LIB_DIR . 'datastorage' . DIRECTORY_SEPARATOR);
 	}
 
 	/**
@@ -123,6 +125,34 @@ class Bootstrap {
 
 		\Phile\Registry::set('Phile_Settings', $this->settings);
 		date_default_timezone_set($this->settings['timezone']);
+	}
+
+	/**
+	 * auto-setup of files and folders
+	 */
+	protected function initializeFilesAndFolders() {
+		$dirs = [
+			['path' => CACHE_DIR],
+			['path' => STORAGE_DIR]
+		];
+		$defaults = ['protected' => true];
+
+		foreach ($dirs as $dir) {
+			$dir += $defaults;
+			$path = $dir['path'];
+			if (empty($path) || strpos($path, ROOT_DIR) !== 0) {
+				continue;
+			}
+			if (!file_exists($path)) {
+				mkdir($path, 0775, true);
+			}
+			if ($dir['protected']) {
+				$file = "$path.htaccess";
+				$content = "order deny, allow\ndeny from all\nallow from 127.0.0.1";
+				file_put_contents($file, $content);
+			}
+
+		}
 	}
 
 	/**
