@@ -1,5 +1,41 @@
 # Changelog
 
+## Release v1.4.0
+
+- [x] [7eaaacc](https://github.com/PhileCMS/Phile/commit/7eaaacc4b2206ff8a3e84110e017b97b7ee62fcc) by [James Doyle](https://github.com/James Doyle) - Merge pull request #172 from DenBeke/patch-1
+- [x] [cf18211](https://github.com/PhileCMS/Phile/commit/cf1821171d862e8d841b69ece86a6a8d1457850d) by [James Doyle](https://github.com/James Doyle) - Merge pull request #176 from infostreams/patch-3
+- [x] [ebfd4b0](https://github.com/PhileCMS/Phile/commit/ebfd4b09c4839a54b048e35a890725ae4430a06d) by [Edward Akerboom](https://github.com/Edward Akerboom) - Remove duplicate 'initializePlugins'
+- [x] [cfb6a30](https://github.com/PhileCMS/Phile/commit/cfb6a30226248f5708c5e790eb4abed831b87a5a) by [James Doyle](https://github.com/James Doyle) - Merge pull request #170 from infostreams/patch-1
+- [x] [e83bbae](https://github.com/PhileCMS/Phile/commit/e83bbae09805c76a9441dbb3a7a7fdaecbe462fe) by [Edward Akerboom](https://github.com/Edward Akerboom) - Added protected property contentFolder
+- [x] [26d86a4](https://github.com/PhileCMS/Phile/commit/26d86a4ed81a0ac84595f2611bd281e3aebb4f7d) by [DenBeke](https://github.com/DenBeke) - [BUGFIX] Nginx: https/http protocol detection
+- [x] [c7f6334](https://github.com/PhileCMS/Phile/commit/c7f633479f1a385c037d0ec94a005e49d78fc157) by [DenBeke](https://github.com/DenBeke) - [Fix] Nginx: https/http protocol detection
+- [x] [8e0767c](https://github.com/PhileCMS/Phile/commit/8e0767c3bd68f96bd1768e3d3a6bcbab8c47c8b6) by [Edward Akerboom](https://github.com/Edward Akerboom) - Protect the buildURL() method, and invoke it when underlying data changes
+- [x] [68fdca2](https://github.com/PhileCMS/Phile/commit/68fdca2dfb3205d5ca5ccb1f5401758488b3cf6b) by [Edward Akerboom](https://github.com/Edward Akerboom) - Fixed failing unit test
+- [x] [ee7b374](https://github.com/PhileCMS/Phile/commit/ee7b37475f51831520dbb918c679e29aa584edc2) by [Edward Akerboom](https://github.com/Edward Akerboom) - Removed unnecessary rewrite rule that caused 404s
+- [x] [41f95d1](https://github.com/PhileCMS/Phile/commit/41f95d11955fe9394f73862007792dcff1fb7267) by [Edward Akerboom](https://github.com/Edward Akerboom) - If a page with '/index' is requested, then strip it from the URL and redirect
+- [x] [ec71bdc](https://github.com/PhileCMS/Phile/commit/ec71bdc9f17c681473527bdab82e1f534b7b1cc2) by [Edward Akerboom](https://github.com/Edward Akerboom) - More carefully strip '/index' from the URL
+- [x] [4bf69de](https://github.com/PhileCMS/Phile/commit/4bf69de81bd1d636fd3c096f22e0d35cbb05f426) by [Edward Akerboom](https://github.com/Edward Akerboom) - $boostrap => $bootstrap
+- [x] [f13454b](https://github.com/PhileCMS/Phile/commit/f13454bbf64ac6e3767929ed4a2e0b5941f63b65) by [Edward Akerboom](https://github.com/Edward Akerboom) - Moved URL generation into its own method
+- [x] [4ed7441](https://github.com/PhileCMS/Phile/commit/4ed744188684938a7822f4c430ab9b2c42c7a4f4) by [Edward Akerboom](https://github.com/Edward Akerboom) - Formatting
+- [x] [70ed102](https://github.com/PhileCMS/Phile/commit/70ed102b7eaedf32807fd7daba52b09fb0284380) by [Frank Nägler](https://github.com/Frank Nägler) - Merge pull request #162 from Schlaefer/feature/testsPhing
+- [x] [42d6ed0](https://github.com/PhileCMS/Phile/commit/42d6ed02dcfc1bffbcd234fa2a22e25bca21da45) by [Edward Akerboom](https://github.com/Edward Akerboom) - Also remove '/index' from front page
+- [x] [ac3fbf7](https://github.com/PhileCMS/Phile/commit/ac3fbf7a41ad15b3c0ce0e23269f009d82cf0ba2) by [Edward Akerboom](https://github.com/Edward Akerboom) - [FEATURE] Drop '/index' from generated URLs
+- [x] [1ee0a36](https://github.com/PhileCMS/Phile/commit/1ee0a3674a036affe5e015a2f4ac9a6125743ca5) by [Frank Nägler](https://github.com/Frank Nägler) - Update README.md
+- [x] [964235d](https://github.com/PhileCMS/Phile/commit/964235dacf3af63c0b5a6a0f09467961de221ebb) by [Schlaefer](https://github.com/Schlaefer) - adds 'colors' flag to phing phpunit test run
+- [x] [ecd200f](https://github.com/PhileCMS/Phile/commit/ecd200fbe7a53eb684a47125c82d0adb24dd31cf) by [Schlaefer](https://github.com/Schlaefer) - adds tests case run to phing and installs phpunit as dev-require
+- [x] [221b0cc](https://github.com/PhileCMS/Phile/commit/221b0cc0e3f878ac4e28ce0c7820d5cf3898683c) by [Frank Nägler](https://github.com/Frank Nägler) - Merge pull request #145 from NeoBlack/feature/optimizePhingBuildXml
+- [x] [2535ec7](https://github.com/PhileCMS/Phile/commit/2535ec733bcc54414b1c862e5120f4085cb63882) by [Frank Nägler](https://github.com/Frank Nägler) - [TASK] Update travis file to use colors for unittests
+- [x] [129887f](https://github.com/PhileCMS/Phile/commit/129887f02f9e740900041803d62db2a04be4beae) by [Frank Nägler](https://github.com/Frank Nägler) - Merge pull request #149 from NeoBlack/feature_1_4/moveClasses
+- [x] [926d095](https://github.com/PhileCMS/Phile/commit/926d09546770dfdb62e7c20dcc23587eaef89116) by [Frank Nägler](https://github.com/Frank Nägler) - [TASK] Move classes into new locations
+- [x] [9a1cf58](https://github.com/PhileCMS/Phile/commit/9a1cf58b6fc0d31383df051c0c1772458278d221) by [Frank Nägler](https://github.com/Frank Nägler) - Revert "[TASK] Move classes into new locations"
+- [x] [d43589d](https://github.com/PhileCMS/Phile/commit/d43589dc6213d826488cff1fa254333097530658) by [Frank Nägler](https://github.com/Frank Nägler) - [TASK] Move classes into new locations
+- [x] [c721ea1](https://github.com/PhileCMS/Phile/commit/c721ea16516327877fe52054d28b1cbf98cf73c9) by [Frank Nägler](https://github.com/Frank Nägler) - [BUGFIX] change phpdocumentor version to 2.6.*
+- [x] [a46b43f](https://github.com/PhileCMS/Phile/commit/a46b43f57424c8172fd0f55dd77fe3dc03d7bd13) by [Frank Nägler](https://github.com/Frank Nägler) - [TASK] change fileset and add comments
+- [x] [172db0f](https://github.com/PhileCMS/Phile/commit/172db0fe1b6f23419eb7e5529978a3290ed3d685) by [Frank Nägler](https://github.com/Frank Nägler) - Merge branch 'Schlaefer-feature/build-system'
+- [x] [50f465a](https://github.com/PhileCMS/Phile/commit/50f465af098f9ec092de36267b0d85f18d0451c5) by [Frank Nägler](https://github.com/Frank Nägler) - Merge branch 'feature/build-system' of https://github.com/Schlaefer/Phile into Schlaefer-feature/build-system
+- [x] [64a8e07](https://github.com/PhileCMS/Phile/commit/64a8e0748390d9848d7dc056cad6f16634f00cc7) by [James Doyle](https://github.com/James Doyle) - add link to setup page
+- [x] [9ff972e](https://github.com/PhileCMS/Phile/commit/9ff972e6329e6994ccaf6ad8d6e3d87f3f4d6c2e) by [James Doyle](https://github.com/James Doyle) - clarify help and add links to docs and info
+
 ## Release v1.3.0
 
 - [x] [1be0ad4](https://github.com/PhileCMS/Phile/commit/1be0ad4b5706b572d3bcf3a2c502faeceb34bbba) by [james2doyle](https://github.com/james2doyle) - Merge branch 'master' of https://github.com/PhileCMS/Phile
