@@ -2,6 +2,8 @@
 
 ## Release v1.4.0
 
+Please see the [release notes](https://github.com/PhileCMS/Phile/releases/tag/1.4.0) or the [complete change-log](https://github.com/PhileCMS/Phile/compare/1.3.0...1.4.0) for more  information.
+
 - [x] [7eaaacc](https://github.com/PhileCMS/Phile/commit/7eaaacc4b2206ff8a3e84110e017b97b7ee62fcc) by [James Doyle](https://github.com/James Doyle) - Merge pull request #172 from DenBeke/patch-1
 - [x] [cf18211](https://github.com/PhileCMS/Phile/commit/cf1821171d862e8d841b69ece86a6a8d1457850d) by [James Doyle](https://github.com/James Doyle) - Merge pull request #176 from infostreams/patch-3
 - [x] [ebfd4b0](https://github.com/PhileCMS/Phile/commit/ebfd4b09c4839a54b048e35a890725ae4430a06d) by [Edward Akerboom](https://github.com/Edward Akerboom) - Remove duplicate 'initializePlugins'
