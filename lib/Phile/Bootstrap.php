@@ -1,4 +1,7 @@
 <?php
+/**
+ * the Bootstrap of Phile
+ */
 namespace Phile;
 use Phile\Plugin\AbstractPlugin;
 use Phile\Exception\PluginException;
@@ -13,7 +16,7 @@ use Phile\Exception\PluginException;
  */
 class Bootstrap {
 	/**
-	 * @var \Phile\Bootstrap
+	 * @var \Phile\Bootstrap instance of Bootstrap class
 	 */
 	static protected $instance = NULL;
 
@@ -70,7 +73,7 @@ class Bootstrap {
 		// for php unit testings, we need to check if constant is defined
 		// before setting them, because there is a bug in PHPUnit which
 		// init our bootstrap multiple times.
-		defined('PHILE_VERSION') 	or define('PHILE_VERSION',   '1.3.0');
+		defined('PHILE_VERSION') 	or define('PHILE_VERSION',   '1.4.0');
 		defined('PHILE_CLI_MODE') 	or define('PHILE_CLI_MODE',  (php_sapi_name() == "cli") ? true : false);
 		defined('ROOT_DIR') 		or define('ROOT_DIR',        realpath(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR);
 		defined('CONTENT_DIR') 		or define('CONTENT_DIR',     ROOT_DIR . 'content' . DIRECTORY_SEPARATOR);
@@ -191,6 +194,7 @@ class Bootstrap {
 	}
 
 	/**
+	 * method to get plugins
 	 * @return array
 	 */
 	public function getPlugins() {
