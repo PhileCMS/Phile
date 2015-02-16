@@ -27,7 +27,7 @@
         "php": ">=5.4.0",
         "twig/twig": "1.15.*",
         "michelf/php-markdown": ">=1.4",
-        "phile-cms/plugin-installer-plugin": "dev-master"
+        "phile-cms/plugin-installer-plugin": ">=1.0"
     },
     "require-dev": {
         "phpdocumentor/phpdocumentor": "2.6.*",
