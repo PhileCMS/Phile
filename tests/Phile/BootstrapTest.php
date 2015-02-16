@@ -22,6 +22,9 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase {
 
     //setup: delete files and folders
     foreach ($paths as $path) {
+      if (empty($path) || strpos($path, ROOT_DIR) !== 0) {
+        $this->markTestSkipped("Path $path is not in Phile installation directory.");
+      }
       $this->deleteDirectory($path);
       $this->assertFalse(is_dir($path));
     }
