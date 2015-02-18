@@ -82,6 +82,7 @@ class Bootstrap {
 		defined('PLUGINS_DIR') 		or define('PLUGINS_DIR',     ROOT_DIR . 'plugins' . DIRECTORY_SEPARATOR);
 		defined('THEMES_DIR') 		or define('THEMES_DIR',      ROOT_DIR . 'themes' . DIRECTORY_SEPARATOR);
 		defined('CACHE_DIR') 		or define('CACHE_DIR',       LIB_DIR . 'cache' . DIRECTORY_SEPARATOR);
+		defined('VENDOR_DIR') or define('VENDOR_DIR', LIB_DIR . 'vendor' . DIRECTORY_SEPARATOR);
 	}
 
 	/**
@@ -109,7 +110,13 @@ class Bootstrap {
 			}
 		});
 
-		require(LIB_DIR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
+		$autoload = VENDOR_DIR . 'autoload.php';
+		if (!file_exists($autoload)) {
+			echo "<p>Phile can't find the composer autoload file at \"$autoload\".</p>";
+			echo '<p>Probably "composer install" was not run. Please refer to Phile\'s documentation and check if it\'s installed correctly.</p>';
+			exit;
+		}
+		require($autoload);
 	}
 
 	/**
