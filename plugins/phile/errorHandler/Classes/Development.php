@@ -78,7 +78,7 @@ class Development implements ErrorHandlerInterface {
 				$arguments = '';
 				if (isset($step['args']) && is_array($step['args'])) {
 					foreach ($step['args'] as $argument) {
-						$arguments .= strlen($arguments) === 0 ? '' : '<span class="separator">, </span> ';
+						$arguments .= strlen($arguments) === 0 ? '' : '<span class="separator">, </span>';
 						if (is_object($argument)) {
 							$arguments .= '<span class="class">' . $this->linkClass(get_class($argument)) . '</span>';
 						} else {
