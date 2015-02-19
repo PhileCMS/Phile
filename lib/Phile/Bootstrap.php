@@ -116,8 +116,8 @@ class Bootstrap {
 	 * initialize configuration
 	 */
 	protected function initializeConfiguration() {
-		$defaults      = Utility::load(ROOT_DIR . '/default_config.php');
-		$localSettings = Utility::load(ROOT_DIR . '/config.php');
+		$defaults      = Utility::load(ROOT_DIR . 'default_config.php');
+		$localSettings = Utility::load(ROOT_DIR . 'config.php');
 		if (is_array($localSettings)) {
 			$this->settings = array_replace_recursive($defaults, $localSettings);
 		} else {
