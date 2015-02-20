@@ -49,23 +49,32 @@ class Page {
 	/**
 	 * find a page by path
 	 *
-	 * @param string $path
+	 * @param string $pageId
 	 * @param string $folder
 	 *
 	 * @return null|\Phile\Model\Page
 	 */
-	public function findByPath($path, $folder = CONTENT_DIR) {
-		$path = str_replace(Utility::getInstallPath(), '', $path);
-		$fullPath =  str_replace(array("\\", "//", "\\/", "/\\"), DIRECTORY_SEPARATOR, $folder.$path);
-
-		$file = $fullPath . CONTENT_EXT;
-
-		// append '/index' to full path if file not found
-		if (!file_exists($file)) {
-			$file = $fullPath . '/index' . CONTENT_EXT;
+	public function findByPath($pageId, $folder = CONTENT_DIR) {
+		// 'sub/' should serve page 'sub/index'
+		if ($pageId === '' || substr($pageId, -1) === '/') {
+			$pageId .= 'index';
 		}
 
-		return (file_exists($file)) ? $this->getPage($file, $folder) : null;
+		$file = $folder . $pageId . CONTENT_EXT;
+		if (!file_exists($file)) {
+			if (substr($pageId, -6) === '/index') {
+				// try to resolve sub-directory 'sub/' to page 'sub'
+				$pageId = substr($pageId, 0, strlen($pageId) - 6);
+			} else {
+				// try to resolve page 'sub' to sub-directory 'sub/'
+				$pageId .= '/index';
+			}
+			$file = $folder . $pageId . CONTENT_EXT;
+		}
+		if (!file_exists($file)) {
+			return null;
+		}
+		return $this->getPage($file, $folder);
 	}
 
 	/**
