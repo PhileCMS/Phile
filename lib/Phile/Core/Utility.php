@@ -5,9 +5,9 @@
 namespace Phile\Core;
 
 /**
- * the Registry class for implementing a registry
+ * Utility class
  *
- * @author  Frank Nägler
+ * @author  PhileCMS
  * @link    https://philecms.com
  * @license http://opensource.org/licenses/MIT
  * @package Phile
@@ -15,54 +15,30 @@ namespace Phile\Core;
 class Utility {
 
 	/**
-	 * method to get the current http protocoll
+	 * method to get the current http protocol
 	 *
 	 * @return string the current protocol
+	 * @deprecated since 1.5 will be removed 1.6
 	 */
 	public static function getProtocol() {
-		if (PHILE_CLI_MODE) {
-			return '';
-		}
-		$protocol = 'http';
-		if (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off' ) {
-			$protocol = 'https';
-		}
-
-		return $protocol;
+		return Request::getProtocol();
 	}
 
 	/**
 	 * detect base url
 	 *
 	 * @return string
+	 * @deprecated since 1.5 will be removed 1.6
 	 */
 	public static function getBaseUrl() {
-		if (PHILE_CLI_MODE) {
-			return '';
-		}
-		if (Registry::isRegistered('Phile_Settings')) {
-			$config = Registry::get('Phile_Settings');
-			if (isset($config['base_url']) && $config['base_url']) {
-				return $config['base_url'];
-			}
-		}
-
-		$url         = '';
-		$request_url = (isset($_SERVER['REQUEST_URI'])) ? $_SERVER['REQUEST_URI'] : '';
-		$script_url  = (isset($_SERVER['PHP_SELF'])) ? $_SERVER['PHP_SELF'] : '';
-		if ($request_url != $script_url) {
-			$url = trim(preg_replace('/' . str_replace('/', '\/', str_replace('index.php', '', $script_url)) . '/', '', $request_url, 1), '/');
-		}
-
-		$protocol = self::getProtocol();
-
-		return rtrim(str_replace($url, '', $protocol . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']), '/');
+		return Router::getBaseUrl();
 	}
 
 	/**
 	 * detect install path
 	 *
 	 * @return string
+	 * @deprecated since 1.5 will be removed 1.6
 	 */
 	public static function getInstallPath() {
 		$path = self::getBaseUrl();
@@ -143,10 +119,11 @@ class Utility {
 	 *
 	 * @param     $url        the url to redirect to
 	 * @param int $statusCode the http status code
+	 * @deprecated since 1.5 will be removed 1.6
 	 */
 	public static function redirect($url, $statusCode = 302) {
-		header('Location: ' . $url, true, $statusCode);
-		die();
+		$response = new Response;
+		$response->setStatusCode($statusCode)->redirect($url);
 	}
 
 	/**

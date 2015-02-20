@@ -12,9 +12,10 @@ require_once __DIR__ . '/lib/Phile/Bootstrap.php';
 ob_start();
 
 try {
-	$bootstrap = \Phile\Bootstrap::getInstance()->initializeBasics();
-	$phileCore = new \Phile\Core($bootstrap);
-	echo $phileCore->render();
+	\Phile\Bootstrap::getInstance()->initializeBasics();
+	$response = new \Phile\Core\Response();
+	$phileCore = new \Phile\Core($response);
+	$phileCore->render();
 } catch (\Phile\Exception $e) {
 	if (\Phile\ServiceLocator::hasService('Phile_ErrorHandler')) {
 		ob_end_clean();
