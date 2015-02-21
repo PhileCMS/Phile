@@ -43,13 +43,20 @@ Here is a small list of differences in design from typical flat-file CMSs:
 
 * PHP `>=5.4.0`
 * Apache with `mod_rewrite` enabled
-* [Composer](https://getcomposer.org/) (unless you use `git` and `zip` files for everything)
 
-[Install via composer](https://github.com/PhileCMS/Phile/wiki/%5BHOW-TO%5D-Installation#installation---method-two-the-nerd-way) or clone (download) this repo and extract into your server web root.
+##### Quick Start
 
-Open the root of PhileCMS on you web server. If you are using the default MAMP install, that would be [http://localhost:8888/Phile](http://localhost:8888/Phile). Using WAMP, [http://localhost/Phile](http://localhost/Phile). If you are using something else, you probably know how to run a typical PHP site.
+You can install the latest version either by downloading it from <http://philecms.com/> or use composer:
+
+```shell
+composer create-project --no-dev phile-cms/phile
+```
+
+Copy it to your server web root. Open the root of PhileCMS on you web server. If you are using the default MAMP install, that would be [http://localhost:8888/Phile](http://localhost:8888/Phile). Using WAMP, [http://localhost/Phile](http://localhost/Phile). If you are using something else, you probably know how to run a typical PHP site.
 
 On first run you will hit a setup page. **Follow the instructions on the [setup page](https://github.com/PhileCMS/Phile/blob/master/content/setup.md) to complete the installation**.
+
+[For detailed instructions please see the Installation wiki page](https://github.com/PhileCMS/Phile/wiki/%5BHOW-TO%5D-Installation).
 
 ## Plugins
 
