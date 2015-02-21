@@ -1,16 +1,16 @@
 <h3 id="coding-guidelines">Coding Guidelines</h3>
-<p>coming soon...</p>
+<p>Coming soon...</p>
 <h3 id="patch-pull-request-workflow">Patch / Pull Request Workflow</h3>
 <ol>
 <li>Fork Phile on github</li>
 <li>Make your changes</li>
+<li>Run the test cases locally (call <code>./phing</code> in the root and choose &quot;run test suite&quot;), make sure no test fails</li>
 <li>Create a pull request on github into Phile/master</li>
-<li>travis CI will build your pull request automaticly, if all tests passed goto to next step</li>
-<li>Each pull request has to be reviewed by two other people. if the pull request is reviewed by at least two people (give +1 in the comments), one of the maintainer will accept the request and merge it into the core.</li>
+<li><code>Travis CI</code> will build and test your pull request automatically, if all tests passed go to next step</li>
+<li>Each pull request has to be reviewed by <strong>two other people</strong>. If the pull request is reviewed by at least two people (give +1 in the comments), one of the maintainer will accept the request and merge it into the core.</li>
 </ol>
-<p>Each pull request has to be reviewed by two other people. if the pull request is reviewed by at least two people (give +1 in the comments), one of the maintainer will accept the request and merge it into the core.
-The maintainers also has a veto, in cases where the code structure is not ok or an other pull request will add the same feature.</p>
-<p>To avoid inconsistencies, ask and discuss your idea on <a href="https://gitter.im/PhileCMS/Phile">gitter.im</a>, before you start by your self. lets talk to each other, to improve PhileCMS.</p>
+<p>The maintainers also has a veto, in cases where the code structure is not Ok or an other pull request will add the same feature.</p>
+<p>To avoid inconsistencies, ask and discuss your idea on <a href="https://gitter.im/PhileCMS/Phile">gitter.im</a>, before you start by your self. Lets talk to each other, to improve PhileCMS.</p>
 <p>For each pull request please use one of the following prefix:</p>
 <h4 id="-feature-">[FEATURE]</h4>
 <p>If you implement a new feature, please use this prefix in the title of the pull request.</p>
@@ -18,11 +18,11 @@ The maintainers also has a veto, in cases where the code structure is not ok or 
 <p>If you fix any bug, please use this prefix in the title of the pull request.</p>
 <p>If you fix a already documented bug, pleaser refer to the issue in the issuetracker.</p>
 <h4 id="git-commit-message-template">GIT Commit Message Template</h4>
-<p>please use the following GIT commit message template, for any pullrequest.</p>
+<p>Please use the following GIT commit message template, for any pull request.</p>
 <p>You can use a custom template for getting the commit message faster done.</p>
 <p>All you need is the template below and the command</p>
 <pre><code>git config --global commit.template .gitmessage.txt
-</code></pre><p>we have added the .gitmessage.txt file to the root of the project.</p>
+</code></pre><p>We have added the <code>.gitmessage.txt</code> file to the root of the project.</p>
 <pre><code>[BUGFIX|FEATURE|TASK] Short summary of changes introduced by this patch
 
 More detailed explanatory text, if necessary.

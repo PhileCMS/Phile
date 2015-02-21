@@ -43,7 +43,7 @@ function homeFn() {
       id: 'developer'
     },
     {
-      file: '[COMMUNITY]-Plugins.html',
+      file: '[COMMUNITY] Plugins.html',
       id: 'plugins'
     },
   ];
