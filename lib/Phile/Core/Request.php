@@ -36,6 +36,8 @@ class Request {
 		$url = str_replace($basePath, '', $url);
 		$url = ltrim($url, '/');
 
+		$url = urldecode($url);
+
 		return $url;
 	}
 

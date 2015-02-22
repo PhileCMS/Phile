@@ -39,8 +39,8 @@ class RequestTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testGetUrl() {
-		$_SERVER['REQUEST_URI'] = '/bar/baz?q=a';
-		$this->assertEquals('bar/baz', Request::getUrl());
+		$_SERVER['REQUEST_URI'] = '/bar/b%C3%A4z%20page?q=a';
+		$this->assertEquals('bar/bäz page', Request::getUrl());
 	}
 
 	public function testGetProtocol() {
