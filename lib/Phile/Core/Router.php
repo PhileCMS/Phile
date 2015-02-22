@@ -81,6 +81,7 @@ class Router {
 	 */
 	public static function tidyUrl($url) {
 		$url = preg_replace('/(^|\/)index(\/)?$/', '', $url);
+		$url = rtrim($url, '/');
 		return $url;
 	}
 

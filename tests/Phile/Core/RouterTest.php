@@ -69,6 +69,9 @@ class RouterTest extends \PHPUnit_Framework_TestCase {
 
 		$this->assertEquals('foo-index', Router::tidyUrl('foo-index/'));
 		$this->assertEquals('foo-index', Router::tidyUrl('foo-index'));
+
+		$this->assertEquals('sub', Router::tidyUrl('sub/'));
+		$this->assertEquals('sub/page', Router::tidyUrl('sub/page/'));
 	}
 
 	public function mockBaseUrl($url) {
