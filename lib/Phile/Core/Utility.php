@@ -128,7 +128,14 @@ class Utility {
 	 * @return array
 	 */
 	public static function getFiles($directory, $filter = '\Phile\FilterIterator\GeneralFileFilterIterator') {
-		$files  = new $filter(new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($directory)));
+		$files = new $filter(
+			new \RecursiveIteratorIterator(
+				new \RecursiveDirectoryIterator(
+					$directory,
+					\RecursiveDirectoryIterator::FOLLOW_SYMLINKS
+				)
+			)
+		);
 		$result = array();
 		foreach ($files as $file) {
 			/** @var \SplFileInfo $file */
