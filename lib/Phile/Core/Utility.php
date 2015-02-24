@@ -132,7 +132,7 @@ class Utility {
 		$result = array();
 		foreach ($files as $file) {
 			/** @var \SplFileInfo $file */
-			$result[] = $file->getRealPath();
+			$result[] = $file->getPathname();
 		}
 
 		return $result;
