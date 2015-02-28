@@ -1,0 +1,15 @@
+<h2 id="use-core-classes">Use Core Classes</h2>
+<h3 id="send-a-response">Send a Response</h3>
+<p>Use the <code>Phile\Core\Response</code> class to send an answer to the browser. For example:</p>
+<pre><code class="lang-php">// sends &#39;Hello World&#39; to the browser
+$response = new Response;
+$response-&gt;setBody(&#39;Hello World&#39;)-&gt;send();
+</code></pre>
+<h3 id="access-the-session">Access the Session</h3>
+<p><code>Phile\Core\Session</code> allows easy access to the Session environment. For example</p>
+<pre><code class="lang-php">// set a session variable
+Session::set(&#39;isLoggedIn&#39;, true);
+
+// read a session variable
+$loggedIn = Session::get(&#39;lastVisitedPage&#39;);
+</code></pre>
