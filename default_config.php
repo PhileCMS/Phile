@@ -19,7 +19,7 @@ $config['charset']    = 'utf-8'; // charset used for HTML & Markdown files
 // activate plugins
 $config['plugins'] = array(
 	// key = vendor\\pluginName (vendor lowercase, pluginName lowerCamelCase
-	'phile\\demoPlugin'                => array('active' => false),
+	'mycompany\\demoPlugin'            => array('active' => false),
 	'phile\\errorHandler'              => array(
 		'active' => true,
 		'handler' => \Phile\Plugin\Phile\ErrorHandler\Plugin::HANDLER_DEVELOPMENT
