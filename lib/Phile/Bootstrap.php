@@ -196,7 +196,7 @@ class Bootstrap {
 
 					/** @var \Phile\Plugin\AbstractPlugin $plugin */
 					$plugin = new $pluginClassName;
-					$plugin->injectSettings($globalConfiguration['plugins'][$pluginKey]['settings']);
+					$plugin->initialize($globalConfiguration['plugins'][$pluginKey]['settings']);
 
 					if ($plugin instanceof \Phile\Plugin\AbstractPlugin) {
 						// register plugin
