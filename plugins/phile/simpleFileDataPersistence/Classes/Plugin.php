@@ -8,31 +8,24 @@ namespace Phile\Plugin\Phile\SimpleFileDataPersistence;
  * Class Plugin
  * Default Phile data persistence engine
  *
- * @author  Frank Nägler
+ * @author  PhileCMS
  * @link    https://philecms.com
  * @license http://opensource.org/licenses/MIT
  * @package Phile\Plugin\Phile\SimpleFileDataPersistence
  */
-class Plugin extends \Phile\Plugin\AbstractPlugin implements \Phile\Gateway\EventObserverInterface {
-	/**
-	 * the constructor
-	 */
-	public function __construct() {
-		\Phile\Event::registerEvent('plugins_loaded', $this);
-	}
+class Plugin extends \Phile\Plugin\AbstractPlugin {
+
+	protected $events = ['plugins_loaded' => 'onPluginsLoaded'];
 
 	/**
-	 * event method
+	 * onPluginsLoaded method
 	 *
-	 * @param string $eventKey
 	 * @param null   $data
 	 *
 	 * @return mixed|void
 	 */
-	public function on($eventKey, $data = null) {
-		// check $eventKey for which you have registered
-		if ($eventKey == 'plugins_loaded') {
-			\Phile\ServiceLocator::registerService('Phile_Data_Persistence', new \Phile\Plugin\Phile\SimpleFileDataPersistence\Persistence\SimpleFileDataPersistence());
-		}
+	public function onPluginsLoaded($data = null) {
+		\Phile\ServiceLocator::registerService('Phile_Data_Persistence',
+			new \Phile\Plugin\Phile\SimpleFileDataPersistence\Persistence\SimpleFileDataPersistence());
 	}
 }
