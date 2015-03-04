@@ -1,0 +1,9 @@
+build.xml export-ignore
+Icon.png export-ignore
+phing export-ignore
+tests/ export-ignore
+.gitattributes export-ignore
+.gitignore export-ignore
+.editorconfig export-ignore
+.gitmessage export-ignore
+.travis export-ignore
