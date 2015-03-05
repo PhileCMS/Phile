@@ -62,7 +62,7 @@ On first run you will hit a setup page. **Follow the instructions on the [setup 
 
 Phile can be extended with a wide variety of plugins. You can also overwrite the default plugins in order to add extra functionality, speed, or features.
 
-Help make Phile better by checking out the GitHub repoistory and submitting pull requests.
+Help make Phile better by checking out the GitHub repository and submitting pull requests.
 
 ##### With composer
 
