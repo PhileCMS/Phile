@@ -90,7 +90,11 @@ class Development implements ErrorHandlerInterface {
 				}
 
 				$backtraceCode .= '<pre class="entry">';
-				$backtraceCode .= '<span class="index">' . (count($traces) - $index) . '</span> ' . $class . $this->linkClassMethod($step['class'], $step['function']) . '<span class="funcArguments">(' . $arguments . ')</span>';
+				if (isset($step['class'])) {
+					$backtraceCode .= '<span class="index">' . (count($traces) - $index) . '</span> ' . $class . $this->linkClassMethod($step['class'], $step['function']) . '<span class="funcArguments">(' . $arguments . ')</span>';
+				} else {
+					$backtraceCode .= '<span class="index">' . (count($traces) - $index) . '</span><span class="funcArguments">(' . $arguments . ')</span>';
+				}
 				if (isset($step['file'])) {
 					$backtraceCode .= $this->receiveCodeFragment($step['file'], $step['line'], 3, 3);
 				}
