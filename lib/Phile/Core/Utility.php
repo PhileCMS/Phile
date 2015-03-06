@@ -15,7 +15,7 @@ namespace Phile\Core;
 class Utility {
 
 	/**
-	 * method to get the current http protocoll
+	 * method to get the current http protocol
 	 *
 	 * @return string the current protocol
 	 */
