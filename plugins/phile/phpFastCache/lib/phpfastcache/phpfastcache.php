@@ -591,6 +591,10 @@ allow from 127.0.0.1";
 			$this->option("path", self::$config['path']);
 		}
 
+		if ($this->option('securityKey') == "") {
+			throw new Exception("Sorry, you'll have to edit your config.php and add a securityKey", 100);
+		}
+
 
 		if ($this->option['path'] == '') {
 			// revision 618
