@@ -34,7 +34,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase {
 		$_GET['foo'] = 'bar';
 		$this->assertEquals(Request::getData('foo'), 'bar');
 
-		$_GET['baz'] = 'zap';
+		$_POST['baz'] = 'zap';
 		$this->assertEquals(Request::getData('baz'), 'zap');
 	}
 
