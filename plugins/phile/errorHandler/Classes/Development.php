@@ -75,12 +75,10 @@ class Development implements ErrorHandlerInterface {
 		$backtraceCode = '';
 		if (count($traces)) {
 			foreach ($traces as $index => $step) {
-				$class 			= isset($step['class']) ? $this->linkClass($step['class']) . '<span class="divider">::</span>' : '';
-				$arguments 		= '';
-
+				$arguments = '';
 				if (isset($step['args']) && is_array($step['args'])) {
 					foreach ($step['args'] as $argument) {
-						$arguments .= strlen($arguments) === 0 ? '' : '<span class="separator">, </span> ';
+						$arguments .= strlen($arguments) === 0 ? '' : '<span class="separator">, </span>';
 						if (is_object($argument)) {
 							$arguments .= '<span class="class">' . $this->linkClass(get_class($argument)) . '</span>';
 						} else {
@@ -90,10 +88,20 @@ class Development implements ErrorHandlerInterface {
 				}
 
 				$backtraceCode .= '<pre class="entry">';
-				$backtraceCode .= '<span class="index">' . (count($traces) - $index) . '</span> ' . $class . $this->linkClassMethod($step['class'], $step['function']) . '<span class="funcArguments">(' . $arguments . ')</span>';
+				$backtraceCode .= '<span class="index">' . (count($traces) - $index) . '</span> ';
+
+				if (isset($step['class'])) {
+					$class = $this->linkClass($step['class']) . '<span class="divider">::</span>';
+					$backtraceCode .= $class . $this->linkClassMethod($step['class'], $step['function']);
+				} elseif (isset($step['function'])) {
+					$backtraceCode .= '<span class="function">' . $step['function'] . '</span>';
+				}
+				$backtraceCode .= '<span class="funcArguments">(' . $arguments . ')</span>';
+
 				if (isset($step['file'])) {
 					$backtraceCode .= $this->receiveCodeFragment($step['file'], $step['line'], 3, 3);
 				}
+
 				$backtraceCode .= '</pre>';
 			}
 		}
