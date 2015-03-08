@@ -171,7 +171,7 @@ class Bootstrap {
 			$this->plugins = $loader->loadAll($this->settings['plugins']);
 		}
 
-		Event::triggerEvent('plugins_loaded');
+		Event::triggerEvent('plugins_loaded', ['plugins' => $this->plugins]);
 
 		// throw not earlier to have the error-handler plugin loaded
 		// and initialized (by 'plugins_loaded' event)
@@ -188,6 +188,8 @@ class Bootstrap {
 	/**
 	 * method to get plugins
 	 * @return array
+	 * @deprecated since 1.5 will be removed in 1.6
+	 * @use 'plugins_loaded' event
 	 */
 	public function getPlugins() {
 		return $this->plugins;
