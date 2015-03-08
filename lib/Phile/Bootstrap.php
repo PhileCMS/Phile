@@ -3,8 +3,9 @@
  * the Bootstrap of Phile
  */
 namespace Phile;
-use Phile\Plugin\AbstractPlugin;
+
 use Phile\Exception\PluginException;
+use Phile\Plugin\PluginRepository;
 
 /**
  * Phile
@@ -165,62 +166,22 @@ class Bootstrap {
 	 * @throws Exception
 	 */
 	protected function initializePlugins() {
-		$loadingErrors = array();
-		// check to see if there are plugins to be loaded
+		$loader = new PluginRepository();
 		if (isset($this->settings['plugins']) && is_array($this->settings['plugins'])) {
-			foreach ($this->settings['plugins'] as $pluginKey => $pluginConfig) {
-				list($vendor, $pluginName) = explode('\\', $pluginKey);
-
-				if (isset($pluginConfig['active']) && $pluginConfig['active'] === true) {
-					// load plugin configuration...
-					$pluginConfiguration = null;
-					// load the config file for the plugin
-					$configFile = \Phile\Utility::resolveFilePath("MOD:" . $vendor . DIRECTORY_SEPARATOR . $pluginName . DIRECTORY_SEPARATOR . "config.php");
-					if ($configFile !== null) {
-						$pluginConfiguration = \Phile\Utility::load($configFile);
-						$globalConfiguration = \Phile\Registry::get('Phile_Settings');
-						if ($pluginConfiguration !== null && is_array($pluginConfiguration)) {
-							$globalConfiguration['plugins'][$pluginKey]['settings'] = array_replace_recursive($pluginConfiguration, $globalConfiguration['plugins'][$pluginKey]);
-						} else {
-							$globalConfiguration['plugins'][$pluginKey]['settings'] = array();
-						}
-						\Phile\Registry::set('Phile_Settings', $globalConfiguration);
-						$this->settings = $globalConfiguration;
-					}
-					// uppercase first letter convention
-					$pluginClassName = '\\Phile\\Plugin\\' . ucfirst($vendor) . '\\' . ucfirst($pluginName) . '\\Plugin';
-					if (!class_exists($pluginClassName)) {
-						$loadingErrors[] = array("the plugin '{$pluginKey}' could not be loaded!", 1398536479);
-						continue;
-					}
-
-					/** @var \Phile\Plugin\AbstractPlugin $plugin */
-					$plugin = new $pluginClassName;
-					$plugin->initialize($globalConfiguration['plugins'][$pluginKey]['settings']);
-
-					if ($plugin instanceof \Phile\Plugin\AbstractPlugin) {
-						// register plugin
-						$this->plugins[$pluginKey] = $plugin;
-					} else {
-						$loadingErrors[] = array("the plugin '{$pluginKey}' is not an instance of \\Phile\\Plugin\\AbstractPlugin", 1398536526);
-						continue;
-					}
-				}
-			}
+			$this->plugins = $loader->loadAll($this->settings['plugins']);
 		}
-		/**
-		 * @triggerEvent plugins_loaded this event is triggered after the plugins loaded
-		 * This is also where we load the parser, since it is a plugin also. We use the Markdown parser as default. See it in the plugins folder and lib/Phile/Parser/Markdown.php
-		 */
+
 		Event::triggerEvent('plugins_loaded');
 
-		if (count($loadingErrors) > 0) {
-			throw new PluginException($loadingErrors[0][0], $loadingErrors[0][1]);
+		// throw not earlier to have the error-handler plugin loaded
+		// and initialized (by 'plugins_loaded' event)
+		$errors = $loader->getLoadErrors();
+		if (count($errors) > 0) {
+			throw new PluginException($errors[0]['message'], $errors[0]['code']);
 		}
 
-		/**
-		 * @triggerEvent config_loaded this event is triggered after the configuration is fully loaded
-		 */
+		// settings now include initialized plugin-configs
+		$this->settings = \Phile\Registry::get('Phile_Settings');
 		Event::triggerEvent('config_loaded');
 	}
 
