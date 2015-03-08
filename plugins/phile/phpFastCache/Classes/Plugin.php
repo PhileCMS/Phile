@@ -27,8 +27,8 @@ class Plugin extends \Phile\Plugin\AbstractPlugin {
 	public function onPluginsLoaded($data = null) {
 		// phpFastCache not working in CLI mode...
 		if (!PHILE_CLI_MODE) {
-			require_once(\Phile\Utility::resolveFilePath('MOD:phile/phpFastCache/lib/phpfastcache/phpfastcache.php'));
-
+			$vendor = $this->getPluginPath('lib/phpfastcache/phpfastcache.php');
+			require_once($vendor);
 			\phpFastCache::setup($this->settings);
 			$cache = phpFastCache();
 			\Phile\ServiceLocator::registerService('Phile_Cache',
