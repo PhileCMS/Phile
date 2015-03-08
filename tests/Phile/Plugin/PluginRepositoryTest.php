@@ -15,7 +15,7 @@ use Phile\Plugin\PluginRepository;
 class PluginRepositoryTest extends \PHPUnit_Framework_TestCase {
 
 	public function testLoadAllSuccess() {
-		$toLoad = 'phile\templateTwig';
+		$toLoad = 'phile\testPlugin';
 		$plugins = new PluginRepository();
 
 		$result = $plugins->loadAll([$toLoad => ['active' => true]]);
