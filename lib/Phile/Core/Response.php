@@ -1,76 +1,140 @@
 <?php
 
-  namespace Phile\Core;
+/**
+ * the Response class
+ */
 
-  /**
-   * Response class implements HTTP response handling
-   *
-   * @author PhileCMS
-   * @link https://philecms.com
-   * @license http://opensource.org/licenses/MIT
-   * @package Phile
-   */
-  class Response {
+namespace Phile\Core;
 
-    /**
-     * @var string HTTP body
-     */
-    protected $body = '';
+/**
+ * the Response class is responsible for sending a HTTP response to the client
+ *
+ * Response is chainable and can be used anywhere:
+ *
+ * 	(new Respose)->setBody('Hello World')->send();
+ *
+ * After send() Phile is terminated.
+ *
+ * @author PhileCMS
+ * @link https://philecms.com
+ * @license http://opensource.org/licenses/MIT
+ * @package Phile
+ */
+class Response {
 
-    /**
-     * @var string charset
-     */
-    protected $charset = 'utf-8';
+	/**
+	 * @var string HTTP body
+	 */
+	protected $body = '';
 
-    /**
-     * @var array HTTP-headers
-     */
-    protected $headers = [];
+	/**
+	 * @var string charset
+	 */
+	protected $charset = 'utf-8';
 
-    /**
-     * @var int HTTP status code
-     */
-    protected $statusCode = 200;
+	/**
+	 * @var array HTTP-headers
+	 */
+	protected $headers = [];
 
-    public function setBody($body) {
-      $this->body = $body;
-      return $this;
-    }
+	/**
+	 * @var int HTTP status code
+	 */
+	protected $statusCode = 200;
 
-    public function setCharset($charset) {
-      $this->charset = $charset;
-      return $this;
-    }
+	/**
+	 * redirect to another URL
+	 *
+	 * @param string $url URL
+	 */
+	public function redirect($url) {
+		if (strpos($this->statusCode, 3) !== 0) {
+			$this->setStatusCode(302);
+		}
+		$this->setHeader('Location', $url, true)
+			->setBody('')
+			->send()
+			->stop();
+	}
 
-    /**
-     * Set HTTP-header
-     *
-     * @param string $key
-     * @param string $value
-     * @return $this
-     */
-    public function setHeader($key, $value) {
-      $this->headers[$key] = "$key: $value";
-      return $this;
-    }
+	/**
+	 * set the response body
+	 *
+	 * @param $body
+	 * @return $this
+	 */
+	public function setBody($body) {
+		$this->body = $body;
+		return $this;
+	}
 
-    public function setStatusCode($code) {
-      $this->statusCode = $code;
-      return $this;
-    }
+	/**
+	 * set the response character-set
+	 *
+	 * @param $charset
+	 * @return $this
+	 */
+	public function setCharset($charset) {
+		$this->charset = $charset;
+		return $this;
+	}
 
-    public function send() {
-      $this->setHeader('Content-Type', 'text/html; charset=' . $this->charset);
-      $this->outputHeader();
-      http_response_code($this->statusCode);
-      echo $this->body;
-    }
+	/**
+	 * set a response HTTP-header
+	 *
+	 * @param string $key
+	 * @param string $value
+	 * @param bool $clear clear out any existing headers
+	 * @return $this
+	 */
+	public function setHeader($key, $value, $clear = false) {
+		if ($clear) {
+			$this->headers = [];
+		}
+		$this->headers[$key] = "$key: $value";
+		return $this;
+	}
 
-    protected function outputHeader() {
-      foreach ($this->headers as $header) {
-        header($header);
-      }
-    }
+	/**
+	 * set the response HTTP status code
+	 *
+	 * @param $code
+	 * @return $this
+	 */
+	public function setStatusCode($code) {
+		$this->statusCode = $code;
+		return $this;
+	}
 
-  }
+	/**
+	 * sends the HTTP response
+	 *
+	 * @return $this
+	 */
+	public function send() {
+		$this->setHeader('Content-Type',
+			'text/html; charset=' . $this->charset);
+		$this->outputHeader();
+		http_response_code($this->statusCode);
+		echo $this->body;
+		return $this;
+	}
+
+	/**
+	 * helper for easy testing
+	 */
+	protected function stop() {
+		die();
+	}
+
+	/**
+	 * output all set response headers
+	 */
+	protected function outputHeader() {
+		foreach ($this->headers as $header) {
+			header($header);
+		}
+	}
+
+}
 

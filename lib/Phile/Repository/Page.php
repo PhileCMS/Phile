@@ -55,7 +55,6 @@ class Page {
 	 * @return null|\Phile\Model\Page
 	 */
 	public function findByPath($path, $folder = CONTENT_DIR) {
-		$path = str_replace(Utility::getInstallPath(), '', $path);
 		$fullPath =  str_replace(array("\\", "//", "\\/", "/\\"), DIRECTORY_SEPARATOR, $folder.$path);
 
 		$file = $fullPath . CONTENT_EXT;
