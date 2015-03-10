@@ -46,6 +46,14 @@ class PageTest extends \PHPUnit_Framework_TestCase {
 			'sub/page' => 'sub' . $DS . 'page.md',
 		];
 
+		// accept (leading) slashes for backwards compatibility
+		$tests += [
+			'/' => 'index.md' ,
+			'/index' => 'index.md' ,
+			'/sub/' => 'sub' . $DS . 'index.md',
+			'/sub/page' => 'sub' . $DS . 'page.md',
+		];
+
 		foreach ($tests as $pageId => $file) {
 			$page = $this->pageRepository->findByPath($pageId);
 			$this->assertInstanceOf(

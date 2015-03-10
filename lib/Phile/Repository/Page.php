@@ -55,6 +55,8 @@ class Page {
 	 * @return null|\Phile\Model\Page
 	 */
 	public function findByPath($pageId, $folder = CONTENT_DIR) {
+		// be merciful to lazy third-party-usage and accept a leading slash
+		$pageId = ltrim($pageId, '/');
 		// 'sub/' should serve page 'sub/index'
 		if ($pageId === '' || substr($pageId, -1) === '/') {
 			$pageId .= 'index';
