@@ -111,8 +111,9 @@ class Response {
 	 * @return $this
 	 */
 	public function send() {
-		$this->setHeader('Content-Type',
-			'text/html; charset=' . $this->charset);
+		if (!isset($this->headers['Content-Type'])) {
+			$this->setHeader('Content-Type', 'text/html; charset=' . $this->charset);
+		}
 		$this->outputHeader();
 		http_response_code($this->statusCode);
 		echo $this->body;
