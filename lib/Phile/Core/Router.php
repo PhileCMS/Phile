@@ -63,22 +63,23 @@ class Router {
 	public function getBaseUrl() {
 		if (Registry::isRegistered('Phile_Settings')) {
 			$config = Registry::get('Phile_Settings');
-			if (isset($config['base_url']) && $config['base_url']) {
+			if (!empty($config['base_url'])) {
 				return $config['base_url'];
 			}
 		}
 
-		$scriptUrl = isset($this->server['PHP_SELF']) ? $this->server['PHP_SELF'] : '';
-		$url = str_replace('index.php', '', $scriptUrl);
+		$url = '';
 
-		if (!isset($this->server['HTTP_HOST'])) {
-			return $url;
+		if (isset($this->server['PHP_SELF'])) {
+			$url = preg_replace('/index\.php(.*)?$/', '', $this->server['PHP_SELF']);
 		}
-		$host = $this->server['HTTP_HOST'];
-		$protocol = $this->getProtocol();
-		if ($protocol) {
+
+		if (isset($this->server['HTTP_HOST'])) {
+			$host = $this->server['HTTP_HOST'];
+			$protocol = $this->getProtocol();
 			$url = $protocol . '://' . $host . $url;
 		}
+
 		$url = rtrim($url, '/');
 		return $url;
 	}

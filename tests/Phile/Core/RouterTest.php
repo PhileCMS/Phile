@@ -63,6 +63,21 @@ class RouterTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals('http://foo/bar', $router->getBaseUrl());
 	}
 
+	/**
+	 * test baseUrl on `php -S localhost` server
+	 */
+	public function testGetBaseUrlPhpBuildInServer() {
+		$this->mockBaseUrl();
+
+		$server = ['PHP_SELF' => '/foo/index.php', 'HTTP_HOST' => 'host'];
+		$router = new Router($server);
+		$this->assertEquals('http://host/foo', $router->getBaseUrl());
+
+		$server = ['PHP_SELF' => '/foo/index.php/sub/page', 'HTTP_HOST' => 'host'];
+		$router = new Router($server);
+		$this->assertEquals('http://host/foo', $router->getBaseUrl());
+	}
+
 	public function testGetBaseUrlPreset() {
 		$this->mockBaseUrl('https://barbaz');
 		$this->assertEquals('https://barbaz', $this->router->getBaseUrl());
