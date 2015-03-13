@@ -19,8 +19,8 @@ use Phile\Gateway\EventObserverInterface;
  */
 abstract class AbstractPlugin implements EventObserverInterface {
 
-	/** @var string `vendor\pluginName` */
-	protected $pluginKey;
+	/** @var string plugin attributes */
+	protected $plugin = [];
 
 	 /** @var array subscribed Phile events ['eventName' => 'classMethodToCall'] */
 	protected $events = [];
@@ -37,7 +37,13 @@ abstract class AbstractPlugin implements EventObserverInterface {
 	 * @param string $pluginKey
 	 */
 	public function initializePlugin($pluginKey) {
-		$this->pluginKey = $pluginKey;
+		/**
+		 * init $plugin property
+		 */
+		$this->plugin['key'] = $pluginKey;
+		list($vendor, $name) = explode('\\', $this->plugin['key']);
+		$DS = DIRECTORY_SEPARATOR;
+		$this->plugin['dir'] = PLUGINS_DIR . $vendor . $DS . $name . $DS;
 
 		/**
 		 * init events
@@ -90,10 +96,7 @@ abstract class AbstractPlugin implements EventObserverInterface {
 	 * @return null|string null if item does not exist
 	 */
 	protected function getPluginPath($subPath = '') {
-		$ds = DIRECTORY_SEPARATOR;
-		list($vendor, $name) = explode('\\', $this->pluginKey);
-		return PLUGINS_DIR . $vendor . $ds . $name . $ds . ltrim($subPath,
-			$ds);
+		return $this->plugin['dir'] . ltrim($subPath, DIRECTORY_SEPARATOR);
 	}
 
 }
