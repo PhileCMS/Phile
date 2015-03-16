@@ -27,6 +27,7 @@
         "php": ">=5.4.0",
         "twig/twig": "1.15.*",
         "michelf/php-markdown": ">=1.4",
+        "phpfastcache/phpfastcache": "~3.0",
         "phile-cms/plugin-installer-plugin": ">=1.0"
     },
     "require-dev": {

@@ -23,7 +23,7 @@ class PhpFastCache implements \Phile\ServiceLocator\CacheInterface {
 	 *
 	 * @param \phpFastCache $cacheEngine
 	 */
-	public function __construct(\phpFastCache $cacheEngine) {
+	public function __construct(\BasePhpFastCache $cacheEngine) {
 		$this->cacheEngine = $cacheEngine;
 	}
 
@@ -75,4 +75,4 @@ class PhpFastCache implements \Phile\ServiceLocator\CacheInterface {
 		$this->cacheEngine->delete($key, $options);
 	}
 
-} 
+}

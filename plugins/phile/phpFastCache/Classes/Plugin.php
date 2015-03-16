@@ -6,7 +6,6 @@ namespace Phile\Plugin\Phile\PhpFastCache;
 
 use Phile\Core\ServiceLocator;
 use Phile\Plugin\AbstractPlugin;
-use Phile\Plugin\Phile\PhpFastCache\PhpFastCache;
 
 /**
  * Class Plugin
@@ -30,13 +29,11 @@ class Plugin extends AbstractPlugin {
 	 */
 	public function onPluginsLoaded($data = null) {
 		// phpFastCache not working in CLI mode...
-		if (!PHILE_CLI_MODE) {
-			$vendor = $this->getPluginPath('lib/phpfastcache/phpfastcache.php');
-			require_once($vendor);
-			\phpFastCache::setup($this->settings);
-			$cache = phpFastCache();
-			ServiceLocator::registerService('Phile_Cache',
-				new PhpFastCache($cache));
+		if (PHILE_CLI_MODE) {
+			return;
 		}
+		\phpFastCache::setup($this->settings);
+		$cache = phpFastCache();
+		ServiceLocator::registerService('Phile_Cache', new PhpFastCache($cache));
 	}
 }
