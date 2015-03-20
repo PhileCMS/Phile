@@ -4,6 +4,10 @@
  */
 namespace Phile\Plugin\Phile\PhpFastCache;
 
+use Phile\Core\ServiceLocator;
+use Phile\Plugin\AbstractPlugin;
+use Phile\Plugin\Phile\PhpFastCache\PhpFastCache;
+
 /**
  * Class Plugin
  * Default Phile cache engine
@@ -13,7 +17,7 @@ namespace Phile\Plugin\Phile\PhpFastCache;
  * @license http://opensource.org/licenses/MIT
  * @package Phile\Plugin\Phile\PhpFastCache
  */
-class Plugin extends \Phile\Plugin\AbstractPlugin {
+class Plugin extends AbstractPlugin {
 
 	protected $events = ['plugins_loaded' => 'onPluginsLoaded'];
 
@@ -31,8 +35,8 @@ class Plugin extends \Phile\Plugin\AbstractPlugin {
 			require_once($vendor);
 			\phpFastCache::setup($this->settings);
 			$cache = phpFastCache();
-			\Phile\ServiceLocator::registerService('Phile_Cache',
-				new \Phile\Plugin\Phile\PhpFastCache\PhpFastCache($cache));
+			ServiceLocator::registerService('Phile_Cache',
+				new PhpFastCache($cache));
 		}
 	}
 }

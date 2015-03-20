@@ -4,6 +4,10 @@
  */
 namespace Phile\Plugin\Phile\ParserMeta;
 
+use Phile\Core\ServiceLocator;
+use Phile\Plugin\AbstractPlugin;
+use Phile\Plugin\Phile\ParserMeta\Parser\Meta;
+
 /**
  * Class Plugin
  * Default Phile parser plugin for Markdown
@@ -13,7 +17,7 @@ namespace Phile\Plugin\Phile\ParserMeta;
  * @license http://opensource.org/licenses/MIT
  * @package Phile\Plugin\Phile\ParserMeta
  */
-class Plugin extends \Phile\Plugin\AbstractPlugin {
+class Plugin extends AbstractPlugin {
 
 	protected $events = ['plugins_loaded' => 'onPluginsLoaded'];
 
@@ -25,8 +29,8 @@ class Plugin extends \Phile\Plugin\AbstractPlugin {
 	 * @return mixed|void
 	 */
 	public function onPluginsLoaded($data = null) {
-		\Phile\ServiceLocator::registerService('Phile_Parser_Meta',
-			new \Phile\Plugin\Phile\ParserMeta\Parser\Meta($this->settings));
+		ServiceLocator::registerService('Phile_Parser_Meta',
+			new Meta($this->settings));
 	}
 
 }

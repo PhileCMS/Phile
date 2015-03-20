@@ -3,12 +3,16 @@
  * the core of Phile
  */
 namespace Phile;
+
+use Phile\Core\Event;
+use Phile\Core\Registry;
 use Phile\Core\Request;
 use Phile\Core\Response;
 use Phile\Core\Router;
+use Phile\Core\ServiceLocator;
+use Phile\Core\Utility;
 use Phile\Model\Page;
-use Phile\Utility;
-use Phile\Exception\PluginException;
+use Phile\Repository\Page as Repository;
 
 /**
  * Phile Core class
@@ -35,7 +39,7 @@ class Core {
 	protected $pageRepository;
 
 	/**
-	 * @var null|Page the page model
+	 * @var null|\Phile\Model\Page the page model
 	 */
 	protected $page;
 
@@ -63,9 +67,9 @@ class Core {
 	 * @throws \Exception
 	 */
 	public function __construct(Router $router, Response $response) {
-		$this->settings = \Phile\Registry::get('Phile_Settings');
+		$this->settings = Registry::get('Phile_Settings');
 
-		$this->pageRepository = new \Phile\Repository\Page();
+		$this->pageRepository = new Repository();
 		$this->router = $router;
 		$this->response = $response;
 		$this->response->setCharset($this->settings['charset']);

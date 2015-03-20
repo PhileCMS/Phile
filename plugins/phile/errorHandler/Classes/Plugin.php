@@ -4,6 +4,11 @@
  */
 namespace Phile\Plugin\Phile\ErrorHandler;
 
+use Phile\Core\ServiceLocator;
+use Phile\Plugin\AbstractPlugin;
+use Phile\Plugin\Phile\ErrorHandler\Development;
+use Phile\Plugin\Phile\ErrorHandler\ErrorLog;
+
 /**
  * Class Plugin
  * Default Phile parser plugin for Markdown
@@ -13,7 +18,7 @@ namespace Phile\Plugin\Phile\ErrorHandler;
  * @license http://opensource.org/licenses/MIT
  * @package Phile\Plugin\Phile\ParserMarkdown
  */
-class Plugin extends \Phile\Plugin\AbstractPlugin {
+class Plugin extends AbstractPlugin {
 	const HANDLER_ERROR_LOG		= 'error_log';
 	const HANDLER_DEVELOPMENT	= 'development';
 
@@ -28,12 +33,12 @@ class Plugin extends \Phile\Plugin\AbstractPlugin {
 	public function onPluginsLoaded($data = null) {
 		switch ($this->settings['handler']) {
 			case Plugin::HANDLER_ERROR_LOG:
-				\Phile\ServiceLocator::registerService('Phile_ErrorHandler',
-					new \Phile\Plugin\Phile\ErrorHandler\ErrorLog($this->settings));
+				ServiceLocator::registerService('Phile_ErrorHandler',
+					new ErrorLog($this->settings));
 				break;
 			case Plugin::HANDLER_DEVELOPMENT:
-				\Phile\ServiceLocator::registerService('Phile_ErrorHandler',
-					new \Phile\Plugin\Phile\ErrorHandler\Development($this->settings));
+				ServiceLocator::registerService('Phile_ErrorHandler',
+					new Development($this->settings));
 				break;
 		}
 	}
