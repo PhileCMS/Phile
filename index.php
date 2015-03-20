@@ -16,20 +16,20 @@ try {
 	$response = new \Phile\Core\Response();
 	$phileCore = new \Phile\Core($router, $response);
 	$phileCore->render();
-} catch (\Phile\Exception $e) {
-	if (\Phile\ServiceLocator::hasService('Phile_ErrorHandler')) {
+} catch (\Phile\AbstractException $e) {
+	if (\Phile\Core\ServiceLocator::hasService('Phile_ErrorHandler')) {
 		ob_end_clean();
 
 		/** @var \Phile\ServiceLocator\ErrorHandlerInterface $errorHandler */
-		$errorHandler = \Phile\ServiceLocator::getService('Phile_ErrorHandler');
+		$errorHandler = \Phile\Core\ServiceLocator::getService('Phile_ErrorHandler');
 		$errorHandler->handleException($e);
 	}
 } catch (\Exception $e) {
-	if (\Phile\ServiceLocator::hasService('Phile_ErrorHandler')) {
+	if (\Phile\Core\ServiceLocator::hasService('Phile_ErrorHandler')) {
 		ob_end_clean();
 
 		/** @var \Phile\ServiceLocator\ErrorHandlerInterface $errorHandler */
-		$errorHandler = \Phile\ServiceLocator::getService('Phile_ErrorHandler');
+		$errorHandler = \Phile\Core\ServiceLocator::getService('Phile_ErrorHandler');
 		$errorHandler->handleException($e);
 	}
 }

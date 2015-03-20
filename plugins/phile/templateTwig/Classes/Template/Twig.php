@@ -4,8 +4,6 @@
  */
 namespace Phile\Plugin\Phile\TemplateTwig\Template;
 
-use Phile\Event;
-use Phile\Registry;
 use Phile\ServiceLocator\TemplateInterface;
 
 /**
@@ -41,7 +39,7 @@ class Twig implements TemplateInterface {
 		if (!is_null($config)) {
 			$this->config = $config;
 		}
-		$this->settings = Registry::get('Phile_Settings');
+		$this->settings = \Phile\Core\Registry::get('Phile_Settings');
 	}
 
 	/**
@@ -85,14 +83,14 @@ class Twig implements TemplateInterface {
 				'pages'        => $pageRepository->findAll(),
 			);
 
-			if (Registry::isRegistered('templateVars')) {
-				if (is_array(Registry::get('templateVars'))) {
-					foreach (Registry::get('templateVars') as $key => $value) {
+			if (\Phile\Core\Registry::isRegistered('templateVars')) {
+				if (is_array(\Phile\Core\Registry::get('templateVars'))) {
+					foreach (\Phile\Core\Registry::get('templateVars') as $key => $value) {
 						$twig_vars[$key] = $value;
 					}
 				}
 			}
-			Event::triggerEvent('template_engine_registered', array('engine' => &$twig, 'data' => &$twig_vars));
+			\Phile\Core\Event::triggerEvent('template_engine_registered', array('engine' => &$twig, 'data' => &$twig_vars));
 
 			$file = $twig_vars['theme_dir'] . '/' . $this->page->getMeta()->get('template') . '.html';
 			if ($this->page->getMeta()->get('template') !== null && file_exists($file)) {

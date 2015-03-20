@@ -9,7 +9,7 @@ return array(
 	'no_markup'            => false,
 	'no_entities'          => false,
 	'predef_urls'          => array(
-		'base_url' => \Phile\Utility::getBaseUrl() // base_url is a good reference to have
+		'base_url' => \Phile\Core\Utility::getBaseUrl() // base_url is a good reference to have
 	),
 	'predef_titles'        => array(),
 	'fn_id_prefix'         => "",

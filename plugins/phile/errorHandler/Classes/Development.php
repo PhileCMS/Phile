@@ -5,7 +5,7 @@
 
 namespace Phile\Plugin\Phile\ErrorHandler;
 use Phile\ServiceLocator\ErrorHandlerInterface;
-use Phile\Utility;
+use Phile\Core\Utility;
 
 /**
  * Class Development

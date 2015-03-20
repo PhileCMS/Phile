@@ -92,7 +92,7 @@ class Utility {
 	 * @use 'plugins_loaded' event
 	 */
 	public static function isPluginLoaded($plugin) {
-		$config = \Phile\Registry::get('Phile_Settings');
+		$config = Registry::get('Phile_Settings');
 		return (isset($config['plugins'][$plugin]) && isset($config['plugins'][$plugin]['active']) && $config['plugins'][$plugin]['active'] === true);
 	}
 

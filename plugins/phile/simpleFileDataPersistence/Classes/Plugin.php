@@ -4,6 +4,10 @@
  */
 namespace Phile\Plugin\Phile\SimpleFileDataPersistence;
 
+use Phile\Core\ServiceLocator;
+use Phile\Plugin\AbstractPlugin;
+use Phile\Plugin\Phile\SimpleFileDataPersistence\Persistence\SimpleFileDataPersistence;
+
 /**
  * Class Plugin
  * Default Phile data persistence engine
@@ -13,7 +17,7 @@ namespace Phile\Plugin\Phile\SimpleFileDataPersistence;
  * @license http://opensource.org/licenses/MIT
  * @package Phile\Plugin\Phile\SimpleFileDataPersistence
  */
-class Plugin extends \Phile\Plugin\AbstractPlugin {
+class Plugin extends AbstractPlugin {
 
 	protected $events = ['plugins_loaded' => 'onPluginsLoaded'];
 
@@ -25,7 +29,7 @@ class Plugin extends \Phile\Plugin\AbstractPlugin {
 	 * @return mixed|void
 	 */
 	public function onPluginsLoaded($data = null) {
-		\Phile\ServiceLocator::registerService('Phile_Data_Persistence',
-			new \Phile\Plugin\Phile\SimpleFileDataPersistence\Persistence\SimpleFileDataPersistence());
+		ServiceLocator::registerService('Phile_Data_Persistence',
+			new SimpleFileDataPersistence());
 	}
 }

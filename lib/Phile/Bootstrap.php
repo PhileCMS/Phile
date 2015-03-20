@@ -4,6 +4,9 @@
  */
 namespace Phile;
 
+use Phile\Core\Event;
+use Phile\Core\Registry;
+use Phile\Core\Utility;
 use Phile\Exception\PluginException;
 use Phile\Plugin\PluginRepository;
 
@@ -117,7 +120,7 @@ class Bootstrap {
 			$this->settings = $defaults;
 		}
 
-		\Phile\Registry::set('Phile_Settings', $this->settings);
+		Registry::set('Phile_Settings', $this->settings);
 		date_default_timezone_set($this->settings['timezone']);
 	}
 
@@ -153,7 +156,7 @@ class Bootstrap {
 	/**
 	 * initialize plugins
 	 *
-	 * @throws Exception
+	 * @throws Exception\PluginException
 	 */
 	protected function initializePlugins() {
 		$loader = new PluginRepository();
@@ -171,7 +174,7 @@ class Bootstrap {
 		}
 
 		// settings now include initialized plugin-configs
-		$this->settings = \Phile\Registry::get('Phile_Settings');
+		$this->settings = Registry::get('Phile_Settings');
 		Event::triggerEvent('config_loaded');
 	}
 

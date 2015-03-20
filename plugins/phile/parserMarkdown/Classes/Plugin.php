@@ -4,6 +4,10 @@
  */
 namespace Phile\Plugin\Phile\ParserMarkdown;
 
+use Phile\Core\ServiceLocator;
+use Phile\Plugin\AbstractPlugin;
+use Phile\Plugin\Phile\ParserMarkdown\Parser\Markdown;
+
 /**
  * Class Plugin
  * Default Phile parser plugin for Markdown
@@ -13,7 +17,7 @@ namespace Phile\Plugin\Phile\ParserMarkdown;
  * @license http://opensource.org/licenses/MIT
  * @package Phile\Plugin\Phile\ParserMarkdown
  */
-class Plugin extends \Phile\Plugin\AbstractPlugin {
+class Plugin extends AbstractPlugin {
 
 	protected $events = ['plugins_loaded' => 'onPluginsLoaded'];
 
@@ -25,7 +29,6 @@ class Plugin extends \Phile\Plugin\AbstractPlugin {
 	 * @return mixed|void
 	 */
 	public function onPluginsLoaded($data = null) {
-		\Phile\ServiceLocator::registerService('Phile_Parser',
-			new \Phile\Plugin\Phile\ParserMarkdown\Parser\Markdown($this->settings));
+		ServiceLocator::registerService('Phile_Parser', new Markdown($this->settings));
 	}
 }

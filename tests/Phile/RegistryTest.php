@@ -19,7 +19,7 @@ namespace PhileTest;
  */
 class RegistryTest extends \PHPUnit_Framework_TestCase {
 	/**
-	 * @var \Phile\Registry
+	 * @var \Phile\Core\Registry
 	 */
 	protected $registry;
 
