@@ -51,4 +51,9 @@ interface CacheInterface {
 	 * @return mixed
 	 */
 	public function delete($key, array $options = array());
+
+	/**
+	 * clean complete cache and delete all cached entries
+	 */
+	public function clean();
 }
