@@ -3,23 +3,22 @@
  * the core of Phile
  */
 namespace Phile;
+use Phile\Core\Request;
 use Phile\Core\Response;
+use Phile\Core\Router;
+use Phile\Model\Page;
+use Phile\Utility;
 use Phile\Exception\PluginException;
 
 /**
- * Phile
+ * Phile Core class
  *
- * @author  PhileCMS Community, Gilbert Pellegrom(Pico 0.8)
+ * @author  PhileCMS
  * @link    https://philecms.com
  * @license http://opensource.org/licenses/MIT
  * @package Phile
  */
 class Core {
-	/**
-	 * @var Bootstrap the bootstrap class
-	 */
-	protected $bootstrap;
-
 	/**
 	 * @var array the settings array
 	 */
@@ -36,7 +35,7 @@ class Core {
 	protected $pageRepository;
 
 	/**
-	 * @var null|\Phile\Model\Page the page model
+	 * @var null|Page the page model
 	 */
 	protected $page;
 
@@ -46,34 +45,34 @@ class Core {
 	protected $output;
 
 	/**
-	 * @var \Phile\Core\Response
+	 * @var \Phile\Core\Response the response the core send
 	 */
 	protected $response;
+
+	/**
+	 * @var Router
+	 */
+	protected $router;
 
 	/**
 	 * The constructor carries out all the processing in Phile.
 	 * Does URL routing, Markdown processing and Twig processing.
 	 *
-	 * @param Bootstrap $bootstrap
+	 * @param Router $router
+	 * @param Response $response
+	 * @throws \Exception
 	 */
-	public function __construct(Bootstrap $bootstrap) {
-		$this->bootstrap = $bootstrap;
-
+	public function __construct(Router $router, Response $response) {
 		$this->settings = \Phile\Registry::get('Phile_Settings');
 
 		$this->pageRepository = new \Phile\Repository\Page();
-		$this->response = (new Response)->setCharset($this->settings['charset']);
+		$this->router = $router;
+		$this->response = $response;
+		$this->response->setCharset($this->settings['charset']);
 
-		// Setup Check
-		$this->checkSetup();
-
-		// init error handler
 		$this->initializeErrorHandling();
-
-		// init current page
+		$this->checkSetup();
 		$this->initializeCurrentPage();
-
-		// init template
 		$this->initializeTemplate();
 	}
 
@@ -83,40 +82,26 @@ class Core {
 	 * @return string
 	 */
 	public function render() {
-		return $this->response->send();
+		$this->response->send();
 	}
 
 	/**
 	 * initialize the current page
 	 */
 	protected function initializeCurrentPage() {
-		$uri = (strpos($_SERVER['REQUEST_URI'], '?') !== false) ? substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], '?')) : $_SERVER['REQUEST_URI'];
-		$uri = str_replace('/' . \Phile\Utility::getInstallPath() . '/', '', $uri);
-		$uri = (strpos($uri, '/') === 0) ? substr($uri, 1) : $uri;
+		$pageId = $this->router->getCurrentUrl();
+		$page = $this->pageRepository->findByPath($pageId);
 
-		// strip '/index' if it exists (as per https://github.com/PhileCMS/Phile/pull/170)
-		if ($uri=="index" || preg_match("#/index$#", $uri)>0) {
-			// we can't just check if 'index' are the last 5 letters, because then URLs
-			// like 'example.com/blog/global-economic-index' would also be stripped...
-			$uri = rtrim(Utility::getBaseUrl() . '/' . substr($uri, 0, -5), '/');
-			Utility::redirect($uri, 301);
-		}
-
-		/**
-		 * @triggerEvent request_uri this event is triggered after the request uri is detected.
-		 *
-		 * @param uri the uri
-		 */
-		Event::triggerEvent('request_uri', array('uri' => $uri));
-
-		// use the current url to find the page
-		$page = $this->pageRepository->findByPath($uri);
-		if ($page instanceof \Phile\Model\Page) {
-			$this->page = $page;
-		} else {
+		if (!($page instanceof Page)) {
 			$this->response->setStatusCode(404);
-			$this->page = $this->pageRepository->findByPath('404');
+			$page = $this->pageRepository->findByPath('404');
+		} elseif ($pageId !== $page->getPageId()) {
+			$redirect = $this->router->urlForPage($page->getPageId());
+			$this->response->redirect($redirect, 301);
 		}
+
+		Event::triggerEvent('request_uri', ['uri' => $pageId]);
+		$this->page = $page;
 	}
 
 	/**
@@ -139,8 +124,9 @@ class Core {
 		Event::triggerEvent('before_setup_check');
 
 		if (!isset($this->settings['encryptionKey']) || strlen($this->settings['encryptionKey']) == 0) {
-			if (strpos($_SERVER['REQUEST_URI'], '/setup') === false) {
-				Utility::redirect($this->settings['base_url'] . '/setup');
+			if ($this->router->getCurrentUrl() !== 'setup') {
+				$this->response->redirect($this->router->url('setup'));
+				return;
 			}
 		} else {
 			if (is_file(CONTENT_DIR . 'setup.md')) {

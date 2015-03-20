@@ -35,10 +35,42 @@ class PageTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 *
 	 */
-	public function testPageCanBeFindByPath() {
-		$page = $this->pageRepository->findByPath('/');
-		$this->assertInstanceOf('\Phile\Model\Page', $page);
-		$this->assertEquals('Welcome', $page->getTitle());
+	public function testFindByPathSuccess() {
+		$DS = DIRECTORY_SEPARATOR;
+
+		// official page-Id format
+		$tests = [
+			'' => 'index.md',
+			'index' => 'index.md',
+			'sub/' => 'sub' . $DS . 'index.md',
+			'sub/page' => 'sub' . $DS . 'page.md',
+		];
+
+		// accept (leading) slashes for backwards compatibility
+		$tests += [
+			'/' => 'index.md' ,
+			'/index' => 'index.md' ,
+			'/sub/' => 'sub' . $DS . 'index.md',
+			'/sub/page' => 'sub' . $DS . 'page.md',
+		];
+
+		foreach ($tests as $pageId => $file) {
+			$page = $this->pageRepository->findByPath($pageId);
+			$this->assertInstanceOf(
+				'\Phile\Model\Page',
+				$page,
+				"Can't find file '$file' for page-Id: '$pageId'."
+			);
+			$this->assertStringEndsWith('content' . $DS . $file, $page->getFilePath());
+		}
+	}
+
+	/**
+	 *
+	 */
+	public function testFindByPathPageDoesNotExist() {
+		$page = $this->pageRepository->findByPath('foo');
+		$this->assertNull($page);
 	}
 
 	/**
