@@ -14,7 +14,7 @@ namespace Phile\Plugin\Phile\PhpFastCache;
  */
 class PhpFastCache implements \Phile\ServiceLocator\CacheInterface {
 	/**
-	 * @var \phpFastCache the cache engine
+	 * @var \BasePhpFastCache the cache engine
 	 */
 	protected $cacheEngine;
 
