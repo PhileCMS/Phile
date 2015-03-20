@@ -16,7 +16,7 @@ try {
 	$response = new \Phile\Core\Response();
 	$phileCore = new \Phile\Core($router, $response);
 	$phileCore->render();
-} catch (\Phile\AbstractException $e) {
+} catch (\Phile\Exception\AbstractException $e) {
 	if (\Phile\Core\ServiceLocator::hasService('Phile_ErrorHandler')) {
 		ob_end_clean();
 
