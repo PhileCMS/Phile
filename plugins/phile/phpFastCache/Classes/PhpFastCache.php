@@ -21,7 +21,7 @@ class PhpFastCache implements \Phile\ServiceLocator\CacheInterface {
 	/**
 	 * the constructor
 	 *
-	 * @param \phpFastCache $cacheEngine
+	 * @param \BasePhpFastCache $cacheEngine
 	 */
 	public function __construct(\BasePhpFastCache $cacheEngine) {
 		$this->cacheEngine = $cacheEngine;
