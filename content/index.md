@@ -114,6 +114,11 @@ The following list shows all events.
 
 this event is triggered after the plugins loaded
 
+| param                   | type                               | description                                                          |
+| ----------------------- |:-----------------------------------|:---------------------------------------------------------------------|
+| `plugins`               | array                              | `Plugin` classes of all loaded plugins                               |
+
+
 #### config_loaded
 
 this event is triggered after the configuration is fully loaded

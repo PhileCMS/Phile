@@ -87,8 +87,9 @@ class Utility {
 	 * check if a plugin is loaded
 	 *
 	 * @param $plugin
-	 *
 	 * @return bool
+	 * @deprecated since 1.5 will be removed in 1.6
+	 * @use 'plugins_loaded' event
 	 */
 	public static function isPluginLoaded($plugin) {
 		$config = \Phile\Registry::get('Phile_Settings');
