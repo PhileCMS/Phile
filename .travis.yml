@@ -8,7 +8,12 @@ php:
 - 5.4
 - 5.5
 - 5.6
-- hhvm
+
+matrix:
+  include:
+    - php: hhvm
+      env: HHVM=1
+
 # Notifications
 notifications:
   flowdock:
@@ -21,10 +26,13 @@ notifications:
       secure: I/k3DJq2crx71BMW4UjTxgnx9Qj/H8ttmt7G0Qhyz47yqUJ8dfsYiyLu0QX19kIF/IXWU6BDXZxCvdM8/5vN5D3TFaNXu6VCK6CtXutgAEyj7Fgeg5tDq5Jt+c5j2E+jjIMWeeUCKYIY+zsKFMtQLx68Fa613tNQIUcnxpy5HYY=
     on_success: always
     on_failure: always
+
 # Scripts
 before_script:
-- composer selfupdate --quiet
-- composer install -n --prefer-source --no-dev
+  # workaround for session dir not accessible in HHVM
+  - sh -c "if [ '$HHVM' = '1' ]; then echo 'session.gc_probability = 0' >> /etc/hhvm/php.ini; fi"
+  - composer selfupdate --quiet
+  - composer install -n --prefer-source --no-dev
 script:
 - |
   echo;
