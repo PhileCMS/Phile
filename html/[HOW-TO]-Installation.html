@@ -7,11 +7,17 @@
 <p>Install <a href="http://php.net/manual/en/install.php">PHP</a> and then <a href="https://getcomposer.org/doc/00-intro.md#system-requirements">composer</a>. Then create a new Phile project:</p>
 <pre><code>composer create-project --no-dev phile-cms/phile
 </code></pre><h4 id="download-for-developers">Download for Developers</h4>
-<p><a href="https://github.com/PhileCMS/Phile/archive/master.zip">Download</a> and unzip, or clone (<code>git clone https://github.com/PhileCMS/Phile phile</code>) the repository. Install the required libraries by running in the root directory (the root has the <code>composer.json</code> file):</p>
-<pre><code>composer install
+<p>Clone the repository and install the required libraries by running in the root directory (the root has the <code>composer.json</code> file):</p>
+<pre><code>git clone https://github.com/PhileCMS/Phile phile;
+cd phile;
+composer install;
 </code></pre><h3 id="put-the-files-on-the-web-server">Put the Files on the Web-Server</h3>
 <p>Upload the Phile folder to your web-server. If you open the URL of that folder in your web browser you should see Phile&#39;s setup page.</p>
 <p>If you upload the folder content separately don&#39;t miss the <code>.htaccess</code> file. It&#39;s placed the root-directory and might be invisible on systems like Linux or Mac OS X.</p>
+<p>Phile can also run locally using PHP&#39;s build in web-server. In the Phile root directory:</p>
+<pre><code class="lang-shell">php -S localhost:8080
+</code></pre>
+<p>to start Phile at <a href="http://localhost:8080/">http://localhost:8080/</a>.</p>
 <h3 id="post-installation">Post Installation</h3>
 <h4 id="encryptionkey">EncryptionKey</h4>
 <p>You must set the <a href="https://github.com/PhileCMS/Phile/blob/master/config.php#L8">encryptionKey</a> value in the config to a non-empty string. There is a <a href="https://github.com/PhileCMS/Phile/blob/master/generator.php">generator.php</a> file that, when run, will generate a random string for you.</p>
