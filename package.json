@@ -23,6 +23,7 @@
     "grunt-contrib-concat": "~0.3.0",
     "grunt-sass": "*",
     "grunt-contrib-watch": "~0.5.3",
-    "grunt-autoprefixer": "~0.3.0"
+    "grunt-autoprefixer": "~0.3.0",
+    "marked": "*"
   }
 }
