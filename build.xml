@@ -49,6 +49,7 @@
         <!-- ## Files for package ## -->
         <include name=".htaccess"/>
         <include name="Changelog.md"/>
+        <include name="composer.json"/>
         <include name="config.php"/>
         <include name="default_config.php"/>
         <include name="generator.php"/>
