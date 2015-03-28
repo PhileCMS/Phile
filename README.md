@@ -1,13 +1,15 @@
 PhileCMS
 ========
 
+[![Software License](https://img.shields.io/packagist/l/phile-cms/phile.svg)](https://github.com/PhileCMS/Phile/blob/master/LICENSE)
+[![Packagist Version](https://img.shields.io/packagist/v/phile-cms/phile.svg)](https://packagist.org/packages/phile-cms/phile)
+[![Build Status](https://travis-ci.org/PhileCMS/Phile.svg?branch=master)](https://travis-ci.org/PhileCMS/Phile)
+[![Code Quality](https://img.shields.io/scrutinizer/g/PhileCMS/Phile/master.svg)](https://scrutinizer-ci.com/g/PhileCMS/Phile/?branch=master)
+[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/PhileCMS/Phile/master.svg)](https://scrutinizer-ci.com/g/PhileCMS/Phile/?branch=master)
+
 A Markdown file-based CMS.
 
 [Check out the starter video](http://www.youtube.com/watch?v=8GLMe371RuI), or [read the wiki for in-depth documenation](https://github.com/PhileCMS/Phile/wiki/_pages).
-
-## Build status
-
-[![Build Status](https://travis-ci.org/PhileCMS/Phile.svg?branch=master)](https://travis-ci.org/PhileCMS/Phile)
 
 ## Gitter Developer & Support-System
 
