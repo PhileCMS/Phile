@@ -14,16 +14,16 @@ namespace Phile\Plugin\Phile\PhpFastCache;
  */
 class PhpFastCache implements \Phile\ServiceLocator\CacheInterface {
 	/**
-	 * @var \phpFastCache the cache engine
+	 * @var \BasePhpFastCache the cache engine
 	 */
 	protected $cacheEngine;
 
 	/**
 	 * the constructor
 	 *
-	 * @param \phpFastCache $cacheEngine
+	 * @param \BasePhpFastCache $cacheEngine
 	 */
-	public function __construct(\phpFastCache $cacheEngine) {
+	public function __construct(\BasePhpFastCache $cacheEngine) {
 		$this->cacheEngine = $cacheEngine;
 	}
 
@@ -75,4 +75,4 @@ class PhpFastCache implements \Phile\ServiceLocator\CacheInterface {
 		$this->cacheEngine->delete($key, $options);
 	}
 
-} 
+}
