@@ -29,8 +29,14 @@ class Event {
 	 * @param EventObserverInterface|callable $object observer
 	 */
 	public static function registerEvent($eventName, $object) {
-		if (!($object instanceof EventObserverInterface) && !is_callable($object)) {
-			throw new \InvalidArgumentException;
+		if ($object instanceof EventObserverInterface) {
+			$object = [$object, 'on'];
+		}
+		if (!is_callable($object)) {
+			throw new \InvalidArgumentException(
+				"Can't register event. Observer is not callable.",
+				1427814905
+			);
 		}
 		if (!isset(self::$_registry[$eventName])) {
 			self::$_registry[$eventName] = [];
@@ -49,9 +55,6 @@ class Event {
 			return;
 		}
 		foreach (self::$_registry[$eventName] as $observer) {
-			if ($observer instanceof EventObserverInterface) {
-				$observer = [$observer, 'on'];
-			}
 			call_user_func_array($observer, [$eventName, $data]);
 		}
 	}

@@ -46,4 +46,10 @@ class EventTest extends \PHPUnit_Framework_TestCase {
 		Event::registerEvent('myTestEvent2', $callable);
 		Event::triggerEvent('myTestEvent2');
 	}
+
+	public function testRegisterFail() {
+		$this->setExpectedException('\InvalidArgumentException');
+		Event::registerEvent('myTestEvent2', new \stdClass());
+	}
+
 }
