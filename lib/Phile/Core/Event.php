@@ -38,9 +38,6 @@ class Event {
 				1427814905
 			);
 		}
-		if (!isset(self::$_registry[$eventName])) {
-			self::$_registry[$eventName] = [];
-		}
 		self::$_registry[$eventName][] = $object;
 	}
 
