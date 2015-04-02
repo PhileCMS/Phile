@@ -4,12 +4,16 @@
  */
 namespace Phile\Plugin\Phile\TemplateTwig\Template;
 
+use Phile\Core\Event;
+use Phile\Core\Registry;
+use Phile\Model\Page;
+use Phile\Repository\Page as Repository;
 use Phile\ServiceLocator\TemplateInterface;
 
 /**
  * Class Twig
  *
- * @author  Frank Nägler
+ * @author  PhileCMS
  * @link    https://philecms.com
  * @license http://opensource.org/licenses/MIT
  * @package Phile\Plugin\Phile\TemplateTwig\Template
@@ -26,9 +30,14 @@ class Twig implements TemplateInterface {
 	protected $config;
 
 	/**
-	 * @var \Phile\Model\Page the page model
+	 * @var Page the page model
 	 */
 	protected $page;
+
+	/**
+	 * @var string template extension
+	 */
+	protected $tplExt = 'html';
 
 	/**
 	 * the constructor
@@ -39,17 +48,17 @@ class Twig implements TemplateInterface {
 		if (!is_null($config)) {
 			$this->config = $config;
 		}
-		$this->settings = \Phile\Core\Registry::get('Phile_Settings');
+		$this->settings = Registry::get('Phile_Settings');
 	}
 
 	/**
 	 * method to set the current page
 	 *
-	 * @param \Phile\Model\Page $page the page model
+	 * @param Page $page the page model
 	 *
 	 * @return mixed|void
 	 */
-	public function setCurrentPage(\Phile\Model\Page $page) {
+	public function setCurrentPage(Page $page) {
 		$this->page = $page;
 	}
 
@@ -59,49 +68,114 @@ class Twig implements TemplateInterface {
 	 * @return mixed|string
 	 */
 	public function render() {
-		$pageRepository = new \Phile\Repository\Page($this->settings);
-		$output         = 'No template found!';
-		if (file_exists(THEMES_DIR . $this->settings['theme'])) {
-			$loader = new \Twig_Loader_Filesystem(THEMES_DIR . $this->settings['theme']);
-			$twig   = new \Twig_Environment($loader, $this->config);
-			// load the twig debug extension if required
-			if ($this->config['debug']) {
-				$twig->addExtension(new \Twig_Extension_Debug());
-			}
-			$twig_vars = array(
-				'config'       => $this->settings,
-				'base_dir'     => rtrim(ROOT_DIR, '/'),
-				'base_url'     => $this->settings['base_url'],
-				'theme_dir'    => THEMES_DIR . $this->settings['theme'],
-				'theme_url'    => $this->settings['base_url'] . '/' . basename(THEMES_DIR) . '/' . $this->settings['theme'],
-				'content_dir'  => CONTENT_DIR,
-				'content_url'  => $this->settings['base_url'] . '/' . basename(CONTENT_DIR),
-				'site_title'   => $this->settings['site_title'],
-				'current_page' => $this->page,
-				'meta'         => $this->page->getMeta(),
-				'content'      => $this->page->getContent(),
-				'pages'        => $pageRepository->findAll(),
-			);
+		$engine = $this->getEngine();
+		$vars = $this->getTemplateVars();
 
-			if (\Phile\Core\Registry::isRegistered('templateVars')) {
-				if (is_array(\Phile\Core\Registry::get('templateVars'))) {
-					foreach (\Phile\Core\Registry::get('templateVars') as $key => $value) {
-						$twig_vars[$key] = $value;
-					}
-				}
-			}
-			\Phile\Core\Event::triggerEvent('template_engine_registered', array('engine' => &$twig, 'data' => &$twig_vars));
+		Event::triggerEvent(
+			'template_engine_registered',
+			['engine' => &$engine, 'data' => &$vars]
+		);
 
-			$file = $twig_vars['theme_dir'] . '/' . $this->page->getMeta()->get('template') . '.html';
-			if ($this->page->getMeta()->get('template') !== null && file_exists($file)) {
-				$template = $this->page->getMeta()->get('template');
-			} else {
-				$template = 'index';
-			}
-
-			$output = $twig->render($template . '.html', $twig_vars);
-		}
-
-		return $output;
+		return $this->_render($engine, $vars);
 	}
+
+	/**
+	 * wrapper to call the render engine
+	 *
+	 * @param $engine
+	 * @param $vars
+	 * @return mixed
+	 */
+	protected function _render($engine, $vars) {
+		try {
+			$template = $this->getTemplateFileName();
+		} catch (\RuntimeException $e) {
+			return $e->getMessage();
+		}
+		return $engine->render($template, $vars);
+	}
+
+	/**
+	 * get template engine
+	 *
+	 * @return \Twig_Environment
+	 */
+	protected function getEngine() {
+		$loader = new \Twig_Loader_Filesystem($this->getTemplatePath());
+		$twig = new \Twig_Environment($loader, $this->config);
+
+		// load the twig debug extension if required
+		if ($this->config['debug']) {
+			$twig->addExtension(new \Twig_Extension_Debug());
+		}
+		return $twig;
+	}
+
+	/**
+	 * get template file name
+	 *
+	 * @return string
+	 * @throws \RuntimeException
+	 */
+	protected function getTemplateFileName() {
+		$template = $this->page->getMeta()->get('template');
+		if (empty($template)) {
+			$template = 'index';
+		}
+		if (!empty($this->tplExt)) {
+			$template .= '.' . $this->tplExt;
+		}
+		$templatePath = $this->getTemplatePath($template);
+		if (!file_exists($templatePath)) {
+			throw new \RuntimeException(
+				"Template file '{$templatePath}' not found.",
+				1427990135
+			);
+		}
+		return $template;
+	}
+
+	/**
+	 * get file path to (sub-path) in theme-path
+	 *
+	 * @param string $sub
+	 * @return string
+	 */
+	protected function getTemplatePath($sub = '') {
+		$themePath = THEMES_DIR . $this->settings['theme'];
+		if (!empty($sub)) {
+			$themePath .= '/' . ltrim($sub, DIRECTORY_SEPARATOR);
+		}
+		return $themePath;
+	}
+
+	/**
+	 * get template vars
+	 *
+	 * @return array|mixed
+	 * @throws \Exception
+	 */
+	protected function getTemplateVars() {
+		/** @var array $templateVars */
+		$templateVars = Registry::get('templateVars');
+
+		$repository = new Repository($this->settings);
+		$templateVars += [
+			'content' => $this->page->getContent(),
+			'meta' => $this->page->getMeta(),
+			'current_page' => $this->page,
+			'base_dir' => rtrim(ROOT_DIR, '/'),
+			'base_url' => $this->settings['base_url'],
+			'config' => $this->settings,
+			'content_dir' => CONTENT_DIR,
+			'content_url' => $this->settings['base_url'] . '/' . basename(CONTENT_DIR),
+			'pages' => $repository->findAll(),
+			'site_title' => $this->settings['site_title'],
+			'theme_dir' => THEMES_DIR . $this->settings['theme'],
+			'theme_url' => $this->settings['base_url'] . '/' . basename(THEMES_DIR) . '/' . $this->settings['theme'],
+		];
+
+		return $templateVars;
+	}
+
 }
