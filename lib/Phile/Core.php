@@ -127,6 +127,10 @@ class Core {
 		 */
 		Event::triggerEvent('before_setup_check');
 
+		if (!Registry::isRegistered('templateVars')) {
+			Registry::set('templateVars', []);
+		}
+
 		if (!isset($this->settings['encryptionKey']) || strlen($this->settings['encryptionKey']) == 0) {
 			if ($this->router->getCurrentUrl() !== 'setup') {
 				$this->response->redirect($this->router->url('setup'));
@@ -137,14 +141,6 @@ class Core {
 				unlink(CONTENT_DIR . 'setup.md');
 			}
 		}
-		if (Registry::isRegistered('templateVars')) {
-			$templateVars = Registry::get('templateVars');
-		} else {
-			$templateVars = array();
-		}
-		$templateVars['setup_enrcyptionKey'] = Utility::generateSecureToken(64);
-		Registry::set('templateVars', $templateVars);
-
 		/**
 		 * @triggerEvent after_setup_check this event is triggered after the setup check
 		 */
@@ -181,4 +177,5 @@ class Core {
 		Event::triggerEvent('after_render_template', array('templateEngine' => &$templateEngine, 'output' => &$output));
 		$this->response->setBody($output);
 	}
+
 }
