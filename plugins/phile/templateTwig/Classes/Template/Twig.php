@@ -156,11 +156,8 @@ class Twig implements TemplateInterface {
 	 * @throws \Exception
 	 */
 	protected function getTemplateVars() {
-		/** @var array $templateVars */
-		$templateVars = Registry::get('templateVars');
-
 		$repository = new Repository($this->settings);
-		$templateVars += [
+		$defaults = [
 			'content' => $this->page->getContent(),
 			'meta' => $this->page->getMeta(),
 			'current_page' => $this->page,
@@ -174,6 +171,10 @@ class Twig implements TemplateInterface {
 			'theme_dir' => THEMES_DIR . $this->settings['theme'],
 			'theme_url' => $this->settings['base_url'] . '/' . basename(THEMES_DIR) . '/' . $this->settings['theme'],
 		];
+
+		/** @var array $templateVars */
+		$templateVars = Registry::get('templateVars');
+		$templateVars += $defaults;
 
 		return $templateVars;
 	}
