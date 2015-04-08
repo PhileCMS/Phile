@@ -175,7 +175,7 @@ class Bootstrap {
 
 		// settings now include initialized plugin-configs
 		$this->settings = Registry::get('Phile_Settings');
-		Event::triggerEvent('config_loaded');
+		Event::triggerEvent('config_loaded', ['config' => $this->settings]);
 	}
 
 	/**

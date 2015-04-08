@@ -123,6 +123,10 @@ this event is triggered after the plugins loaded
 
 this event is triggered after the configuration is fully loaded
 
+| param                   | type                               | description                                                          |
+| ----------------------- |:-----------------------------------|:---------------------------------------------------------------------|
+| `config`                | array                              | the complete configuration                                           |
+
 #### request_uri
 
 this event is triggered after the request uri is detected.
