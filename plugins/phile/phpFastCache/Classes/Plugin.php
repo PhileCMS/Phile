@@ -22,18 +22,16 @@ class Plugin extends AbstractPlugin {
 
 	/**
 	 * onPluginsLoaded method
-	 *
-	 * @param null   $data
-	 *
-	 * @return mixed|void
 	 */
-	public function onPluginsLoaded($data = null) {
+	public function onPluginsLoaded() {
 		// phpFastCache not working in CLI mode...
 		if (PHILE_CLI_MODE) {
 			return;
 		}
-		\phpFastCache::setup($this->settings);
-		$cache = phpFastCache();
+		unset($this->settings['active']);
+		$config = $this->settings + \phpFastCache::$config;
+		$storage = $this->settings['storage'];
+		$cache = phpFastCache($storage, $config);
 		ServiceLocator::registerService('Phile_Cache', new PhpFastCache($cache));
 	}
 }
