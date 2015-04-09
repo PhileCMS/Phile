@@ -123,6 +123,10 @@ this event is triggered after the plugins loaded
 
 this event is triggered after the configuration is fully loaded
 
+| param                   | type                               | description                                                          |
+| ----------------------- |:-----------------------------------|:---------------------------------------------------------------------|
+| `config`                | array                              | the complete configuration                                           |
+
 #### after\_init\_core
 
 this event is triggered after the core is initialized
@@ -130,7 +134,6 @@ this event is triggered after the core is initialized
 | param                   | type                 | description                                                      |
 | ----------------------- |:---------------------|:-----------------------------------------------------------------|
 | `response`              | \Phile\Core\Response | the response                                                     |  
-
 
 #### request_uri
 
