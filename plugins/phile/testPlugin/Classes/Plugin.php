@@ -9,7 +9,10 @@ use Phile\Plugin\AbstractPlugin;
 
 class Plugin extends AbstractPlugin {
 
-	protected $events = ['phile\testPlugin.testEvent' => 'onTestEvent'];
+	protected $events = [
+		'phile\testPlugin.testEvent' => 'onTestEvent',
+		'phile\testPlugin.testEvent-missingMethod' => 'missingMethod'
+	];
 
 	protected $settings = ['A' => 'X', 'B' => 'X', 'C' => 'C'];
 
@@ -21,6 +24,9 @@ class Plugin extends AbstractPlugin {
 	 */
 	public function getPluginPath($path = '') {
 		return parent::getPluginPath($path);
+	}
+
+	protected function onTestEvent() {
 	}
 
 }
