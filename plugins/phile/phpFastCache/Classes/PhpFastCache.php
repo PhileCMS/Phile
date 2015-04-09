@@ -75,4 +75,11 @@ class PhpFastCache implements \Phile\ServiceLocator\CacheInterface {
 		$this->cacheEngine->delete($key, $options);
 	}
 
+	/**
+	 * clean complete cache and delete all cached entries
+	 */
+	public function clean() {
+		$this->cacheEngine->clean();
+	}
+
 }
