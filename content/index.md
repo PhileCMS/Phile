@@ -123,6 +123,15 @@ this event is triggered after the plugins loaded
 
 this event is triggered after the configuration is fully loaded
 
+#### after\_init\_core
+
+this event is triggered after the core is initialized
+
+| param                   | type                 | description                                                      |
+| ----------------------- |:---------------------|:-----------------------------------------------------------------|
+| `response`              | \Phile\Core\Response | the response                                                     |  
+
+
 #### request_uri
 
 this event is triggered after the request uri is detected.
@@ -130,6 +139,20 @@ this event is triggered after the request uri is detected.
 | param                   | type                               | description                                                          |
 | ----------------------- |:-----------------------------------|:---------------------------------------------------------------------|
 | `uri`                   | string                             | the requested uri (without install_path)                             |
+
+#### after\_404
+
+this event is triggered after a requested page is not found
+
+#### after\_resolve\_page
+
+this event is triggered after a request is resolved to a page
+
+| param                   | type                               | description                                                          |
+| ----------------------- |:-----------------------------------|:---------------------------------------------------------------------|
+| `pageId`                | string                             | the requested page-ID                                                |  
+| `page`                  | Phile\Model\Page                   | the page served                                                      |
+
 
 #### before\_init\_template
 

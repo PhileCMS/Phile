@@ -67,14 +67,8 @@ class Core {
 	 * @throws \Exception
 	 */
 	public function __construct(Router $router, Response $response) {
-		$this->settings = Registry::get('Phile_Settings');
-
-		$this->pageRepository = new Repository();
-		$this->router = $router;
-		$this->response = $response;
-		$this->response->setCharset($this->settings['charset']);
-
 		$this->initializeErrorHandling();
+		$this->initialize($router, $response);
 		$this->checkSetup();
 		$this->initializeCurrentPage();
 		$this->initializeTemplate();
@@ -89,22 +83,40 @@ class Core {
 		$this->response->send();
 	}
 
+	protected function initialize(Router $router, Response $response) {
+		$this->settings = Registry::get('Phile_Settings');
+		$this->pageRepository = new Repository();
+		$this->router = $router;
+		$this->response = $response;
+		$this->response->setCharset($this->settings['charset']);
+
+		Event::triggerEvent('after_init_core', ['response' => $this->response]);
+	}
+
 	/**
 	 * initialize the current page
 	 */
 	protected function initializeCurrentPage() {
 		$pageId = $this->router->getCurrentUrl();
-		$page = $this->pageRepository->findByPath($pageId);
-
-		if (!($page instanceof Page)) {
-			$this->response->setStatusCode(404);
-			$page = $this->pageRepository->findByPath('404');
-		} elseif ($pageId !== $page->getPageId()) {
-			$redirect = $this->router->urlForPage($page->getPageId());
-			$this->response->redirect($redirect, 301);
-		}
 
 		Event::triggerEvent('request_uri', ['uri' => $pageId]);
+
+		$page = $this->pageRepository->findByPath($pageId);
+		$found = $page instanceof Page;
+
+		if ($found && $pageId !== $page->getPageId()) {
+			$url = $this->router->urlForPage($page->getPageId());
+			$this->response->redirect($url, 301);
+		}
+
+		if (!$found) {
+			$this->response->setStatusCode(404);
+			$page = $this->pageRepository->findByPath('404');
+			Event::triggerEvent('after_404');
+		}
+
+		Event::triggerEvent('after_resolve_page', ['pageId' => $pageId, 'page' => &$page]);
+
 		$this->page = $page;
 	}
 
