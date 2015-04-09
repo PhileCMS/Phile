@@ -1,34 +1,32 @@
-# Composer
+### Composer
 composer.phar
+/lib/vendor
 
-# Twig
-lib/vendor/*
-
-# OS Generated
+### OS Generated
 .DS_Store*
 ehthumbs.db
 Icon?
 Thumbs.db
 *.swp
+.idea
 
-# distribution build directory
-dist/*
-# phpDocs
-docs/*
-
-# User themes
-themes/*
+### Phile
+# Phile themes
+/themes/*
 !themes/index.html
 !themes/default/*
 
-# PHPStorm settings
-.idea
-
 # cache folder
-!lib/cache
-lib/cache/*
-!lib/cache/.htaccess
+/protected/cache/*
+!/protected/cache/.htaccess
 
 # datastorage
-datastorage/*
-!datastorage/.htaccess
+/protected/datastorage/*
+!/protected/datastorage/.htaccess
+
+# Phile distribution build directory
+dist/*
+
+# Phile phpDocs
+/docs/*
+

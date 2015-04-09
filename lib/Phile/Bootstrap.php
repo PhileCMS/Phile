@@ -77,14 +77,19 @@ class Bootstrap {
 		// init our bootstrap multiple times.
 		defined('PHILE_VERSION') 	or define('PHILE_VERSION',   '1.5.2');
 		defined('PHILE_CLI_MODE') 	or define('PHILE_CLI_MODE',  (php_sapi_name() == "cli") ? true : false);
-		defined('ROOT_DIR') 		or define('ROOT_DIR',        realpath(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR);
-		defined('CONTENT_DIR') 		or define('CONTENT_DIR',     ROOT_DIR . 'content' . DIRECTORY_SEPARATOR);
+		defined ('DS') or define('DS', DIRECTORY_SEPARATOR);
+		defined('ROOT_DIR') 		or define('ROOT_DIR',        realpath(__DIR__ . DS . '..' . DS . '..' . DS) . DS);
+
+		defined('CONTENT_DIR') 		or define('CONTENT_DIR',     ROOT_DIR . 'content' . DS);
 		defined('CONTENT_EXT') 		or define('CONTENT_EXT',     '.md');
-		defined('LIB_DIR') 			or define('LIB_DIR',         ROOT_DIR . 'lib' . DIRECTORY_SEPARATOR);
-		defined('PLUGINS_DIR') 		or define('PLUGINS_DIR',     ROOT_DIR . 'plugins' . DIRECTORY_SEPARATOR);
-		defined('THEMES_DIR') 		or define('THEMES_DIR',      ROOT_DIR . 'themes' . DIRECTORY_SEPARATOR);
-		defined('CACHE_DIR') 		or define('CACHE_DIR',       LIB_DIR . 'cache' . DIRECTORY_SEPARATOR);
-		defined('STORAGE_DIR') or define('STORAGE_DIR', LIB_DIR . 'datastorage' . DIRECTORY_SEPARATOR);
+		defined('LIB_DIR') 			or define('LIB_DIR',         ROOT_DIR . 'lib' . DS);
+
+		defined('PLUGINS_DIR') 		or define('PLUGINS_DIR',     ROOT_DIR . 'plugins' . DS);
+		defined('THEMES_DIR') 		or define('THEMES_DIR',      ROOT_DIR . 'themes' . DS);
+
+		defined('PROTECTED_DIR') or define('PROTECTED_DIR', ROOT_DIR . 'protected' . DS);
+		defined('CACHE_DIR') or define('CACHE_DIR', ROOT_DIR . 'protected' . DS . 'cache' . DS);
+		defined('STORAGE_DIR') or define('STORAGE_DIR', ROOT_DIR . 'protected' . DS . 'datastorage' . DS);
 	}
 
 	/**
@@ -94,7 +99,7 @@ class Bootstrap {
 		spl_autoload_extensions(".php");
 		// load phile core
 		spl_autoload_register(function ($className) {
-			$fileName = LIB_DIR . str_replace("\\", DIRECTORY_SEPARATOR, $className) . '.php';
+			$fileName = LIB_DIR . str_replace("\\", DS, $className) . '.php';
 			if (file_exists($fileName)) {
 				require_once $fileName;
 			}
@@ -126,6 +131,7 @@ class Bootstrap {
 	 */
 	protected function initializeFilesAndFolders() {
 		$dirs = [
+			['path' => PROTECTED_DIR],
 			['path' => CACHE_DIR],
 			['path' => STORAGE_DIR]
 		];
