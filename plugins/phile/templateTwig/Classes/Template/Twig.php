@@ -35,11 +35,6 @@ class Twig implements TemplateInterface {
 	protected $page;
 
 	/**
-	 * @var string template extension
-	 */
-	protected $tplExt = 'html';
-
-	/**
 	 * the constructor
 	 *
 	 * @param array $config the configuration
@@ -120,8 +115,8 @@ class Twig implements TemplateInterface {
 		if (empty($template)) {
 			$template = 'index';
 		}
-		if (!empty($this->tplExt)) {
-			$template .= '.' . $this->tplExt;
+		if (!empty($this->config['template-extension'])) {
+			$template .= '.' . $this->config['template-extension'];
 		}
 		$templatePath = $this->getTemplatePath($template);
 		if (!file_exists($templatePath)) {
