@@ -42,12 +42,10 @@ class Twig implements TemplateInterface {
 	/**
 	 * the constructor
 	 *
-	 * @param mixed $config the configuration
+	 * @param array $config the configuration
 	 */
-	public function __construct($config = null) {
-		if (!is_null($config)) {
-			$this->config = $config;
-		}
+	public function __construct($config = []) {
+		$this->config = $config;
 		$this->settings = Registry::get('Phile_Settings');
 	}
 
@@ -105,7 +103,7 @@ class Twig implements TemplateInterface {
 		$twig = new \Twig_Environment($loader, $this->config);
 
 		// load the twig debug extension if required
-		if ($this->config['debug']) {
+		if (!empty($this->config['debug'])) {
 			$twig->addExtension(new \Twig_Extension_Debug());
 		}
 		return $twig;
