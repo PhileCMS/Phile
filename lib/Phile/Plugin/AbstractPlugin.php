@@ -81,12 +81,21 @@ abstract class AbstractPlugin implements EventObserverInterface {
 	 *
 	 * @param string $eventKey
 	 * @param null $data
-	 * @return mixed|void
+	 * @return void
 	 */
 	public function on($eventKey, $data = null) {
-		if (isset($this->events[$eventKey]) && is_callable([$this, $this->events[$eventKey]])) {
-			$this->{$this->events[$eventKey]}($data);
+		if (!isset($this->events[$eventKey])) {
+			return;
 		}
+		$method = $this->events[$eventKey];
+		if (!is_callable([$this, $method])) {
+			$class = get_class($this);
+			throw new \RuntimeException(
+				"Event $eventKey can't invoke $class::$method(). Not callable.",
+				1428564865
+			);
+		}
+		$this->{$this->events[$eventKey]}($data);
 	}
 
 	/**
