@@ -37,7 +37,7 @@ class ServiceLocator {
 	 * @param string $serviceKey the key for the service
 	 * @param mixed  $object
 	 *
-	 * @throws Exception
+	 * @throws ServiceLocatorException
 	 */
 	public static function registerService($serviceKey, $object) {
 		$interfaces = class_implements($object);
@@ -65,7 +65,7 @@ class ServiceLocator {
 	 * @param string $serviceKey the service key
 	 *
 	 * @return mixed
-	 * @throws Exception
+	 * @throws ServiceLocatorException
 	 */
 	public static function getService($serviceKey) {
 		if (!isset(self::$services[$serviceKey])) {

@@ -49,35 +49,21 @@ class PageTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 	public function testPageHasUrl() {
-		// root index
-		$this->assertEquals(
-			'',
-			$this->pageRepository->findByPath('/')->getUrl()
-		);
-
 		// check if '/index' is stripped correctly
-		$this->assertEquals(
-			'',
-			$this->pageRepository->findByPath('/index')->getUrl()
-		);
+		$result = $this->pageRepository->findByPath('index')->getUrl();
+		$this->assertEquals('', $result);
 
 		// root page
-		$this->assertEquals(
-			'setup',
-			$this->pageRepository->findByPath('/setup')->getUrl()
-		);
+		$result = $this->pageRepository->findByPath('404')->getUrl();
+		$this->assertEquals('404', $result);
 
 		// sub index
-		$this->assertEquals(
-			'sub',
-			$this->pageRepository->findByPath('/sub/index')->getUrl()
-		);
+		$result = $this->pageRepository->findByPath('sub/')->getUrl();
+		$this->assertEquals('sub/', $result);
 
 		// sub page
-		$this->assertEquals(
-			'sub/page',
-			$this->pageRepository->findByPath('/sub/page')->getUrl()
-		);
+		$result = $this->pageRepository->findByPath('sub/page')->getUrl();
+		$this->assertEquals('sub/page', $result);
 	}
 
 	/**
@@ -101,7 +87,7 @@ class PageTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 	public function testPageHasPreviousPage() {
-		$page = $this->pageRepository->findByPath('/sub/page');
+		$page = $this->pageRepository->findByPath('sub/page');
 		$this->assertInstanceOf('\Phile\Model\Page', $page->getPreviousPage());
 		$this->assertEquals('Sub Page Index', $page->getPreviousPage()->getTitle());
 	}
@@ -110,7 +96,7 @@ class PageTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 	public function testPageHasNextPage() {
-		$page = $this->pageRepository->findByPath('/index');
+		$page = $this->pageRepository->findByPath('index');
 		$this->assertInstanceOf('\Phile\Model\Page', $page->getNextPage());
 		$this->assertEquals('Sub Page Index', $page->getNextPage()->getTitle());
 	}

@@ -1,6 +1,5 @@
 {
     "name": "phile-cms/phile",
-    "version": "1.4.0",
     "type": "project",
     "description": "A file-based CMS with a swappable parser, template engine, cache and storage services, error handler, and meta parser.",
     "keywords": ["cms", "markdown", "flat", "file", "twig", "plugins"],
@@ -18,6 +17,12 @@
             "email": "james2doyle@gmail.com",
             "homepage": "http://ohdoylerules.com/",
             "role": "Developer"
+        },
+        {
+            "name": "Schlaefer",
+            "email": "openmail+sourcecode@siezi.com",
+            "homepage": "http://siezi.com/",
+            "role": "Developer"
         }
     ],
     "config": {
@@ -27,7 +32,8 @@
         "php": ">=5.4.0",
         "twig/twig": "1.15.*",
         "michelf/php-markdown": ">=1.4",
-        "phile-cms/plugin-installer-plugin": ">=1.0"
+        "phpfastcache/phpfastcache": "~3.0",
+        "phile-cms/plugin-installer-plugin": ">=1.0.2"
     },
     "require-dev": {
         "phpdocumentor/phpdocumentor": "2.6.*",

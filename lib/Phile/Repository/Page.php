@@ -4,10 +4,9 @@
  */
 namespace Phile\Repository;
 
-use Phile\Exception;
-use Phile\ServiceLocator;
-use Phile\Utility;
-
+use Phile\Core\Registry;
+use Phile\Core\ServiceLocator;
+use Phile\Core\Utility;
 
 /**
  * the Repository class for pages
@@ -38,7 +37,7 @@ class Page {
 	 */
 	public function __construct($settings = null) {
 		if ($settings === null) {
-			$settings = \Phile\Registry::get('Phile_Settings');
+			$settings = Registry::get('Phile_Settings');
 		}
 		$this->settings = $settings;
 		if (ServiceLocator::hasService('Phile_Cache')) {
@@ -49,23 +48,34 @@ class Page {
 	/**
 	 * find a page by path
 	 *
-	 * @param string $path
+	 * @param string $pageId
 	 * @param string $folder
 	 *
 	 * @return null|\Phile\Model\Page
 	 */
-	public function findByPath($path, $folder = CONTENT_DIR) {
-		$path = str_replace(Utility::getInstallPath(), '', $path);
-		$fullPath =  str_replace(array("\\", "//", "\\/", "/\\"), DIRECTORY_SEPARATOR, $folder.$path);
-
-		$file = $fullPath . CONTENT_EXT;
-
-		// append '/index' to full path if file not found
-		if (!file_exists($file)) {
-			$file = $fullPath . '/index' . CONTENT_EXT;
+	public function findByPath($pageId, $folder = CONTENT_DIR) {
+		// be merciful to lazy third-party-usage and accept a leading slash
+		$pageId = ltrim($pageId, '/');
+		// 'sub/' should serve page 'sub/index'
+		if ($pageId === '' || substr($pageId, -1) === '/') {
+			$pageId .= 'index';
 		}
 
-		return (file_exists($file)) ? $this->getPage($file, $folder) : null;
+		$file = $folder . $pageId . CONTENT_EXT;
+		if (!file_exists($file)) {
+			if (substr($pageId, -6) === '/index') {
+				// try to resolve sub-directory 'sub/' to page 'sub'
+				$pageId = substr($pageId, 0, strlen($pageId) - 6);
+			} else {
+				// try to resolve page 'sub' to sub-directory 'sub/'
+				$pageId .= '/index';
+			}
+			$file = $folder . $pageId . CONTENT_EXT;
+		}
+		if (!file_exists($file)) {
+			return null;
+		}
+		return $this->getPage($file, $folder);
 	}
 
 	/**
@@ -75,7 +85,6 @@ class Page {
 	 * @param string $folder
 	 *
 	 * @return array of \Phile\Model\Page objects
-	 * @throws \Phile\Exception
 	 */
 	public function findAll(array $options = array(), $folder = CONTENT_DIR) {
 		$options += $this->settings;

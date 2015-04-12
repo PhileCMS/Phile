@@ -4,8 +4,9 @@
  */
 namespace Phile\Model;
 
-use Phile\Event;
-use Phile\ServiceLocator;
+use Phile\Core\Router;
+use Phile\Core\Event;
+use Phile\Core\ServiceLocator;
 
 /**
  * the Model class for a page
@@ -42,9 +43,9 @@ class Page {
 	protected $parser;
 
 	/**
-	 * @var string returns the path of the page
+	 * @var string the pageId of the page
 	 */
-	protected $url;
+	protected $pageId;
 
 	/**
 	 * @var \Phile\Model\Page the previous page if one exist
@@ -166,26 +167,18 @@ class Page {
 	}
 
 	/**
-	 * Generate a pretty URL for the provided filename
+	 * get Phile $pageId
 	 *
 	 * @param string $filePath
 	 * @return string
 	 */
-	protected function buildUrl($filePath) {
-		$url = str_replace($this->contentFolder, '', $filePath);
-		$url = str_replace(CONTENT_EXT, '', $url);
-		$url = str_replace(DIRECTORY_SEPARATOR, '/', $url);
-
-		// strip '/index' from the URL (can't just check if last 5 letters are 'index',
-		// because then URL's like "example.com/blog/global-economic-index" would also
-		// be chopped...)
-		$url = preg_replace('#(.*)/index$#', '$1', $url);
-
-		// if the whole url is 'index', then drop that as well
-		$url = preg_replace('#^index$#', '', $url);
-		$url = ltrim($url, '/');
-
-		return $url;
+	protected function buildPageId($filePath) {
+		$pageId = str_replace($this->contentFolder, '', $filePath);
+		$pageId = str_replace(CONTENT_EXT, '', $pageId);
+		$pageId = str_replace(DIRECTORY_SEPARATOR, '/', $pageId);
+		$pageId = ltrim($pageId, '/');
+		$pageId = preg_replace('/(?<=^|\/)index$/', '', $pageId);
+		return $pageId;
 	}
 
 	/**
@@ -194,7 +187,7 @@ class Page {
 	 * @return string
 	 */
 	public function getUrl() {
-		return $this->url;
+		return (new Router)->urlForPage($this->pageId, false);
 	}
 
 	/**
@@ -204,7 +197,7 @@ class Page {
 	 */
 	public function setFilePath($filePath) {
 		$this->filePath = $filePath;
-		$this->url = $this->buildUrl($this->filePath);
+		$this->pageId = $this->buildPageId($this->filePath);
 	}
 
 	/**
@@ -223,6 +216,10 @@ class Page {
 	 */
 	public function getFolder() {
 		return basename(dirname($this->getFilePath()));
+	}
+
+	public function getPageId() {
+		return $this->pageId;
 	}
 
 	/**

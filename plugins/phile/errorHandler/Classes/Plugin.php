@@ -4,45 +4,42 @@
  */
 namespace Phile\Plugin\Phile\ErrorHandler;
 
+use Phile\Core\ServiceLocator;
+use Phile\Plugin\AbstractPlugin;
+use Phile\Plugin\Phile\ErrorHandler\Development;
+use Phile\Plugin\Phile\ErrorHandler\ErrorLog;
+
 /**
  * Class Plugin
  * Default Phile parser plugin for Markdown
  *
- * @author  Frank Nägler
+ * @author  PhileCMS
  * @link    https://philecms.com
  * @license http://opensource.org/licenses/MIT
  * @package Phile\Plugin\Phile\ParserMarkdown
  */
-class Plugin extends \Phile\Plugin\AbstractPlugin implements \Phile\Gateway\EventObserverInterface {
+class Plugin extends AbstractPlugin {
 	const HANDLER_ERROR_LOG		= 'error_log';
 	const HANDLER_DEVELOPMENT	= 'development';
 
-	/**
-	 * the constructor
-	 */
-	public function __construct() {
-		\Phile\Event::registerEvent('plugins_loaded', $this);
-	}
+	protected $events = ['plugins_loaded' => 'onPluginsLoaded'];
 
 	/**
-	 * event method
+	 * called on 'plugins_loaded' event
 	 *
-	 * @param string $eventKey
-	 * @param null   $data
-	 *
-	 * @return mixed|void
+	 * @param null $data
+	 * @throws \Phile\Exception\ServiceLocatorException
 	 */
-	public function on($eventKey, $data = null) {
-		// check $eventKey for which you have registered
-		if ($eventKey == 'plugins_loaded') {
-			switch ($this->settings['handler']) {
-				case Plugin::HANDLER_ERROR_LOG:
-					\Phile\ServiceLocator::registerService('Phile_ErrorHandler', new \Phile\Plugin\Phile\ErrorHandler\ErrorLog($this->settings));
+	public function onPluginsLoaded($data = null) {
+		switch ($this->settings['handler']) {
+			case Plugin::HANDLER_ERROR_LOG:
+				ServiceLocator::registerService('Phile_ErrorHandler',
+					new ErrorLog($this->settings));
 				break;
-				case Plugin::HANDLER_DEVELOPMENT:
-					\Phile\ServiceLocator::registerService('Phile_ErrorHandler', new \Phile\Plugin\Phile\ErrorHandler\Development($this->settings));
+			case Plugin::HANDLER_DEVELOPMENT:
+				ServiceLocator::registerService('Phile_ErrorHandler',
+					new Development($this->settings));
 				break;
-			}
 		}
 	}
 }

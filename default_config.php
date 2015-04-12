@@ -1,7 +1,14 @@
 <?php
 
-// try to figure out the install path
-$config['base_url']       = \Phile\Utility::getBaseUrl(); // use the Utility class to guess the base_url
+/*
+ * Base URL to Phile installation without trailing slash
+ *
+ * e.g. `http://example.com` or `http://example.com/phile`
+ *
+ * Default: try to resolve automatically in Router
+ */
+$config['base_url']       = (new Phile\Core\Router)->getBaseUrl();
+
 $config['site_title']     = 'PhileCMS'; // Site title
 $config['theme']          = 'default'; // Set the theme
 $config['date_format']    = 'jS M Y'; // Set the PHP date format
@@ -19,7 +26,7 @@ $config['charset']    = 'utf-8'; // charset used for HTML & Markdown files
 // activate plugins
 $config['plugins'] = array(
 	// key = vendor\\pluginName (vendor lowercase, pluginName lowerCamelCase
-	'phile\\demoPlugin'                => array('active' => false),
+	'mycompany\\demoPlugin'            => array('active' => false),
 	'phile\\errorHandler'              => array(
 		'active' => true,
 		'handler' => \Phile\Plugin\Phile\ErrorHandler\Plugin::HANDLER_DEVELOPMENT
