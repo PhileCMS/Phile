@@ -36,7 +36,25 @@ class Development implements ErrorHandlerInterface {
 	 * @return boolean
 	 */
 	public function handleError($errno, $errstr, $errfile, $errline, array $errcontext) {
-		$this->displayDeveloperOutput(new \Exception("[{$errno}] {$errstr} in {$errfile} on line {$errline}", $errno));
+		$backtrace = debug_backtrace();
+		$backtrace = array_slice($backtrace, 2);
+		$this->displayDeveloperOutput($errno, $errstr, $errfile, $errline, $backtrace);
+	}
+
+	/**
+	 * handle PHP errors which can't be caught by error-handler
+	 */
+	public function handleShutdown() {
+		$error = error_get_last();
+		if ($error === null) {
+			return;
+		}
+		$this->displayDeveloperOutput(
+			$error['type'],
+			$error['message'],
+			$error['file'],
+			$error['line']
+		);
 	}
 
 	/**
@@ -47,33 +65,54 @@ class Development implements ErrorHandlerInterface {
 	 * @return mixed
 	 */
 	public function handleException(\Exception $exception) {
-		$this->displayDeveloperOutput($exception);
+		$this->displayDeveloperOutput(
+			$exception->getCode(),
+			$exception->getMessage(),
+			$exception->getFile(),
+			$exception->getLine(),
+			null,
+			$exception
+		);
 	}
 
 	/**
 	 * show a nice looking and human readable developer output
+	 *
+	 * @param $code
+	 * @param $message
+	 * @param $file
+	 * @param $line
 	 * @param \Exception $exception
 	 */
-	protected function displayDeveloperOutput(\Exception $exception) {
+	protected function displayDeveloperOutput($code, $message, $file, $line, array $backtrace = null, \Exception $exception = null) {
 		header('HTTP/1.1 500 Internal Server Error');
-		$fragment = $this->receiveCodeFragment($exception->getFile(),
-			$exception->getLine(), 5, 5);
-		$marker					= array(
-			'{{base_url}}'				=> $this->settings['baseUrl'],
-			'{{exception_message}}'		=> htmlspecialchars($exception->getMessage()),
-			'{{exception_code}}'		=> htmlspecialchars($exception->getCode()),
-			'{{exception_file}}'		=> htmlspecialchars($exception->getFile()),
-			'{{exception_line}}'		=> htmlspecialchars($exception->getLine()),
-			'{{exception_class}}'		=> $this->linkClass(get_class($exception)),
-			'{{exception_backtrace}}'	=> $this->createBacktrace($exception->getTrace()),
-			'{{exception_fragment}}'	=> $fragment,
-			'{{wiki_link}}'				=> ($exception->getCode() > 0) ? '(<a href="https://github.com/PhileCMS/Phile/wiki/Exception_' . $exception->getCode() . '" target="_blank">Exception-Wiki</a>)' : '',
+		$fragment = $this->receiveCodeFragment($file,
+			$line, 5, 5);
+		$marker = [
+			'{{base_url}}' => $this->settings['baseUrl'],
+			'{{exception_message}}' => htmlspecialchars($message),
+			'{{exception_code}}' => htmlspecialchars($code),
+			'{{exception_file}}' => htmlspecialchars($file),
+			'{{exception_line}}' => htmlspecialchars($line),
+			'{{exception_fragment}}' => $fragment,
+			'{{exception_class}}' => '',
+			'{{exception_backtrace}}' => '',
+			'{{wiki_link}}' => ($code > 0) ? '(<a href="https://github.com/PhileCMS/Phile/wiki/Exception_' . $code . '" target="_blank">Exception-Wiki</a>)' : '',
+		];
 
-		);
+		if ($exception) {
+			$marker['{{exception_class}}'] = $this->linkClass(get_class($exception));
+			$backtrace = $exception->getTrace();
+		}
+
+		if ($backtrace) {
+			$marker['{{exception_backtrace}}'] = $this->createBacktrace($backtrace);
+		}
 
 		$tplPath = $this->settings['pluginPath'] . 'template.html';
 		$template = file_get_contents($tplPath);
 		echo str_replace(array_keys($marker), array_values($marker), $template);
+		die();
 	}
 
 	/**
