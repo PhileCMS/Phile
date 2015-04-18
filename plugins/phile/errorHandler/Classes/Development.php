@@ -56,6 +56,8 @@ class Development implements ErrorHandlerInterface {
 	 */
 	protected function displayDeveloperOutput(\Exception $exception) {
 		header('HTTP/1.1 500 Internal Server Error');
+		$fragment = $this->receiveCodeFragment($exception->getFile(),
+			$exception->getLine(), 5, 5);
 		$marker					= array(
 			'{{base_url}}'				=> $this->settings['baseUrl'],
 			'{{exception_message}}'		=> htmlspecialchars($exception->getMessage()),
@@ -64,9 +66,11 @@ class Development implements ErrorHandlerInterface {
 			'{{exception_line}}'		=> htmlspecialchars($exception->getLine()),
 			'{{exception_class}}'		=> $this->linkClass(get_class($exception)),
 			'{{exception_backtrace}}'	=> $this->createBacktrace($exception->getTrace()),
+			'{{exception_fragment}}'	=> $fragment,
 			'{{wiki_link}}'				=> ($exception->getCode() > 0) ? '(<a href="https://github.com/PhileCMS/Phile/wiki/Exception_' . $exception->getCode() . '" target="_blank">Exception-Wiki</a>)' : '',
 
 		);
+
 		$tplPath = $this->settings['pluginPath'] . 'template.html';
 		$template = file_get_contents($tplPath);
 		echo str_replace(array_keys($marker), array_values($marker), $template);
@@ -76,7 +80,6 @@ class Development implements ErrorHandlerInterface {
 	 * creates a human readable backtrace
 	 *
 	 * @param array $traces
-	 *
 	 * @return string
 	 */
 	protected function createBacktrace(array $traces) {
@@ -84,6 +87,7 @@ class Development implements ErrorHandlerInterface {
 			return '';
 		}
 		$backtraceCodes = [];
+
 		foreach ($traces as $index => $step) {
 			$arguments = '';
 			if (isset($step['args']) && is_array($step['args'])) {
@@ -101,7 +105,7 @@ class Development implements ErrorHandlerInterface {
 			}
 
 			$backtrace = '';
-			$backtrace .= $this->tag('span', (count($traces) - $index), ['class' => 'index']);
+			$backtrace .= $this->tag('span', count($traces) - $index, ['class' => 'index']);
 			$backtrace .= ' ';
 
 			if (isset($step['class'])) {
@@ -110,7 +114,9 @@ class Development implements ErrorHandlerInterface {
 			} elseif (isset($step['function'])) {
 				$backtrace .= $this->tag('span', $step['function'], ['class' => 'function']);
 			}
-			$backtrace .= $this->tag('span', "($arguments)", ['class' => 'funcArguments']);
+			if (!empty($arguments)) {
+				$backtrace .= $this->tag('span', "($arguments)", ['class' => 'funcArguments']);
+			}
 
 			if (isset($step['file'])) {
 				$backtrace .= $this->receiveCodeFragment($step['file'], $step['line'], 3, 3);
@@ -118,6 +124,7 @@ class Development implements ErrorHandlerInterface {
 
 			$backtraceCodes[] = $this->tag('pre', $backtrace, ['class' => 'entry']);
 		}
+
 		return implode('', $backtraceCodes);
 	}
 
@@ -131,11 +138,11 @@ class Development implements ErrorHandlerInterface {
 	 *
 	 * @return string
 	 */
-	protected function receiveCodeFragment($filename, $lineNumber, $linesBefore, $linesAfter) {
+	protected function receiveCodeFragment($filename, $lineNumber, $linesBefore = 3, $linesAfter = 3) {
 		if (!file_exists($filename)) {
 			return '';
 		}
-		$html = $this->tag('div', $filename . ':', ['class' => 'filename']);
+		$html = $this->tag('span', $filename . ':<br/>', ['class' => 'filename']);
 
 		$code 		= file_get_contents($filename);
 		$lines 		= explode("\n", $code);
@@ -159,14 +166,16 @@ class Development implements ErrorHandlerInterface {
 			$lineText = str_replace("\t", '&nbsp;&nbsp;', $lineText);
 			$tmp = sprintf('%05d: %s <br/>', $line, $lineText);
 
+			$class = 'row';
 			if ($line === $lineNumber) {
-				$tmp = $this->tag('span', $tmp, ['class' => 'currentRow']);
+				$class .= ' currentRow';
 			}
-			$fragment .= $tmp;
+			$fragment .= $this->tag('span', $tmp, ['class' => $class]);
 		}
 
-		$html .= $this->tag('pre', $fragment);
-		return $html;
+
+		$html .= $fragment;
+		return $this->tag('pre', $html);
 	}
 
 	/**

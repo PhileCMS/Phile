@@ -9,10 +9,13 @@
 <div class="main">
     <div class="header">PhileCMS Development Error Handler</div>
     <div class="body">
+        <h2>Exception</h2>
         <p>
             <strong class="red">{{exception_message}} [{{exception_code}}]</strong> {{wiki_link}}<br />
-            <span class="exception">{{exception_class}}</span> thrown in file <span class="file">{{exception_file}}</span> on line <span class="line">{{exception_line}}</span>.
+            <span class="exception">{{exception_class}}</span> thrown in file <span class="file">{{exception_file}}</span> on line <span class="line">{{exception_line}}</span>:
         </p>
+        {{exception_fragment}}
+        <h2>Backtrace</h2>
         {{exception_backtrace}}
     </div>
 </div>
