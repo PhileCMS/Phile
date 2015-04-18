@@ -18,8 +18,14 @@ use Phile\Core\Utility;
  */
 class Development implements ErrorHandlerInterface {
 
+	/** @var array settings */
 	protected $settings;
 
+	/**
+	 * constructor
+	 *
+	 * @param array $settings
+	 */
 	public function __construct(array $settings = []) {
 		$this->settings = $settings;
 	}
@@ -227,38 +233,28 @@ class Development implements ErrorHandlerInterface {
 	}
 
 	/**
-	 * link the class name to the API or return the class name
-	 * @param $class
-	 *
-	 * @return string
-	 */
-	protected function linkClass($class) {
-		if (strpos($class, 'Phile\\') === 0) {
-			$filename = 'docs/classes/'.str_replace('\\', '.', $class).'.html';
-			if (file_exists(Utility::resolveFilePath($filename))) {
-				$href = $this->settings['baseUrl'] . '/' . $filename;
-				$class = $this->tag('a', $class, ['href' =>  $href, 'target' => '_blank']);
-			}
-		}
-		return $class;
-	}
-
-	/**
-	 * link the method name to the API or return the method name
+	 * link the class or method to the API or return the method name
 	 * @param $class
 	 * @param $method
 	 *
 	 * @return string
 	 */
-	protected function linkClassMethod($class, $method) {
+	protected function linkClass($class, $method = null) {
+		$title = $method ? $method : $class;
 		if (strpos($class, 'Phile\\') === 0) {
-			$filename = 'docs/classes/'.str_replace('\\', '.', $class).'.html';
-			if (file_exists(Utility::resolveFilePath($filename))) {
-				$href = $this->settings['baseUrl'] . '/' . $filename . '#method_' . $method;
-				$method = $this->tag('a', $method, ['href' =>  $href, 'target' => '_blank']);
-			}
+			return $title;
 		}
-		return $method;
+
+		$filename = 'docs/classes/'.str_replace('\\', '.', $class).'.html';
+		if (file_exists(Utility::resolveFilePath($filename))) {
+			return $title;
+		}
+
+		$href = $this->settings['baseUrl'] . '/' . $filename ;
+		if ($method) {
+			$href .= '#method_' . $method	;
+		}
+		return $this->tag('a', $title, ['href' =>  $href, 'target' => '_blank']);
 	}
 
 	/**
