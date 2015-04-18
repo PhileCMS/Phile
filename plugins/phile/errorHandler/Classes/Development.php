@@ -217,8 +217,8 @@ class Development implements ErrorHandlerInterface {
 		}
 		$html = $this->tag('span', $filename . ':<br/>', ['class' => 'filename']);
 
-		$code 		= file_get_contents($filename);
-		$lines 		= explode("\n", $code);
+		$code = file_get_contents($filename);
+		$lines = explode("\n", $code);
 
 		$firstLine = $lineNumber - $linesBefore - 1;
 		if ($firstLine < 0) {
@@ -230,8 +230,8 @@ class Development implements ErrorHandlerInterface {
 			$lastLine = count($lines);
 		}
 
-		$line		= $firstLine;
-		$fragment	= '';
+		$line = $firstLine;
+		$fragment = '';
 		while ($line < $lastLine) {
 			$line++;
 
@@ -264,14 +264,14 @@ class Development implements ErrorHandlerInterface {
 			return $title;
 		}
 
-		$filename = 'docs/classes/'.str_replace('\\', '.', $class).'.html';
+		$filename = 'docs/classes/' . str_replace('\\', '.', $class) . '.html';
 		if (file_exists(Utility::resolveFilePath($filename))) {
 			return $title;
 		}
 
-		$href = $this->settings['baseUrl'] . '/' . $filename ;
+		$href = $this->settings['baseUrl'] . '/' . $filename;
 		if ($method) {
-			$href .= '#method_' . $method	;
+			$href .= '#method_' . $method;
 		}
 		return $this->tag('a', $title, ['href' =>  $href, 'target' => '_blank']);
 	}
