@@ -147,7 +147,11 @@ class Development implements ErrorHandlerInterface {
 		$fragment	= '';
 		while ($line < $lastLine) {
 			$line++;
-			$tmp = sprintf('%05d', $line) . ': ' . str_replace("\t", '&nbsp;&nbsp;', $lines[$line - 1]) . '<br/>';
+
+			$lineText = htmlspecialchars($lines[$line - 1]);
+			$lineText = str_replace("\t", '&nbsp;&nbsp;', $lineText);
+			$tmp = sprintf('%05d: %s <br/>', $line, $lineText);
+
 			if ($line === $lineNumber) {
 				$tmp = '<span class="currentRow">' . $tmp . '</span>';
 			}
