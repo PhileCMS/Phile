@@ -32,8 +32,7 @@ class Plugin extends AbstractPlugin {
 	 * @throws \Phile\Exception\ServiceLocatorException
 	 */
 	public function onPluginsLoaded($data = null) {
-		$this->settings['pluginPath'] = $this->getPluginPath();
-		$this->settings['baseUrl'] = (new Router)->getBaseUrl();
+		$this->settings['base_url'] = (new Router)->getBaseUrl();
 		switch ($this->settings['handler']) {
 			case Plugin::HANDLER_ERROR_LOG:
 				ServiceLocator::registerService('Phile_ErrorHandler',

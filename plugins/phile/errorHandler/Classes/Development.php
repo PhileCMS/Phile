@@ -101,7 +101,7 @@ class Development implements ErrorHandlerInterface {
 		$fragment = $this->receiveCodeFragment($file,
 			$line, 5, 5);
 		$marker = [
-			'base_url' => $this->settings['baseUrl'],
+			'base_url' => $this->settings['base_url'],
 			'type' => $exception ? 'Exception' : 'Error',
 			'exception_message' => htmlspecialchars($message),
 			'exception_code' => htmlspecialchars($code),
@@ -122,7 +122,10 @@ class Development implements ErrorHandlerInterface {
 			$marker['exception_backtrace'] = $this->createBacktrace($backtrace);
 		}
 
-		$tplPath = $this->settings['pluginPath'] . 'template.php';
+		$DS = DIRECTORY_SEPARATOR;
+		$pluginPath = realpath(dirname(__FILE__) . $DS . '..') . $DS;
+		$tplPath = $pluginPath . 'template.php';
+
 		ob_start();
 		extract($marker);
 		include $tplPath;
