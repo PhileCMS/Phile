@@ -143,32 +143,18 @@ class Development implements ErrorHandlerInterface {
 		$backtraceCodes = [];
 
 		foreach ($traces as $index => $step) {
-			$arguments = '';
-			if (isset($step['args']) && is_array($step['args'])) {
-				foreach ($step['args'] as $argument) {
-					$arguments .= strlen($arguments) === 0 ? '' : $this->tag('span', ', ', ['class' => 'separator']);
-					if (is_object($argument)) {
-						$class = 'class';
-						$content = $this->linkClass(get_class($argument));
-					} else {
-						$class = 'others';
-						$content = gettype($argument);
-					}
-					$arguments .= $this->tag('span', $content, ['class' => $class]);
-				}
-			}
-
-			$backtrace = '';
-			$backtrace .= $this->tag('span', count($traces) - $index, ['class' => 'index']);
+			$backtrace = $this->tag('span', count($traces) - $index, ['class' => 'index']);
 			$backtrace .= ' ';
 
 			if (isset($step['class'])) {
 				$class = $this->linkClass($step['class']) . '<span class="divider">::</span>';
-				$backtrace .= $class . $this->linkClassMethod($step['class'], $step['function']);
+				$backtrace .= $class . $this->linkClass($step['class'], $step['function']);
 			} elseif (isset($step['function'])) {
 				$backtrace .= $this->tag('span', $step['function'], ['class' => 'function']);
 			}
-			if (!empty($arguments)) {
+
+			$arguments = $this->getBacktraceStepArguments($step);
+			if ($arguments) {
 				$backtrace .= $this->tag('span', "($arguments)", ['class' => 'funcArguments']);
 			}
 
@@ -180,6 +166,39 @@ class Development implements ErrorHandlerInterface {
 		}
 
 		return implode('', $backtraceCodes);
+	}
+
+
+	/**
+	 * render arguments for backtrace step
+	 *
+	 * @param $step
+	 * @return string
+	 */
+	protected function getBacktraceStepArguments($step) {
+		if (empty($step['args'])) {
+			return '';
+		}
+		$arguments = '';
+		foreach ($step['args'] as $argument) {
+			$arguments .= strlen($arguments) === 0 ? '' : $this->tag('span', ', ', ['class' => 'separator']);
+			if (is_object($argument)) {
+				$class = 'class';
+				$content = $this->linkClass(get_class($argument));
+			} else {
+				$class = 'others';
+				$content = gettype($argument);
+			}
+			$arguments .= $this->tag(
+				'span',
+				$content,
+				[
+					'class' => $class,
+					'title' => print_r($argument, true)
+				]
+			);
+		}
+		return $arguments;
 	}
 
 	/**
