@@ -38,7 +38,13 @@ class Development implements ErrorHandlerInterface {
 	public function handleError($errno, $errstr, $errfile, $errline, array $errcontext) {
 		$backtrace = debug_backtrace();
 		$backtrace = array_slice($backtrace, 2);
-		$this->displayDeveloperOutput($errno, $errstr, $errfile, $errline, $backtrace);
+		$this->displayDeveloperOutput(
+			$errno,
+			$errstr,
+			$errfile,
+			$errline,
+			$backtrace
+		);
 	}
 
 	/**
@@ -89,29 +95,32 @@ class Development implements ErrorHandlerInterface {
 		$fragment = $this->receiveCodeFragment($file,
 			$line, 5, 5);
 		$marker = [
-			'{{base_url}}' => $this->settings['baseUrl'],
-			'{{exception_message}}' => htmlspecialchars($message),
-			'{{exception_code}}' => htmlspecialchars($code),
-			'{{exception_file}}' => htmlspecialchars($file),
-			'{{exception_line}}' => htmlspecialchars($line),
-			'{{exception_fragment}}' => $fragment,
-			'{{exception_class}}' => '',
-			'{{exception_backtrace}}' => '',
-			'{{wiki_link}}' => ($code > 0) ? '(<a href="https://github.com/PhileCMS/Phile/wiki/Exception_' . $code . '" target="_blank">Exception-Wiki</a>)' : '',
+			'base_url' => $this->settings['baseUrl'],
+			'type' => $exception ? 'Exception' : 'Error',
+			'exception_message' => htmlspecialchars($message),
+			'exception_code' => htmlspecialchars($code),
+			'exception_file' => htmlspecialchars($file),
+			'exception_line' => htmlspecialchars($line),
+			'exception_fragment' => $fragment,
+			'exception_class' => '',
+			'wiki_link' => ''
 		];
 
 		if ($exception) {
-			$marker['{{exception_class}}'] = $this->linkClass(get_class($exception));
+			$marker['exception_class'] = $this->linkClass(get_class($exception));
+			$marker['wiki_link'] = ($code > 0) ? '(<a href="https://github.com/PhileCMS/Phile/wiki/Exception_' . $code . '" target="_blank">Exception-Wiki</a>)' : '';
 			$backtrace = $exception->getTrace();
 		}
 
 		if ($backtrace) {
-			$marker['{{exception_backtrace}}'] = $this->createBacktrace($backtrace);
+			$marker['exception_backtrace'] = $this->createBacktrace($backtrace);
 		}
 
-		$tplPath = $this->settings['pluginPath'] . 'template.html';
-		$template = file_get_contents($tplPath);
-		echo str_replace(array_keys($marker), array_values($marker), $template);
+		$tplPath = $this->settings['pluginPath'] . 'template.php';
+		ob_start();
+		extract($marker);
+		include $tplPath;
+		ob_end_flush();
 		die();
 	}
 
