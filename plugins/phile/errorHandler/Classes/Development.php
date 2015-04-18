@@ -272,7 +272,7 @@ class Development implements ErrorHandlerInterface {
 			return $title;
 		}
 
-		$href = $this->settings['baseUrl'] . '/' . $filename;
+		$href = $this->settings['base_url'] . '/' . $filename;
 		if ($method) {
 			$href .= '#method_' . $method;
 		}
