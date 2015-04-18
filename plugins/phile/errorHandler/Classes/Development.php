@@ -17,6 +17,13 @@ use Phile\Core\Utility;
  *
  */
 class Development implements ErrorHandlerInterface {
+
+	protected $settings;
+
+	public function __construct(array $settings = []) {
+		$this->settings = $settings;
+	}
+
 	/**
 	 * handle the error
 	 *
@@ -50,7 +57,7 @@ class Development implements ErrorHandlerInterface {
 	protected function displayDeveloperOutput(\Exception $exception) {
 		header('HTTP/1.1 500 Internal Server Error');
 		$marker					= array(
-			'{{base_url}}'				=> Utility::getBaseUrl(),
+			'{{base_url}}'				=> $this->settings['baseUrl'],
 			'{{exception_message}}'		=> htmlspecialchars($exception->getMessage()),
 			'{{exception_code}}'		=> htmlspecialchars($exception->getCode()),
 			'{{exception_file}}'		=> htmlspecialchars($exception->getFile()),
@@ -60,7 +67,8 @@ class Development implements ErrorHandlerInterface {
 			'{{wiki_link}}'				=> ($exception->getCode() > 0) ? '(<a href="https://github.com/PhileCMS/Phile/wiki/Exception_' . $exception->getCode() . '" target="_blank">Exception-Wiki</a>)' : '',
 
 		);
-		$template				= file_get_contents(Utility::resolveFilePath('MOD:phile/errorHandler/template.html'));
+		$tplPath = $this->settings['pluginPath'] . 'template.html';
+		$template = file_get_contents($tplPath);
 		echo str_replace(array_keys($marker), array_values($marker), $template);
 	}
 
@@ -151,7 +159,7 @@ class Development implements ErrorHandlerInterface {
 		if (strpos($class, 'Phile\\') === 0) {
 			$filename = 'docs/classes/'.str_replace('\\', '.', $class).'.html';
 			if (file_exists(Utility::resolveFilePath($filename))) {
-				$class = '<a href="'.Utility::getBaseUrl().'/'.$filename.'" target="_blank">'.$class.'</a>';
+				$class = '<a href="'. $this->settings['baseUrl'] .'/'.$filename.'" target="_blank">'.$class.'</a>';
 			}
 		}
 		return $class;
@@ -168,9 +176,17 @@ class Development implements ErrorHandlerInterface {
 		if (strpos($class, 'Phile\\') === 0) {
 			$filename = 'docs/classes/'.str_replace('\\', '.', $class).'.html';
 			if (file_exists(Utility::resolveFilePath($filename))) {
-				$method = '<a href="'.Utility::getBaseUrl().'/'.$filename.'#method_'.$method.'" target="_blank">'.$method.'</a>';
+				$method = '<a href="'. $this->settings['baseUrl'].'/'.$filename.'#method_'.$method.'" target="_blank">'.$method.'</a>';
 			}
 		}
 		return $method;
+	}
+
+	protected function tag($tag, $content = '', array $attributes = []) {
+		$html = "<$tag";
+		foreach ($attributes as $key => $value) {
+
+		}
+		$html .= ">$content</$tag>";
 	}
 }

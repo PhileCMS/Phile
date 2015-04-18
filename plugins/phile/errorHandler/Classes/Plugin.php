@@ -4,6 +4,7 @@
  */
 namespace Phile\Plugin\Phile\ErrorHandler;
 
+use Phile\Core\Router;
 use Phile\Core\ServiceLocator;
 use Phile\Plugin\AbstractPlugin;
 use Phile\Plugin\Phile\ErrorHandler\Development;
@@ -31,6 +32,8 @@ class Plugin extends AbstractPlugin {
 	 * @throws \Phile\Exception\ServiceLocatorException
 	 */
 	public function onPluginsLoaded($data = null) {
+		$this->settings['pluginPath'] = $this->getPluginPath();
+		$this->settings['baseUrl'] = (new Router)->getBaseUrl();
 		switch ($this->settings['handler']) {
 			case Plugin::HANDLER_ERROR_LOG:
 				ServiceLocator::registerService('Phile_ErrorHandler',
