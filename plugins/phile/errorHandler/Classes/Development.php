@@ -133,10 +133,17 @@ class Development implements ErrorHandlerInterface {
 		$code 		= file_get_contents($filename);
 		$lines 		= explode("\n", $code);
 
-		$firstLine	= ($lineNumber > $linesBefore) ? $lineNumber - $linesBefore : 0;
-		$lastLine	= ($lineNumber < (count($lines) - $linesAfter)) ? $lineNumber + $linesAfter : count($lines) + 1;
+		$firstLine = $lineNumber - $linesBefore - 1;
+		if ($firstLine < 0) {
+			$firstLine = 0;
+		}
 
-		$line		= $firstLine-1;
+		$lastLine = $lineNumber + $linesAfter;
+		if ($lastLine > count($lines)) {
+			$lastLine = count($lines);
+		}
+
+		$line		= $firstLine;
 		$fragment	= '';
 		while ($line < $lastLine) {
 			$line++;
