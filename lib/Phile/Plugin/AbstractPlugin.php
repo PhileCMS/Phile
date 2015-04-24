@@ -35,6 +35,7 @@ abstract class AbstractPlugin implements EventObserverInterface {
 	 * for the plugin-user
 	 *
 	 * @param string $pluginKey
+	 * @deprecated since 2015-04-24; will be declared 'final'
 	 */
 	public function initializePlugin($pluginKey) {
 		/**
@@ -72,8 +73,23 @@ abstract class AbstractPlugin implements EventObserverInterface {
 			$globals['plugins'][$pluginKey]
 		);
 
+		// backwards compatibility to Phile 1.4
+		$this->injectSettings($this->settings);
+
 		$globals['plugins'][$pluginKey]['settings'] = $this->settings;
 		Registry::set('Phile_Settings', $globals);
+
+	}
+
+	/**
+	 * inject settings
+	 *
+	 * backwards compatibility to Phile 1.4
+	 *
+	 * @param array $settings
+	 * @deprecated since 2015-04-24; will be removed
+	 */
+	public function injectSettings(array $settings = null) {
 	}
 
 	/**
