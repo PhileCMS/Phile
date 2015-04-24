@@ -4,9 +4,6 @@
  */
 namespace Phile;
 
-use Phile\Core\Event;
-use Phile\Core\Registry;
-use Phile\Core\Utility;
 use Phile\Exception\PluginException;
 use Phile\Plugin\PluginRepository;
 
