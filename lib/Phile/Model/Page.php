@@ -130,6 +130,15 @@ class Page {
 	}
 
 	/**
+	 * get plain (un-parsed) page content
+	 *
+	 * @return string
+	 */
+	public function getPlainContent() {
+		return $this->content;
+	}
+
+	/**
 	 * get the meta model
 	 *
 	 * @return Meta
