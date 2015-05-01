@@ -17,6 +17,19 @@ use Phile\Core\Utility;
  *
  */
 class Development implements ErrorHandlerInterface {
+
+	/** @var array settings */
+	protected $settings;
+
+	/**
+	 * constructor
+	 *
+	 * @param array $settings
+	 */
+	public function __construct(array $settings = []) {
+		$this->settings = $settings;
+	}
+
 	/**
 	 * handle the error
 	 *
@@ -29,7 +42,31 @@ class Development implements ErrorHandlerInterface {
 	 * @return boolean
 	 */
 	public function handleError($errno, $errstr, $errfile, $errline, array $errcontext) {
-		$this->displayDeveloperOutput(new \Exception("[{$errno}] {$errstr} in {$errfile} on line {$errline}", $errno));
+		$backtrace = debug_backtrace();
+		$backtrace = array_slice($backtrace, 2);
+		$this->displayDeveloperOutput(
+			$errno,
+			$errstr,
+			$errfile,
+			$errline,
+			$backtrace
+		);
+	}
+
+	/**
+	 * handle PHP errors which can't be caught by error-handler
+	 */
+	public function handleShutdown() {
+		$error = error_get_last();
+		if ($error === null) {
+			return;
+		}
+		$this->displayDeveloperOutput(
+			$error['type'],
+			$error['message'],
+			$error['file'],
+			$error['line']
+		);
 	}
 
 	/**
@@ -40,72 +77,131 @@ class Development implements ErrorHandlerInterface {
 	 * @return mixed
 	 */
 	public function handleException(\Exception $exception) {
-		$this->displayDeveloperOutput($exception);
+		$this->displayDeveloperOutput(
+			$exception->getCode(),
+			$exception->getMessage(),
+			$exception->getFile(),
+			$exception->getLine(),
+			null,
+			$exception
+		);
 	}
 
 	/**
 	 * show a nice looking and human readable developer output
+	 *
+	 * @param $code
+	 * @param $message
+	 * @param $file
+	 * @param $line
 	 * @param \Exception $exception
 	 */
-	protected function displayDeveloperOutput(\Exception $exception) {
+	protected function displayDeveloperOutput($code, $message, $file, $line, array $backtrace = null, \Exception $exception = null) {
 		header('HTTP/1.1 500 Internal Server Error');
-		$marker					= array(
-			'{{base_url}}'				=> Utility::getBaseUrl(),
-			'{{exception_message}}'		=> htmlspecialchars($exception->getMessage()),
-			'{{exception_code}}'		=> htmlspecialchars($exception->getCode()),
-			'{{exception_file}}'		=> htmlspecialchars($exception->getFile()),
-			'{{exception_line}}'		=> htmlspecialchars($exception->getLine()),
-			'{{exception_class}}'		=> $this->linkClass(get_class($exception)),
-			'{{exception_backtrace}}'	=> $this->createBacktrace($exception->getTrace()),
-			'{{wiki_link}}'				=> ($exception->getCode() > 0) ? '(<a href="https://github.com/PhileCMS/Phile/wiki/Exception_' . $exception->getCode() . '" target="_blank">Exception-Wiki</a>)' : '',
+		$fragment = $this->receiveCodeFragment($file,
+			$line, 5, 5);
+		$marker = [
+			'base_url' => $this->settings['base_url'],
+			'type' => $exception ? 'Exception' : 'Error',
+			'exception_message' => htmlspecialchars($message),
+			'exception_code' => htmlspecialchars($code),
+			'exception_file' => htmlspecialchars($file),
+			'exception_line' => htmlspecialchars($line),
+			'exception_fragment' => $fragment,
+			'exception_class' => '',
+			'wiki_link' => ''
+		];
 
-		);
-		$template				= file_get_contents(Utility::resolveFilePath('MOD:phile/errorHandler/template.html'));
-		echo str_replace(array_keys($marker), array_values($marker), $template);
+		if ($exception) {
+			$marker['exception_class'] = $this->linkClass(get_class($exception));
+			$marker['wiki_link'] = ($code > 0) ? '(<a href="https://github.com/PhileCMS/Phile/wiki/Exception_' . $code . '" target="_blank">Exception-Wiki</a>)' : '';
+			$backtrace = $exception->getTrace();
+		}
+
+		if ($backtrace) {
+			$marker['exception_backtrace'] = $this->createBacktrace($backtrace);
+		}
+
+		$DS = DIRECTORY_SEPARATOR;
+		$pluginPath = realpath(dirname(__FILE__) . $DS . '..') . $DS;
+		$tplPath = $pluginPath . 'template.php';
+
+		ob_start();
+		extract($marker);
+		include $tplPath;
+		ob_end_flush();
+		die();
 	}
 
 	/**
 	 * creates a human readable backtrace
 	 *
 	 * @param array $traces
-	 *
 	 * @return string
 	 */
 	protected function createBacktrace(array $traces) {
-		$backtraceCode = '';
-		if (count($traces)) {
-			foreach ($traces as $index => $step) {
-				$arguments = '';
-				if (isset($step['args']) && is_array($step['args'])) {
-					foreach ($step['args'] as $argument) {
-						$arguments .= strlen($arguments) === 0 ? '' : '<span class="separator">, </span>';
-						if (is_object($argument)) {
-							$arguments .= '<span class="class">' . $this->linkClass(get_class($argument)) . '</span>';
-						} else {
-							$arguments .= '<span class="others">' . gettype($argument) . '</span>';
-						}
-					}
-				}
-
-				$backtraceCode .= '<pre class="entry">';
-				$backtraceCode .= '<span class="index">' . (count($traces) - $index) . '</span> ';
-
-				if (isset($step['class'])) {
-					$class = $this->linkClass($step['class']) . '<span class="divider">::</span>';
-					$backtraceCode .= $class . $this->linkClassMethod($step['class'], $step['function']);
-				} elseif (isset($step['function'])) {
-					$backtraceCode .= '<span class="function">' . $step['function'] . '</span>';
-				}
-				$backtraceCode .= '<span class="funcArguments">(' . $arguments . ')</span>';
-
-				if (isset($step['file'])) {
-					$backtraceCode .= $this->receiveCodeFragment($step['file'], $step['line'], 3, 3);
-				}
-
-				$backtraceCode .= '</pre>';
-			}
+		if (!count($traces)) {
+			return '';
 		}
-		return $backtraceCode;
+		$backtraceCodes = [];
+
+		foreach ($traces as $index => $step) {
+			$backtrace = $this->tag('span', count($traces) - $index, ['class' => 'index']);
+			$backtrace .= ' ';
+
+			if (isset($step['class'])) {
+				$class = $this->linkClass($step['class']) . '<span class="divider">::</span>';
+				$backtrace .= $class . $this->linkClass($step['class'], $step['function']);
+			} elseif (isset($step['function'])) {
+				$backtrace .= $this->tag('span', $step['function'], ['class' => 'function']);
+			}
+
+			$arguments = $this->getBacktraceStepArguments($step);
+			if ($arguments) {
+				$backtrace .= $this->tag('span', "($arguments)", ['class' => 'funcArguments']);
+			}
+
+			if (isset($step['file'])) {
+				$backtrace .= $this->receiveCodeFragment($step['file'], $step['line'], 3, 3);
+			}
+
+			$backtraceCodes[] = $this->tag('pre', $backtrace, ['class' => 'entry']);
+		}
+
+		return implode('', $backtraceCodes);
+	}
+
+
+	/**
+	 * render arguments for backtrace step
+	 *
+	 * @param $step
+	 * @return string
+	 */
+	protected function getBacktraceStepArguments($step) {
+		if (empty($step['args'])) {
+			return '';
+		}
+		$arguments = '';
+		foreach ($step['args'] as $argument) {
+			$arguments .= strlen($arguments) === 0 ? '' : $this->tag('span', ', ', ['class' => 'separator']);
+			if (is_object($argument)) {
+				$class = 'class';
+				$content = $this->linkClass(get_class($argument));
+			} else {
+				$class = 'others';
+				$content = gettype($argument);
+			}
+			$arguments .= $this->tag(
+				'span',
+				$content,
+				[
+					'class' => $class,
+					'title' => print_r($argument, true)
+				]
+			);
+		}
+		return $arguments;
 	}
 
 	/**
@@ -118,59 +214,85 @@ class Development implements ErrorHandlerInterface {
 	 *
 	 * @return string
 	 */
-	protected function receiveCodeFragment($filename, $lineNumber, $linesBefore, $linesAfter) {
+	protected function receiveCodeFragment($filename, $lineNumber, $linesBefore = 3, $linesAfter = 3) {
 		if (!file_exists($filename)) {
 			return '';
 		}
-		$code 		= file_get_contents($filename);
-		$lines 		= explode("\n", $code);
+		$html = $this->tag('span', $filename . ':<br/>', ['class' => 'filename']);
 
-		$firstLine	= ($lineNumber > $linesBefore) ? $lineNumber - $linesBefore : 0;
-		$lastLine	= ($lineNumber < (count($lines) - $linesAfter)) ? $lineNumber + $linesAfter : count($lines) + 1;
+		$code = file_get_contents($filename);
+		$lines = explode("\n", $code);
 
-		$line		= $firstLine-1;
-		$fragment	= '';
+		$firstLine = $lineNumber - $linesBefore - 1;
+		if ($firstLine < 0) {
+			$firstLine = 0;
+		}
+
+		$lastLine = $lineNumber + $linesAfter;
+		if ($lastLine > count($lines)) {
+			$lastLine = count($lines);
+		}
+
+		$line = $firstLine;
+		$fragment = '';
 		while ($line < $lastLine) {
 			$line++;
-			$tmp = sprintf('%05d', $line) . ': ' . str_replace("\t", '&nbsp;&nbsp;', $lines[$line - 1]) . '<br/>';
+
+			$lineText = htmlspecialchars($lines[$line - 1]);
+			$lineText = str_replace("\t", '&nbsp;&nbsp;', $lineText);
+			$tmp = sprintf('%05d: %s <br/>', $line, $lineText);
+
+			$class = 'row';
 			if ($line === $lineNumber) {
-				$tmp = '<span class="currentRow">' . $tmp . '</span>';
+				$class .= ' currentRow';
 			}
-			$fragment .= $tmp;
+			$fragment .= $this->tag('span', $tmp, ['class' => $class]);
 		}
-		return '<div class="filename">' . $filename . ':</div><pre>' . $fragment . '</pre>';
+
+
+		$html .= $fragment;
+		return $this->tag('pre', $html);
 	}
 
 	/**
-	 * link the class name to the API or return the class name
-	 * @param $class
-	 *
-	 * @return string
-	 */
-	protected function linkClass($class) {
-		if (strpos($class, 'Phile\\') === 0) {
-			$filename = 'docs/classes/'.str_replace('\\', '.', $class).'.html';
-			if (file_exists(Utility::resolveFilePath($filename))) {
-				$class = '<a href="'.Utility::getBaseUrl().'/'.$filename.'" target="_blank">'.$class.'</a>';
-			}
-		}
-		return $class;
-	}
-
-	/**
-	 * link the method name to the API or return the method name
+	 * link the class or method to the API or return the method name
 	 * @param $class
 	 * @param $method
 	 *
 	 * @return string
 	 */
-	protected function linkClassMethod($class, $method) {
+	protected function linkClass($class, $method = null) {
+		$title = $method ? $method : $class;
 		if (strpos($class, 'Phile\\') === 0) {
-			$filename = 'docs/classes/'.str_replace('\\', '.', $class).'.html';
-			if (file_exists(Utility::resolveFilePath($filename))) {
-				$method = '<a href="'.Utility::getBaseUrl().'/'.$filename.'#method_'.$method.'" target="_blank">'.$method.'</a>';
-			}
+			return $title;
 		}
-		return $method;
+
+		$filename = 'docs/classes/' . str_replace('\\', '.', $class) . '.html';
+		if (file_exists(Utility::resolveFilePath($filename))) {
+			return $title;
+		}
+
+		$href = $this->settings['base_url'] . '/' . $filename;
+		if ($method) {
+			$href .= '#method_' . $method;
+		}
+		return $this->tag('a', $title, ['href' =>  $href, 'target' => '_blank']);
+	}
+
+	/**
+	 * create HTML-tag
+	 *
+	 * @param string $tag
+	 * @param string $content
+	 * @param array $attributes
+	 * @return string
+	 */
+	protected function tag($tag, $content = '', array $attributes = []) {
+		$html = '<' . $tag;
+		foreach ($attributes as $key => $value) {
+			$html .= ' ' . $key . '="' . htmlspecialchars($value) . '"';
+		}
+		$html .= '>' . $content . '</' . $tag . '>';
+		return $html;
 	}
 }

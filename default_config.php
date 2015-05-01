@@ -19,6 +19,8 @@ $config['timezone']       = (ini_get('date.timezone')) ? ini_get('date.timezone'
 
 $config['charset']    = 'utf-8'; // charset used for HTML & Markdown files
 
+$config['display_errors'] = 0; // set PHP error reporting
+
 // only extend $config['plugins'] and not overwrite it, because some core plugins
 // will be added to this config option by default. So, use this option in this way:
 // $config['plugins']['myCustomPlugin'] = array('active' => true);

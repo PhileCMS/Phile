@@ -14,7 +14,6 @@ pre {
     font-family: "Lucida Console", Monaco, monospace;
     margin: 0;
     color: rgba(255,255,255,0.5);
-    padding-left: 30px;
     background: #1f1f1f;
 }
 pre.entry {
@@ -22,6 +21,19 @@ pre.entry {
     padding: 4px 2px 2px 2px;
     margin-bottom: 10px;
     background: #1f1f1f;
+}
+pre .row {
+    padding-left: 30px;
+}
+pre .currentRow {
+    background-color: #A33236;
+    color: white;
+    text-shadow: 0 1px 0 rgba(0,0,0,0.2);
+    display: block;
+}
+pre .currentRow .index {
+    color: white;
+    font-weight: normal;
 }
 .main {
     margin: 30px 30px 30px 140px;
@@ -78,18 +90,9 @@ pre.entry {
     color: #fff;
 }
 .filename {
+    color: white;
     font-size: 10px;
     margin-left: 5px;
     padding: 3px;
-}
-.currentRow {
-    background-color: #A33236;
-    color: white;
-    text-shadow: 0 1px 0 rgba(0,0,0,0.2);
-    display: block;
-}
-.currentRow .index {
-    color: white;
-    font-weight: normal;
 }
 a {color: inherit;}

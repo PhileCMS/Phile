@@ -121,7 +121,9 @@ class Core {
 	protected function initializeErrorHandling() {
 		if (ServiceLocator::hasService('Phile_ErrorHandler')) {
 			$errorHandler = ServiceLocator::getService('Phile_ErrorHandler');
-			set_error_handler(array($errorHandler, 'handleError'));
+			set_error_handler([$errorHandler, 'handleError']);
+			register_shutdown_function([$errorHandler, 'handleShutdown']);
+			ini_set('display_errors', $this->settings['display_errors']);
 		}
 	}
 
