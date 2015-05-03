@@ -4,6 +4,7 @@ namespace PhileTest;
 
 use Phile\Core;
 use Phile\Core\Registry;
+use Phile\Core\Response;
 use Phile\Core\Router;
 
 /**
@@ -55,19 +56,24 @@ class CoreTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * tests redirect to setup page if setup is unfinished
+	 * tests show setup page if setup is unfinished
 	 */
 	public function testCheckSetupRedirectToSetupPage() {
 		$settings = Registry::get('Phile_Settings');
 		Registry::set('Phile_Settings', ['encryptionKey' => ''] + $settings);
 
 		$_SERVER['REQUEST_URI'] = '/';
-		$response = $this->getMock('\Phile\Core\Response', ['redirect']);
-		$router = new Router();
-		$response->expects($this->once())
-			->method('redirect')
-			->with($router->url('setup'));
 
-		new Core($router, $response);
+		$response = new Response();
+		new Core(new Router, $response);
+
+		$expected = 'Welcome to the PhileCMS Setup';
+		$body = $this->getObjectAttribute($response, 'body');
+		$this->assertContains($expected, $body);
+
+		// 64 char encryption key on page
+		$pattern = '/\<code\>(\s*?).{64}(\s*?)\<\/code\>/';
+		$this->assertRegExp($pattern, $body);
 	}
+
 }

@@ -78,7 +78,7 @@ class PageTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testCanFindAllPagesOrderdByTitle() {
 		// @TODO: maybe find a better way to check the correct order
-		$titles	= ["Sub Page", "Sub Page Index", "Setup", "Welcome"];
+		$titles	= ["Sub Page", "Sub Page Index", "Welcome"];
 		$pages = $this->pageRepository->findAll(array('pages_order' => 'meta:title'));
 		for ($i=0; $i<count($pages); $i++) {
 			$this->assertEquals($pages[$i]->getTitle(), $titles[$i]);
