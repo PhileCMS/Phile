@@ -78,10 +78,10 @@ class PageTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 *
 	 */
-	public function testPageGetUnparsedContent() {
+	public function testPageGetRawContent() {
 		$page = $this->pageRepository->findByPath('/');
 		$page->setContent('*test*');
-		$this->assertEquals('*test*', $page->getPlainContent());
+		$this->assertEquals('*test*', $page->getRawContent());
 	}
 
 	/**

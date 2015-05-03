@@ -130,11 +130,11 @@ class Page {
 	}
 
 	/**
-	 * get plain (un-parsed) page content
+	 * get raw (un-parsed) page content
 	 *
 	 * @return string
 	 */
-	public function getPlainContent() {
+	public function getRawContent() {
 		return $this->content;
 	}
 
