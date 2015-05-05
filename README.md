@@ -10,7 +10,7 @@ PhileCMS
 
 A Markdown file-based CMS.
 
-[Check out the starter video](http://www.youtube.com/watch?v=8GLMe371RuI), or [read the wiki for in-depth documenation](https://github.com/PhileCMS/Phile/wiki/_pages).
+[Check out the starter video](http://www.youtube.com/watch?v=8GLMe371RuI) or [read the wiki for in-depth documentation](https://github.com/PhileCMS/Phile/wiki/_pages).
 
 ## Gitter Developer & Support-System
 
