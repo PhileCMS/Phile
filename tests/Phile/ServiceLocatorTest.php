@@ -23,7 +23,7 @@ class ServiceLocatorTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 	public function testServicePhileCacheExists() {
-		$this->assertEquals(false, \Phile\Core\ServiceLocator::hasService('Phile_Cache'));
+		$this->assertEquals(true, \Phile\Core\ServiceLocator::hasService('Phile_Cache'));
 	}
 
 	/**
@@ -101,4 +101,3 @@ class ServiceLocatorTest extends \PHPUnit_Framework_TestCase {
 		$this->assertInstanceOf('\Phile\ServiceLocator\ErrorHandlerInterface', \Phile\Core\ServiceLocator::getService('Phile_ErrorHandler'));
 	}
 }
- 
