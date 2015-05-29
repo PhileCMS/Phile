@@ -38,10 +38,10 @@ class NullCache implements \Phile\ServiceLocator\CacheInterface {
 	 *  {@inheritdoc}
 	 */
 	public function has($key) {
-		if (!isset($this->cache[$key])) {
+		if (!isset($this->storage[$key])) {
 			return false;
 		}
-		return $this->cache[$key]['expire'] > $this->now;
+		return $this->storage[$key]['expire'] > $this->now;
 	}
 
 	/**
@@ -51,14 +51,14 @@ class NullCache implements \Phile\ServiceLocator\CacheInterface {
 		if (!$this->has($key)) {
 			throw new \Exception("No cache entry with key: $key");
 		}
-		return $this->cache[$key]['value'];
+		return $this->storage[$key]['value'];
 	}
 
 	/**
 	 *  {@inheritdoc}
 	 */
 	public function set($key, $value, $time = 300, array $options = array()) {
-		$this->cache[$key] = [
+		$this->storage[$key] = [
 			'expire' => time() + $time,
 			'value' => $value
 		];
@@ -68,7 +68,7 @@ class NullCache implements \Phile\ServiceLocator\CacheInterface {
 	 *  {@inheritdoc}
 	 */
 	public function delete($key, array $options = array()) {
-		unset($this->$key);
+		unset($this->storage[$key]);
 	}
 
 	/**
