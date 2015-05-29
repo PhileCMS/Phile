@@ -83,9 +83,27 @@ class RouterTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals('https://barbaz', $this->router->getBaseUrl());
 	}
 
-	public function testGetUrl() {
+	/**
+	 * test that URL is UTF8-decoded
+	 */
+	public function testGetUrlUrlDecoded() {
 		$router = new Router(['REQUEST_URI' => '/bar/b%C3%A4z%20page?q=a']);
 		$this->assertEquals('bar/bäz page', $router->getCurrentUrl());
+	}
+
+	/**
+	 * test that base-URL is removed
+	 */
+	public function testGetUrlRemoveUrlPath() {
+		$pathFragment = 'sub';
+		// assume installation in http://localhost/sub
+		$this->mockBaseUrl('http://localhost/' . $pathFragment);
+
+		// incoming request-URI: /sub/sub/page
+		$requestUri = '/' . $pathFragment . '/' . $pathFragment . '/page';
+		$router = new Router(['REQUEST_URI' => $requestUri]);
+		// requested page: sub/page.md
+		$this->assertEquals('sub/page', $router->getCurrentUrl());
 	}
 
 	public function testGetProtocol() {
