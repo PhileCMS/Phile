@@ -4,6 +4,7 @@ namespace PhileTest\Core;
 
 use Phile\Core\Cache;
 use Phile\Core\ServiceLocator;
+use Phile\Test\PhileTestCase;
 
 /**
  * the CacheTest class
@@ -13,7 +14,7 @@ use Phile\Core\ServiceLocator;
  * @license http://opensource.org/licenses/MIT
  * @package PhileTest
  */
-class CacheTest extends \PHPUnit_Framework_TestCase {
+class CacheTest extends PhileTestCase {
 
 	public function testRemember() {
 		$cache = ServiceLocator::getService('Phile_Cache');
