@@ -75,21 +75,21 @@ class Bootstrap {
 		// for php unit testings, we need to check if constant is defined
 		// before setting them, because there is a bug in PHPUnit which
 		// init our bootstrap multiple times.
-		defined('PHILE_VERSION') 	or define('PHILE_VERSION',   '1.5.2');
-		defined('PHILE_CLI_MODE') 	or define('PHILE_CLI_MODE',  (php_sapi_name() == "cli") ? true : false);
-		defined ('DS') or define('DS', DIRECTORY_SEPARATOR);
-		defined('ROOT_DIR') 		or define('ROOT_DIR',        realpath(__DIR__ . DS . '..' . DS . '..' . DS) . DS);
+		defined('PHILE_VERSION') || define('PHILE_VERSION', '1.5.2');
+		defined('PHILE_CLI_MODE') || define('PHILE_CLI_MODE', (php_sapi_name() == "cli") ? true : false);
+		defined('DS') || define('DS', DIRECTORY_SEPARATOR);
+		defined('ROOT_DIR') || define('ROOT_DIR', realpath(__DIR__ . DS . '..' . DS . '..' . DS) . DS);
 
-		defined('CONTENT_DIR') 		or define('CONTENT_DIR',     ROOT_DIR . 'content' . DS);
-		defined('CONTENT_EXT') 		or define('CONTENT_EXT',     '.md');
-		defined('LIB_DIR') 			or define('LIB_DIR',         ROOT_DIR . 'lib' . DS);
+		defined('CONTENT_DIR') || define('CONTENT_DIR', ROOT_DIR . 'content' . DS);
+		defined('CONTENT_EXT') || define('CONTENT_EXT', '.md');
+		defined('LIB_DIR') || define('LIB_DIR', ROOT_DIR . 'lib' . DS);
 
-		defined('PLUGINS_DIR') 		or define('PLUGINS_DIR',     ROOT_DIR . 'plugins' . DS);
-		defined('THEMES_DIR') 		or define('THEMES_DIR',      ROOT_DIR . 'themes' . DS);
+		defined('PLUGINS_DIR') || define('PLUGINS_DIR', ROOT_DIR . 'plugins' . DS);
+		defined('THEMES_DIR') || define('THEMES_DIR', ROOT_DIR . 'themes' . DS);
 
-		defined('PROTECTED_DIR') or define('PROTECTED_DIR', ROOT_DIR . 'protected' . DS);
-		defined('CACHE_DIR') or define('CACHE_DIR', PROTECTED_DIR . 'cache' . DS);
-		defined('STORAGE_DIR') or define('STORAGE_DIR', PROTECTED_DIR . 'datastorage' . DS);
+		defined('PROTECTED_DIR') || define('PROTECTED_DIR', ROOT_DIR . 'protected' . DS);
+		defined('CACHE_DIR') || define('CACHE_DIR', PROTECTED_DIR . 'cache' . DS);
+		defined('STORAGE_DIR') || define('STORAGE_DIR', PROTECTED_DIR . 'datastorage' . DS);
 	}
 
 	/**
