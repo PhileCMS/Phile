@@ -88,8 +88,8 @@ class Bootstrap {
 		defined('THEMES_DIR') 		or define('THEMES_DIR',      ROOT_DIR . 'themes' . DS);
 
 		defined('PROTECTED_DIR') or define('PROTECTED_DIR', ROOT_DIR . 'protected' . DS);
-		defined('CACHE_DIR') or define('CACHE_DIR', ROOT_DIR . 'protected' . DS . 'cache' . DS);
-		defined('STORAGE_DIR') or define('STORAGE_DIR', ROOT_DIR . 'protected' . DS . 'datastorage' . DS);
+		defined('CACHE_DIR') or define('CACHE_DIR', PROTECTED_DIR . 'cache' . DS);
+		defined('STORAGE_DIR') or define('STORAGE_DIR', PROTECTED_DIR . 'datastorage' . DS);
 	}
 
 	/**
