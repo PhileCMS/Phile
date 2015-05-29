@@ -78,6 +78,15 @@ class PageTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 *
 	 */
+	public function testPageGetRawContent() {
+		$page = $this->pageRepository->findByPath('/');
+		$page->setContent('*test*');
+		$this->assertEquals('*test*', $page->getRawContent());
+	}
+
+	/**
+	 *
+	 */
 	public function testPageHasMetaObject() {
 		$page = $this->pageRepository->findByPath('/');
 		$this->assertInstanceOf('\Phile\Model\Meta', $page->getMeta());
