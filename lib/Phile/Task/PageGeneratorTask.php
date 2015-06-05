@@ -40,7 +40,8 @@ class PageGeneratorTask extends Task {
 		$max = $this->settings['max'] + 1;
 		while (++$current < $max) {
 			$content = $this->getContent();
-			$path = rtrim($this->settings['root'], '/') . '/' . $current;
+			$title = 'dummy-' . $current . '.md';
+			$path = rtrim($this->settings['root'], '/') . '/' . $title;
 			$this->createFile($path, $content);
 		}
 	}
@@ -57,7 +58,7 @@ class PageGeneratorTask extends Task {
 		if (!is_dir($base)) {
 			throw new \Exception("Content folder \"$base\" not found.");
 		}
-		$base .=  ltrim($path, '/') . '.md';
+		$base .=  ltrim($path, '/');
 		file_put_contents($base, $content);
 	}
 

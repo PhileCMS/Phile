@@ -32,3 +32,6 @@ lib/cache/*
 # datastorage
 datastorage/*
 !datastorage/.htaccess
+
+# dummy page content from phing task
+dummy-*.md
