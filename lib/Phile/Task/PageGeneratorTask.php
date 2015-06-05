@@ -1,14 +1,25 @@
 <?php
+/**
+ * page generator for phing build system
+ *
+ * @author PhileCMS
+ * @link https://philecms.com
+ * @license http://opensource.org/licenses/MIT
+ * @package Phile\Task;
+ */
 
 require_once __DIR__ . '/../Bootstrap.php';
 
 \Phile\Bootstrap::getInstance()->initializeBasics();
 
 /**
- * phing task for creating dummy pages
+ * phing Task for creating dummy pages
  */
 class PageGeneratorTask extends Task {
 
+	/**
+	 * @var array
+	 */
 	protected $settings = [
 		'root' => 'sub/',
 		'max' => 10,
