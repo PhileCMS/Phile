@@ -69,7 +69,7 @@ class PageGeneratorTask extends Task {
 		if (!is_dir($base)) {
 			throw new \Exception("Content folder \"$base\" not found.");
 		}
-		$base .=  ltrim($path, '/');
+		$base .= ltrim($path, '/');
 		file_put_contents($base, $content);
 	}
 
