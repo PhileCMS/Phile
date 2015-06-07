@@ -101,7 +101,7 @@ class Development implements ErrorHandlerInterface {
 		$fragment = $this->receiveCodeFragment($file,
 			$line, 5, 5);
 		$marker = [
-			'base_url' => $this->settings['base_url'],
+			'plugin_base_url' => $this->settings['base_url'] . '/lib/plugins/phile/errorHandler',
 			'type' => $exception ? 'Exception' : 'Error',
 			'exception_message' => htmlspecialchars($message),
 			'exception_code' => htmlspecialchars($code),

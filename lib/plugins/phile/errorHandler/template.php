@@ -3,10 +3,10 @@
 <head>
     <title>PhileCMS Development Error Handler</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <link href="<?= $base_url ?>/plugins/phile/errorHandler/base.css" type="text/css" rel="stylesheet" />
+    <link href="<?= $plugin_base_url ?>/base.css" type="text/css" rel="stylesheet" />
 </head>
 <body>
-<header><img src="<?= $base_url ?>/plugins/phile/errorHandler/phile-icon.png" title="PhileCMS" alt="Phile Logo"/></header>
+<header><img src="<?= $plugin_base_url ?>/phile-icon.png" title="PhileCMS" alt="Phile Logo"/></header>
 <div class="main">
     <div class="header">PhileCMS Development Error Handler</div>
     <div class="body">

@@ -87,7 +87,9 @@ class Bootstrap {
 		defined('CONTENT_EXT') || define('CONTENT_EXT', '.md');
 		defined('LIB_DIR') || define('LIB_DIR', ROOT_DIR . 'lib' . DS);
 
+		defined('PLUGINS_CORE_DIR') || define('PLUGINS_CORE_DIR', LIB_DIR . 'plugins'. DS);
 		defined('PLUGINS_DIR') || define('PLUGINS_DIR', ROOT_DIR . 'plugins' . DS);
+
 		defined('THEMES_DIR') || define('THEMES_DIR', ROOT_DIR . 'themes' . DS);
 
 		defined('PROTECTED_DIR') || define('PROTECTED_DIR', ROOT_DIR . 'protected' . DS);
