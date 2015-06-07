@@ -123,7 +123,7 @@ class Response {
 	/**
 	 * helper for easy testing
 	 */
-	protected function stop() {
+	public function stop() {
 		die();
 	}
 

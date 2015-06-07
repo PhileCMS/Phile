@@ -33,8 +33,9 @@ $config['plugins'] = array(
 		'active' => true,
 		'handler' => \Phile\Plugin\Phile\ErrorHandler\Plugin::HANDLER_DEVELOPMENT
 	), // the default error handler
+	'phile\\setupCheck'                => array('active' => true), // setup check
 	'phile\\parserMarkdown'            => array('active' => true), // the default parser
-	'phile\\parserMeta'                => array('active' => true), // the default parser
+	'phile\\parserMeta'                => array('active' => true), // the default meta parser
 	'phile\\templateTwig'              => array('active' => true), // the default template engine
 	'phile\\phpFastCache'              => array('active' => true), // the default cache engine
 	'phile\\simpleFileDataPersistence' => array('active' => true), // the default data storage engine
