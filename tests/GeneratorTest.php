@@ -14,7 +14,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase {
     // output length should be exactly 64 chars
     $this->expectOutputRegex('/^.{64}$/');
 
-    include dirname(__FILE__) . '/../generator.php';
+    include ROOT_DIR . '/generator.php';
   }
 
 }
