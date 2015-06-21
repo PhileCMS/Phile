@@ -1,44 +1,93 @@
 <?php
 
-/*
+/**
+ * Phile default config.
+ *
+ * Don't do changes here but overwrite them in your local config.
+ */
+$config = [];
+
+/**
  * Base URL to Phile installation without trailing slash
  *
  * e.g. `http://example.com` or `http://example.com/phile`
  *
  * Default: try to resolve automatically in Router
  */
-$config['base_url']       = (new Phile\Core\Router)->getBaseUrl();
+$config['base_url'] = (new Phile\Core\Router)->getBaseUrl();
 
-$config['site_title']     = 'PhileCMS'; // Site title
-$config['theme']          = 'default'; // Set the theme
-$config['date_format']    = 'jS M Y'; // Set the PHP date format
-$config['pages_order']    = 'meta.title:desc'; // Order pages by "title" (alpha) or "date"
+/**
+ * page title
+ */
+$config['site_title'] = 'PhileCMS';
 
-// figure out the timezone
-$config['timezone']       = (ini_get('date.timezone')) ? ini_get('date.timezone') : 'UTC'; // The default timezone
+/**
+ * default theme
+ */
+$config['theme'] = 'default';
 
-$config['charset']    = 'utf-8'; // charset used for HTML & Markdown files
+/**
+ * date format as PHP date format
+ */
+$config['date_format'] = 'jS M Y';
 
-$config['display_errors'] = 0; // set PHP error reporting
+/**
+ * page order
+ *
+ * Order pages by "title" (alpha) or "date"
+ */
+$config['pages_order'] = 'meta.title:desc';
 
-// only extend $config['plugins'] and not overwrite it, because some core plugins
-// will be added to this config option by default. So, use this option in this way:
-// $config['plugins']['myCustomPlugin'] = array('active' => true);
-// also notice, each plugin has its own config namespace.
-// activate plugins
-$config['plugins'] = array(
-	// key = vendor\\pluginName (vendor lowercase, pluginName lowerCamelCase
-	'mycompany\\demoPlugin'            => array('active' => false),
-	'phile\\errorHandler'              => array(
+/**
+ * timezone
+ */
+$config['timezone'] = (ini_get('date.timezone')) ? ini_get('date.timezone') : 'UTC';
+
+/**
+ * charset used for HTML and Markdown files
+ */
+$config['charset'] = 'utf-8';
+
+/**
+ * set PHP error reporting
+ */
+$config['display_errors'] = 0;
+
+/**
+ * include core plugins
+ */
+$config['plugins'] = [
+	/**
+	 * error handler
+	 */
+	'phile\\errorHandler' => [
 		'active' => true,
 		'handler' => \Phile\Plugin\Phile\ErrorHandler\Plugin::HANDLER_DEVELOPMENT
-	), // the default error handler
-	'phile\\setupCheck'                => array('active' => true), // setup check
-	'phile\\parserMarkdown'            => array('active' => true), // the default parser
-	'phile\\parserMeta'                => array('active' => true), // the default meta parser
-	'phile\\templateTwig'              => array('active' => true), // the default template engine
-	'phile\\phpFastCache'              => array('active' => true), // the default cache engine
-	'phile\\simpleFileDataPersistence' => array('active' => true), // the default data storage engine
-);
+	],
+	/**
+	 * setup check
+	 */
+	'phile\\setupCheck' => ['active' => true],
+	/**
+	 * parser
+	 */
+	'phile\\parserMarkdown' => ['active' => true],
+	/**
+	 * meta-tag parser
+	 */
+	'phile\\parserMeta' => ['active' => true],
+	/**
+	 * template engine
+	 */
+	'phile\\templateTwig' => ['active' => true],
+	/**
+	 * cache engine
+	 */
+	'phile\\phpFastCache' => ['active' => true],
+	/**
+	 * persistent data storage
+	 */
+	'phile\\simpleFileDataPersistence' => ['active' => true],
+];
 
 return $config;
