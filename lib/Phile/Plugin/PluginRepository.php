@@ -37,7 +37,6 @@ class PluginRepository {
 	public function __construct($folder) {
 		$this->folder = $folder;
 		spl_autoload_register([$this, 'autoload']);
-		return $this;
 	}
 
 	/**
