@@ -42,9 +42,8 @@ abstract class AbstractPlugin implements EventObserverInterface {
 		 * init $plugin property
 		 */
 		$this->plugin['key'] = $pluginKey;
-		list($vendor, $name) = explode('\\', $this->plugin['key']);
-		$DS = DIRECTORY_SEPARATOR;
-		$this->plugin['dir'] = PLUGINS_DIR . $vendor . $DS . $name . $DS;
+		$reflection = new \ReflectionClass($this);
+		$this->plugin['dir'] = realpath(dirname($reflection->getFileName()) . DS . '..' . DS) . DS;
 
 		/**
 		 * init events

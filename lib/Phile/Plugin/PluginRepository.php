@@ -113,9 +113,12 @@ class PluginRepository {
 			$classNameParts
 		);
 
-		$fileName = PLUGINS_DIR . implode(DIRECTORY_SEPARATOR, $classPath) . '.php';
-		if (file_exists($fileName)) {
-			require_once $fileName;
+		$path = implode(DS, $classPath) . '.php';
+		foreach ([PLUGINS_DIR, PLUGINS_CORE_DIR] as $pluginDir) {
+			$fileName = $pluginDir . $path;
+			if (file_exists($fileName)) {
+				require_once $fileName;
+			}
 		}
 	}
 

@@ -51,8 +51,11 @@ class AbstractPluginTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testInitializePluginSettings() {
-		$plugin = $this->mockPlugin();
+		/* setup */
+		$plugin = new Plugin();
+		$plugin->initializePlugin($this->pluginKey);
 
+		/* test */
 		// class:    ['A' => 'X', 'B' => 'X', 'C' => 'C'];
 		// defaults: ['A' => 'X', 'B' => 'B'];
 		// global:   ['A' => 'A', 'active' => false];
@@ -73,17 +76,19 @@ class AbstractPluginTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testInitializePluginEventsNotCallable() {
-		$plugin = $this->mockPlugin();
+		$this->mockPlugin();
 		$this->setExpectedException('\RuntimeException', null, 1428564865);
 		Event::triggerEvent('phile\testPlugin.testEvent-missingMethod');
 	}
 
 	public function testGetPluginPath() {
-		$plugin = $this->mockPlugin(['onTextEvent']);
+		/* setup */
+		$plugin = new Plugin();
+		$plugin->initializePlugin('foo');
 
+		/* test */
 		$result = $plugin->getPluginPath();
-		$DS = DIRECTORY_SEPARATOR;
-		$expected = PLUGINS_DIR . 'phile' . $DS . 'testPlugin' . $DS;
+		$expected = PLUGINS_CORE_DIR . 'phile' . DS . 'testPlugin' . DS;
 		$this->assertEquals($expected, $result);
 
 		$result = $plugin->getPluginPath('vendor.php');
