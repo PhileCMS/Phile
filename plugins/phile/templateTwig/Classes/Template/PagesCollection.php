@@ -15,7 +15,6 @@ class PagesCollection implements \ArrayAccess, \IteratorAggregate {
         return new \ArrayIterator($this->pages);
     }
 
-    /* Methods */
     public function offsetExists ($offset){
         $this->load();
         return isset($this->pages[$offset]);
