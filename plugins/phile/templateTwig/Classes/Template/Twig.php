@@ -159,7 +159,7 @@ class Twig implements TemplateInterface {
 			'config' => $this->settings,
 			'content_dir' => CONTENT_DIR,
 			'content_url' => $this->settings['base_url'] . '/' . basename(CONTENT_DIR),
-			'pages' => new PagesCollection($repository),
+			'pages' => $repository->findAll(),
 			'site_title' => $this->settings['site_title'],
 			'theme_dir' => THEMES_DIR . $this->settings['theme'],
 			'theme_url' => $this->settings['base_url'] . '/' . basename(THEMES_DIR) . '/' . $this->settings['theme'],

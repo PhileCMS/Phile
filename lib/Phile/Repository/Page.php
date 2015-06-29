@@ -84,63 +84,11 @@ class Page {
 	 * @param array  $options
 	 * @param string $folder
 	 *
-	 * @return array of \Phile\Model\Page objects
+	 * @return PageCollection of \Phile\Model\Page objects
 	 */
 	public function findAll(array $options = array(), $folder = CONTENT_DIR) {
 		$options += $this->settings;
-		// ignore files with a leading '.' in its filename
-		$files = Utility::getFiles($folder, '\Phile\FilterIterator\ContentFileFilterIterator');
-		$pages = array();
-		foreach ($files as $file) {
-			if (str_replace($folder, '', $file) == '404' . CONTENT_EXT) {
-				// jump to next page if file is the 404 page
-				continue;
-			}
-			$pages[] = $this->getPage($file, $folder);
-		}
-
-		if (empty($options['pages_order'])) {
-			return $pages;
-		}
-
-		// parse search criteria
-		$terms = preg_split('/\s+/', $options['pages_order'], -1, PREG_SPLIT_NO_EMPTY);
-		foreach ($terms as $term) {
-			$term = explode('.', $term);
-			if (count($term) > 1) {
-				$type = array_shift($term);
-			} else {
-				$type = null;
-			}
-			$term = explode(':', $term[0]);
-			$sorting[] = array('type' => $type, 'key' => $term[0], 'order' => $term[1]);
-		}
-
-		// prepare search criteria for array_multisort
-		foreach ($sorting as $sort) {
-			$key = $sort['key'];
-			$column = array();
-			foreach ($pages as $page) {
-				/** @var \Phile\Model\Page $page */
-				$meta = $page->getMeta();
-				if ($sort['type'] === 'page') {
-					$method = 'get' . ucfirst($key);
-					$value = $page->$method();
-				} elseif ($sort['type'] === 'meta') {
-					$value = $meta->get($key);
-				} else {
-					continue 2; // ignore unhandled search term
-				}
-				$column[] = $value;
-			}
-			$sortHelper[] = $column;
-			$sortHelper[] = constant('SORT_' . strtoupper($sort['order']));
-		}
-		$sortHelper[] = &$pages;
-
-		call_user_func_array('array_multisort', $sortHelper);
-
-		return $pages;
+        return new PageCollection($options, $folder, $this);
 	}
 
 	/**
@@ -171,7 +119,7 @@ class Page {
 	 *
 	 * @return mixed|\Phile\Model\Page
 	 */
-	protected function getPage($filePath, $folder = CONTENT_DIR) {
+	public function getPage($filePath, $folder = CONTENT_DIR) {
 		$key = 'Phile_Model_Page_' . md5($filePath);
 		if (isset($this->storage[$key])) {
 			return $this->storage[$key];
