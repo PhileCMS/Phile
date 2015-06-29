@@ -119,7 +119,7 @@ class Page {
 	 *
 	 * @return mixed|\Phile\Model\Page
 	 */
-	public function getPage($filePath, $folder = CONTENT_DIR) {
+	protected function getPage($filePath, $folder = CONTENT_DIR) {
 		$key = 'Phile_Model_Page_' . md5($filePath);
 		if (isset($this->storage[$key])) {
 			return $this->storage[$key];

@@ -13,24 +13,24 @@ use Phile\Core\Utility;
  * @package Phile\Repository
  */
 class PageCollection implements \ArrayAccess, \IteratorAggregate, \Countable {
-	/**
-	 * @var \Phile\Model\Page[] array of pages found
-	 */
+    /**
+     * @var \Phile\Model\Page[] array of pages found
+     */
     private $pages;
 
-	/**
-	 * @var array array of search options
-	 */
+    /**
+     * @var array array of search options
+     */
     private $options;
 
-	/**
-	 * @var string base search folder
-	 */
+    /**
+     * @var string base search folder
+     */
     private $folder;
 
-	/**
-	 * @var \Phile\Repository\Page page repository
-	 */
+    /**
+     * @var \Phile\Repository\Page page repository
+     */
     private $repository;
 
     public function __construct(array $options, $folder, \Phile\Repository\Page $repository){
@@ -79,61 +79,65 @@ class PageCollection implements \ArrayAccess, \IteratorAggregate, \Countable {
     }
 
     private function findPages(){
-		// ignore files with a leading '.' in its filename
-		$files = Utility::getFiles($this->folder, '\Phile\FilterIterator\ContentFileFilterIterator');
-		$this->pages = [];
-		foreach ($files as $file) {
-			if (str_replace($this->folder, '', $file) == '404' . CONTENT_EXT) {
-				// jump to next page if file is the 404 page
-				continue;
-			}
-			$this->pages[] = $this->repository->getPage($file, $this->folder);
-		}
+        // ignore files with a leading '.' in its filename
+        $files = Utility::getFiles($this->folder, '\Phile\FilterIterator\ContentFileFilterIterator');
+        $this->pages = [];
+        $extLen = -strlen(CONTENT_EXT);
+        $folderLen = strlen($this->folder);
+        foreach ($files as $file) {
+            $pageId = substr($file, $folderLen, $extLen);
+            if ($pageId == '404') {
+                // jump to next page if file is the 404 page
+                continue;
+            }
+
+            $this->pages[] = $this->repository->findByPath($pageId, $this->folder);
+        }
     }
 
     private function sortPages(){
         $criteria = $this->getSortCriteria();
 
-		// prepare search criteria for array_multisort
-		foreach ($criteria as $sort) {
-			$key = $sort['key'];
-			$column = array();
-			foreach ($this->pages as $page) {
-				/** @var \Phile\Model\Page $page */
-				$meta = $page->getMeta();
-				if ($sort['type'] === 'page') {
-					$method = 'get' . ucfirst($key);
-					$value = $page->$method();
-				} elseif ($sort['type'] === 'meta') {
-					$value = $meta->get($key);
-				} else {
-					continue 2; // ignore unhandled search term
-				}
-				$column[] = $value;
-			}
-			$sortHelper[] = $column;
-			$sortHelper[] = constant('SORT_' . strtoupper($sort['order']));
-		}
+        // prepare search criteria for array_multisort
+        foreach ($criteria as $sort) {
+            $key = $sort['key'];
+            $column = array();
+            foreach ($this->pages as $page) {
+                /** @var \Phile\Model\Page $page */
+                $meta = $page->getMeta();
+                if ($sort['type'] === 'page') {
+                    $method = 'get' . ucfirst($key);
+                    $value = $page->$method();
+                } elseif ($sort['type'] === 'meta') {
+                    $value = $meta->get($key);
+                } else {
+                    continue 2; // ignore unhandled search term
+                }
+                $column[] = $value;
+            }
+            $sortHelper[] = $column;
+            $sortHelper[] = constant('SORT_' . strtoupper($sort['order']));
+        }
 
-		$sortHelper[] = &$this->pages;
+        $sortHelper[] = &$this->pages;
 
-		call_user_func_array('array_multisort', $sortHelper);
+        call_user_func_array('array_multisort', $sortHelper);
     }
 
     private function getSortCriteria(){
         // parse search criteria
-		$terms = preg_split('/\s+/', $this->options['pages_order'], -1, PREG_SPLIT_NO_EMPTY);
+        $terms = preg_split('/\s+/', $this->options['pages_order'], -1, PREG_SPLIT_NO_EMPTY);
         $criteria = [];
-		foreach ($terms as $term) {
-			$term = explode('.', $term);
-			if (count($term) > 1) {
-				$type = array_shift($term);
-			} else {
-				$type = null;
-			}
-			$term = explode(':', $term[0]);
-			$criteria[] = array('type' => $type, 'key' => $term[0], 'order' => $term[1]);
-		}
+        foreach ($terms as $term) {
+            $term = explode('.', $term);
+            if (count($term) > 1) {
+                $type = array_shift($term);
+            } else {
+                $type = null;
+            }
+            $term = explode(':', $term[0]);
+            $criteria[] = array('type' => $type, 'key' => $term[0], 'order' => $term[1]);
+        }
 
         return $criteria;
     }
