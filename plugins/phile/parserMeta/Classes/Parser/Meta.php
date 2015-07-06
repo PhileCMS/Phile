@@ -5,11 +5,12 @@
 namespace Phile\Plugin\Phile\ParserMeta\Parser;
 
 use Phile\ServiceLocator\MetaInterface;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Class Meta
  *
- * @author  Frank Nägler
+ * @author  PhileCMS
  * @link    https://philecms.com
  * @license http://opensource.org/licenses/MIT
  * @package Phile\Plugin\Phile\ParserMeta\Parser
@@ -30,9 +31,9 @@ class Meta implements MetaInterface {
 	}
 
 	/**
-	 * parse the content and extract meta informations
+	 * parse the content and extract meta information
 	 *
-	 * @param $rawData
+	 * @param string $rawData raw page data
 	 *
 	 * @return array with key/value store
 	 */
@@ -41,17 +42,35 @@ class Meta implements MetaInterface {
 		$START   = (substr($rawData, 0, 2) == '/*') ? '/*' : '<!--';
 		$END     = (substr($rawData, 0, 2) == '/*') ? '*/' : '-->';
 
-		$metaPart = trim(substr($rawData, strlen($START), strpos($rawData, $END) - (strlen($END) + 1)));
-		// split by new lines
-		$headers = explode("\n", $metaPart);
-		$result  = array();
-		foreach ($headers as $line) {
-			$parts        = explode(':', $line, 2);
-			$key          = preg_replace('/[^\w+]/', '_', strtolower(array_shift($parts))); // replace all special characters with underscores
-			$val          = implode($parts);
-			$result[$key] = trim($val);
-		}
+		$meta = trim(substr($rawData, strlen($START), strpos($rawData, $END) - (strlen($END) + 1)));
+		$meta = Yaml::parse($meta);
+		$meta = $this->convertKeys($meta);
+		return $meta;
+	}
 
-		return $result;
+	/**
+	 * convert meta data keys
+	 *
+	 * Creates "compatible" keys allowing easy access e.g. as template var.
+	 *
+	 * Conversions applied:
+	 *
+	 * - lowercase all chars
+	 * - replace special chars and whitespace with underscore
+	 *
+	 * @param array $meta meta-data
+	 * @return array
+	 */
+	protected function convertKeys(array $meta) {
+		$return = [];
+		foreach ($meta as $key => $value) {
+			if (is_array($value)) {
+				$value = $this->convertKeys($value);
+			}
+			$newKey = strtolower($key);
+			$newKey = preg_replace('/[^\w+]/', '_', $newKey);
+			$return[$newKey] = $value;
+		}
+		return $return;
 	}
 }

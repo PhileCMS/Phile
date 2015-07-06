@@ -34,6 +34,7 @@
         "twig/twig": "1.15.*",
         "michelf/php-markdown": ">=1.4",
         "phpfastcache/phpfastcache": "~3.0",
+        "symfony/yaml": "^2.7",
         "phile-cms/plugin-installer-plugin": ">=1.0.2"
     },
     "require-dev": {
