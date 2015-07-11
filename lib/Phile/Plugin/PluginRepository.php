@@ -14,11 +14,30 @@ use Phile\Exception\PluginException;
  */
 class PluginRepository {
 
-	/** @var array of AbstractPlugin */
+	/**
+	 * @var array of AbstractPlugin
+	 */
 	protected $plugins = [];
 
-	/** @var array errors during load; keys: 'message' and 'code' */
+	/**
+	 * @var array errors during load; keys: 'message' and 'code'
+	 */
 	protected $loadErrors = [];
+
+	/**
+	 * @var string path to plugin folder for this repository
+	 */
+	protected $folder;
+
+	/**
+	 * Constructor
+	 *
+	 * @param string $folder path to plugin folder
+	 */
+	public function __construct($folder) {
+		$this->folder = $folder;
+		spl_autoload_register([$this, 'autoload']);
+	}
 
 	/**
 	 * get load errors
@@ -37,7 +56,6 @@ class PluginRepository {
 	 * @throws PluginException
 	 */
 	public function loadAll($settings) {
-		$this->reset();
 		foreach ($settings as $pluginKey => $config) {
 			if (!isset($config['active']) || !$config['active']) {
 				continue;
@@ -57,7 +75,7 @@ class PluginRepository {
 	/**
 	 * load and return single plugin
 	 *
-	 * @param $pluginKey
+	 * @param string $pluginKey
 	 * @return AbstractPlugin
 	 * @throws PluginException
 	 */
@@ -87,19 +105,11 @@ class PluginRepository {
 	}
 
 	/**
-	 * clear out repository
-	 */
-	protected function reset() {
-		$this->loadErrors = [];
-		$this->plugins = [];
-	}
-
-	/**
-	 * auto-loader plugin namespace
+	 * Auto-loader plugin namespace
 	 *
-	 * @param $className
+	 * @param string $className
 	 */
-	public static function autoload($className) {
+	public function autoload($className) {
 		if (strpos($className, "Phile\\Plugin\\") !== 0) {
 			return;
 		}
@@ -114,12 +124,9 @@ class PluginRepository {
 		);
 
 		$path = implode(DS, $classPath) . '.php';
-		foreach ([PLUGINS_DIR, PLUGINS_CORE_DIR] as $pluginDir) {
-			$fileName = $pluginDir . $path;
-			if (file_exists($fileName)) {
-				require_once $fileName;
-			}
+		$fileName = $this->folder . $path;
+		if (file_exists($fileName)) {
+			require_once $fileName;
 		}
 	}
-
 }

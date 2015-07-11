@@ -16,7 +16,7 @@ class PluginRepositoryTest extends \PHPUnit_Framework_TestCase {
 
 	public function testLoadAllSuccess() {
 		$toLoad = 'phile\testPlugin';
-		$plugins = new PluginRepository();
+		$plugins = new PluginRepository(PLUGINS_CORE_DIR);
 
 		$result = $plugins->loadAll([$toLoad => ['active' => true]]);
 		$this->assertTrue(is_array($result));
@@ -27,7 +27,7 @@ class PluginRepositoryTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testLoadAllFailure() {
-		$plugins = new PluginRepository();
+		$plugins = new PluginRepository(PLUGINS_CORE_DIR);
 
 		$plugins->loadAll(['foo\\bar' => ['active' => false]]);
 		$this->assertEquals(0, count($plugins->getLoadErrors()));
@@ -35,5 +35,4 @@ class PluginRepositoryTest extends \PHPUnit_Framework_TestCase {
 		$plugins->loadAll(['foo\\bar' => ['active' => true]]);
 		$this->assertEquals(1, count($plugins->getLoadErrors()));
 	}
-
 }

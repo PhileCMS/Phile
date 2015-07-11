@@ -30,6 +30,11 @@ class Bootstrap {
 	protected $settings;
 
 	/**
+	 * @var array keys for core plugins
+	 */
+	protected $corePlugins = [];
+
+	/**
 	 * @var array the loaded plugins
 	 */
 	protected $plugins;
@@ -101,7 +106,7 @@ class Bootstrap {
 	 * initialize the autoloader
 	 */
 	protected function initializeAutoloader() {
-		spl_autoload_extensions(".php");
+		spl_autoload_extensions('.php');
 		// load phile core
 		spl_autoload_register(function ($className) {
 			$fileName = LIB_DIR . str_replace("\\", DS, $className) . '.php';
@@ -109,8 +114,6 @@ class Bootstrap {
 				require_once $fileName;
 			}
 		});
-		// load phile plugins
-		spl_autoload_register('\Phile\Plugin\PluginRepository::autoload');
 
 		require(LIB_DIR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
 	}
@@ -121,6 +124,9 @@ class Bootstrap {
 	protected function initializeConfiguration() {
 		$defaults      = Utility::load(ROOT_DIR . 'default_config.php');
 		$localSettings = Utility::load(ROOT_DIR . 'config.php');
+
+		$this->corePlugins = array_keys($defaults['plugins']);
+
 		if (is_array($localSettings)) {
 			$this->settings = array_replace_recursive($defaults, $localSettings);
 		} else {
@@ -167,16 +173,27 @@ class Bootstrap {
 	 * @throws Exception\PluginException
 	 */
 	protected function initializePlugins() {
-		$loader = new PluginRepository();
-		if (isset($this->settings['plugins']) && is_array($this->settings['plugins'])) {
-			$this->plugins = $loader->loadAll($this->settings['plugins']);
-		}
+		$pluginsToLoad = $this->settings['plugins'];
+		$plugins = $errors = [];
 
-		Event::triggerEvent('plugins_loaded', ['plugins' => $this->plugins]);
+		$load = function ($settings, $folder) use (&$plugins, &$errors) {
+			$loader = new PluginRepository($folder);
+			$plugins += $loader->loadAll($settings);
+			$errors += $loader->getLoadErrors();
+		};
+
+		// load core plugins
+		$core = array_intersect_key($pluginsToLoad, array_flip($this->corePlugins));
+		$load($core, PLUGINS_CORE_DIR);
+
+		// load locale plugins
+		$local = array_diff_key($pluginsToLoad, $core);
+		$load($local, PLUGINS_DIR);
+
+		Event::triggerEvent('plugins_loaded', ['plugins' => $plugins]);
 
 		// throw not earlier to have the error-handler plugin loaded
 		// and initialized (by 'plugins_loaded' event)
-		$errors = $loader->getLoadErrors();
 		if (count($errors) > 0) {
 			throw new PluginException($errors[0]['message'], $errors[0]['code']);
 		}
