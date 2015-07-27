@@ -74,4 +74,13 @@ class ServiceLocator {
 
 		return self::$services[$serviceKey];
 	}
+
+	/**
+	 * Remove a service from the ServiceLocator
+	 *
+	 * @param $serviceKey
+	 */
+	public static function remove($serviceKey) {
+		unset(self::$services[$serviceKey]);
+	}
 }

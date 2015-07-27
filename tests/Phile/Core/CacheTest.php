@@ -16,6 +16,29 @@ use Phile\Test\PhileTestCase;
  */
 class CacheTest extends PhileTestCase {
 
+	public function testBasics() {
+		$this->assertNull(Cache::get('foo'));
+
+		Cache::set('foo', 'bar');
+		$this->assertEquals('bar', Cache::get('foo'));
+
+		Cache::set('baz', 'zap');
+		Cache::delete('foo');
+		$this->assertNull(Cache::get('foo'));
+		$this->assertNotNull(Cache::get('baz'));
+
+		Cache::clean();
+		$this->assertNull(Cache::get('foo'));
+	}
+
+	public function testBasicsNoCache() {
+		ServiceLocator::remove('Phile_Cache');
+		Cache::set('foo', 'bar');
+		$this->assertNull(Cache::get('foo'));
+		Cache::delete('baz');
+		Cache::clean();
+	}
+
 	public function testRemember() {
 		$cache = ServiceLocator::getService('Phile_Cache');
 
@@ -35,5 +58,4 @@ class CacheTest extends PhileTestCase {
 		$this->assertEquals('baz', $result);
 		$this->assertEquals('baz', $cache->get($key));
 	}
-
 }

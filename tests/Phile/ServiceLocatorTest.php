@@ -8,6 +8,9 @@
 
 namespace PhileTest;
 
+use Phile\Core\ServiceLocator;
+use Phile\Test\PhileTestCase;
+
 
 /**
  * the ServiceLocatorTest class
@@ -17,7 +20,16 @@ namespace PhileTest;
  * @license http://opensource.org/licenses/MIT
  * @package PhileTest
  */
-class ServiceLocatorTest extends \PHPUnit_Framework_TestCase {
+class ServiceLocatorTest extends PhileTestCase {
+
+	public function testRemove() {
+		$service = 'Phile_Cache';
+		$this->assertTrue(ServiceLocator::hasService($service));
+
+		ServiceLocator::remove('Phile_Cache');
+
+		$this->assertFalse(ServiceLocator::hasService($service));
+	}
 
 	/**
 	 *
