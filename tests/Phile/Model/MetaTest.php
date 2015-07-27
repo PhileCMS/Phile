@@ -23,6 +23,10 @@ class MetaTest extends \PHPUnit_Framework_TestCase {
 	 */
 	protected $metaTestData1 = "/*
 Title: Welcome
+Spaced Key: Should become underscored
+Nested:
+    nested a: 1
+    nested B: 2
 Description: This description will go in the meta description tag
 Date: 2014/08/01
 */
@@ -55,5 +59,15 @@ Date: 2014-08-01
 		$this->assertEquals('1st Aug 2014', $meta->getFormattedDate());
 		$meta2 = new \Phile\Model\Meta($this->metaTestData2);
 		$this->assertEquals('1st Aug 2014', $meta2->getFormattedDate());
+	}
+
+	public function testSpacedKey() {
+		$meta = new \Phile\Model\Meta($this->metaTestData1);
+		$this->assertEquals('Should become underscored', $meta->get('spaced_key'));
+	}
+
+	public function testNested() {
+		$meta = new \Phile\Model\Meta($this->metaTestData1);
+		$this->assertEquals(['nested_a' => 1, 'nested_b' => 2], $meta->get('nested'));
 	}
 }
