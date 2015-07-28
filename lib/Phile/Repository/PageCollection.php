@@ -17,14 +17,24 @@ class PageCollection implements \ArrayAccess, \IteratorAggregate, \Countable {
 	private	$loader;
 
 	/**
-	 * @var \Phile\Model\Page[] Array of loaded pages.
+	 * @var array of \Phile\Model\Page
 	 */
 	private	$pages;
 
-	public function __construct($loader) {
+	/**
+	 * Constructor.
+	 *
+	 * @param callable $loader pages loader
+	 */
+	public function __construct(callable $loader) {
 		$this->loader = $loader;
 	}
 
+	/**
+	 * Perform page loading.
+	 *
+	 * @return void
+	 */
 	private function load() {
 		if ($this->pages === null) {
 			$this->pages = call_user_func($this->loader);
