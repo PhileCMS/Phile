@@ -61,6 +61,12 @@ Date: 2014-08-01
 		$this->assertEquals('1st Aug 2014', $meta2->getFormattedDate());
 	}
 
+	public function testGetIfNotMetaDataOnPage() {
+		$meta = new \Phile\Model\Meta('…');
+		$this->assertEquals([], $meta->getAll());
+		$this->assertNull($meta->get('title'));
+	}
+
 	public function testSpacedKey() {
 		$meta = new \Phile\Model\Meta($this->metaTestData1);
 		$this->assertEquals('Should become underscored', $meta->get('spaced_key'));
