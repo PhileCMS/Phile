@@ -42,4 +42,9 @@ class PageCollectionTest extends \PHPUnit_Framework_TestCase {
 			$this->assertEquals($this->fixture[$key], $value);
 		}
 	}
+
+	public function testToArray() {
+		$result = $this->collection->toArray();
+		$this->assertEquals($this->fixture, $result);
+	}
 }

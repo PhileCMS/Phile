@@ -41,6 +41,16 @@ class PageCollection implements \ArrayAccess, \IteratorAggregate, \Countable {
 		}
 	}
 
+	/**
+	 * Get pages in a array.
+	 *
+	 * @return array of \Phile\Model\Page
+	 */
+	public function toArray() {
+		$this->load();
+		return $this->pages;
+	}
+
 	public function getIterator() {
 		$this->load();
 		return new \ArrayIterator($this->pages);
