@@ -34,17 +34,24 @@ class Meta implements MetaInterface {
 	 * parse the content and extract meta information
 	 *
 	 * @param string $rawData raw page data
-	 *
 	 * @return array with key/value store
 	 */
 	public function parse($rawData) {
 		$rawData = trim($rawData);
-		$START   = (substr($rawData, 0, 2) == '/*') ? '/*' : '<!--';
-		$END     = (substr($rawData, 0, 2) == '/*') ? '*/' : '-->';
 
-		$meta = trim(substr($rawData, strlen($START), strpos($rawData, $END) - (strlen($END) + 1)));
+		$start = substr($rawData, 0, 4);
+		if ($start === '<!--') {
+			$stop = '-->';
+		} elseif (substr($start, 0, 2) === '/*') {
+			$start = '/*';
+			$stop = '*/';
+		} else {
+			return [];
+		}
+
+		$meta = trim(substr($rawData, strlen($start), strpos($rawData, $stop) - (strlen($stop) + 1)));
 		$meta = Yaml::parse($meta);
-		$meta = $this->convertKeys($meta);
+		$meta = ($meta === null) ? [] : $this->convertKeys($meta);
 		return $meta;
 	}
 
