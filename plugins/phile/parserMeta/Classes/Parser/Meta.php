@@ -107,7 +107,6 @@ class Meta implements MetaInterface {
 			$parts = array_map('trim', $parts);
 			$meta[$parts[0]] = $parts[1];
 		}
-		$meta = $this->convertKeys($meta);
 		return $meta;
 	}
 }
