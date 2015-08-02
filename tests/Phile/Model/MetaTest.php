@@ -74,9 +74,4 @@ Date: 2014-08-01
 		$meta = new \Phile\Model\Meta($this->metaTestData1);
 		$this->assertEquals('Should become underscored', $meta->get('spaced_key'));
 	}
-
-	public function testNested() {
-		$meta = new \Phile\Model\Meta($this->metaTestData1);
-		$this->assertEquals(['nested_a' => 1, 'nested_b' => 2], $meta->get('nested'));
-	}
 }

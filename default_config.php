@@ -75,7 +75,19 @@ $config['plugins'] = [
 	/**
 	 * meta-tag parser
 	 */
-	'phile\\parserMeta' => ['active' => true],
+	'phile\\parserMeta' => [
+		'active' => true,
+		/**
+		 * Set meta-data format.
+		 *
+		 * - 'Phile' (default) Phile legacy format
+		 * - 'YAML' YAML
+		 *
+		 * Phile is going to switch to YAML for parsing meta tags. But if you
+		 * want to use YAML today you can change the format here.
+		 */
+		 'format' => 'Phile'
+	],
 	/**
 	 * template engine
 	 */
