@@ -50,7 +50,11 @@ class Meta implements MetaInterface {
 		}
 
 		$meta = trim(substr($rawData, strlen($start), strpos($rawData, $stop) - (strlen($stop) + 1)));
-		$meta = Yaml::parse($meta);
+		if (strtolower($this->config['format']) === 'yaml') {
+			$meta = Yaml::parse($meta);
+		} else {
+			$meta = $this->parsePhileFormat($meta);
+		}
 		$meta = ($meta === null) ? [] : $this->convertKeys($meta);
 		return $meta;
 	}
@@ -79,5 +83,30 @@ class Meta implements MetaInterface {
 			$return[$newKey] = $value;
 		}
 		return $return;
+	}
+
+	/**
+	 * Phile meta format parser.
+	 *
+	 * @param string $string unparsed meta-data
+	 * @return array|null array with meta-tags; null: on meta-data found
+	 *
+	 * @deprecated since 1.6.0 Phile is going to switch to YAML
+	 */
+	protected function parsePhileFormat($string) {
+		if (empty($string)) {
+			return null;
+		}
+		$meta = [];
+		$lines = explode("\n", $string);
+		foreach ($lines as $line) {
+			$parts = explode(':', $line, 2);
+			if (count($parts) !== 2) {
+				continue;
+			}
+			$parts = array_map('trim', $parts);
+			$meta[$parts[0]] = $parts[1];
+		}
+		return $meta;
 	}
 }
