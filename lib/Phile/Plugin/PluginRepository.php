@@ -13,6 +13,10 @@ use Phile\Exception\PluginException;
  * @package Phile\Core
  */
 class PluginRepository {
+	/**
+	 * @var array registered plugin folders
+	 */
+	protected static $pluginFolders = [];
 
 	/**
 	 * @var array of AbstractPlugin
@@ -25,18 +29,12 @@ class PluginRepository {
 	protected $loadErrors = [];
 
 	/**
-	 * @var string path to plugin folder for this repository
-	 */
-	protected $folder;
-
-	/**
 	 * Constructor
 	 *
 	 * @param string $folder path to plugin folder
 	 */
 	public function __construct($folder) {
-		$this->folder = $folder;
-		spl_autoload_register([$this, 'autoload']);
+		static::registerAutoloader($folder);
 	}
 
 	/**
@@ -105,11 +103,25 @@ class PluginRepository {
 	}
 
 	/**
+	 * Register a plugin folder for auto-loading
+	 *
+	 * @param string $folder path to plugin folder
+	 * @return void
+	 */
+	public static function registerAutoloader($folder) {
+		if (empty(static::$pluginFolders)) {
+			spl_autoload_register(__NAMESPACE__ . '\PluginRepository::autoload');
+		}
+		static::$pluginFolders[$folder] = $folder;
+	}
+
+	/**
 	 * Auto-loader plugin namespace
 	 *
-	 * @param string $className
+	 * @param string $className class to load
+	 * @return void
 	 */
-	public function autoload($className) {
+	public static function autoload($className) {
 		if (strpos($className, "Phile\\Plugin\\") !== 0) {
 			return;
 		}
@@ -124,9 +136,12 @@ class PluginRepository {
 		);
 
 		$path = implode(DS, $classPath) . '.php';
-		$fileName = $this->folder . $path;
-		if (file_exists($fileName)) {
-			require_once $fileName;
+		foreach (static::$pluginFolders as $folder) {
+			$fileName = $folder . $path;
+			if (file_exists($fileName)) {
+				require_once $fileName;
+				return;
+			}
 		}
 	}
 }
