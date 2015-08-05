@@ -17,6 +17,7 @@ namespace Phile\Exception;
  *
  * @package Phile\Exception
  */
-class AbstractException extends \Exception {
+class AbstractException extends \Exception
+{
 
-} 
+}
