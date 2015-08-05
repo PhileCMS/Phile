@@ -17,20 +17,23 @@ use Phile\Plugin\Phile\ParserMeta\Parser\Meta;
  * @license http://opensource.org/licenses/MIT
  * @package Phile\Plugin\Phile\ParserMeta
  */
-class Plugin extends AbstractPlugin {
+class Plugin extends AbstractPlugin
+{
 
-	protected $events = ['plugins_loaded' => 'onPluginsLoaded'];
+    protected $events = ['plugins_loaded' => 'onPluginsLoaded'];
 
-	/**
-	 * onPluginsLoaded method
-	 *
-	 * @param null   $data
-	 *
-	 * @return mixed|void
-	 */
-	public function onPluginsLoaded($data = null) {
-		ServiceLocator::registerService('Phile_Parser_Meta',
-			new Meta($this->settings));
-	}
-
+    /**
+     * onPluginsLoaded method
+     *
+     * @param null $data
+     *
+     * @return mixed|void
+     */
+    public function onPluginsLoaded($data = null)
+    {
+        ServiceLocator::registerService(
+            'Phile_Parser_Meta',
+            new Meta($this->settings)
+        );
+    }
 }

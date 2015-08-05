@@ -7,10 +7,15 @@ language: php
 php:
 - 5.4
 - 5.5
-- 5.6
+
+env:
+  global:
+    - PHPCS=0
 
 matrix:
   include:
+    - php: 5.6
+      env: PHPCS=1
     - php: hhvm
       env: HHVM=1
 
@@ -33,6 +38,8 @@ before_script:
   - sh -c "if [ '$HHVM' = '1' ]; then echo 'session.gc_probability = 0' >> /etc/hhvm/php.ini; fi"
   - composer selfupdate --quiet
   - composer install -n --prefer-source --no-dev
+
+  - sh -c "if [ '$PHPCS' = '1' ]; then composer install --prefer-dist --no-interaction; fi"
 script:
 - |
   echo;
@@ -45,3 +52,4 @@ script:
       exit 99;
     fi
   "
+- sh -c "if [ '$PHPCS' = '1' ]; then lib/vendor/bin/phpcs --standard=PSR2 -p --extensions=php --ignore=lib/vendor/ lib/ plugins/phile/; fi"

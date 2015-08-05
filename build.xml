@@ -140,6 +140,9 @@
         <echo msg="Command run: '${tests.all}' (using phpunit.xml configuration file)"/>
         <echo msg="Running PHPUnit test cases…"/>
         <exec command="${tests.all}" logoutput="true" />
+        <echo msg="Checking PSR-2…"/>
+        <property name="tests.formatting" value="lib/vendor/bin/phpcs --standard=PSR2 -p --extensions=php --ignore=lib/vendor/ lib/ plugins/phile/"/>
+        <exec command="${tests.formatting}" logoutput="true" />
     </target>
 
 </project>
