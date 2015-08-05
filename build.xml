@@ -64,10 +64,13 @@
         <include name="plugins/**"/>
         <include name="themes/**"/>
 
-        <!-- ## Excludes for package ## -->
+        <!-- ## Vendor excludes to thin down release package ## -->
+        <exclude name="lib/vendor/**/test/**"/>
+        <exclude name="lib/vendor/**/Tests/**"/>
+        <exclude name="lib/vendor/phpfastcache/**/*predis*/**"/>
         <exclude name="lib/vendor/twig/twig/doc/**"/>
         <exclude name="lib/vendor/twig/twig/ext/**"/>
-        <exclude name="lib/vendor/twig/twig/test/**"/>
+
     </fileset>
 
     <target name="clean-build-dir">
