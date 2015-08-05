@@ -1,9 +1,12 @@
 # Changelog
 
+## Release 1.6.0
+
+Please see the [release notes](https://github.com/PhileCMS/Phile/releases/tag/1.6.0) or the [complete change-log](https://github.com/PhileCMS/Phile/compare/1.5.2..1.6.0) for more information.
+
 ## Release v1.5.2
 
 Please see the [release notes](https://github.com/PhileCMS/Phile/releases/tag/1.5.2) or the [complete change-log](https://github.com/PhileCMS/Phile/compare/1.5.1..1.5.2) for more information.
-
 
 ## Release v1.5.1
 

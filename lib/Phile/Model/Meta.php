@@ -58,11 +58,14 @@ class Meta extends AbstractModel {
 	 */
 	public function getFormattedDate() {
 		$config = Registry::get('Phile_Settings');
-		if (isset($this->data['date'])) {
-			return date($config['date_format'], strtotime($this->data['date']));
+		if (!isset($this->data['date'])) {
+			return null;
 		}
-
-		return null;
+		$date = $this->data['date'];
+		if (!is_numeric($date)) {
+			$date = strtotime($date);
+		}
+		return date($config['date_format'], $date);
 	}
 
 	/**

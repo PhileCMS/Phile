@@ -206,7 +206,7 @@ class Bootstrap {
 	/**
 	 * method to get plugins
 	 * @return array
-	 * @deprecated since 1.5 will be removed in 1.6
+	 * @deprecated since 1.5 will be removed
 	 * @use 'plugins_loaded' event
 	 */
 	public function getPlugins() {
