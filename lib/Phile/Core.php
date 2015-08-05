@@ -121,7 +121,9 @@ class Core {
 	protected function initializeErrorHandling() {
 		if (ServiceLocator::hasService('Phile_ErrorHandler')) {
 			$errorHandler = ServiceLocator::getService('Phile_ErrorHandler');
-			set_error_handler(array($errorHandler, 'handleError'));
+			set_error_handler([$errorHandler, 'handleError']);
+			register_shutdown_function([$errorHandler, 'handleShutdown']);
+			ini_set('display_errors', $this->settings['display_errors']);
 		}
 	}
 
@@ -138,16 +140,8 @@ class Core {
 			Registry::set('templateVars', []);
 		}
 
-		if (!isset($this->settings['encryptionKey']) || strlen($this->settings['encryptionKey']) == 0) {
-			if ($this->router->getCurrentUrl() !== 'setup') {
-				$this->response->redirect($this->router->url('setup'));
-				return;
-			}
-		} else {
-			if (is_file(CONTENT_DIR . 'setup.md')) {
-				unlink(CONTENT_DIR . 'setup.md');
-			}
-		}
+		Event::triggerEvent('setup_check');
+
 		/**
 		 * @triggerEvent after_setup_check this event is triggered after the setup check
 		 */

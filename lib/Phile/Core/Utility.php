@@ -18,7 +18,7 @@ class Utility {
 	 * method to get the current http protocol
 	 *
 	 * @return string the current protocol
-	 * @deprecated since 1.5 will be removed 1.6
+	 * @deprecated since 1.5 will be removed
 	 */
 	public static function getProtocol() {
 		return (new Router)->getProtocol();
@@ -28,7 +28,7 @@ class Utility {
 	 * detect base url
 	 *
 	 * @return string
-	 * @deprecated since 1.5 will be removed 1.6
+	 * @deprecated since 1.5 will be removed
 	 */
 	public static function getBaseUrl() {
 		return (new Router)->getBaseUrl();
@@ -38,7 +38,7 @@ class Utility {
 	 * detect install path
 	 *
 	 * @return string
-	 * @deprecated since 1.5 will be removed 1.6
+	 * @deprecated since 1.5 will be removed
 	 */
 	public static function getInstallPath() {
 		$path = self::getBaseUrl();
@@ -88,7 +88,7 @@ class Utility {
 	 *
 	 * @param $plugin
 	 * @return bool
-	 * @deprecated since 1.5 will be removed in 1.6
+	 * @deprecated since 1.5 will be removed
 	 * @use 'plugins_loaded' event
 	 */
 	public static function isPluginLoaded($plugin) {
@@ -127,7 +127,7 @@ class Utility {
 	 *
 	 * @param     $url        the url to redirect to
 	 * @param int $statusCode the http status code
-	 * @deprecated since 1.5 will be removed 1.6
+	 * @deprecated since 1.5 will be removed
 	 */
 	public static function redirect($url, $statusCode = 302) {
 		(new Response)->redirect($url, $statusCode);
