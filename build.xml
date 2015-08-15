@@ -6,14 +6,17 @@
     <property name="dirs.git" value="${dirs.build}/Phile"/>
     <property name="git.url" value="https://github.com/PhileCMS/Phile.git"/>
 
+    <taskdef name="createDummyContent" classname="lib.Phile.Task.PageGeneratorTask"/>
+
     <!-- ## menu ## -->
     <target name="menu">
         <echo msg="1) build distribution zip"/>
         <echo msg="2) build phpdoc"/>
         <echo msg="3) run test suite"/>
+        <echo msg="4) create dummy content"/>
         <echo msg="x) exit"/>
 
-        <input message="Choose" propertyName="choice" validArgs="1,2,3,x"/>
+        <input message="Choose" propertyName="choice" validArgs="1,2,3,4,x"/>
 
         <if>
             <equals arg1="${choice}" arg2="1"/>
@@ -32,6 +35,13 @@
                 <equals arg1="${choice}" arg2="3"/>
                 <then>
                     <phingcall target="tests"/>
+                </then>
+            </elseif>
+
+            <elseif>
+                <equals arg1="${choice}" arg2="4"/>
+                <then>
+                    <phingcall target="dummyContent"/>
                 </then>
             </elseif>
 
@@ -140,6 +150,14 @@
         <echo msg="Command run: '${tests.all}' (using phpunit.xml configuration file)"/>
         <echo msg="Running PHPUnit test cases…"/>
         <exec command="${tests.all}" logoutput="true" />
+    </target>
+
+    <!-- ## dummy content ## -->
+    <target name="dummyContent">
+        <input propertyName="max" defaultValue="10" message="How many pages to create?"/>
+        <input propertyName="root" defaultValue="sub/" message="Content folder?"/>
+        <echo msg="Creating dummy content…"/>
+        <createDummyContent max="${max}" root="${root}"/>
     </target>
 
 </project>
