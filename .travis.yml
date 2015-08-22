@@ -52,4 +52,4 @@ script:
       exit 99;
     fi
   "
-- sh -c "if [ '$PHPCS' = '1' ]; then lib/vendor/bin/phpcs --standard=PSR2 -p --extensions=php --ignore=lib/vendor/ lib/ plugins/phile/; fi"
+- sh -c "if [ '$PHPCS' = '1' ]; then lib/vendor/bin/phpcs --standard=PSR2 -p --extensions=php --ignore=lib/vendor/ lib/ plugins/phile/ .; fi"
