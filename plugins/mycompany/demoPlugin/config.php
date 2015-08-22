@@ -3,5 +3,5 @@
  * config file
  */
 return [
-	'setting-example' => 'I love Phile!'
+    'setting-example' => 'I love Phile!'
 ];

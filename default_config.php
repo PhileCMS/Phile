@@ -57,49 +57,49 @@ $config['display_errors'] = 0;
  * include core plugins
  */
 $config['plugins'] = [
-	/**
-	 * error handler
-	 */
-	'phile\\errorHandler' => [
-		'active' => true,
-		'handler' => \Phile\Plugin\Phile\ErrorHandler\Plugin::HANDLER_DEVELOPMENT
-	],
-	/**
-	 * setup check
-	 */
-	'phile\\setupCheck' => ['active' => true],
-	/**
-	 * parser
-	 */
-	'phile\\parserMarkdown' => ['active' => true],
-	/**
-	 * meta-tag parser
-	 */
-	'phile\\parserMeta' => [
-		'active' => true,
-		/**
-		 * Set meta-data format.
-		 *
-		 * - 'Phile' (default) Phile legacy format
-		 * - 'YAML' YAML
-		 *
-		 * Phile is going to switch to YAML for parsing meta tags. But if you
-		 * want to use YAML today you can change the format here.
-		 */
-		 'format' => 'Phile'
-	],
-	/**
-	 * template engine
-	 */
-	'phile\\templateTwig' => ['active' => true],
-	/**
-	 * cache engine
-	 */
-	'phile\\phpFastCache' => ['active' => true],
-	/**
-	 * persistent data storage
-	 */
-	'phile\\simpleFileDataPersistence' => ['active' => true],
+    /**
+     * error handler
+     */
+    'phile\\errorHandler' => [
+        'active' => true,
+        'handler' => \Phile\Plugin\Phile\ErrorHandler\Plugin::HANDLER_DEVELOPMENT
+    ],
+    /**
+     * setup check
+     */
+    'phile\\setupCheck' => ['active' => true],
+    /**
+     * parser
+     */
+    'phile\\parserMarkdown' => ['active' => true],
+    /**
+     * meta-tag parser
+     */
+    'phile\\parserMeta' => [
+        'active' => true,
+        /**
+         * Set meta-data format.
+         *
+         * - 'Phile' (default) Phile legacy format
+         * - 'YAML' YAML
+         *
+         * Phile is going to switch to YAML for parsing meta tags. But if you
+         * want to use YAML today you can change the format here.
+         */
+        'format' => 'Phile'
+    ],
+    /**
+     * template engine
+     */
+    'phile\\templateTwig' => ['active' => true],
+    /**
+     * cache engine
+     */
+    'phile\\phpFastCache' => ['active' => true],
+    /**
+     * persistent data storage
+     */
+    'phile\\simpleFileDataPersistence' => ['active' => true],
 ];
 
 return $config;

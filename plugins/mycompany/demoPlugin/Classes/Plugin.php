@@ -26,39 +26,42 @@ use Phile\Core\Utility;
  * @author  PhileCMS
  * @license http://opensource.org/licenses/MIT
  */
-class Plugin extends \Phile\Plugin\AbstractPlugin {
+class Plugin extends \Phile\Plugin\AbstractPlugin
+{
+    /**
+     * subscribe to Phile events with methods of this class
+     *
+     * In this example we subscribe to "before_parse_content" and
+     * "outputPluginSettings" will be called.
+     */
+    protected $events = ['before_parse_content' => 'outputPluginSettings'];
 
-	/**
-	 * subscribe to Phile events with methods of this class
-	 *
-	 * In this example we subscribe to "before_parse_content" and
-	 * "outputPluginSettings" will be called.
-	 */
-	protected $events = ['before_parse_content' => 'outputPluginSettings'];
+    /**
+     * the method we assigned to the 'before_parse_content' event
+     *
+     * in this example we output this plugins' settings on the top of every
+     * page
+     *
+     * @param null|array $data depends on the particular event (see Phile's
+     *     event docs)
+     */
+    public function outputPluginSettings($data = null)
+    {
+        // you can access this plugins' config in $this->settings
+        $settings = $this->settings;
 
-	/**
-	 * the method we assigned to the 'before_parse_content' event
-	 *
-	 * in this example we output this plugins' settings on the top of every page
-	 *
-	 * @param null|array $data depends on the particular event (see Phile's event docs)
-	 */
-	public function outputPluginSettings($data = null) {
-		// you can access this plugins' config in $this->settings
-		$settings = $this->settings;
+        $content = $data['content'];
+        $content = $this->printPhpAsMarkdown($settings) . $content;
 
-		$content =  $data['content'];
-		$content = $this->printPhpAsMarkdown($settings) . $content;
+        $page = $data['page'];
+        $page->setContent($content);
+    }
 
-		$page = $data['page'];
-		$page->setContent($content);
-	}
-
-	/**
-	 * plugin helper method for printing PHP as markdown code
-	 */
-	protected function printPhpAsMarkdown($input) {
-		return "\n```php\n" . trim(print_r($input, true), "\n") . "\n```\n";
-	}
-
+    /**
+     * plugin helper method for printing PHP as markdown code
+     */
+    protected function printPhpAsMarkdown($input)
+    {
+        return "\n```php\n" . trim(print_r($input, true), "\n") . "\n```\n";
+    }
 }
