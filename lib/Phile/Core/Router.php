@@ -52,7 +52,7 @@ class Router {
 		}
 		$url = ltrim($url, '/');
 
-		$url = urldecode($url);
+		$url = rawurldecode($url);
 
 		return $url;
 	}
