@@ -92,6 +92,14 @@ class RouterTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * test that + is not decoded to space
+	 */
+	public function testPlusNotSpace() {
+		$router = new Router(['REQUEST_URI' => '/foo+bar/foobar']);
+		$this->assertEquals('foo+bar/foobar', $router->getCurrentUrl());
+	}
+
+	/**
 	 * test that base-URL is removed
 	 */
 	public function testGetUrlRemoveUrlPath() {
