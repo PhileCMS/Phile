@@ -8,7 +8,6 @@
 
 namespace PhileTest\Model;
 
-
 /**
  * the MetaTest class
  *
@@ -17,11 +16,12 @@ namespace PhileTest\Model;
  * @license http://opensource.org/licenses/MIT
  * @package PhileTest
  */
-class MetaTest extends \PHPUnit_Framework_TestCase {
-	/**
-	 * @var string meta data test string
-	 */
-	protected $metaTestData1 = "/*
+class MetaTest extends \PHPUnit_Framework_TestCase
+{
+    /**
+     * @var string meta data test string
+     */
+    protected $metaTestData1 = "/*
 Title: Welcome
 Spaced Key: Should become underscored
 Nested:
@@ -32,46 +32,59 @@ Date: 2014/08/01
 */
 ";
 
-	/**
-	 * @var string meta data test string
-	 */
-	protected $metaTestData2 = "<!--
+    /**
+     * @var string meta data test string
+     */
+    protected $metaTestData2 = "<!--
 Title: Welcome
 Description: This description will go in the meta description tag
 Date: 2014-08-01
 -->
 ";
 
-	/**
-	 *
-	 */
-	public function testCanGetMetaProperty() {
-		$meta = new \Phile\Model\Meta($this->metaTestData1);
-		$this->assertEquals('Welcome', $meta->get('title'));
-		$this->assertEquals('This description will go in the meta description tag', $meta->get('description'));
-		$meta2 = new \Phile\Model\Meta($this->metaTestData2);
-		$this->assertEquals('Welcome', $meta2->get('title'));
-		$this->assertEquals('This description will go in the meta description tag', $meta2->get('description'));
-	}
+    /**
+     *
+     */
+    public function testCanGetMetaProperty()
+    {
+        $meta = new \Phile\Model\Meta($this->metaTestData1);
+        $this->assertEquals('Welcome', $meta->get('title'));
+        $this->assertEquals(
+            'This description will go in the meta description tag',
+            $meta->get('description')
+        );
+        $meta2 = new \Phile\Model\Meta($this->metaTestData2);
+        $this->assertEquals('Welcome', $meta2->get('title'));
+        $this->assertEquals(
+            'This description will go in the meta description tag',
+            $meta2->get('description')
+        );
+    }
 
-	public function testCanGetFormatedDate() {
-		$meta = new \Phile\Model\Meta($this->metaTestData1);
-		$this->assertEquals('1st Aug 2014', $meta->getFormattedDate());
-		$meta2 = new \Phile\Model\Meta($this->metaTestData2);
-		$this->assertEquals('1st Aug 2014', $meta2->getFormattedDate());
-	}
+    public function testCanGetFormatedDate()
+    {
+        $meta = new \Phile\Model\Meta($this->metaTestData1);
+        $this->assertEquals('1st Aug 2014', $meta->getFormattedDate());
+        $meta2 = new \Phile\Model\Meta($this->metaTestData2);
+        $this->assertEquals('1st Aug 2014', $meta2->getFormattedDate());
+    }
 
-	public function testGetIfNoMetaDataOnPage() {
-		$meta = new \Phile\Model\Meta("Welcome\n…");
-		$this->assertEquals([], $meta->getAll());
-		$this->assertNull($meta->get('title'));
+    public function testGetIfNoMetaDataOnPage()
+    {
+        $meta = new \Phile\Model\Meta("Welcome\n…");
+        $this->assertEquals([], $meta->getAll());
+        $this->assertNull($meta->get('title'));
 
-		$meta = new \Phile\Model\Meta("/*\n*/\nWelcome\n…");
-		$this->assertEquals([], $meta->getAll());
-	}
+        $meta = new \Phile\Model\Meta("/*\n*/\nWelcome\n…");
+        $this->assertEquals([], $meta->getAll());
+    }
 
-	public function testSpacedKey() {
-		$meta = new \Phile\Model\Meta($this->metaTestData1);
-		$this->assertEquals('Should become underscored', $meta->get('spaced_key'));
-	}
+    public function testSpacedKey()
+    {
+        $meta = new \Phile\Model\Meta($this->metaTestData1);
+        $this->assertEquals(
+            'Should become underscored',
+            $meta->get('spaced_key')
+        );
+    }
 }
