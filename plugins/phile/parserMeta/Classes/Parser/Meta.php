@@ -45,7 +45,7 @@ class Meta implements MetaInterface
         $rawData = trim($rawData);
         $fences = $this->config['fences'];
 
-        $stop = null;
+        $start = $stop = null;
         foreach ($fences as $fence) {
             $start = $fence['open'];
             $length = strlen($start);
