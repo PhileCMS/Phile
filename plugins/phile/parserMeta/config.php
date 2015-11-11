@@ -9,6 +9,7 @@ return [
     'fences' =>
         [
             'c' => ['open' => '/*', 'close' => '*/'],
-            'html' => ['open' => '<!--', 'close' => '-->']
+            'html' => ['open' => '<!--', 'close' => '-->'],
+            'yaml' => ['open' => '---', 'close' => '---']
         ]
 ];
