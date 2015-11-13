@@ -14,7 +14,7 @@ use Phile\FilterIterator\ContentFileFilterIterator;
 class ContentFileIteratorTest extends \PHPUnit_Framework_TestCase {
 
 	public function testContentFileFilterIterator() {
-		$folder = PLUGINS_DIR . 'phile/testPlugin/content';
+		$folder = PLUGINS_CORE_DIR . 'phile/testPlugin/content';
 		$files = new ContentFileFilterIterator(new \DirectoryIterator($folder));
 		$result = [];
 		foreach ($files as $file) {

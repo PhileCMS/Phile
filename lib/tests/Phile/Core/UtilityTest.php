@@ -15,7 +15,7 @@ use Phile\Core\Utility;
 class UtilityTest extends \PHPUnit_Framework_TestCase {
 
 	public function testGetFiles() {
-		$folder = PLUGINS_DIR . 'phile/testPlugin/content/';
+		$folder = PLUGINS_CORE_DIR . 'phile/testPlugin/content/';
 
 		$sub = $folder . 'sub/';
 		$symlink = $folder . 'symlink';
