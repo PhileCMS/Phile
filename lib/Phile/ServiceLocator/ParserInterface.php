@@ -11,13 +11,14 @@ namespace Phile\ServiceLocator;
  * @license http://opensource.org/licenses/MIT
  * @package Phile\ServiceLocator
  */
-interface ParserInterface {
-	/**
-	 * parse data
-	 *
-	 * @param $data
-	 *
-	 * @return mixed
-	 */
-	public function parse($data);
+interface ParserInterface
+{
+    /**
+     * parse data
+     *
+     * @param $data
+     *
+     * @return mixed
+     */
+    public function parse($data);
 }
