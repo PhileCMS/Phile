@@ -4,5 +4,5 @@
  */
 
 return array(
-	'handler' 			=> \Phile\Plugin\Phile\ErrorHandler\Plugin::HANDLER_ERROR_LOG
+    'handler'             => \Phile\Plugin\Phile\ErrorHandler\Plugin::HANDLER_ERROR_LOG
 );

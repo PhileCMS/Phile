@@ -1,22 +1,14 @@
 # EditorConfig is awesome: http://EditorConfig.org
 
-# top-most EditorConfig file
 root = true
-charset = utf-8
-# Get rid of whitespace to avoid diffs with a bunch of EOL changes
-trim_trailing_whitespace = true
 
-# Unix-style newlines with a newline ending every file
 [*]
+charset = utf-8
 end_of_line = lf
+indent_style = space
+indent_size = 2
+trim_trailing_whitespace = true
 insert_final_newline = true
 
-# Tab indentation
-[*.js]
-indent_style = tab
-indent_size = 4
-
-# Indentation for PHP files
 [*.php]
-indent_style = tab
 indent_size = 4

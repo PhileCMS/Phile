@@ -40,6 +40,7 @@
     "require-dev": {
         "phpdocumentor/phpdocumentor": "2.6.*",
         "phing/phing": "2.*",
-        "phpunit/phpunit": "*"
+        "phpunit/phpunit": "*",
+        "squizlabs/php_codesniffer": "^2.3"
     }
 }
