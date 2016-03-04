@@ -1,4 +1,5 @@
 build.xml export-ignore
+/CONTRIBUTING.md export-ignore
 Icon.png export-ignore
 phing export-ignore
 tests/ export-ignore
