@@ -43,14 +43,19 @@ class Meta implements MetaInterface
     public function parse($rawData)
     {
         $rawData = trim($rawData);
+        $fences = $this->config['fences'];
 
-        $start = substr($rawData, 0, 4);
-        if ($start === '<!--') {
-            $stop = '-->';
-        } elseif (substr($start, 0, 2) === '/*') {
-            $start = '/*';
-            $stop = '*/';
-        } else {
+        $start = $stop = null;
+        foreach ($fences as $fence) {
+            $start = $fence['open'];
+            $length = strlen($start);
+            if (substr($rawData, 0, $length) === $start) {
+                $stop = $fence['close'];
+                break;
+            }
+        }
+
+        if ($stop === null) {
             return [];
         }
 

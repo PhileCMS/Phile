@@ -43,6 +43,14 @@ Date: 2014-08-01
 ";
 
     /**
+     * @var string meta data in YAML front matter format
+     */
+    protected $metaTestData3 = "---
+Title: Welcome
+---
+";
+
+    /**
      *
      */
     public function testCanGetMetaProperty()
@@ -86,5 +94,11 @@ Date: 2014-08-01
             'Should become underscored',
             $meta->get('spaced_key')
         );
+    }
+
+    public function testYamlFrontMatterFormat()
+    {
+        $meta = new \Phile\Model\Meta($this->metaTestData3);
+        $this->assertEquals('Welcome', $meta['title']);
     }
 }
