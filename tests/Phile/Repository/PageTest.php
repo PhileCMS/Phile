@@ -81,15 +81,39 @@ class PageTest extends \PHPUnit_Framework_TestCase
     /**
      *
      */
-    public function testCanFindAllPagesOrderdByTitle()
+    public function testOrderingFindByMeta()
     {
-        // @TODO: maybe find a better way to check the correct order
-        $titles = ["Sub Page", "Sub Page Index", "Welcome"];
-        $pages = $this->pageRepository->findAll(
-            ['pages_order' => 'meta:title']
+        // setup
+        $titles = ['Sub Page', 'Sub Page Index', 'Welcome'];
+        $test = function ($titles, $order) {
+            $options = ['pages_order' => $order];
+            $pages = $this->pageRepository->findAll($options);
+            for ($i = 0; $i < count($pages); $i++) {
+                $this->assertEquals($pages[$i]->getTitle(), $titles[$i]);
+            }
+        };
+
+        // test ascending as default
+        $order = 'meta.title';
+        $test($titles, $order);
+
+        // test descending
+        $order = 'meta.title:desc';
+        $titles = array_reverse($titles);
+        $test($titles, $order);
+    }
+
+    /**
+     *
+     */
+    public function testOrderingInvalidSearchType()
+    {
+        $this->setExpectedException(
+            'PHPUnit_Framework_Error_Warning',
+            'Page order \'meta:title\' was ignored. Type \'\' not recognized.'
         );
-        for ($i = 0; $i < count($pages); $i++) {
-            $this->assertEquals($pages[$i]->getTitle(), $titles[$i]);
-        }
+        $this->pageRepository
+            ->findAll(['pages_order' => 'meta:title'])
+            ->toArray();
     }
 }
