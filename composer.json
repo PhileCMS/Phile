@@ -1,6 +1,5 @@
 {
     "name": "phile-cms/phile",
-    "version": "1.6.0",
     "type": "project",
     "description": "A file-based CMS with a swappable parser, template engine, cache and storage services, error handler, and meta parser.",
     "keywords": ["cms", "markdown", "flat", "file", "twig", "plugins"],
@@ -10,7 +9,7 @@
         {
             "name": "Frank Nägler",
             "email": "mail@naegler.net",
-            "homepage": "http://www.frank-naegler.de",
+            "homepage": "https://naegler.hamburg",
             "role": "Developer"
         },
         {
@@ -31,15 +30,15 @@
     },
     "require": {
         "php": ">=5.4.0",
-        "twig/twig": "1.15.*",
+        "twig/twig": "^1.15.0",
         "michelf/php-markdown": ">=1.4",
         "phpfastcache/phpfastcache": "~3.0",
         "symfony/yaml": "^2.7",
-        "phile-cms/plugin-installer-plugin": ">=1.0.2"
+        "phile-cms/plugin-installer-plugin": "^1.0"
     },
     "require-dev": {
-        "phpdocumentor/phpdocumentor": "2.6.*",
-        "phing/phing": "2.*",
-        "phpunit/phpunit": "*"
+        "phpdocumentor/phpdocumentor": "^2.8",
+        "phing/phing": "^2.14",
+        "phpunit/phpunit": "^5.2"
     }
 }
