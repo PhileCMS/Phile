@@ -8,7 +8,6 @@
 
 namespace PhileTest;
 
-
 /**
  * the RegistryTest class
  *
@@ -17,49 +16,64 @@ namespace PhileTest;
  * @license http://opensource.org/licenses/MIT
  * @package PhileTest
  */
-class RegistryTest extends \PHPUnit_Framework_TestCase {
-	/**
-	 * @var \Phile\Core\Registry
-	 */
-	protected $registry;
+class RegistryTest extends \PHPUnit_Framework_TestCase
+{
+    /**
+     * @var \Phile\Core\Registry
+     */
+    protected $registry;
 
-	/**
-	 *
-	 */
-	protected function setUp() {
-		parent::setUp();
-		$this->registry = \Phile\Core\Registry::getInstance();
-	}
+    /**
+     *
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->registry = \Phile\Core\Registry::getInstance();
+    }
 
-	/**
-	 *
-	 */
-	public function testValueCanSetToRegistry() {
-		$this->registry->set('test', 'testvalue');
-		$this->assertEquals('testvalue', $this->registry->get('test'));
-	}
+    /**
+     *
+     */
+    public function testValueCanSetToRegistry()
+    {
+        $this->registry->set('test', 'testvalue');
+        $this->assertEquals('testvalue', $this->registry->get('test'));
+    }
 
-	/**
-	 *
-	 */
-	public function testGettingInstance() {
-		$this->registry = \Phile\Core\Registry::getInstance();
-		$this->assertInstanceOf('\Phile\Core\Registry', $this->registry);
-	}
+    /**
+     *
+     */
+    public function testGettingInstance()
+    {
+        $this->registry = \Phile\Core\Registry::getInstance();
+        $this->assertInstanceOf('\Phile\Core\Registry', $this->registry);
+    }
 
-	/**
-	 *
-	 */
-	public function testValueIsRegistered() {
-		$this->registry->set('testValueIsRegistered', 'testValueIsRegistered');
-		$this->assertEquals(true, $this->registry->isRegistered('testValueIsRegistered'));
-	}
+    /**
+     *
+     */
+    public function testValueIsRegistered()
+    {
+        $this->registry->set('testValueIsRegistered', 'testValueIsRegistered');
+        $this->assertEquals(
+            true,
+            $this->registry->isRegistered(
+                'testValueIsRegistered'
+            )
+        );
+    }
 
-	/**
-	 *
-	 */
-	public function testValueIsNotRegistered() {
-		$this->assertEquals(false, $this->registry->isRegistered('testValueIsNotRegistered'));
-	}
+    /**
+     *
+     */
+    public function testValueIsNotRegistered()
+    {
+        $this->assertEquals(
+            false,
+            $this->registry->isRegistered(
+                'testValueIsNotRegistered'
+            )
+        );
+    }
 }
- 

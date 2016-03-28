@@ -7,8 +7,6 @@
  */
 
 namespace PhileTest\Repository;
-use Phile\Model\Page;
-
 
 /**
  * the PageTest class
@@ -18,70 +16,104 @@ use Phile\Model\Page;
  * @license http://opensource.org/licenses/MIT
  * @package PhileTest
  */
-class PageTest extends \PHPUnit_Framework_TestCase {
-	/**
-	 * @var \Phile\Repository\Page
-	 */
-	protected $pageRepository = null;
+class PageTest extends \PHPUnit_Framework_TestCase
+{
+    /**
+     * @var \Phile\Repository\Page
+     */
+    protected $pageRepository = null;
 
-	/**
-	 *
-	 */
-	protected function setUp() {
-		parent::setUp();
-		$this->pageRepository = new \Phile\Repository\Page();
-	}
+    /**
+     *
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->pageRepository = new \Phile\Repository\Page();
+    }
 
-	/**
-	 *
-	 */
-	public function testFindByPathSuccess() {
-		$DS = DIRECTORY_SEPARATOR;
+    /**
+     *
+     */
+    public function testFindByPathSuccess()
+    {
+        $DS = DIRECTORY_SEPARATOR;
 
-		// official page-Id format
-		$tests = [
-			'' => 'index.md',
-			'index' => 'index.md',
-			'sub/' => 'sub' . $DS . 'index.md',
-			'sub/page' => 'sub' . $DS . 'page.md',
-		];
+        // official page-Id format
+        $tests = [
+            '' => 'index.md',
+            'index' => 'index.md',
+            'sub/' => 'sub' . $DS . 'index.md',
+            'sub/page' => 'sub' . $DS . 'page.md',
+        ];
 
-		// accept (leading) slashes for backwards compatibility
-		$tests += [
-			'/' => 'index.md' ,
-			'/index' => 'index.md' ,
-			'/sub/' => 'sub' . $DS . 'index.md',
-			'/sub/page' => 'sub' . $DS . 'page.md',
-		];
+        // accept (leading) slashes for backwards compatibility
+        $tests += [
+            '/' => 'index.md',
+            '/index' => 'index.md',
+            '/sub/' => 'sub' . $DS . 'index.md',
+            '/sub/page' => 'sub' . $DS . 'page.md',
+        ];
 
-		foreach ($tests as $pageId => $file) {
-			$page = $this->pageRepository->findByPath($pageId);
-			$this->assertInstanceOf(
-				'\Phile\Model\Page',
-				$page,
-				"Can't find file '$file' for page-Id: '$pageId'."
-			);
-			$this->assertStringEndsWith('content' . $DS . $file, $page->getFilePath());
-		}
-	}
+        foreach ($tests as $pageId => $file) {
+            $page = $this->pageRepository->findByPath($pageId);
+            $this->assertInstanceOf(
+                '\Phile\Model\Page',
+                $page,
+                "Can't find file '$file' for page-Id: '$pageId'."
+            );
+            $this->assertStringEndsWith(
+                'content' . $DS . $file,
+                $page->getFilePath()
+            );
+        }
+    }
 
-	/**
-	 *
-	 */
-	public function testFindByPathPageDoesNotExist() {
-		$page = $this->pageRepository->findByPath('foo');
-		$this->assertNull($page);
-	}
+    /**
+     *
+     */
+    public function testFindByPathPageDoesNotExist()
+    {
+        $page = $this->pageRepository->findByPath('foo');
+        $this->assertNull($page);
+    }
 
-	/**
-	 *
-	 */
-	public function testCanFindAllPagesOrderdByTitle() {
-		// @TODO: maybe find a better way to check the correct order
-		$titles	= ["Sub Page", "Sub Page Index", "Welcome"];
-		$pages = $this->pageRepository->findAll(array('pages_order' => 'meta:title'));
-		for ($i=0; $i<count($pages); $i++) {
-			$this->assertEquals($pages[$i]->getTitle(), $titles[$i]);
-		}
-	}
+    /**
+     *
+     */
+    public function testOrderingFindByMeta()
+    {
+        // setup
+        $titles = ['Sub Page', 'Sub Page Index', 'Welcome'];
+        $test = function ($titles, $order) {
+            $options = ['pages_order' => $order];
+            $pages = $this->pageRepository->findAll($options);
+            for ($i = 0; $i < count($pages); $i++) {
+                $this->assertEquals($pages[$i]->getTitle(), $titles[$i]);
+            }
+        };
+
+        // test ascending as default
+        $order = 'meta.title';
+        $test($titles, $order);
+
+        // test descending
+        $order = 'meta.title:desc';
+        $titles = array_reverse($titles);
+        $test($titles, $order);
+    }
+
+    /**
+     *
+     */
+    public function testOrderingInvalidSearchType()
+    {
+        $this->setExpectedException(
+            'PHPUnit_Framework_Error_Warning',
+            'Page order \'meta:title\' was ignored. Type \'\' not recognized.'
+        );
+        $this->pageRepository
+            ->findAll(['pages_order' => 'meta:title'])
+            ->toArray();
+    }
 }

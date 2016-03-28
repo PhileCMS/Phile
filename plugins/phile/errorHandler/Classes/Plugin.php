@@ -19,29 +19,35 @@ use Phile\Plugin\Phile\ErrorHandler\ErrorLog;
  * @license http://opensource.org/licenses/MIT
  * @package Phile\Plugin\Phile\ParserMarkdown
  */
-class Plugin extends AbstractPlugin {
-	const HANDLER_ERROR_LOG		= 'error_log';
-	const HANDLER_DEVELOPMENT	= 'development';
+class Plugin extends AbstractPlugin
+{
+    const HANDLER_ERROR_LOG        = 'error_log';
+    const HANDLER_DEVELOPMENT    = 'development';
 
-	protected $events = ['plugins_loaded' => 'onPluginsLoaded'];
+    protected $events = ['plugins_loaded' => 'onPluginsLoaded'];
 
-	/**
-	 * called on 'plugins_loaded' event
-	 *
-	 * @param null $data
-	 * @throws \Phile\Exception\ServiceLocatorException
-	 */
-	public function onPluginsLoaded($data = null) {
-		$this->settings['base_url'] = (new Router)->getBaseUrl();
-		switch ($this->settings['handler']) {
-			case Plugin::HANDLER_ERROR_LOG:
-				ServiceLocator::registerService('Phile_ErrorHandler',
-					new ErrorLog($this->settings));
-				break;
-			case Plugin::HANDLER_DEVELOPMENT:
-				ServiceLocator::registerService('Phile_ErrorHandler',
-					new Development($this->settings));
-				break;
-		}
-	}
+    /**
+     * called on 'plugins_loaded' event
+     *
+     * @param  null $data
+     * @throws \Phile\Exception\ServiceLocatorException
+     */
+    public function onPluginsLoaded($data = null)
+    {
+        $this->settings['base_url'] = (new Router)->getBaseUrl();
+        switch ($this->settings['handler']) {
+            case Plugin::HANDLER_ERROR_LOG:
+                ServiceLocator::registerService(
+                    'Phile_ErrorHandler',
+                    new ErrorLog($this->settings)
+                );
+                break;
+            case Plugin::HANDLER_DEVELOPMENT:
+                ServiceLocator::registerService(
+                    'Phile_ErrorHandler',
+                    new Development($this->settings)
+                );
+                break;
+        }
+    }
 }

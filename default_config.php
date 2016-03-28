@@ -32,9 +32,21 @@ $config['theme'] = 'default';
 $config['date_format'] = 'jS M Y';
 
 /**
- * page order
+ * Set page order
  *
- * Order pages by "title" (alpha) or "date"
+ * Format <type>.<attribute>:<order>
+ * type:
+ * - "page" page attribute
+ * - "meta" page meta attribute
+ * order:
+ * - "asc" (default) ascending order
+ * - "desc" descending order
+ *
+ * Orders are chainable to for sub-ordering.
+ *
+ * Examples:
+ * - "meta.title" sort by meta title ascending
+ * - "page.folder:asc meta.date:desc" sort by folder-name first and by date withing folders
  */
 $config['pages_order'] = 'meta.title:desc';
 
@@ -57,49 +69,49 @@ $config['display_errors'] = 0;
  * include core plugins
  */
 $config['plugins'] = [
-	/**
-	 * error handler
-	 */
-	'phile\\errorHandler' => [
-		'active' => true,
-		'handler' => \Phile\Plugin\Phile\ErrorHandler\Plugin::HANDLER_DEVELOPMENT
-	],
-	/**
-	 * setup check
-	 */
-	'phile\\setupCheck' => ['active' => true],
-	/**
-	 * parser
-	 */
-	'phile\\parserMarkdown' => ['active' => true],
-	/**
-	 * meta-tag parser
-	 */
-	'phile\\parserMeta' => [
-		'active' => true,
-		/**
-		 * Set meta-data format.
-		 *
-		 * - 'Phile' (default) Phile legacy format
-		 * - 'YAML' YAML
-		 *
-		 * Phile is going to switch to YAML for parsing meta tags. But if you
-		 * want to use YAML today you can change the format here.
-		 */
-		 'format' => 'Phile'
-	],
-	/**
-	 * template engine
-	 */
-	'phile\\templateTwig' => ['active' => true],
-	/**
-	 * cache engine
-	 */
-	'phile\\phpFastCache' => ['active' => true],
-	/**
-	 * persistent data storage
-	 */
-	'phile\\simpleFileDataPersistence' => ['active' => true],
+    /**
+     * error handler
+     */
+    'phile\\errorHandler' => [
+        'active' => true,
+        'handler' => \Phile\Plugin\Phile\ErrorHandler\Plugin::HANDLER_DEVELOPMENT
+    ],
+    /**
+     * setup check
+     */
+    'phile\\setupCheck' => ['active' => true],
+    /**
+     * parser
+     */
+    'phile\\parserMarkdown' => ['active' => true],
+    /**
+     * meta-tag parser
+     */
+    'phile\\parserMeta' => [
+        'active' => true,
+        /**
+         * Set meta-data format.
+         *
+         * - 'Phile' (default) Phile legacy format
+         * - 'YAML' YAML
+         *
+         * Phile is going to switch to YAML for parsing meta tags. But if you
+         * want to use YAML today you can change the format here.
+         */
+        'format' => 'Phile'
+    ],
+    /**
+     * template engine
+     */
+    'phile\\templateTwig' => ['active' => true],
+    /**
+     * cache engine
+     */
+    'phile\\phpFastCache' => ['active' => true],
+    /**
+     * persistent data storage
+     */
+    'phile\\simpleFileDataPersistence' => ['active' => true],
 ];
 
 return $config;

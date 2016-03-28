@@ -13,4 +13,6 @@ namespace Phile\Exception;
  * @license http://opensource.org/licenses/MIT
  * @package Phile
  */
-class RepositoryException extends AbstractException {}
+class RepositoryException extends AbstractException
+{
+}
