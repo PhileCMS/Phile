@@ -17,19 +17,23 @@ use Phile\Plugin\Phile\SimpleFileDataPersistence\Persistence\SimpleFileDataPersi
  * @license http://opensource.org/licenses/MIT
  * @package Phile\Plugin\Phile\SimpleFileDataPersistence
  */
-class Plugin extends AbstractPlugin {
+class Plugin extends AbstractPlugin
+{
 
-	protected $events = ['plugins_loaded' => 'onPluginsLoaded'];
+    protected $events = ['plugins_loaded' => 'onPluginsLoaded'];
 
-	/**
-	 * onPluginsLoaded method
-	 *
-	 * @param null   $data
-	 *
-	 * @return mixed|void
-	 */
-	public function onPluginsLoaded($data = null) {
-		ServiceLocator::registerService('Phile_Data_Persistence',
-			new SimpleFileDataPersistence());
-	}
+    /**
+     * onPluginsLoaded method
+     *
+     * @param null $data
+     *
+     * @return mixed|void
+     */
+    public function onPluginsLoaded($data = null)
+    {
+        ServiceLocator::registerService(
+            'Phile_Data_Persistence',
+            new SimpleFileDataPersistence()
+        );
+    }
 }

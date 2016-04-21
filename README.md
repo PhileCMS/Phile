@@ -57,7 +57,7 @@ composer create-project --no-dev phile-cms/phile
 
 Copy it to your server web root. Open the root of PhileCMS on you web server. If you are using the default MAMP install, that would be [http://localhost:8888/Phile](http://localhost:8888/Phile). Using WAMP, [http://localhost/Phile](http://localhost/Phile). If you are using something else, you probably know how to run a typical PHP site.
 
-On first run you will hit a setup page. **Follow the instructions on the [setup page](https://github.com/PhileCMS/Phile/blob/master/content/setup.md) to complete the installation**.
+On first run you will hit a setup page. **Follow the instructions on the [setup page](https://github.com/PhileCMS/Phile/blob/master/plugins/phile/setupCheck/setup.md) to complete the installation**.
 
 [For detailed instructions please see the Installation wiki page](https://github.com/PhileCMS/Phile/wiki/%5BHOW-TO%5D-Installation).
 
@@ -98,6 +98,7 @@ Issues with plugins should be reported **on the offending plugins homepage** thi
 ## Contributing
 
 Help make PhileCMS better by checking out the GitHub repository and submitting pull requests.
+See [developer guildlines](https://github.com/PhileCMS/Phile/wiki/%5BDEVELOPER%5D-Developer-Guidelines) for more information.
 
 If you create a plugin please add it to the [Plugin Wiki](https://github.com/PhileCMS/Phile/wiki/%5BCOMMUNITY%5D-Plugins).
 
