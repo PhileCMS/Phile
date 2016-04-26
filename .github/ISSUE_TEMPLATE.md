@@ -1,6 +1,6 @@
 Please report your issue with the following information:
 
-### Excpected behavior
+### Expected behavior
 
 ### Actual behavior
 
