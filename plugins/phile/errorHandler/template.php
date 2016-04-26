@@ -28,7 +28,7 @@
         </p>
         <?= $exception_fragment ?>
 		<?php if (isset($exception_backtrace)) : ?>
-			<h2>Backtrace</h2>
+            <h2>Backtrace</h2>
     <?= $exception_backtrace ?>
     <?php
 endif; ?>
