@@ -8,6 +8,8 @@
 
 namespace PhileTest\Repository;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * the PageTest class
  *
@@ -16,7 +18,7 @@ namespace PhileTest\Repository;
  * @license http://opensource.org/licenses/MIT
  * @package PhileTest
  */
-class PageTest extends \PHPUnit_Framework_TestCase
+class PageTest extends TestCase
 {
     /**
      * @var \Phile\Repository\Page
@@ -108,10 +110,14 @@ class PageTest extends \PHPUnit_Framework_TestCase
      */
     public function testOrderingInvalidSearchType()
     {
-        $this->setExpectedException(
-            'PHPUnit_Framework_Error_Warning',
-            'Page order \'meta:title\' was ignored. Type \'\' not recognized.'
-        );
+        $message = 'Page order \'meta:title\' was ignored. Type \'\' not recognized.';
+        if (class_exists('PHPUnit\Framework\Error\Warning')) {
+            // PHPUnit 6
+            $this->expectException('PHPUnit\Framework\Error\Warning', $message);
+        } else {
+            // PHPUnit 5
+            $this->expectException('PHPUnit_Framework_Error_Warning', $message);
+        }
         $this->pageRepository
             ->findAll(['pages_order' => 'meta:title'])
             ->toArray();

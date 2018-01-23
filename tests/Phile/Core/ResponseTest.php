@@ -2,6 +2,7 @@
 namespace PhileTest\Core;
 
 use Phile\Core\Response;
+use PHPUnit\Framework\TestCase;
 
 /**
  * the ResponseTest class
@@ -11,7 +12,7 @@ use Phile\Core\Response;
  * @license http://opensource.org/licenses/MIT
  * @package PhileTest
  */
-class ResponseTest extends \PHPUnit_Framework_TestCase
+class ResponseTest extends TestCase
 {
 
     /**

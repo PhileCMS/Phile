@@ -6,6 +6,7 @@ use Phile\Core;
 use Phile\Core\Registry;
 use Phile\Core\Response;
 use Phile\Core\Router;
+use PHPUnit\Framework\TestCase;
 
 /**
  * the CoreTest class
@@ -15,7 +16,7 @@ use Phile\Core\Router;
  * @license http://opensource.org/licenses/MIT
  * @package PhileTest
  */
-class CoreTest extends \PHPUnit_Framework_TestCase
+class CoreTest extends TestCase
 {
 
     /**

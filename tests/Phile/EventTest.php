@@ -8,6 +8,7 @@
 namespace PhileTest;
 
 use Phile\Core\Event;
+use PHPUnit\Framework\TestCase;
 
 /**
  * the EventTest class
@@ -17,7 +18,7 @@ use Phile\Core\Event;
  * @license http://opensource.org/licenses/MIT
  * @package PhileTest
  */
-class EventTest extends \PHPUnit_Framework_TestCase
+class EventTest extends TestCase
 {
 
     /**
@@ -54,7 +55,7 @@ class EventTest extends \PHPUnit_Framework_TestCase
 
     public function testRegisterFail()
     {
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->expectException('\InvalidArgumentException');
         Event::registerEvent('myTestEvent2', new \stdClass());
     }
 }

@@ -2,6 +2,8 @@
 
 namespace PhileTest;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * tests class for encryption hash generator PHP script
  *
@@ -11,7 +13,7 @@ namespace PhileTest;
  * @package PhileTest
  * @deprecated since 2015-05-01, will be removed together with generator.php
  */
-class GeneratorTest extends \PHPUnit_Framework_TestCase
+class GeneratorTest extends TestCase
 {
 
     public function testGenerator()
