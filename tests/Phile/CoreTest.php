@@ -45,10 +45,9 @@ class CoreTest extends \PHPUnit_Framework_TestCase
                 ->disableOriginalConstructor()
                 ->getMock();
 
-            $response = $this->getMock(
-                '\Phile\Core\Response',
-                ['redirect', 'stop']
-            );
+            $response = $this->getMockBuilder('\Phile\Core\Response')
+                ->setMethods(['redirect', 'stop'])
+                ->getMock();
             $router = new Router(['REQUEST_URI' => $current]);
 
             $response->expects($this->once())

@@ -1,5 +1,4 @@
 <?php
-
 namespace PhileTest\Core;
 
 use Phile\Core\Response;
@@ -23,10 +22,9 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->response = $this->getMock(
-            '\Phile\Core\Response',
-            ['outputHeader', 'stop']
-        );
+        $this->response = $this->getMockBuilder('\Phile\Core\Response')
+            ->setMethods(['outputHeader', 'stop'])
+            ->getMock();
     }
 
     protected function tearDown()
@@ -36,10 +34,9 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
 
     public function testDefaultCharset()
     {
-        $this->response = $this->getMock(
-            '\Phile\Core\Response',
-            ['setHeader']
-        );
+        $this->response = $this->getMockBuilder('\Phile\Core\Response')
+            ->setMethods(['setHeader'])
+            ->getMock();
         $this->response->expects($this->once())
             ->method('setHeader')
             ->with('Content-Type', 'text/html; charset=utf-8');
@@ -50,10 +47,9 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
     {
         $location = 'foo';
 
-        $this->response = $this->getMock(
-            '\Phile\Core\Response',
-            ['setHeader', 'setStatusCode', 'send', 'stop']
-        );
+        $this->response = $this->getMockBuilder('\Phile\Core\Response')
+            ->setMethods(['setHeader', 'setStatusCode', 'send', 'stop'])
+            ->getMock();
 
         $this->response->expects($this->once())
             ->method('setStatusCode')
@@ -76,10 +72,9 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
 
     public function testSetCharset()
     {
-        $this->response = $this->getMock(
-            '\Phile\Core\Response',
-            ['setHeader']
-        );
+        $this->response = $this->getMockBuilder('\Phile\Core\Response')
+            ->setMethods(['setHeader'])
+            ->getMock();
         $this->response->expects($this->once())
             ->method('setHeader')
             ->with('Content-Type', 'text/html; charset=latin-1');
