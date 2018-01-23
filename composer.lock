@@ -54,16 +54,16 @@
         },
         {
             "name": "phile-cms/plugin-installer-plugin",
-            "version": "1.0.4",
+            "version": "1.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PhileCMS/ComposerPluginInstaller.git",
-                "reference": "152117ac6e8de79c86465f28c5ff50737eaed592"
+                "reference": "77ea358a7a8bf21ee3c831be9813a1e869b510b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PhileCMS/ComposerPluginInstaller/zipball/152117ac6e8de79c86465f28c5ff50737eaed592",
-                "reference": "152117ac6e8de79c86465f28c5ff50737eaed592",
+                "url": "https://api.github.com/repos/PhileCMS/ComposerPluginInstaller/zipball/77ea358a7a8bf21ee3c831be9813a1e869b510b6",
+                "reference": "77ea358a7a8bf21ee3c831be9813a1e869b510b6",
                 "shasum": ""
             },
             "require": {
@@ -98,7 +98,7 @@
                 "markdown",
                 "phile"
             ],
-            "time": "2018-01-23T14:16:42+00:00"
+            "time": "2018-01-23T21:52:28+00:00"
         },
         {
             "name": "phpfastcache/phpfastcache",
