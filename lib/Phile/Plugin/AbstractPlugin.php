@@ -86,7 +86,6 @@ abstract class AbstractPlugin implements EventObserverInterface
 
         $globals['plugins'][$pluginKey]['settings'] = $this->settings;
         Registry::set('Phile_Settings', $globals);
-
     }
 
     /**

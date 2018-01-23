@@ -30,8 +30,7 @@
 		<?php if (isset($exception_backtrace)) : ?>
             <h2>Backtrace</h2>
     <?= $exception_backtrace ?>
-    <?php
-endif; ?>
+        <?php endif; ?>
     </div>
 </div>
 </body>
