@@ -10,7 +10,7 @@ $config = [
      *
      * auto, files, sqlite, auto, apc, wincache, xcache, memcache, memcached,
      */
-    'storage' => 'auto',
+    'storage' => 'files',
 
     /**
      * Default Path for File Cache
@@ -42,15 +42,18 @@ $config = [
 //	"htaccess"    => true,
 
     /*
-	 * Default Memcache Server for all $cache = phpFastCache("memcache");
-	 */
+     * Default Memcache Server for Memcache
+     */
     /*
-	"memcache"        =>  array(
-		array("127.0.0.1",11211,1),
-		//  array("new.host.ip",11211,1),
-	),
-	*/
-
+    'servers' => [
+        [
+            'host' =>'127.0.0.1',
+            'port' => 11211,
+              // 'sasl_user' => false, // optional
+              // 'sasl_password' => false // optional
+        ]
+    ],
+     */
 ];
 
 return $config;

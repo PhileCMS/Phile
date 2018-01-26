@@ -37,7 +37,7 @@ interface CacheInterface
      * @param $key
      * @param $value
      * @param int   $time
-     * @param array $options
+     * @param array $options deprecated
      *
      * @return mixed
      */
@@ -47,7 +47,7 @@ interface CacheInterface
      * delete the entry by given key
      *
      * @param $key
-     * @param array $options
+     * @param array $options deprecated
      *
      * @return mixed
      */
