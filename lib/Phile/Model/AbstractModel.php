@@ -95,7 +95,6 @@ class AbstractModel implements \ArrayAccess
 
             return $this->set($name, $args[0]);
         }
-
     }
 
     /**

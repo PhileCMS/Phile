@@ -4,6 +4,7 @@ namespace PhileTest\Core;
 
 use Phile\Core\Registry;
 use Phile\Core\Router;
+use PHPUnit\Framework\TestCase;
 
 /**
  * the Router class
@@ -13,7 +14,7 @@ use Phile\Core\Router;
  * @license http://opensource.org/licenses/MIT
  * @package PhileTest
  */
-class RouterTest extends \PHPUnit_Framework_TestCase
+class RouterTest extends TestCase
 {
 
     protected $settings;

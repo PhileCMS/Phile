@@ -3,6 +3,7 @@
 namespace PhileTest\Plugin;
 
 use Phile\Plugin\PluginRepository;
+use PHPUnit\Framework\TestCase;
 
 /**
  * the PluginRepositoryTest class
@@ -12,7 +13,7 @@ use Phile\Plugin\PluginRepository;
  * @license http://opensource.org/licenses/MIT
  * @package PhileTest
  */
-class PluginRepositoryTest extends \PHPUnit_Framework_TestCase
+class PluginRepositoryTest extends TestCase
 {
 
     public function testLoadAllSuccess()
