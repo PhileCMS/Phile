@@ -81,7 +81,7 @@ class Bootstrap
         // for php unit testings, we need to check if constant is defined
         // before setting them, because there is a bug in PHPUnit which
         // init our bootstrap multiple times.
-        defined('PHILE_VERSION') || define('PHILE_VERSION', '1.7.1');
+        defined('PHILE_VERSION') || define('PHILE_VERSION', '1.8.0');
         defined('PHILE_CLI_MODE') || define('PHILE_CLI_MODE', (php_sapi_name() === 'cli'));
         defined('DS') || define('DS', DIRECTORY_SEPARATOR);
         defined('ROOT_DIR') || define('ROOT_DIR', realpath(__DIR__ . DS . '..' . DS . '..' . DS) . DS);
