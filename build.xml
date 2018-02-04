@@ -65,9 +65,11 @@
     <include name="themes/**"/>
 
     <!-- ## Vendor excludes to thin down release package ## -->
+    <exclude name="lib/vendor/**/bin/**"/>
+    <exclude name="lib/vendor/**/docs/**"/>
     <exclude name="lib/vendor/**/test/**"/>
+    <exclude name="lib/vendor/**/tests/**"/>
     <exclude name="lib/vendor/**/Tests/**"/>
-    <exclude name="lib/vendor/phpfastcache/**/*predis*/**"/>
     <exclude name="lib/vendor/twig/twig/doc/**"/>
     <exclude name="lib/vendor/twig/twig/ext/**"/>
 

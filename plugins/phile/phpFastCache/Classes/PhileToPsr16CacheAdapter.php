@@ -25,7 +25,7 @@ class PhileToPsr16CacheAdapter implements \Phile\ServiceLocator\CacheInterface
     /**
      * the constructor
      *
-     * @param \BasePhpFastCache $cacheEngine
+     * @param CacheInterface $cacheEngine
      */
     public function __construct(CacheInterface $cacheEngine)
     {
