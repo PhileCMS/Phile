@@ -49,7 +49,7 @@ Here is a small list of differences in design from typical flat-file CMSs:
 
 ##### Quick Start
 
-You can install the latest version either by downloading it from <http://philecms.com/> or use composer:
+You can install the latest version either by downloading it from <https://github.com/PhileCMS/Phile/releases> or use composer:
 
 ```shell
 composer create-project --no-dev phile-cms/phile
