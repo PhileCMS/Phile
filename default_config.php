@@ -71,6 +71,11 @@ $config['display_errors'] = 0;
 $config['content_dir'] = ROOT_DIR . 'content' . DS;
 
 /**
+ * extension of content files
+ */
+$config['content_ext'] = '.md';
+
+/**
  * include core plugins
  */
 $config['plugins'] = [

@@ -7,6 +7,7 @@ namespace Phile\Model;
 use Phile\Core\Router;
 use Phile\Core\Event;
 use Phile\Core\Registry;
+use Phile\Core\Repository;
 use Phile\Core\ServiceLocator;
 
 /**
@@ -65,6 +66,11 @@ class Page
     protected $contentFolder;
 
     /**
+     * @var string content extension
+     */
+    protected $contentExtension;
+
+    /**
      * the constructor
      *
      * @param $filePath
@@ -72,8 +78,9 @@ class Page
      */
     public function __construct($filePath, $folder = null)
     {
-        $folder = $folder ?: Registry::get('Phile_Settings')['content_dir'];
-        $this->contentFolder = $folder;
+        $settings = Registry::get('Phile_Settings');
+        $this->contentFolder = $folder ?: $settings['content_dir'];
+        $this->contentExtension = $settings['content_ext'];
         $this->setFilePath($filePath);
 
         /**
@@ -201,7 +208,7 @@ class Page
     protected function buildPageId($filePath)
     {
         $pageId = str_replace($this->contentFolder, '', $filePath);
-        $pageId = str_replace(CONTENT_EXT, '', $pageId);
+        $pageId = str_replace($this->contentExtension, '', $pageId);
         $pageId = str_replace(DIRECTORY_SEPARATOR, '/', $pageId);
         $pageId = ltrim($pageId, '/');
         $pageId = preg_replace('/(?<=^|\/)index$/', '', $pageId);

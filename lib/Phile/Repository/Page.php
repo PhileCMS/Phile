@@ -65,7 +65,7 @@ class Page
             $pageId .= 'index';
         }
 
-        $file = $folder . $pageId . CONTENT_EXT;
+        $file = $folder . $pageId . $this->settings['content_ext'];
         if (!file_exists($file)) {
             if (substr($pageId, -6) === '/index') {
                 // try to resolve sub-directory 'sub/' to page 'sub'
@@ -74,7 +74,7 @@ class Page
                 // try to resolve page 'sub' to sub-directory 'sub/'
                 $pageId .= '/index';
             }
-            $file = $folder . $pageId . CONTENT_EXT;
+            $file = $folder . $pageId . $this->settings['content_ext'];
         }
         if (!file_exists($file)) {
             return null;
@@ -100,7 +100,7 @@ class Page
                 $files = Utility::getFiles($folder, '\Phile\FilterIterator\ContentFileFilterIterator');
                 $pages = array();
                 foreach ($files as $file) {
-                    if (str_replace($folder, '', $file) == '404' . CONTENT_EXT) {
+                    if (str_replace($folder, '', $file) == '404' . $this->settings['content_ext']) {
                         // jump to next page if file is the 404 page
                         continue;
                     }

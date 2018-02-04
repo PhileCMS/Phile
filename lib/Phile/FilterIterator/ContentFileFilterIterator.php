@@ -4,6 +4,8 @@
  */
 namespace Phile\FilterIterator;
 
+use Phile\Core\Registry;
+
 /**
  * Class ContentFileFilterIterator
  *
@@ -18,8 +20,9 @@ class ContentFileFilterIterator extends \FilterIterator
     public function accept()
     {
         /**
- * @var \SplFileInfo $this
-*/
-        return (preg_match('/^[^\.]{1}.*'.CONTENT_EXT.'/', $this->getFilename()) > 0);
+         * @var \SplFileInfo $this
+        */
+        $ext = Registry::get('Phile_Settings')['content_ext'];
+        return (preg_match('/^[^\.]{1}.*' . $ext . '/', $this->getFilename()) > 0);
     }
 }
