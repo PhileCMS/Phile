@@ -6,6 +6,7 @@ namespace Phile\Model;
 
 use Phile\Core\Router;
 use Phile\Core\Event;
+use Phile\Core\Registry;
 use Phile\Core\ServiceLocator;
 
 /**
@@ -61,7 +62,7 @@ class Page
     /**
      * @var string The content folder, as passed to the class constructor when initiating the object.
      */
-    protected $contentFolder = CONTENT_DIR;
+    protected $contentFolder;
 
     /**
      * the constructor
@@ -69,8 +70,9 @@ class Page
      * @param $filePath
      * @param string   $folder
      */
-    public function __construct($filePath, $folder = CONTENT_DIR)
+    public function __construct($filePath, $folder = null)
     {
+        $folder = $folder ?: Registry::get('Phile_Settings')['content_dir'];
         $this->contentFolder = $folder;
         $this->setFilePath($filePath);
 

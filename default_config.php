@@ -66,6 +66,11 @@ $config['charset'] = 'utf-8';
 $config['display_errors'] = 0;
 
 /**
+ * content directory
+ */
+$config['content_dir'] = ROOT_DIR . 'content' . DS;
+
+/**
  * include core plugins
  */
 $config['plugins'] = [

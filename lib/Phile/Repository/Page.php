@@ -55,8 +55,9 @@ class Page
      *
      * @return null|\Phile\Model\Page
      */
-    public function findByPath($pageId, $folder = CONTENT_DIR)
+    public function findByPath($pageId, $folder = null)
     {
+        $folder = $folder ?: $this->settings['content_dir'];
         // be merciful to lazy third-party-usage and accept a leading slash
         $pageId = ltrim($pageId, '/');
         // 'sub/' should serve page 'sub/index'
@@ -89,8 +90,9 @@ class Page
      *
      * @return PageCollection of \Phile\Model\Page objects
      */
-    public function findAll(array $options = array(), $folder = CONTENT_DIR)
+    public function findAll(array $options = array(), $folder = null)
     {
+        $folder = $folder ?: $this->settings['content_dir'];
         return new PageCollection(
             function () use ($options, $folder) {
                 $options += $this->settings;
@@ -189,8 +191,9 @@ class Page
      *
      * @return mixed|\Phile\Model\Page
      */
-    protected function getPage($filePath, $folder = CONTENT_DIR)
+    protected function getPage($filePath, $folder = null)
     {
+        $folder = $folder ?: $this->settings['content_dir'];
         $key = 'Phile_Model_Page_' . md5($filePath);
         if (isset($this->storage[$key])) {
             return $this->storage[$key];
