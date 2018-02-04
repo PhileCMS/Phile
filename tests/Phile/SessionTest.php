@@ -8,6 +8,8 @@
 
 namespace PhileTest;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * the SessionTest class
  *
@@ -16,7 +18,7 @@ namespace PhileTest;
  * @license http://opensource.org/licenses/MIT
  * @package PhileTest
  */
-class SessionTest extends \PHPUnit_Framework_TestCase
+class SessionTest extends TestCase
 {
     /**
      * @runInSeparateProcess

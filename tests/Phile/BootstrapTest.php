@@ -3,6 +3,7 @@
 namespace PhileTest;
 
 use Phile\Bootstrap;
+use PHPUnit\Framework\TestCase;
 
 /**
  * the BootstrapTest class
@@ -12,7 +13,7 @@ use Phile\Bootstrap;
  * @license http://opensource.org/licenses/MIT
  * @package PhileTest
  */
-class BootstrapTest extends \PHPUnit_Framework_TestCase
+class BootstrapTest extends TestCase
 {
 
     /**

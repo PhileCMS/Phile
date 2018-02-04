@@ -1,18 +1,21 @@
 <?php
 /**
- * The PhpFastCache implemenation class
+ * Adapter to use PSR-16 compatible cache class with Phile
  */
+
 namespace Phile\Plugin\Phile\PhpFastCache;
+
+use Psr\SimpleCache\CacheInterface;
 
 /**
  * Class PhpFastCache
  *
- * @author  Frank Nägler
+ * @author  PhileCMS
  * @link    https://philecms.com
  * @license http://opensource.org/licenses/MIT
  * @package Phile\Plugin\Phile\PhpFastCache
  */
-class PhpFastCache implements \Phile\ServiceLocator\CacheInterface
+class PhileToPsr16CacheAdapter implements \Phile\ServiceLocator\CacheInterface
 {
     /**
      * @var \BasePhpFastCache the cache engine
@@ -22,9 +25,9 @@ class PhpFastCache implements \Phile\ServiceLocator\CacheInterface
     /**
      * the constructor
      *
-     * @param \BasePhpFastCache $cacheEngine
+     * @param CacheInterface $cacheEngine
      */
-    public function __construct(\BasePhpFastCache $cacheEngine)
+    public function __construct(CacheInterface $cacheEngine)
     {
         $this->cacheEngine = $cacheEngine;
     }
@@ -38,7 +41,7 @@ class PhpFastCache implements \Phile\ServiceLocator\CacheInterface
      */
     public function has($key)
     {
-        return ($this->cacheEngine->get($key) !== null);
+        return $this->cacheEngine->has($key);
     }
 
     /**
@@ -59,26 +62,34 @@ class PhpFastCache implements \Phile\ServiceLocator\CacheInterface
      * @param string $key
      * @param string $value
      * @param int    $time
-     * @param array  $options
+     * @param array  $options deprecated
      *
      * @return mixed|void
      */
     public function set($key, $value, $time = 300, array $options = array())
     {
-        $this->cacheEngine->set($key, $value, $time, $options);
+        if (!empty($options)) {
+            // not longer supported by phpFastCache
+            trigger_error('Argument $options is deprecated and ignored.', E_USER_WARNING);
+        }
+        $this->cacheEngine->set($key, $value, $time);
     }
 
     /**
      * method to delete cache entry
      *
      * @param string $key
-     * @param array  $options
+     * @param array  $options deprecated
      *
      * @return mixed|void
      */
     public function delete($key, array $options = array())
     {
-        $this->cacheEngine->delete($key, $options);
+        if (!empty($options)) {
+            // not longer supported by phpFastCache
+            trigger_error('Argument $options is deprecated and ignored.', E_USER_WARNING);
+        }
+        $this->cacheEngine->delete($key);
     }
 
     /**
@@ -86,6 +97,6 @@ class PhpFastCache implements \Phile\ServiceLocator\CacheInterface
      */
     public function clean()
     {
-        $this->cacheEngine->clean();
+        $this->cacheEngine->clear();
     }
 }

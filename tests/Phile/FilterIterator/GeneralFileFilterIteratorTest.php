@@ -3,6 +3,7 @@
 namespace PhileTest\FilterIterator;
 
 use Phile\FilterIterator\GeneralFileFilterIterator;
+use PHPUnit\Framework\TestCase;
 
 /**
  * class GeneralFileFilterIteratorTest
@@ -11,7 +12,7 @@ use Phile\FilterIterator\GeneralFileFilterIterator;
  * @link    https://philecms.com
  * @license http://opensource.org/licenses/MIT
  */
-class GeneralFileFilterIteratorTest extends \PHPUnit_Framework_TestCase
+class GeneralFileFilterIteratorTest extends TestCase
 {
 
     public function testGeneralFileFilterIterator()

@@ -44,12 +44,12 @@ Here is a small list of differences in design from typical flat-file CMSs:
 
 ##### Requirements
 
-* PHP `>=5.4.0`
+* PHP `>=5.6.0`
 * Apache with `mod_rewrite` enabled
 
 ##### Quick Start
 
-You can install the latest version either by downloading it from <http://philecms.com/> or use composer:
+You can install the latest version either by downloading it from <https://github.com/PhileCMS/Phile/releases> or use composer:
 
 ```shell
 composer create-project --no-dev phile-cms/phile

@@ -5,10 +5,10 @@
  * Date: 21.08.14
  * Time: 18:24
  */
-
 namespace PhileTest;
 
 use Phile\Core\Event;
+use PHPUnit\Framework\TestCase;
 
 /**
  * the EventTest class
@@ -18,14 +18,17 @@ use Phile\Core\Event;
  * @license http://opensource.org/licenses/MIT
  * @package PhileTest
  */
-class EventTest extends \PHPUnit_Framework_TestCase
+class EventTest extends TestCase
 {
+
     /**
      *
      */
     public function testEventCanBeRegistered()
     {
-        $mock = $this->getMock('Phile\Gateway\EventObserverInterface', ['on']);
+        $mock = $this->getMockBuilder('Phile\Gateway\EventObserverInterface')
+            ->setMethods(['on'])
+            ->getMock();
         $mock->expects($this->once())
             ->method('on');
 
@@ -35,7 +38,9 @@ class EventTest extends \PHPUnit_Framework_TestCase
 
     public function testRegisterAndTriggerCallback()
     {
-        $mock = $this->getMock('stdClass', ['foo']);
+        $mock = $this->getMockBuilder('stdClass')
+            ->setMethods(['foo'])
+            ->getMock();
         $mock->expects($this->exactly(2))->method('foo');
 
         Event::registerEvent('myTestEvent', [$mock, 'foo']);
@@ -50,7 +55,7 @@ class EventTest extends \PHPUnit_Framework_TestCase
 
     public function testRegisterFail()
     {
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->expectException('\InvalidArgumentException');
         Event::registerEvent('myTestEvent2', new \stdClass());
     }
 }

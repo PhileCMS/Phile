@@ -26,14 +26,17 @@ class Plugin extends AbstractPlugin
      */
     public function onPluginsLoaded()
     {
-        // phpFastCache not working in CLI mode...
         if (PHILE_CLI_MODE) {
+            // phpFastCache not working in CLI mode...
             return;
         }
-        unset($this->settings['active']);
-        $config = $this->settings + \phpFastCache::$config;
+
         $storage = $this->settings['storage'];
-        $cache = phpFastCache($storage, $config);
-        ServiceLocator::registerService('Phile_Cache', new PhpFastCache($cache));
+        $config = $this->settings;
+        unset($config['active'], $config['storage']);
+        $psr16Cache = new \phpFastCache\Helper\Psr16Adapter($storage, $config);
+
+        $phileCache = new PhileToPsr16CacheAdapter($psr16Cache);
+        ServiceLocator::registerService('Phile_Cache', $phileCache);
     }
 }

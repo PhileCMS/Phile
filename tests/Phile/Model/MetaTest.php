@@ -8,6 +8,8 @@
 
 namespace PhileTest\Model;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * the MetaTest class
  *
@@ -16,7 +18,7 @@ namespace PhileTest\Model;
  * @license http://opensource.org/licenses/MIT
  * @package PhileTest
  */
-class MetaTest extends \PHPUnit_Framework_TestCase
+class MetaTest extends TestCase
 {
     /**
      * @var string meta data test string
