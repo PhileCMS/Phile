@@ -8,6 +8,7 @@
 
 namespace PhileTest\Repository;
 
+use Phile\Core\Registry;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -32,6 +33,12 @@ class PageTest extends TestCase
     {
         parent::setUp();
         $this->pageRepository = new \Phile\Repository\Page();
+        $this->phileSettings = Registry::get('Phile_Settings');
+    }
+
+    protected function tearDown()
+    {
+        Registry::set('Phile_Settings', $this->phileSettings);
     }
 
     /**
@@ -69,6 +76,36 @@ class PageTest extends TestCase
                 $page->getFilePath()
             );
         }
+    }
+
+    /**
+     * Test that global Phile config settings are picked up
+     */
+    public function testFindByPathPhileConfigSettings()
+    {
+        //= changed content directory
+        $settings = $this->phileSettings;
+        $settings['content_dir'] = PLUGINS_DIR . str_replace('/', DS, 'phile/testPlugin/content/sub/');
+        Registry::set('Phile_Settings', $settings);
+
+        $repository = new \Phile\Repository\Page();
+        $found = $repository->findByPath('c');
+        $this->assertInstanceOf(\Phile\Model\Page::class, $found);
+
+        $notFound = $repository->findByPath('d');
+        $this->assertNull($notFound);
+
+        // changed content extension
+        $settings['content_ext'] = '.markdown';
+        Registry::set('Phile_Settings', $settings);
+
+        $repository = new \Phile\Repository\Page();
+
+        $notFound = $repository->findByPath('c');
+        $this->assertNull($notFound);
+
+        $found = $repository->findByPath('d');
+        $this->assertInstanceOf(\Phile\Model\Page::class, $found);
     }
 
     /**
