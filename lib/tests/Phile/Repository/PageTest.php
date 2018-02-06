@@ -8,6 +8,8 @@
 
 namespace PhileTest\Repository;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * the PageTest class
  *
@@ -16,7 +18,7 @@ namespace PhileTest\Repository;
  * @license http://opensource.org/licenses/MIT
  * @package PhileTest
  */
-class PageTest extends \PHPUnit_Framework_TestCase
+class PageTest extends TestCase
 {
     /**
      * @var \Phile\Repository\Page
@@ -81,15 +83,43 @@ class PageTest extends \PHPUnit_Framework_TestCase
     /**
      *
      */
-    public function testCanFindAllPagesOrderdByTitle()
+    public function testOrderingFindByMeta()
     {
-        // @TODO: maybe find a better way to check the correct order
-        $titles = ["Sub Page", "Sub Page Index", "Welcome"];
-        $pages = $this->pageRepository->findAll(
-            ['pages_order' => 'meta:title']
-        );
-        for ($i = 0; $i < count($pages); $i++) {
-            $this->assertEquals($pages[$i]->getTitle(), $titles[$i]);
+        // setup
+        $titles = ['Sub Page', 'Sub Page Index', 'Welcome'];
+        $test = function ($titles, $order) {
+            $options = ['pages_order' => $order];
+            $pages = $this->pageRepository->findAll($options);
+            for ($i = 0; $i < count($pages); $i++) {
+                $this->assertEquals($pages[$i]->getTitle(), $titles[$i]);
+            }
+        };
+
+        // test ascending as default
+        $order = 'meta.title';
+        $test($titles, $order);
+
+        // test descending
+        $order = 'meta.title:desc';
+        $titles = array_reverse($titles);
+        $test($titles, $order);
+    }
+
+    /**
+     *
+     */
+    public function testOrderingInvalidSearchType()
+    {
+        $message = 'Page order \'meta:title\' was ignored. Type \'\' not recognized.';
+        if (class_exists('PHPUnit\Framework\Error\Warning')) {
+            // PHPUnit 6
+            $this->expectException('PHPUnit\Framework\Error\Warning', $message);
+        } else {
+            // PHPUnit 5
+            $this->expectException('PHPUnit_Framework_Error_Warning', $message);
         }
+        $this->pageRepository
+            ->findAll(['pages_order' => 'meta:title'])
+            ->toArray();
     }
 }

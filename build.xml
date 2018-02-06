@@ -65,9 +65,11 @@
     <include name="themes/**"/>
 
     <!-- ## Vendor excludes to thin down release package ## -->
+    <exclude name="lib/vendor/**/bin/**"/>
+    <exclude name="lib/vendor/**/docs/**"/>
     <exclude name="lib/vendor/**/test/**"/>
+    <exclude name="lib/vendor/**/tests/**"/>
     <exclude name="lib/vendor/**/Tests/**"/>
-    <exclude name="lib/vendor/phpfastcache/**/*predis*/**"/>
     <exclude name="lib/vendor/twig/twig/doc/**"/>
     <exclude name="lib/vendor/twig/twig/ext/**"/>
 
@@ -108,6 +110,12 @@
         <exec command="git checkout tags/${git.tag}" dir="${dirs.git}"/>
       </then>
     </if>
+
+    <echo msg="Insert version string into composer.json"/>
+    <exec command="grep 'PHILE_VERSION' lib/Phile/Bootstrap.php | grep -Eio &quot;(([0-9][^'\&quot;]?){1,})&quot;"
+          outputProperty="phile.version"/>
+    <exec command="awk 'NR==3{print &quot;    \&quot;version\&quot;: \&quot;${phile.version}\&quot;,&quot;}1' ${dirs.git}/composer.json &gt; ${dirs.git}/tmp.json &amp;&amp; mv ${dirs.git}/tmp.json ${dirs.git}/composer.json"/>
+    <exec command="composer update --no-lock" dir="${dirs.git}"/>
 
     <echo msg="Install composer packages"/>
     <exec command="composer install --optimize-autoloader --no-dev"

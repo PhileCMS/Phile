@@ -3,6 +3,7 @@
 namespace PhileTest\Repository;
 
 use Phile\Repository\PageCollection;
+use PHPUnit\Framework\TestCase;
 
 /**
  * the PageCollectionTest class
@@ -11,7 +12,7 @@ use Phile\Repository\PageCollection;
  * @link    https://philecms.com
  * @license http://opensource.org/licenses/MIT
  */
-class PageCollectionTest extends \PHPUnit_Framework_TestCase
+class PageCollectionTest extends TestCase
 {
     /**
      * @var PageCollection;

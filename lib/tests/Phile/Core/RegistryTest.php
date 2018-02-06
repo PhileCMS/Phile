@@ -8,6 +8,8 @@
 
 namespace PhileTest;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * the RegistryTest class
  *
@@ -16,7 +18,7 @@ namespace PhileTest;
  * @license http://opensource.org/licenses/MIT
  * @package PhileTest
  */
-class RegistryTest extends \PHPUnit_Framework_TestCase
+class RegistryTest extends TestCase
 {
     /**
      * @var \Phile\Core\Registry

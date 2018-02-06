@@ -2,6 +2,8 @@
 
 namespace PhileTest\Model;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * the PageTest class
  *
@@ -10,7 +12,7 @@ namespace PhileTest\Model;
  * @license http://opensource.org/licenses/MIT
  * @package PhileTest
  */
-class PageTest extends \PHPUnit_Framework_TestCase
+class PageTest extends TestCase
 {
     /**
      * @var \Phile\Repository\Page

@@ -8,6 +8,8 @@
 
 namespace PhileTest\Model;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * the MetaTest class
  *
@@ -16,7 +18,7 @@ namespace PhileTest\Model;
  * @license http://opensource.org/licenses/MIT
  * @package PhileTest
  */
-class MetaTest extends \PHPUnit_Framework_TestCase
+class MetaTest extends TestCase
 {
     /**
      * @var string meta data test string
@@ -40,6 +42,14 @@ Title: Welcome
 Description: This description will go in the meta description tag
 Date: 2014-08-01
 -->
+";
+
+    /**
+     * @var string meta data in YAML front matter format
+     */
+    protected $metaTestData3 = "---
+Title: Welcome
+---
 ";
 
     /**
@@ -86,5 +96,11 @@ Date: 2014-08-01
             'Should become underscored',
             $meta->get('spaced_key')
         );
+    }
+
+    public function testYamlFrontMatterFormat()
+    {
+        $meta = new \Phile\Model\Meta($this->metaTestData3);
+        $this->assertEquals('Welcome', $meta['title']);
     }
 }

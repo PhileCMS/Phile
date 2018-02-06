@@ -7,6 +7,7 @@ namespace PhileTest\Plugin;
 use Phile\Core\Event;
 use Phile\Core\Registry;
 use Phile\Plugin\Phile\TestPlugin\Plugin;
+use PHPUnit\Framework\TestCase;
 
 /**
  * the AbstractPluginTest class
@@ -16,7 +17,7 @@ use Phile\Plugin\Phile\TestPlugin\Plugin;
  * @license http://opensource.org/licenses/MIT
  * @package PhileTest
  */
-class AbstractPluginTest extends \PHPUnit_Framework_TestCase
+class AbstractPluginTest extends TestCase
 {
 
     protected $config;
@@ -85,6 +86,8 @@ class AbstractPluginTest extends \PHPUnit_Framework_TestCase
     {
         $this->mockPlugin();
         $this->setExpectedException('\RuntimeException', null, 1428564865);
+        $plugin = $this->mockPlugin();
+        $this->expectException('\RuntimeException', null, 1428564865);
         Event::triggerEvent('phile\testPlugin.testEvent-missingMethod');
     }
 

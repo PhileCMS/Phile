@@ -3,6 +3,7 @@
 namespace PhileTest\Core;
 
 use Phile\Core\Utility;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Utility test class
@@ -12,7 +13,7 @@ use Phile\Core\Utility;
  * @license http://opensource.org/licenses/MIT
  * @package PhileTest
  */
-class UtilityTest extends \PHPUnit_Framework_TestCase
+class UtilityTest extends TestCase
 {
 
     public function testGetFiles()

@@ -112,14 +112,17 @@ class Page
                 // parse search	criteria
                 $terms = preg_split('/\s+/', $options['pages_order'], -1, PREG_SPLIT_NO_EMPTY);
                 foreach ($terms as $term) {
-                    $term = explode('.', $term);
-                    if (count($term) > 1) {
-                        $type = array_shift($term);
+                    $sub = explode('.', $term);
+                    if (count($sub) > 1) {
+                        $type = array_shift($sub);
                     } else {
                         $type = null;
                     }
-                    $term = explode(':', $term[0]);
-                    $sorting[] = array('type' => $type, 'key' => $term[0], 'order' => $term[1]);
+                    $sub = explode(':', $sub[0]);
+                    if (count($sub) === 1) {
+                        $sub[1] = 'asc';
+                    }
+                    $sorting[] = array('type' => $type, 'key' => $sub[0], 'order' => $sub[1], 'string' => $term);
                 }
 
                 // prepare search criteria for array_multisort
@@ -137,7 +140,11 @@ class Page
                         } elseif ($sort['type'] === 'meta') {
                             $value = $meta->get($key);
                         } else {
-                            continue 2; // ignore unhandled search term
+                            trigger_error(
+                                "Page order '{$sort['string']}' was ignored. Type '{$sort['type']}' not recognized.",
+                                E_USER_WARNING
+                            );
+                            continue 2;
                         }
                         $column[] = $value;
                     }
