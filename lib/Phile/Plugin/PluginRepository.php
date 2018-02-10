@@ -26,6 +26,22 @@ class PluginRepository
     protected $loadErrors = [];
 
     /**
+     * @var directory plug-in root directory
+     */
+    protected $directory;
+
+    /**
+     * Constructor
+     *
+     * @param string $directory root directory for plug-in folder
+     */
+    public function __construct($directory)
+    {
+        $this->directory = $directory;
+        spl_autoload_register([$this, 'autoload']);
+    }
+
+    /**
      * get load errors
      *
      * @return array
@@ -110,7 +126,7 @@ class PluginRepository
      *
      * @param $className
      */
-    public static function autoload($className)
+    public function autoload($className)
     {
         if (strpos($className, "Phile\\Plugin\\") !== 0) {
             return;
@@ -125,7 +141,7 @@ class PluginRepository
             $classNameParts
         );
 
-        $fileName = PLUGINS_DIR . implode(DIRECTORY_SEPARATOR, $classPath) . '.php';
+        $fileName = $this->directory . implode(DS, $classPath) . '.php';
         if (file_exists($fileName)) {
             include_once $fileName;
         }

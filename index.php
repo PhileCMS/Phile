@@ -6,16 +6,17 @@
  * @package Phile
  */
 
-require_once __DIR__ . '/lib/Phile/Bootstrap.php';
+require_once __DIR__ . '/lib/Phile/bootstrap.php';
 
 ob_start();
 
 try {
-    \Phile\Bootstrap::getInstance()->initializeBasics();
     $router = new \Phile\Core\Router();
     $response = new \Phile\Core\Response();
-    $phileCore = new \Phile\Core($router, $response);
-    $phileCore->render();
+    (new \Phile\Core())
+        ->initialize()
+        ->dispatch($router, $response);
+    $response->send();
 } catch (\Exception $e) {
     if (\Phile\Core\ServiceLocator::hasService('Phile_ErrorHandler')) {
         ob_end_clean();
@@ -25,5 +26,7 @@ try {
             'Phile_ErrorHandler'
         );
         $errorHandler->handleException($e);
+    } else {
+        throw $e;
     }
 }
