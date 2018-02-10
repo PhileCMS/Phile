@@ -1,12 +1,15 @@
 <?php
-/**
- * the core of Phile
- */
+
 namespace Phile;
 
+use Phile\Core\Event;
+use Phile\Core\Registry;
 use Phile\Core\Response;
 use Phile\Core\Router;
+use Phile\Core\ServiceLocator;
+use Phile\Exception\PluginException;
 use Phile\Model\Page;
+use Phile\Plugin\PluginRepository;
 use Phile\Repository\Page as Repository;
 
 /**
@@ -19,171 +22,193 @@ use Phile\Repository\Page as Repository;
  */
 class Core
 {
-    /**
-     * @var array the settings array
-     */
-    protected $settings;
+    /** @var array Phile configuration */
+    protected $config;
+
+    /** @var Event event-bus */
+    protected $eventBus;
 
     /**
-     * @var array the loaded plugins
+     * Initializes all core services and plug-ins
      */
-    protected $plugins;
+    public function initialize()
+    {
+        $this->setupEventBus()
+            ->loadConfiguration()
+            ->setupEnvironment()
+            ->setupFolders()
+            ->loadPlugins()
+            ->setupErrorHandler();
+        return $this;
+    }
 
     /**
-     * @var \Phile\Repository\Page the page repository
-     */
-    protected $pageRepository;
-
-    /**
-     * @var null|\Phile\Model\Page the page model
-     */
-    protected $page;
-
-    /**
-     * @var string the output (rendered page)
-     */
-    protected $output;
-
-    /**
-     * @var \Phile\Core\Response the response the core send
-     */
-    protected $response;
-
-    /**
-     * @var Router
-     */
-    protected $router;
-
-    /**
-     * The constructor carries out all the processing in Phile.
-     * Does URL routing, Markdown processing and Twig processing.
+     * Processes request into the response
      *
-     * @param  Router   $router
-     * @param  Response $response
-     * @throws \Exception
+     * Evaluates URL, finds content, renders output
      */
-    public function __construct(Router $router, Response $response)
+    public function dispatch(Router $router, Response $response)
     {
-        $this->initializeErrorHandling();
-        $this->initialize($router, $response);
-        $this->checkSetup();
-        $this->initializeCurrentPage();
-        $this->initializeTemplate();
+        $response->setCharset($this->config['charset']);
+
+        $this->eventBus->trigger('after_init_core', ['response' => $response]);
+
+        $page = $this->resolveCurrentPage($router, $response);
+        $html = $this->renderHtml($page);
+        $response->setBody($html);
     }
 
     /**
-     * return the page
+     * Starts the event system
+     */
+    protected function setupEventBus()
+    {
+        $this->eventBus = new Event();
+        Event::setInstance($this->eventBus);
+        return $this;
+    }
+
+    /**
+     * Loads core configuration from configuration files
+     */
+    protected function loadConfiguration()
+    {
+        $this->config = [];
+        $files = [
+            'default' => ROOT_DIR . 'default_config.php',
+            'local' => ROOT_DIR . 'config.php'
+        ];
+        foreach ($files as $file) {
+            $cfg = include $file;
+            $this->config = array_replace_recursive($this->config, $cfg);
+        }
+        return $this;
+    }
+
+    /**
+     * Sets additional variables and settings
+     */
+    protected function setupEnvironment()
+    {
+        date_default_timezone_set($this->config['timezone']);
+        Registry::set('Phile_Settings', $this->config);
+        Registry::set('templateVars', []);
+        return $this;
+    }
+
+    /**
+     * Creates and sets up core folders if missing
+     */
+    protected function setupFolders()
+    {
+        $dirs = [CACHE_DIR, STORAGE_DIR];
+        foreach ($dirs as $dir) {
+            if (empty($dir) || strpos($dir, ROOT_DIR) !== 0) {
+                continue;
+            }
+            if (!file_exists($dir)) {
+                mkdir($dir, 0775, true);
+            }
+            $htaccessPath = "$dir.htaccess";
+            if (!file_exists($htaccessPath)) {
+                $htaccessContent = "order deny,allow\ndeny from all\nallow from 127.0.0.1";
+                file_put_contents($htaccessPath, $htaccessContent);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * Loads all plug-ins
      *
-     * @return string
+     * @throws Exception\PluginException
      */
-    public function render()
+    protected function loadPlugins()
     {
-        $this->response->send();
-    }
+        $pluginsToLoad = $this->config['plugins'];
 
-    protected function initialize(Router $router, Response $response)
-    {
-        $this->settings = Registry::get('Phile_Settings');
-        $this->pageRepository = new Repository();
-        $this->router = $router;
-        $this->response = $response;
-        $this->response->setCharset($this->settings['charset']);
+        $loader = new PluginRepository(PLUGINS_DIR);
+        $plugins = $loader->loadAll($pluginsToLoad);
+        $errors = $loader->getLoadErrors();
 
-        Event::triggerEvent('after_init_core', ['response' => $this->response]);
-    }
+        $this->eventBus->trigger('plugins_loaded', ['plugins' => $plugins]);
 
-    /**
-     * initialize the current page
-     */
-    protected function initializeCurrentPage()
-    {
-        $pageId = $this->router->getCurrentUrl();
-
-        Event::triggerEvent('request_uri', ['uri' => $pageId]);
-
-        $page = $this->pageRepository->findByPath($pageId);
-        $found = $page instanceof Page;
-
-        if ($found && $pageId !== $page->getPageId()) {
-            $url = $this->router->urlForPage($page->getPageId());
-            $this->response->redirect($url, 301);
+        // throw after 'plugins_loaded' so that errorhandler-plugin is available
+        if (count($errors) > 0) {
+            throw new PluginException($errors[0]['message'], $errors[0]['code']);
         }
 
-        if (!$found) {
-            $this->response->setStatusCode(404);
-            $page = $this->pageRepository->findByPath('404');
-            Event::triggerEvent('after_404');
-        }
+        // settings include initialized plugin-configs now
+        $this->config = Registry::get('Phile_Settings');
+        $this->eventBus->trigger('config_loaded', ['config' => $this->config]);
 
-        Event::triggerEvent('after_resolve_page', ['pageId' => $pageId, 'page' => &$page]);
-
-        $this->page = $page;
+        return $this;
     }
 
     /**
-     * initialize error handling
+     * Initializes error handling
      */
-    protected function initializeErrorHandling()
+    protected function setupErrorHandler()
     {
-        if (ServiceLocator::hasService('Phile_ErrorHandler')) {
+        if (!PHILE_CLI_MODE && ServiceLocator::hasService('Phile_ErrorHandler')) {
             $errorHandler = ServiceLocator::getService('Phile_ErrorHandler');
             set_error_handler([$errorHandler, 'handleError']);
             register_shutdown_function([$errorHandler, 'handleShutdown']);
-            ini_set('display_errors', $this->settings['display_errors']);
+            ini_set('display_errors', $this->config['display_errors']);
         }
+        return $this;
     }
 
     /**
-     * check the setup
+     * Resolves request into the current page
      */
-    protected function checkSetup()
+    protected function resolveCurrentPage(Router $router, Response $response)
     {
-        /**
-         * @triggerEvent before_setup_check this event is triggered before the setup check
-         */
-        Event::triggerEvent('before_setup_check');
+        $pageId = $router->getCurrentUrl();
 
-        if (!Registry::isRegistered('templateVars')) {
-            Registry::set('templateVars', []);
+        $this->eventBus->trigger('request_uri', ['uri' => $pageId]);
+
+        $repository = new Repository();
+        $page = $repository->findByPath($pageId);
+        $found = $page instanceof Page;
+
+        if ($found && $pageId !== $page->getPageId()) {
+            $url = $router->urlForPage($page->getPageId());
+            $response->redirect($url, 301);
         }
 
-        Event::triggerEvent('setup_check');
+        if (!$found) {
+            $response->setStatusCode(404);
+            $page = $repository->findByPath('404');
+            $this->eventBus->trigger('after_404');
+        }
 
-        /**
-         * @triggerEvent after_setup_check this event is triggered after the setup check
-         */
-        Event::triggerEvent('after_setup_check');
+        $this->eventBus->trigger('after_resolve_page', ['pageId' => $pageId, 'page' => &$page]);
+
+        return $page;
     }
 
     /**
-     * initialize template engine
+     * Renders page into output format (HTML)
      */
-    protected function initializeTemplate()
+    protected function renderHtml(Page $page)
     {
-        /**
-         * @triggerEvent before_init_template this event is triggered before the template engine is init
-         */
-        Event::triggerEvent('before_init_template');
+        $this->eventBus->trigger('before_init_template');
+        $engine = ServiceLocator::getService('Phile_Template');
 
-        $templateEngine = ServiceLocator::getService('Phile_Template');
+        $this->eventBus->trigger(
+            'before_render_template',
+            ['templateEngine' => &$engine]
+        );
 
-        /**
-         * @triggerEvent before_render_template this event is triggered before the template is rendered
-         *
-         * @param \Phile\ServiceLocator\TemplateInterface the template engine
-         */
-        Event::triggerEvent('before_render_template', array('templateEngine' => &$templateEngine));
+        $engine->setCurrentPage($page);
+        $html = $engine->render();
 
-        $templateEngine->setCurrentPage($this->page);
-        $output = $templateEngine->render();
+        $this->eventBus->trigger(
+            'after_render_template',
+            ['templateEngine' => &$engine, 'output' => &$html]
+        );
 
-        /**
-         * @triggerEvent after_render_template this event is triggered after the template is rendered
-         *
-         * @param \Phile\ServiceLocator\TemplateInterface the    template engine
-         * @param                                         string the generated ouput
-         */
-        Event::triggerEvent('after_render_template', array('templateEngine' => &$templateEngine, 'output' => &$output));
-        $this->response->setBody($output);
+        return $html;
     }
 }

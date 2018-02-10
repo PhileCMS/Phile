@@ -84,7 +84,7 @@ $config['plugins'] = [
      */
     'phile\\errorHandler' => [
         'active' => true,
-        'handler' => \Phile\Plugin\Phile\ErrorHandler\Plugin::HANDLER_DEVELOPMENT
+        'handler' => 'development'
     ],
     /**
      * setup check

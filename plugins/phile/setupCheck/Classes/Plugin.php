@@ -33,9 +33,8 @@ class Plugin extends AbstractPlugin
  * @var array event subscription
 */
     protected $events = [
-    'config_loaded' => 'onConfigLoaded',
-    'setup_check' => 'onSetupCheck',
-    'after_render_template' => 'onAfterRenderTemplate'
+        'config_loaded' => 'onConfigLoaded',
+        'after_render_template' => 'onAfterRenderTemplate'
     ];
 
     /**
@@ -45,18 +44,7 @@ class Plugin extends AbstractPlugin
      */
     protected function onConfigLoaded(array $eventData)
     {
-        $this->config = $eventData['config'];
-    }
-
-    /**
-     * perform setup check
-     */
-    protected function onSetupCheck()
-    {
-        if (empty($this->config['encryptionKey'])) {
-            return;
-        }
-        $this->needsSetup = false;
+        $this->needsSetup = empty($eventData['config']['encryptionKey']);
     }
 
     /**
