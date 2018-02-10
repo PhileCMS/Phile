@@ -111,7 +111,7 @@ class Page
                     return $pages;
                 }
 
-                // parse search	criteria
+                // parse search criteria
                 $terms = preg_split('/\s+/', $options['pages_order'], -1, PREG_SPLIT_NO_EMPTY);
                 foreach ($terms as $term) {
                     $sub = explode('.', $term);
