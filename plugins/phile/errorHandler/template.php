@@ -19,15 +19,15 @@
                 <?= $exception_message ?> [<?= $exception_code ?>]
             </strong>
             <?= $wiki_link ?>
-			<br />
+            <br />
             <span class="exception"><?= $exception_class ?></span>
-			triggered in file
+            triggered in file
             <span class="file">
                 <?= $exception_file ?></span> on line <span class="line"><?= $exception_line ?>
             </span>.
         </p>
         <?= $exception_fragment ?>
-		<?php if (isset($exception_backtrace)) : ?>
+        <?php if (isset($exception_backtrace)) : ?>
             <h2>Backtrace</h2>
     <?= $exception_backtrace ?>
         <?php endif; ?>
