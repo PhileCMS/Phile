@@ -55,8 +55,9 @@ class Page
      *
      * @return null|\Phile\Model\Page
      */
-    public function findByPath($pageId, $folder = CONTENT_DIR)
+    public function findByPath($pageId, $folder = null)
     {
+        $folder = $folder ?: $this->settings['content_dir'];
         // be merciful to lazy third-party-usage and accept a leading slash
         $pageId = ltrim($pageId, '/');
         // 'sub/' should serve page 'sub/index'
@@ -64,7 +65,7 @@ class Page
             $pageId .= 'index';
         }
 
-        $file = $folder . $pageId . CONTENT_EXT;
+        $file = $folder . $pageId . $this->settings['content_ext'];
         if (!file_exists($file)) {
             if (substr($pageId, -6) === '/index') {
                 // try to resolve sub-directory 'sub/' to page 'sub'
@@ -73,7 +74,7 @@ class Page
                 // try to resolve page 'sub' to sub-directory 'sub/'
                 $pageId .= '/index';
             }
-            $file = $folder . $pageId . CONTENT_EXT;
+            $file = $folder . $pageId . $this->settings['content_ext'];
         }
         if (!file_exists($file)) {
             return null;
@@ -89,8 +90,9 @@ class Page
      *
      * @return PageCollection of \Phile\Model\Page objects
      */
-    public function findAll(array $options = array(), $folder = CONTENT_DIR)
+    public function findAll(array $options = array(), $folder = null)
     {
+        $folder = $folder ?: $this->settings['content_dir'];
         return new PageCollection(
             function () use ($options, $folder) {
                 $options += $this->settings;
@@ -98,7 +100,7 @@ class Page
                 $files = Utility::getFiles($folder, '\Phile\FilterIterator\ContentFileFilterIterator');
                 $pages = array();
                 foreach ($files as $file) {
-                    if (str_replace($folder, '', $file) == '404' . CONTENT_EXT) {
+                    if (str_replace($folder, '', $file) == '404' . $this->settings['content_ext']) {
                         // jump to next page if file is the 404 page
                         continue;
                     }
@@ -189,8 +191,9 @@ class Page
      *
      * @return mixed|\Phile\Model\Page
      */
-    protected function getPage($filePath, $folder = CONTENT_DIR)
+    protected function getPage($filePath, $folder = null)
     {
+        $folder = $folder ?: $this->settings['content_dir'];
         $key = 'Phile_Model_Page_' . md5($filePath);
         if (isset($this->storage[$key])) {
             return $this->storage[$key];
