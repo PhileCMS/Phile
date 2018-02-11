@@ -158,7 +158,6 @@ class Twig implements TemplateInterface
      */
     protected function getTemplateVars()
     {
-        $repository = new Repository($this->settings);
         $defaults = [
         'content' => $this->page->getContent(),
         'meta' => $this->page->getMeta(),
@@ -168,7 +167,7 @@ class Twig implements TemplateInterface
         'config' => $this->settings,
         'content_dir' => $this->settings['content_dir'],
         'content_url' => $this->settings['base_url'] . '/' . basename($this->settings['content_dir']),
-        'pages' => $repository->findAll(),
+        'pages' => $this->page->getRepository()->findAll(),
         'site_title' => $this->settings['site_title'],
         'theme_dir' => THEMES_DIR . $this->settings['theme'],
         'theme_url' => $this->settings['base_url'] . '/' . basename(THEMES_DIR) . '/' . $this->settings['theme'],
