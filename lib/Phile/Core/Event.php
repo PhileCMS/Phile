@@ -17,7 +17,10 @@ use Phile\Gateway\EventObserverInterface;
 class Event
 {
 
-    /** @var Event global instance */
+    /**
+     * @var Event global instance
+     * @deprecated static use is deprecated
+     */
     protected static $instance;
 
     /**
@@ -31,6 +34,7 @@ class Event
      * get global event instance
      *
      * @return Event
+     * @deprecated static use is deprectated
      */
     public static function getInstance()
     {
@@ -41,6 +45,7 @@ class Event
      * Set global event instance
      *
      * @param Event $instance
+     * @deprecated static use is deprecated
      */
     public static function setInstance(Event $instance)
     {
@@ -52,6 +57,7 @@ class Event
      *
      * @param $eventName
      * @param $object
+     * @deprecated static use is deprecated
      */
     public static function registerEvent($eventName, $object)
     {
@@ -63,6 +69,7 @@ class Event
      *
      * @param $eventName
      * @param array $data
+     * @deprecated static use is deprecated
      */
     public static function triggerEvent($eventName, $data = null)
     {

@@ -32,13 +32,8 @@ class PageTest extends TestCase
     protected function setUp()
     {
         parent::setUp();
+        (new \Phile\Phile);
         $this->pageRepository = new \Phile\Repository\Page();
-        $this->phileSettings = Registry::get('Phile_Settings');
-    }
-
-    protected function tearDown()
-    {
-        Registry::set('Phile_Settings', $this->phileSettings);
     }
 
     /**
@@ -84,9 +79,8 @@ class PageTest extends TestCase
     public function testFindByPathPhileConfigSettings()
     {
         //= changed content directory
-        $settings = $this->phileSettings;
         $settings['content_dir'] = PLUGINS_DIR . str_replace('/', DS, 'phile/testPlugin/content/sub/');
-        Registry::set('Phile_Settings', $settings);
+        Registry::get('Phile.Core.Config')->merge($settings);
 
         $repository = new \Phile\Repository\Page();
         $found = $repository->findByPath('c');

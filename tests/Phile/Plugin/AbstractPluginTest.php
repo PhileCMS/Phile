@@ -4,6 +4,7 @@
  */
 namespace PhileTest\Plugin;
 
+use Phile\Core\Config;
 use Phile\Core\Event;
 use Phile\Core\Registry;
 use Phile\Plugin\Phile\TestPlugin\Plugin;
@@ -20,23 +21,15 @@ use PHPUnit\Framework\TestCase;
 class AbstractPluginTest extends TestCase
 {
 
-    protected $config;
-
     protected $pluginKey = 'phile\testPlugin';
 
     protected function setUp()
     {
-        $settings = $this->config = Registry::get('Phile_Settings');
         $settings['plugins'][$this->pluginKey] = [
             'active' => false,
             'A' => 'A'
         ];
-        Registry::set('Phile_Settings', $settings);
-    }
-
-    protected function tearDown()
-    {
-        Registry::set('Phile_Settings', $this->config);
+        Registry::set('Phile.Core.Config', new Config($settings));
     }
 
     protected function mockPlugin(array $methods = [])

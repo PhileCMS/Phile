@@ -39,7 +39,7 @@ class Page
     public function __construct($settings = null)
     {
         if ($settings === null) {
-            $settings = Registry::get('Phile_Settings');
+            $settings = Registry::get('Phile.Core.Config')->toArray();
         }
         $this->settings = $settings;
         if (ServiceLocator::hasService('Phile_Cache')) {

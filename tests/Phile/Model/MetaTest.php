@@ -20,6 +20,13 @@ use PHPUnit\Framework\TestCase;
  */
 class MetaTest extends TestCase
 {
+
+    public static function setUpBeforeClass()
+    {
+        parent::setUpBeforeClass();
+        new \Phile\Phile;
+    }
+
     /**
      * @var string meta data test string
      */

@@ -4,10 +4,10 @@
  */
 namespace Phile\Plugin;
 
-use Phile\Core\Event;
 use Phile\Core\Registry;
 use Phile\Core\Utility;
 use Phile\Gateway\EventObserverInterface;
+use Phile\Phile;
 
 /**
  * the AbstractPlugin class for implementing a plugin for PhileCMS
@@ -58,7 +58,7 @@ abstract class AbstractPlugin implements EventObserverInterface
          * init events
          */
         foreach ($this->events as $event => $method) {
-            Event::registerEvent($event, $this);
+            Registry::get('Phile.Core.EventBus')->register($event, $this);
         }
 
         /**
@@ -69,7 +69,7 @@ abstract class AbstractPlugin implements EventObserverInterface
             $defaults = [];
         }
 
-        $globals = Registry::get('Phile_Settings');
+        $globals = Registry::get('Phile.Core.Config')->toArray();
         if (!isset($globals['plugins'][$pluginKey])) {
             $globals['plugins'][$pluginKey] = [];
         }
@@ -85,7 +85,7 @@ abstract class AbstractPlugin implements EventObserverInterface
         $this->injectSettings($this->settings);
 
         $globals['plugins'][$pluginKey]['settings'] = $this->settings;
-        Registry::set('Phile_Settings', $globals);
+        Registry::get('Phile.Core.Config')->set($globals);
     }
 
     /**

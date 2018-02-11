@@ -2,6 +2,7 @@
 
 namespace PhileTest\Core;
 
+use Phile\Core\Config;
 use Phile\Core\Registry;
 use Phile\Core\Router;
 use PHPUnit\Framework\TestCase;
@@ -27,18 +28,12 @@ class RouterTest extends TestCase
     public function setUp()
     {
         $this->router = new Router();
-        if (Registry::isRegistered('Phile_Settings')) {
-            $this->settings = Registry::get('Phile_Settings');
-        }
         parent::setup();
     }
 
     protected function tearDown()
     {
-        if ($this->settings !== null) {
-            Registry::set('Phile_Settings', $this->settings);
-        }
-        unset($this->router, $this->settings);
+        unset($this->router);
     }
 
     public function testUrlForPageFull()
@@ -147,6 +142,6 @@ class RouterTest extends TestCase
 
     public function mockBaseUrl($url = '')
     {
-        Registry::set('Phile_Settings', ['base_url' => $url]);
+        Registry::set('Phile.Core.Config', new Config(['base_url' => $url]));
     }
 }

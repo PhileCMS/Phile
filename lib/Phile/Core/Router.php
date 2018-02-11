@@ -67,10 +67,10 @@ class Router
      */
     public function getBaseUrl()
     {
-        if (Registry::isRegistered('Phile_Settings')) {
-            $config = Registry::get('Phile_Settings');
-            if (!empty($config['base_url'])) {
-                return $config['base_url'];
+        if (Registry::isRegistered('Phile.Core.Config')) {
+            $config = Registry::get('Phile.Core.Config');
+            if (!empty($config->get('base_url'))) {
+                return $config->get('base_url');
             }
         }
 

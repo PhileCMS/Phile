@@ -22,7 +22,7 @@ class ContentFileFilterIterator extends \FilterIterator
         /**
          * @var \SplFileInfo $this
         */
-        $ext = Registry::get('Phile_Settings')['content_ext'];
+        $ext = Registry::get('Phile.Core.Config')->get('content_ext');
         return (preg_match('/^[^\.]{1}.*' . $ext . '/', $this->getFilename()) > 0);
     }
 }

@@ -2,7 +2,8 @@
 
 namespace PhileTest;
 
-use Phile\Core;
+use Phile\Phile as Core;
+use Phile\Core\Config;
 use Phile\Core\Event;
 use Phile\Core\Registry;
 use Phile\Core\Response;
@@ -17,15 +18,8 @@ use PHPUnit\Framework\TestCase;
  * @license http://opensource.org/licenses/MIT
  * @package PhileTest
  */
-class CoreTest extends TestCase
+class PhileTest extends TestCase
 {
-    public function setUp()
-    {
-        parent::setUp();
-        // reset settings, events, plugins, … before before each test
-        (new Core())->initialize();
-    }
-
     /**
      *
      */
@@ -33,25 +27,22 @@ class CoreTest extends TestCase
     {
         $baseUrl = 'http://foo';
 
-        $settings = Registry::get('Phile_Settings');
-        Registry::set('Phile_Settings', ['base_url' => $baseUrl] + $settings);
-
         $redirects = [
             'sub' => 'sub/',
             'sub/page/' => 'sub/page'
         ];
 
+
         foreach ($redirects as $current => $expected) {
-            $Core = $this->getMockBuilder('Phile\Core')
-                ->setMethods(
-                    ['setErrorHandler', 'renderHtml']
-                )
+            $Config = new Config(['base_url' => $baseUrl]);
+            $Core = $this->getMockBuilder('Phile\Phile')
+                ->setConstructorArgs([null, $Config])
+                ->setMethods(['renderHtml'])
                 ->getMock();
-            $Core->method('setErrorHandler')->will($this->returnSelf());
             $Core->method('renderHtml')->will($this->returnSelf());
 
             $response = $this->getMockBuilder('\Phile\Core\Response')
-                ->setMethods(['redirect', 'stop'])
+                ->setMethods(['redirect'])
                 ->getMock();
             $router = new Router(['REQUEST_URI' => $current]);
 
@@ -59,7 +50,7 @@ class CoreTest extends TestCase
                 ->method('redirect')
                 ->with($baseUrl . '/' . $expected, 301);
 
-            $Core->initialize()->dispatch($router, $response);
+            $Core->dispatch($router, $response);
         }
     }
 
@@ -71,13 +62,16 @@ class CoreTest extends TestCase
         $router = new Router(['REQUEST_URI' => '/']);
         $response = new Response();
 
-        $core = (new Core())->initialize();
+        $event = new Event;
+        $event->register(
+            'config_loaded',
+            function ($event, $data) {
+                $data['class']->set('encryptionKey', '');
+            }
+        );
+        $core = (new Core($event));
 
-        $settings = Registry::get('Phile_Settings');
-        Event::triggerEvent('config_loaded', ['config' => ['encryptionKey' => ''] + $settings]);
-        Event::triggerEvent('setup_check');
-
-        $core->dispatch($router, $response);
+        $response = $core->dispatch($router, $response);
 
         $expected = 'Welcome to the PhileCMS Setup';
         $body = $this->getObjectAttribute($response, 'body');
@@ -104,12 +98,26 @@ class CoreTest extends TestCase
             $this->assertFalse(is_dir($path));
         }
 
-        (new Core)->initialize();
+        (new Core);
 
         foreach ($paths as $path) {
             $this->assertTrue(is_dir($path));
             $this->assertTrue(is_file($path . '.htaccess'));
         }
+    }
+
+    public function testGetConfig()
+    {
+        $config = new Config;
+        (new Core(null, $config));
+        $this->assertSame($config, Registry::get('Phile.Core.Config'));
+    }
+
+    public function testGetEventBus()
+    {
+        $event = new Event;
+        (new Core($event));
+        $this->assertSame($event, Registry::get('Phile.Core.EventBus'));
     }
 
     /**

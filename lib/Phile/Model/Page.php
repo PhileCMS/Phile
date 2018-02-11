@@ -4,8 +4,8 @@
  */
 namespace Phile\Model;
 
+use Phile\Phile;
 use Phile\Core\Router;
-use Phile\Core\Event;
 use Phile\Core\Registry;
 use Phile\Core\ServiceLocator;
 use Phile\Repository\Page as Repository;
@@ -71,7 +71,7 @@ class Page
      */
     public function __construct($filePath, $folder = null)
     {
-        $settings = Registry::get('Phile_Settings');
+        $settings = Registry::get('Phile.Core.Config')->toArray();
         $this->contentFolder = $folder ?: $settings['content_dir'];
         $this->contentExtension = $settings['content_ext'];
         $this->setFilePath($filePath);
@@ -82,7 +82,10 @@ class Page
          * @param            string filePath the path to the file
          * @param \Phile\Model\Page page     the page model
          */
-        Event::triggerEvent('before_load_content', array('filePath' => &$this->filePath, 'page' => &$this));
+        Registry::get('Phile.Core.EventBus')->trigger(
+            'before_load_content',
+            ['filePath' => &$this->filePath, 'page' => &$this]
+        );
         if (file_exists($this->filePath)) {
             $this->rawData = file_get_contents($this->filePath);
             $this->parseRawData();
@@ -94,7 +97,7 @@ class Page
          * @param            string rawData  the raw data
          * @param \Phile\Model\Page page     the page model
          */
-        Event::triggerEvent(
+        Registry::get('Phile.Core.EventBus')->trigger(
             'after_load_content',
             [
                 'filePath' => &$this->filePath,
@@ -119,7 +122,10 @@ class Page
          * @param            string content the raw data
          * @param \Phile\Model\Page page    the page model
          */
-        Event::triggerEvent('before_parse_content', array('content' => $this->content, 'page' => &$this));
+        Registry::get('Phile.Core.EventBus')->trigger(
+            'before_parse_content',
+            ['content' => $this->content, 'page' => &$this]
+        );
         $content = $this->parser->parse($this->content);
         /**
          * @triggerEvent after_parse_content this event is triggered after the content is parsed
@@ -127,7 +133,10 @@ class Page
          * @param            string content the parsed content
          * @param \Phile\Model\Page page    the page model
          */
-        Event::triggerEvent('after_parse_content', array('content' => &$content, 'page' => &$this));
+        Registry::get('Phile.Core.EventBus')->trigger(
+            'after_parse_content',
+            ['content' => &$content, 'page' => &$this]
+        );
 
         return $content;
     }

@@ -99,11 +99,11 @@ class Utility
      */
     public static function isPluginLoaded($plugin)
     {
-        $config = Registry::get('Phile_Settings');
-        if (!isset($config['plugins'])) {
+        $config = Registry::get('Phile.Core.Config');
+        if ($config->get('plugins')) {
             return false;
         }
-        $plugins = $config['plugins'];
+        $plugins = $config->get('plugins');
         return (isset($plugins[$plugin]['active']) && $plugins[$plugin]['active'] === true);
     }
 
@@ -157,9 +157,9 @@ class Utility
      */
     public static function getSecureMD5Hash($value)
     {
-        $config = Registry::get('Phile_Settings');
+        $config = Registry::get('Phile.Core.Config');
 
-        return md5($config['encryptionKey'] . $value);
+        return md5($config->get('encryptionKey') . $value);
     }
 
     /**
