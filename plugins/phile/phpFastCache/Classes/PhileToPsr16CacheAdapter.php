@@ -18,8 +18,10 @@ use Psr\SimpleCache\CacheInterface;
 class PhileToPsr16CacheAdapter implements \Phile\ServiceLocator\CacheInterface
 {
     /** @var string slug */
-    const SLUG = '-phile.phpFastCache.slug-';
+    const SLUG_PREFIX = '-phile.phpFastCache.slug-';
     
+    const SLUG = ['{', '}' , '(', ')', '/' , '\\' , '@', ':'];
+
     /**
      * @var \BasePhpFastCache the cache engine
      */
@@ -115,7 +117,18 @@ class PhileToPsr16CacheAdapter implements \Phile\ServiceLocator\CacheInterface
      */
     protected function slug($key)
     {
-        $psr16Forbidden = ['{', '}' , '(', ')', '/' , '\\' , '@', ':'];
-        return str_replace($psr16Forbidden, self::SLUG, $key);
+        $replacer = function ($character) {
+            $key = array_search($character[0], self::SLUG);
+            $replacement = self::SLUG_PREFIX . $key;
+            return $replacement;
+        };
+        $search = array_map(
+            function ($value) {
+                return preg_quote($value);
+            },
+            self::SLUG
+        );
+        $search = '!' . implode('|', $search) . '!';
+        return preg_replace_callback($search, $replacer, $key);
     }
 }
