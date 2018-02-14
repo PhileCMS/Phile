@@ -17,6 +17,9 @@ use Psr\SimpleCache\CacheInterface;
  */
 class PhileToPsr16CacheAdapter implements \Phile\ServiceLocator\CacheInterface
 {
+    /** @var string slug */
+    const SLUG = '-phile.phpFastCache.slug-';
+    
     /**
      * @var \BasePhpFastCache the cache engine
      */
@@ -41,6 +44,7 @@ class PhileToPsr16CacheAdapter implements \Phile\ServiceLocator\CacheInterface
      */
     public function has($key)
     {
+        $key = $this->slug($key);
         return $this->cacheEngine->has($key);
     }
 
@@ -53,6 +57,7 @@ class PhileToPsr16CacheAdapter implements \Phile\ServiceLocator\CacheInterface
      */
     public function get($key)
     {
+        $key = $this->slug($key);
         return $this->cacheEngine->get($key);
     }
 
@@ -72,6 +77,7 @@ class PhileToPsr16CacheAdapter implements \Phile\ServiceLocator\CacheInterface
             // not longer supported by phpFastCache
             trigger_error('Argument $options is deprecated and ignored.', E_USER_WARNING);
         }
+        $key = $this->slug($key);
         $this->cacheEngine->set($key, $value, $time);
     }
 
@@ -89,6 +95,7 @@ class PhileToPsr16CacheAdapter implements \Phile\ServiceLocator\CacheInterface
             // not longer supported by phpFastCache
             trigger_error('Argument $options is deprecated and ignored.', E_USER_WARNING);
         }
+        $key = $this->slug($key);
         $this->cacheEngine->delete($key);
     }
 
@@ -98,5 +105,17 @@ class PhileToPsr16CacheAdapter implements \Phile\ServiceLocator\CacheInterface
     public function clean()
     {
         $this->cacheEngine->clear();
+    }
+
+    /**
+     * replaces chars forbidden in PSR-16 cache-keys
+     *
+     * @param string $key key to slug
+     * @return string $key slugged key
+     */
+    protected function slug($key)
+    {
+        $psr16Forbidden = ['{', '}' , '(', ')', '/' , '\\' , '@', ':'];
+        return str_replace($psr16Forbidden, self::SLUG, $key);
     }
 }
