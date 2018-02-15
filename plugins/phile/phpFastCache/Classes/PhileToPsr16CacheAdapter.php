@@ -117,18 +117,12 @@ class PhileToPsr16CacheAdapter implements \Phile\ServiceLocator\CacheInterface
      */
     protected function slug($key)
     {
-        $replacer = function ($character) {
-            $key = array_search($character[0], self::SLUG);
-            $replacement = self::SLUG_PREFIX . $key;
-            return $replacement;
-        };
-        $search = array_map(
-            function ($value) {
-                return preg_quote($value);
+        $replacementTokens = array_map(
+            function ($key) {
+                return self::SLUG_PREFIX . $key;
             },
-            self::SLUG
+            array_keys(self::SLUG)
         );
-        $search = '!' . implode('|', $search) . '!';
-        return preg_replace_callback($search, $replacer, $key);
+        return str_replace(self::SLUG, $replacementTokens, $key);
     }
 }

@@ -6,6 +6,7 @@
     <testsuites>
         <testsuite name="core">
             <directory>tests/</directory>
+            <directory>plugins/phile/phpFastCache/tests/</directory>
         </testsuite>
     </testsuites>
 </phpunit>
