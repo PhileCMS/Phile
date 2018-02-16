@@ -22,6 +22,7 @@ class SessionTest extends TestCase
 {
     /**
      * @runInSeparateProcess
+     * @preserveGlobalState disabled
      */
     public function testSessionCanBeStarted()
     {
@@ -32,6 +33,7 @@ class SessionTest extends TestCase
 
     /**
      * @runInSeparateProcess
+     * @preserveGlobalState disabled
      */
     public function testSessionCanStoreString()
     {
@@ -44,6 +46,7 @@ class SessionTest extends TestCase
 
     /**
      * @runInSeparateProcess
+     * @preserveGlobalState disabled
      */
     public function testSessionCanStoreInteger()
     {
@@ -53,6 +56,7 @@ class SessionTest extends TestCase
 
     /**
      * @runInSeparateProcess
+     * @preserveGlobalState disabled
      */
     public function testSessionCanStoreBoolean()
     {
@@ -62,6 +66,7 @@ class SessionTest extends TestCase
 
     /**
      * @runInSeparateProcess
+     * @preserveGlobalState disabled
      */
     public function testSessionCanStoreFloat()
     {
@@ -71,6 +76,7 @@ class SessionTest extends TestCase
 
     /**
      * @runInSeparateProcess
+     * @preserveGlobalState disabled
      */
     public function testSessionCanStoreStdClass()
     {
@@ -83,6 +89,7 @@ class SessionTest extends TestCase
 
     /**
      * @runInSeparateProcess
+     * @preserveGlobalState disabled
      */
     public function testSessionHasSessionId()
     {

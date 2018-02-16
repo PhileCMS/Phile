@@ -42,10 +42,7 @@ class Router
         $url = $this->server['REQUEST_URI'];
 
         // remove query string
-        $queryPosition = strpos($url, '?');
-        if ($queryPosition) {
-            $url = substr($url, 0, $queryPosition);
-        }
+        list($url) = explode('?', $url);
 
         // resolve root-relative URL-path
         $baseUrl = $this->getBaseUrl();
@@ -67,11 +64,9 @@ class Router
      */
     public function getBaseUrl()
     {
-        if (Registry::isRegistered('Phile.Core.Config')) {
-            $config = Registry::get('Phile.Core.Config');
-            if (!empty($config->get('base_url'))) {
-                return $config->get('base_url');
-            }
+        $baseUrl = Registry::get('Phile.Core.Config')->get('base_url');
+        if (!empty($baseUrl)) {
+            return $baseUrl;
         }
 
         $url = '';

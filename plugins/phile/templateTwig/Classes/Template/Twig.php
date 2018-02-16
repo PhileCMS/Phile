@@ -66,6 +66,10 @@ class Twig implements TemplateInterface
     {
         $engine = $this->getEngine();
         $vars = $this->getTemplateVars();
+        Registry::get('Phile.Core.EventBus')->trigger(
+            'template_engine_registered',
+            ['engine' => &$engine, 'data' => &$vars]
+        );
         return $this->doRender($engine, $vars);
     }
 

@@ -9,7 +9,7 @@
 namespace PhileTest\Repository;
 
 use Phile\Core\Registry;
-use PHPUnit\Framework\TestCase;
+use Phile\Test\TestCase;
 
 /**
  * the PageTest class
@@ -32,7 +32,7 @@ class PageTest extends TestCase
     protected function setUp()
     {
         parent::setUp();
-        (new \Phile\Phile);
+        $this->getBootstrappedCore()->bootstrap();
         $this->pageRepository = new \Phile\Repository\Page();
     }
 
