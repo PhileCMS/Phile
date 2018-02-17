@@ -2,6 +2,7 @@
 
 namespace PhileTest\Model;
 
+use Phile\Repository\Page as Repository;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -25,7 +26,7 @@ class PageTest extends TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->pageRepository = new \Phile\Repository\Page();
+        $this->pageRepository = new Repository();
     }
 
     /**
@@ -136,5 +137,22 @@ class PageTest extends TestCase
         $page = $this->pageRepository->findByPath('index');
         $this->assertInstanceOf('\Phile\Model\Page', $page->getNextPage());
         $this->assertEquals('Sub Page Index', $page->getNextPage()->getTitle());
+    }
+
+    public function testRepositoryGet()
+    {
+        $page = $this->pageRepository->findByPath('index');
+        $this->assertInstanceOf(Repository::class, $page->getRepository());
+    }
+
+    public function testRepositorySet()
+    {
+        $page = $this->pageRepository->findByPath('index');
+
+        $repository = new Repository;
+        $this->assertNotSame($repository, $page->getRepository());
+
+        $page->setRepository($repository);
+        $this->assertSame($repository, $page->getRepository());
     }
 }

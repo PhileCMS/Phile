@@ -7,8 +7,8 @@ namespace Phile\Model;
 use Phile\Core\Router;
 use Phile\Core\Event;
 use Phile\Core\Registry;
-use Phile\Core\Repository;
 use Phile\Core\ServiceLocator;
+use Phile\Repository\Page as Repository;
 
 /**
  * the Model class for a page
@@ -51,16 +51,6 @@ class Page
     protected $pageId;
 
     /**
-     * @var \Phile\Model\Page the previous page if one exist
-     */
-    protected $previousPage;
-
-    /**
-     * @var \Phile\Model\Page the next page if one exist
-     */
-    protected $nextPage;
-
-    /**
      * @var string The content folder, as passed to the class constructor when initiating the object.
      */
     protected $contentFolder;
@@ -69,6 +59,9 @@ class Page
      * @var string content extension
      */
     protected $contentExtension;
+
+    /** @var Repository */
+    protected $repository;
 
     /**
      * the constructor
@@ -190,6 +183,31 @@ class Page
     }
 
     /**
+     * Sets repository this page was retrieved by/belongs to
+     *
+     * @param Repository $repository
+     * @return $this
+     */
+    public function setRepository(Repository $repository)
+    {
+        $this->repository = $repository;
+        return $this;
+    }
+
+    /**
+     * Gets repository this page belongs to
+     *
+     * @return Repository
+     */
+    public function getRepository()
+    {
+        if (!$this->repository) {
+            $this->repository = new Repository();
+        }
+        return $this->repository;
+    }
+
+    /**
      * get the title of page from meta information
      *
      * @return string|null
@@ -268,8 +286,7 @@ class Page
      */
     public function getPreviousPage()
     {
-        $pageRepository = new \Phile\Repository\Page();
-        return $pageRepository->getPageOffset($this, -1);
+        return $this->getRepository()->getPageOffset($this, -1);
     }
 
     /**
@@ -279,7 +296,6 @@ class Page
      */
     public function getNextPage()
     {
-        $pageRepository = new \Phile\Repository\Page();
-        return $pageRepository->getPageOffset($this, 1);
+        return $this->getRepository()->getPageOffset($this, 1);
     }
 }

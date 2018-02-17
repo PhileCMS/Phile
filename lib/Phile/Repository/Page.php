@@ -189,7 +189,7 @@ class Page
      * @param $filePath
      * @param string   $folder
      *
-     * @return mixed|\Phile\Model\Page
+     * @return \Phile\Model\Page
      */
     protected function getPage($filePath, $folder = null)
     {
@@ -209,6 +209,7 @@ class Page
         } else {
             $page = new \Phile\Model\Page($filePath, $folder);
         }
+        $page->setRepository($this);
         $this->storage[$key] = $page;
 
         return $page;
