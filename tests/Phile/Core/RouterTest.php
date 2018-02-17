@@ -24,16 +24,20 @@ class RouterTest extends TestCase
      */
     protected $router;
 
-    protected function setUp()
+    public function setUp()
     {
         $this->router = new Router();
-        $this->settings = Registry::get('Phile_Settings');
+        if (Registry::isRegistered('Phile_Settings')) {
+            $this->settings = Registry::get('Phile_Settings');
+        }
         parent::setup();
     }
 
     protected function tearDown()
     {
-        Registry::set('Phile_Settings', $this->settings);
+        if ($this->settings !== null) {
+            Registry::set('Phile_Settings', $this->settings);
+        }
         unset($this->router, $this->settings);
     }
 
@@ -143,9 +147,6 @@ class RouterTest extends TestCase
 
     public function mockBaseUrl($url = '')
     {
-        Registry::set(
-            'Phile_Settings',
-            ['base_url' => $url] + $this->settings
-        );
+        Registry::set('Phile_Settings', ['base_url' => $url]);
     }
 }

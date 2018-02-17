@@ -19,7 +19,7 @@ class PluginRepositoryTest extends TestCase
     public function testLoadAllSuccess()
     {
         $toLoad = 'phile\testPlugin';
-        $plugins = new PluginRepository();
+        $plugins = new PluginRepository(PLUGINS_DIR);
 
         $result = $plugins->loadAll([$toLoad => ['active' => true]]);
         $this->assertTrue(is_array($result));
@@ -34,7 +34,7 @@ class PluginRepositoryTest extends TestCase
 
     public function testLoadAllFailure()
     {
-        $plugins = new PluginRepository();
+        $plugins = new PluginRepository(PLUGINS_DIR);
 
         $plugins->loadAll(['foo\\bar' => ['active' => false]]);
         $this->assertEquals(0, count($plugins->getLoadErrors()));
