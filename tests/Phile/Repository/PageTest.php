@@ -8,7 +8,7 @@
 
 namespace PhileTest\Repository;
 
-use Phile\Core\Registry;
+use Phile\Core\Container;
 use Phile\Test\TestCase;
 
 /**
@@ -32,7 +32,7 @@ class PageTest extends TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->getBootstrappedCore()->bootstrap();
+        $this->createPhileCore()->bootstrap();
         $this->pageRepository = new \Phile\Repository\Page();
     }
 
@@ -80,7 +80,7 @@ class PageTest extends TestCase
     {
         //= changed content directory
         $settings['content_dir'] = PLUGINS_DIR . str_replace('/', DS, 'phile/testPlugin/content/sub/');
-        Registry::get('Phile.Core.Config')->merge($settings);
+        Container::getInstance()->get('Phile_Config')->merge($settings);
 
         $repository = new \Phile\Repository\Page();
         $found = $repository->findByPath('c');
@@ -91,7 +91,7 @@ class PageTest extends TestCase
 
         // changed content extension
         $settings['content_ext'] = '.markdown';
-        Registry::set('Phile_Settings', $settings);
+        Container::getInstance()->get('Phile_Config')->set($settings);
 
         $repository = new \Phile\Repository\Page();
 

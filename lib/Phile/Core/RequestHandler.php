@@ -18,11 +18,8 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class RequestHandler implements RequestHandlerInterface
 {
-    /** @var array the middlewares to process */
-    protected $middleware = [];
-
-    /** @var integer counter */
-    protected $current = 0;
+    /** @var \SplPriorityQueue the middleware to process */
+    protected $middleware;
 
     /** @var ResponseFactoryInterface PSR-17 HTTP response factory */
     protected $responseFactory;
@@ -35,26 +32,18 @@ class RequestHandler implements RequestHandlerInterface
     public function __construct(ResponseFactoryInterface $responseFactory)
     {
         $this->responseFactory = $responseFactory;
+        $this->middleware = new \SplPriorityQueue();
     }
 
     /**
-     * Adds middleware to the end of the middleware-queue
+     * Adds middleware to the the middleware-queue
      *
-     * @param MiddlewareInterface $middleware
+     * @param MiddlewareInterface $middleware Middleware to add
+     * @param int $priority Priority orders middleware in queue
      */
-    public function add(MiddlewareInterface $middleware)
+    public function add(MiddlewareInterface $middleware, $priority = 10)
     {
-        $this->middleware[] = $middleware;
-    }
-
-    /**
-     * Adds middleware to the start of the middleware-queue
-     *
-     * @param MiddlewareInterface $middleware
-     */
-    public function prepend(MiddlewareInterface $middleware)
-    {
-        array_unshift($this->middleware, $middleware);
+        $this->middleware->insert($middleware, $priority);
     }
 
     /**
@@ -65,11 +54,14 @@ class RequestHandler implements RequestHandlerInterface
      */
     public function handle(ServerRequestInterface $request)
     {
-        if (!isset($this->middleware[$this->current])) {
+        if ($this->middleware->key() === 0) {
+            $this->middleware->rewind();
+        }
+        if (!$this->middleware->valid()) {
             return $this->responseFactory->createResponse();
         }
-        $middleware = $this->middleware[$this->current];
-        $this->current++;
-        return call_user_func_array([$middleware, 'process'], [$request, $this]);
+        $current = $this->middleware->current();
+        $this->middleware->next();
+        return call_user_func_array([$current, 'process'], [$request, $this]);
     }
 }

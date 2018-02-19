@@ -1,17 +1,14 @@
 <?php
-/**
- * the Router class
+/*
+ * @author  PhileCMS
+ * @link    https://philecms.com
+ * @license http://opensource.org/licenses/MIT
  */
 
 namespace Phile\Core;
 
 /**
  * this Router class is responsible for Phile's basic URL management
- *
- * @author  PhileCMS
- * @link    https://philecms.com
- * @license http://opensource.org/licenses/MIT
- * @package Phile\Core
  */
 class Router
 {
@@ -64,7 +61,7 @@ class Router
      */
     public function getBaseUrl()
     {
-        $baseUrl = Registry::get('Phile.Core.Config')->get('base_url');
+        $baseUrl = Container::getInstance()->get('Phile_Config')->get('base_url');
         if (!empty($baseUrl)) {
             return $baseUrl;
         }

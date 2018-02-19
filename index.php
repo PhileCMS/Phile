@@ -10,6 +10,9 @@ try {
     ob_start();
     require_once __DIR__ . '/config/bootstrap.php';
 
+    $container = Phile\Core\Container::getInstance();
+    $app = $container->get('Phile_App');
+
     $request = Zend\Diactoros\ServerRequestFactory::fromGlobals();
     $response = $app->dispatch($request);
 

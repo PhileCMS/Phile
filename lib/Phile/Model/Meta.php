@@ -4,8 +4,7 @@
  */
 namespace Phile\Model;
 
-use Phile\Phile;
-use Phile\Core\Registry;
+use Phile\Core\Container;
 use Phile\Core\ServiceLocator;
 
 /**
@@ -44,7 +43,7 @@ class Meta extends AbstractModel
          * @param string rawData the unparsed data
          * @param \Phile\Model\Meta meta   the meta model
          */
-        Registry::get('Phile.Core.EventBus')->trigger(
+        Container::getInstance()->get('Phile_EventBus')->trigger(
             'before_read_file_meta',
             ['rawData' => &$rawData, 'meta' => &$this]
         );
@@ -55,7 +54,7 @@ class Meta extends AbstractModel
          * @param string rawData the unparsed data
          * @param \Phile\Model\Meta meta   the meta model
          */
-        Registry::get('Phile.Core.EventBus')->trigger(
+        Container::getInstance()->get('Phile_EventBus')->trigger(
             'after_read_file_meta',
             ['rawData' => &$rawData, 'meta' => &$this]
         );
@@ -68,7 +67,7 @@ class Meta extends AbstractModel
      */
     public function getFormattedDate()
     {
-        $config = Registry::get('Phile.Core.Config');
+        $config = Container::getInstance()->get('Phile_Config');
         if (!isset($this->data['date'])) {
             return null;
         }

@@ -3,7 +3,7 @@
 namespace PhileTest\Core;
 
 use Phile\Core\Config;
-use Phile\Core\Registry;
+use Phile\Core\Container;
 use Phile\Core\Router;
 use PHPUnit\Framework\TestCase;
 
@@ -142,6 +142,6 @@ class RouterTest extends TestCase
 
     public function mockBaseUrl($url = '')
     {
-        Registry::set('Phile.Core.Config', new Config(['base_url' => $url]));
+        Container::getInstance()->set('Phile_Config', new Config(['base_url' => $url]));
     }
 }

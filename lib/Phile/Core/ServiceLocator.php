@@ -1,38 +1,20 @@
 <?php
-/**
- * The SerciveLocator class
+/*
+ * @author  PhileCMS
+ * @link    https://philecms.com
+ * @license http://opensource.org/licenses/MIT
  */
+
 namespace Phile\Core;
 
+use Phile\Core\Container;
 use Phile\Exception\ServiceLocatorException;
 
 /**
  * the Service Locator class
- *
- * @author  Frank Nägler
- * @link    https://philecms.com
- * @license http://opensource.org/licenses/MIT
- * @package Phile\Core
  */
 class ServiceLocator
 {
-    /**
-     * @var array of services
-     */
-    protected static $services;
-
-    /**
-     * @var array $serviceMap for mapping speaking names/keys to the interfaces
-     */
-    protected static $serviceMap = array(
-    'Phile_Cache'            => 'Phile\ServiceLocator\CacheInterface',
-    'Phile_Template'         => 'Phile\ServiceLocator\TemplateInterface',
-    'Phile_Parser'           => 'Phile\ServiceLocator\ParserInterface',
-    'Phile_Data_Persistence' => 'Phile\ServiceLocator\PersistenceInterface',
-    'Phile_Parser_Meta'      => 'Phile\ServiceLocator\MetaInterface',
-    'Phile_ErrorHandler'     => 'Phile\ServiceLocator\ErrorHandlerInterface',
-    );
-
     /**
      * method to register a service
      *
@@ -43,12 +25,7 @@ class ServiceLocator
      */
     public static function registerService($serviceKey, $object)
     {
-        $interfaces = class_implements($object);
-        $interface  = self::$serviceMap[$serviceKey];
-        if ($interfaces === false || !in_array($interface, $interfaces)) {
-            throw new ServiceLocatorException("the object must implement the interface: '{$interface}'", 1398536617);
-        }
-        self::$services[$serviceKey] = $object;
+        Container::getInstance()->set($serviceKey, $object);
     }
 
     /**
@@ -60,7 +37,7 @@ class ServiceLocator
      */
     public static function hasService($serviceKey)
     {
-        return (isset(self::$services[$serviceKey]));
+        return Container::getInstance()->has($serviceKey);
     }
 
     /**
@@ -73,10 +50,6 @@ class ServiceLocator
      */
     public static function getService($serviceKey)
     {
-        if (!isset(self::$services[$serviceKey])) {
-            throw new ServiceLocatorException("the service '{$serviceKey}' is not registered", 1398536637);
-        }
-
-        return self::$services[$serviceKey];
+        return Container::getInstance()->get($serviceKey);
     }
 }

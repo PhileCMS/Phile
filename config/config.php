@@ -1,7 +1,6 @@
 <?php
-
 /**
- * Set configuration of your phile installation.
+ * Phile local configuration.
  *
  * You can also overwrite Phile-defaults here.
  */

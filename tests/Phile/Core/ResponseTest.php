@@ -33,6 +33,13 @@ class ResponseTest extends TestCase
         unset($this->response);
     }
 
+    public function testCreateResponse()
+    {
+        $response = $this->response->createResponse();
+        $expected = \Psr\Http\Message\ResponseInterface::class;
+        $this->assertInstanceOf($expected, $response);
+    }
+
     public function testDefaultCharset()
     {
         $this->response = $this->getMockBuilder('\Phile\Core\Response')

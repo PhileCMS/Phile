@@ -43,6 +43,12 @@ class Config
         return null;
     }
 
+    public function has($key)
+    {
+        $config = Registry::get('Phile_Settings');
+        return array_key_exists($key, $config);
+    }
+
     /**
      * Return configuration as PHP-array
      *
@@ -63,7 +69,13 @@ class Config
     {
         $config = Registry::get('Phile_Settings');
 
-        $this->checkLock();
+        if ($this->isLocked) {
+            throw new \LogicException(
+                sprintf('Phile-configuration is locked. Can\' set key "%s"', $key),
+                1518440759
+            );
+        }
+
         if ($value === null && is_array($key)) {
             $config = $key;
         } else {
@@ -111,12 +123,5 @@ class Config
     public function lock()
     {
         $this->isLocked = true;
-    }
-
-    protected function checkLock()
-    {
-        if ($this->isLocked) {
-            throw new \Exception('Configuration is locked.', 1518440759);
-        }
     }
 }

@@ -23,7 +23,7 @@ class Bootstrap extends TestCase
     public function testInitializeFilesAndFolders()
     {
         $config = new Config;
-        $this->getBootstrappedCore(null, $config);
+        $this->createPhileCore(null, $config);
 
         $paths = [$config->get('cache_dir'), $config->get('storage_dir')];
 

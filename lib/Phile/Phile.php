@@ -8,6 +8,7 @@
 namespace Phile;
 
 use Phile\Core\Config;
+use Phile\Core\Container;
 use Phile\Core\Event;
 use Phile\Core\RequestHandler;
 use Phile\Core\Response;
@@ -43,17 +44,10 @@ class Phile implements MiddlewareInterface
      * @param Event $eventBus
      * @param Config $config
      */
-    public function __construct(Event $eventBus = null, Config $config = null)
+    public function __construct(Event $eventBus, Config $config)
     {
-        $this->eventBus = $eventBus ?: new Event;
-        $this->config = $config ?: new Config;
-
-        Registry::set('Phile.Core.EventBus', $this->eventBus);
-        Registry::set('Phile.Core.Config', $this->config);
-        Registry::set('templateVars', []);
-
-        // provides backwards-compatibility for deprecated static Event access
-        Event::setInstance($this->eventBus);
+        $this->eventBus = $eventBus;
+        $this->config = $config;
     }
 
     /**
@@ -106,12 +100,16 @@ class Phile implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler)
     {
-        $this->eventBus->trigger('after_init_core');
+        $container = Container::getInstance();
+        $container->set('Phile_Request', $request);
+        $router = $container->get('Phile_Router');
 
-        $router = new Router();
-        $pageId = $router->getCurrentUrl();
-        $page = $this->resolveCurrentPage($pageId, $router);
+        // BC: send response in after_init_core event
+        $response = new Response;
+        $response->setCharset($this->config->get('charset'));
+        $this->eventBus->trigger('after_init_core', ['response' => $response]);
 
+        $page = $this->resolveCurrentPage($router);
         if ($page instanceof ResponseInterface) {
             return $page;
         }
@@ -119,8 +117,7 @@ class Phile implements MiddlewareInterface
         $html = $this->renderHtml($page);
 
         $charset = $this->config->get('charset');
-        $response = (new Response)
-            ->createHtmlResponse($html)
+        $response = (new Response)->createHtmlResponse($html)
             ->withHeader('Content-Type', 'text/html; charset=' . $charset);
 
         if ($page->getPageId() == '404') {
@@ -133,8 +130,11 @@ class Phile implements MiddlewareInterface
     /**
      * Resolves request into the current page
      */
-    protected function resolveCurrentPage($pageId, Router $router)
+    protected function resolveCurrentPage(Router $router)
     {
+        $pageId = $router->getCurrentUrl();
+        $this->eventBus->trigger('request_uri', ['uri' => $pageId]);
+
         $repository = new Repository();
         $page = $repository->findByPath($pageId);
         $found = $page instanceof Page;

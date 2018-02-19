@@ -6,9 +6,9 @@ namespace PhileTest\Plugin;
 
 use Phile\Core\Config;
 use Phile\Core\Event;
-use Phile\Core\Registry;
+use Phile\Core\Container;
 use Phile\Plugin\Phile\TestPlugin\Plugin;
-use PHPUnit\Framework\TestCase;
+use Phile\Test\TestCase;
 
 /**
  * the AbstractPluginTest class
@@ -29,7 +29,7 @@ class AbstractPluginTest extends TestCase
             'active' => false,
             'A' => 'A'
         ];
-        Registry::set('Phile.Core.Config', new Config($settings));
+        Container::getInstance()->set('Phile_Config', new Config($settings));
     }
 
     protected function mockPlugin(array $methods = [])

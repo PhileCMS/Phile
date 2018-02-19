@@ -4,6 +4,7 @@
  */
 namespace Phile\Plugin\Phile\TemplateTwig\Template;
 
+use Phile\Core\Container;
 use Phile\Core\Registry;
 use Phile\Model\Page;
 use Phile\Repository\Page as Repository;
@@ -42,7 +43,7 @@ class Twig implements TemplateInterface
     public function __construct($config = [])
     {
         $this->config = $config;
-        $this->settings = Registry::get('Phile_Settings');
+        $this->settings = Container::getInstance()->get('Phile_Config')->toArray();
     }
 
     /**
@@ -66,7 +67,7 @@ class Twig implements TemplateInterface
     {
         $engine = $this->getEngine();
         $vars = $this->getTemplateVars();
-        Registry::get('Phile.Core.EventBus')->trigger(
+        Container::getInstance()->get('Phile_EventBus')->trigger(
             'template_engine_registered',
             ['engine' => &$engine, 'data' => &$vars]
         );

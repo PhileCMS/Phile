@@ -23,7 +23,7 @@ class MetaTest extends TestCase
 {
     public function setUp()
     {
-        $this->getBootstrappedCore()->bootstrap();
+        $this->createPhileCore()->bootstrap();
         parent::setUp();
     }
 

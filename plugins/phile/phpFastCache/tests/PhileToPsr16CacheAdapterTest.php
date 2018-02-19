@@ -4,12 +4,14 @@ namespace Phile\Plugin\Phile\PhpFastCache\Tests;
 
 use Phile\Plugin\Phile\PhpFastCache\PhileToPsr16CacheAdapter;
 use phpFastCache\Helper\Psr16Adapter;
-use PHPUnit\Framework\TestCase;
+use Phile\Test\TestCase;
 
 class PhileToPsr16CacheAdapterTest extends TestCase
 {
     public function testSlug()
     {
+        $this->createPhileCore()->bootstrap();
+
         $psr16Cache = new Psr16Adapter('memstatic');
         $adapter = new PhileToPsr16CacheAdapter($psr16Cache);
 

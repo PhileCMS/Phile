@@ -4,9 +4,7 @@
  */
 namespace Phile\Model;
 
-use Phile\Phile;
-use Phile\Core\Router;
-use Phile\Core\Registry;
+use Phile\Core\Container;
 use Phile\Core\ServiceLocator;
 use Phile\Repository\Page as Repository;
 
@@ -71,7 +69,7 @@ class Page
      */
     public function __construct($filePath, $folder = null)
     {
-        $settings = Registry::get('Phile.Core.Config')->toArray();
+        $settings = Container::getInstance()->get('Phile_Config')->toArray();
         $this->contentFolder = $folder ?: $settings['content_dir'];
         $this->contentExtension = $settings['content_ext'];
         $this->setFilePath($filePath);
@@ -82,7 +80,7 @@ class Page
          * @param            string filePath the path to the file
          * @param \Phile\Model\Page page     the page model
          */
-        Registry::get('Phile.Core.EventBus')->trigger(
+        Container::getInstance()->get('Phile_EventBus')->trigger(
             'before_load_content',
             ['filePath' => &$this->filePath, 'page' => &$this]
         );
@@ -97,7 +95,7 @@ class Page
          * @param            string rawData  the raw data
          * @param \Phile\Model\Page page     the page model
          */
-        Registry::get('Phile.Core.EventBus')->trigger(
+        Container::getInstance()->get('Phile_EventBus')->trigger(
             'after_load_content',
             [
                 'filePath' => &$this->filePath,
@@ -122,7 +120,7 @@ class Page
          * @param            string content the raw data
          * @param \Phile\Model\Page page    the page model
          */
-        Registry::get('Phile.Core.EventBus')->trigger(
+        Container::getInstance()->get('Phile_EventBus')->trigger(
             'before_parse_content',
             ['content' => $this->content, 'page' => &$this]
         );
@@ -133,7 +131,7 @@ class Page
          * @param            string content the parsed content
          * @param \Phile\Model\Page page    the page model
          */
-        Registry::get('Phile.Core.EventBus')->trigger(
+        Container::getInstance()->get('Phile_EventBus')->trigger(
             'after_parse_content',
             ['content' => &$content, 'page' => &$this]
         );
@@ -249,7 +247,8 @@ class Page
      */
     public function getUrl()
     {
-        return (new Router)->urlForPage($this->pageId, false);
+        $router = \Phile\Core\Container::getInstance()->get('Phile_Router');
+        return $router->urlForPage($this->pageId, false);
     }
 
     /**

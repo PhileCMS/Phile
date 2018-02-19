@@ -7,11 +7,7 @@
 
 namespace PhileTest;
 
-use Phile\Phile;
 use Phile\Core\Config;
-use Phile\Core\Event;
-use Phile\Core\Registry;
-use Phile\Core\Router;
 use Phile\Test\TestCase;
 
 /**
@@ -19,46 +15,18 @@ use Phile\Test\TestCase;
  */
 class PhileTest extends TestCase
 {
-    public function testConfigIsInitialized()
-    {
-        new Phile;
-        $this->assertInstanceOf(Config::class, Registry::get('Phile.Core.Config'));
-
-        $config = new Config;
-        new Phile(null, $config);
-        $this->assertSame($config, Registry::get('Phile.Core.Config'));
-    }
-
-    public function testEventBusIsInitialized()
-    {
-        new Phile;
-        $this->assertInstanceOf(Event::class, Registry::get('Phile.Core.EventBus'));
-
-        $event = new Event;
-        new Phile($event);
-        $this->assertSame($event, Registry::get('Phile.Core.EventBus'));
-
-        //= test deprecated
-        $this->assertSame($event, Event::getInstance());
-    }
-
     /**
      * tests show setup page if setup is unfinished
      */
     public function testCheckSetupRedirectToSetupPage()
     {
-        $_SERVER['REQUEST_URI'] = '/';
+        $config = new Config(['encryptionKey' => '']);
+        $core = $this->createPhileCore(null, $config);
 
-        $event = new Event;
-        $event->register(
-            'config_loaded',
-            function ($event, $data) {
-                $data['class']->set('encryptionKey', '');
-            }
+        $request = $this->createServerRequestFromArray(
+            ['REQUEST_URI' => '/'] + $_SERVER
         );
-
-        $core = $this->getBootstrappedCore($event);
-        $response = $this->dispatchCore($core);
+        $response = $core->dispatch($request);
 
         $expected = 'Welcome to the PhileCMS Setup';
         $body = (string)$response->getBody();
@@ -80,9 +48,11 @@ class PhileTest extends TestCase
 
         foreach ($redirects as $current => $expected) {
             $config = new Config(['base_url' => $baseUrl]);
-            $_SERVER = ['REQUEST_URI' => $current] + $_SERVER;
-            $core = $this->getBootstrappedCore(null, $config);
-            $response = $this->dispatchCore($core);
+            $core = $this->createPhileCore(null, $config);
+            $request = $this->createServerRequestFromArray(
+                ['REQUEST_URI' => $current] + $_SERVER
+            );
+            $response = $core->dispatch($request);
             $this->assertSame(301, $response->getStatusCode());
             $this->assertSame($baseUrl . '/' . $expected, $response->getHeader('Location')[0]);
         }

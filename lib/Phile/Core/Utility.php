@@ -23,7 +23,7 @@ class Utility
      */
     public static function getProtocol()
     {
-        return (new Router)->getProtocol();
+        return Container::getInstance()->get('Phile_Router')->getProtocol();
     }
 
     /**
@@ -34,7 +34,7 @@ class Utility
      */
     public static function getBaseUrl()
     {
-        return (new Router)->getBaseUrl();
+        return Container::getInstance()->get('Phile_Router')->getBaseUrl();
     }
 
     /**
@@ -99,7 +99,7 @@ class Utility
      */
     public static function isPluginLoaded($plugin)
     {
-        $config = Registry::get('Phile.Core.Config');
+        $config = Container::getInstance()->get('Phile_Config');
         if ($config->get('plugins')) {
             return false;
         }
@@ -157,7 +157,7 @@ class Utility
      */
     public static function getSecureMD5Hash($value)
     {
-        $config = Registry::get('Phile.Core.Config');
+        $config = Container::getInstance()->get('Phile_Config');
 
         return md5($config->get('encryptionKey') . $value);
     }

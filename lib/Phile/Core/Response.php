@@ -27,7 +27,6 @@ use Zend\Diactoros\Response as Psr7Response;
  */
 class Response implements ResponseFactoryInterface
 {
-
     /**
      * @var string HTTP body
      */
@@ -53,7 +52,7 @@ class Response implements ResponseFactoryInterface
      */
     public function createResponse($code = 200)
     {
-        return new Psr7Response(null, $code);
+        return new Psr7Response('php://memory', $code);
     }
 
     /**

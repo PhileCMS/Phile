@@ -1,9 +1,12 @@
 <?php
-
 /**
- * Phile default config.
+ * Phile default setup
  *
  * Don't do changes here but overwrite them in your local config.
+ *
+ * @author PhileCMS
+ * @link https://github.com/PhileCMS/Phile
+ * @license http://opensource.org/licenses/MIT
  */
 $config = [];
 
