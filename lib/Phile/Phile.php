@@ -125,7 +125,7 @@ class Phile implements MiddlewareInterface
         $response = (new Response)->createHtmlResponse($html)
             ->withHeader('Content-Type', 'text/html; charset=' . $charset);
 
-        if ($page->getPageId() == '404') {
+        if ($page->getPageId() == $this->config->get('not_found_page')) {
             $response = $response->withStatus(404) ;
         }
 
@@ -157,7 +157,7 @@ class Phile implements MiddlewareInterface
         }
 
         if (!$found) {
-            $page = $repository->findByPath('404');
+            $page = $repository->findByPath($this->config->get('not_found_page'));
             $this->eventBus->trigger('after_404');
         }
 

@@ -77,10 +77,6 @@ class PageTest extends TestCase
         $result = $this->pageRepository->findByPath('index')->getUrl();
         $this->assertEquals('', $result);
 
-        // root page
-        $result = $this->pageRepository->findByPath('404')->getUrl();
-        $this->assertEquals('404', $result);
-
         // sub index
         $result = $this->pageRepository->findByPath('sub/')->getUrl();
         $this->assertEquals('sub/', $result);

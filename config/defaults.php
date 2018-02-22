@@ -79,6 +79,11 @@ $config['content_dir'] = ROOT_DIR . 'content' . DS;
 $config['content_ext'] = '.md';
 
 /**
+ * Not found page.
+ */
+$config['not_found_page'] = '404';
+
+/**
  * include core plugins
  */
 $config['plugins'] = [
