@@ -4,6 +4,8 @@
  */
 namespace Phile\Core;
 
+use Phile\Core\Container;
+
 /**
  * Utility class
  *
@@ -34,7 +36,14 @@ class Utility
      */
     public static function getBaseUrl()
     {
-        return Container::getInstance()->get('Phile_Router')->getBaseUrl();
+        $container = Container::getInstance();
+        if ($container->has('Phile_Router')) {
+            $router = $container->get('Phile_Router');
+        } else {
+            // BC: some old 1.x plugins may call this before the core is initialized
+            $router = new Router;
+        }
+        return $router->getBaseUrl();
     }
 
     /**

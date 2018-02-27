@@ -5,6 +5,7 @@
 namespace Phile\Model;
 
 use Phile\Core\Container;
+use Phile\Core\Router;
 use Phile\Core\ServiceLocator;
 use Phile\Repository\Page as Repository;
 
@@ -247,7 +248,13 @@ class Page
      */
     public function getUrl()
     {
-        $router = \Phile\Core\Container::getInstance()->get('Phile_Router');
+        $container = Container::getInstance();
+        if ($container->has('Phile_Router')) {
+            $router = $container->get('Phile_Router');
+        } else {
+            // BC: some old 1.x plugins may use Pages before the core is initialized
+            $router = new Router;
+        }
         return $router->urlForPage($this->pageId, false);
     }
 
