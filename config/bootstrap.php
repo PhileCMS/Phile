@@ -69,6 +69,9 @@ $app->addBootstrap(function (Event $eventBus, Config $config) {
     Bootstrap::setupFolder($config->get('cache_dir'), $config);
     Bootstrap::setupFolder($config->get('storage_dir'), $config);
 
+    // backwards-compatibility for deprecated static Event access
+    Event::setInstance($eventBus);
+
     // Load plug-ins
     Bootstrap::loadPlugins($eventBus, $config);
 
@@ -80,9 +83,6 @@ $app->addBootstrap(function (Event $eventBus, Config $config) {
 
     // Set additional PHP environment variables from configuration
     date_default_timezone_set($config->get('timezone'));
-
-    // backwards-compatibility for deprecated static Event access
-    Event::setInstance($eventBus);
 });
 
 /**
