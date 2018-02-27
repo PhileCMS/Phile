@@ -18,7 +18,6 @@ $config = [
         'Phile_Config'           => Phile\Core\Config::class,
         'Phile_EventBus'         => Phile\Core\Event::class,
         'Phile_Router'           => Phile\Core\Router::class,
-        'Phile_Request'          => ServerRequestInterface::class,
 
         'Phile_Cache'            => Phile\ServiceLocator\CacheInterface::class,
         'Phile_Template'         => Phile\ServiceLocator\TemplateInterface::class,
@@ -31,10 +30,6 @@ $config = [
 
 $container = new Phile\Core\Container($config);
 Phile\Core\Container::setInstance($container);
-
-$container->set('Phile_Router', function ($container) {
-    return new Phile\Core\Router($container->get('Phile_Request')->getServerParams());
-});
 
 $container->set('Phile_EventBus', function () {
     return new Phile\Core\Event;

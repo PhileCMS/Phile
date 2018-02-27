@@ -100,9 +100,8 @@ class Phile implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler)
     {
-        $container = Container::getInstance();
-        $container->set('Phile_Request', $request);
-        $router = $container->get('Phile_Router');
+        $router = new Router($request->getServerParams());
+        Container::getInstance()->set('Phile_Router', $router);
 
         // BC: send response in after_init_core event
         $response = new Response;
