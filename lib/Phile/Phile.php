@@ -106,7 +106,10 @@ class Phile implements MiddlewareInterface
         // BC: send response in after_init_core event
         $response = new Response;
         $response->setCharset($this->config->get('charset'));
-        $this->eventBus->trigger('after_init_core', ['response' => $response]);
+        $this->eventBus->trigger('after_init_core', ['response' => &$response]);
+        if ($response instanceof ResponseInterface) {
+            return $this->response;
+        }
 
         $page = $this->resolveCurrentPage($router);
         if ($page instanceof ResponseInterface) {
@@ -114,6 +117,9 @@ class Phile implements MiddlewareInterface
         }
 
         $html = $this->renderHtml($page);
+        if ($html instanceof ResponseInterface) {
+            return $html;
+        }
 
         $charset = $this->config->get('charset');
         $response = (new Response)->createHtmlResponse($html)
@@ -132,7 +138,14 @@ class Phile implements MiddlewareInterface
     protected function resolveCurrentPage(Router $router)
     {
         $pageId = $router->getCurrentUrl();
-        $this->eventBus->trigger('request_uri', ['uri' => $pageId]);
+        $response = null;
+        $this->eventBus->trigger(
+            'request_uri',
+            ['uri' => $pageId, 'response' => &$response]
+        );
+        if ($response instanceof ResponseInterface) {
+            return $response;
+        }
 
         $repository = new Repository();
         $page = $repository->findByPath($pageId);
@@ -148,7 +161,13 @@ class Phile implements MiddlewareInterface
             $this->eventBus->trigger('after_404');
         }
 
-        $this->eventBus->trigger('after_resolve_page', ['pageId' => $pageId, 'page' => &$page]);
+        $this->eventBus->trigger(
+            'after_resolve_page',
+            ['pageId' => $pageId, 'page' => &$page, 'response' => &$response]
+        );
+        if ($response instanceof ResponseInterface) {
+            return $response;
+        }
 
         return $page;
     }
@@ -164,10 +183,14 @@ class Phile implements MiddlewareInterface
         $coreVars = $this->config->getTemplateVars();
         $templateVars = Registry::get('templateVars') + $coreVars;
 
+        $response = null;
         $this->eventBus->trigger(
             'before_render_template',
-            ['templateEngine' => &$engine, 'templateVars' => &$templateVars]
+            ['templateEngine' => &$engine, 'templateVars' => &$templateVars, 'response' => &$response]
         );
+        if ($response instanceof ResponseInterface) {
+            return $response;
+        }
 
         Registry::set('templateVars', $templateVars);
 
@@ -176,8 +199,11 @@ class Phile implements MiddlewareInterface
 
         $this->eventBus->trigger(
             'after_render_template',
-            ['templateEngine' => &$engine, 'output' => &$html]
+            ['templateEngine' => &$engine, 'output' => &$html, 'response' => &$response]
         );
+        if ($response instanceof ResponseInterface) {
+            return $response;
+        }
 
         return $html;
     }
