@@ -11,9 +11,10 @@
     <echo msg="1) build distribution zip"/>
     <echo msg="2) build phpdoc"/>
     <echo msg="3) run test suite"/>
+    <echo msg="4) Install additional 1st party plugins"/>
     <echo msg="x) exit"/>
 
-    <input message="Choose" propertyName="choice" validArgs="1,2,3,x"/>
+    <input message="Choose" propertyName="choice" validArgs="1,2,3,4,x"/>
 
     <if>
       <equals arg1="${choice}" arg2="1"/>
@@ -32,6 +33,13 @@
         <equals arg1="${choice}" arg2="3"/>
         <then>
           <phingcall target="tests"/>
+        </then>
+      </elseif>
+
+      <elseif>
+        <equals arg1="${choice}" arg2="4"/>
+        <then>
+          <phingcall target="phile-plugins"/>
         </then>
       </elseif>
 
@@ -150,5 +158,52 @@
               value="lib/vendor/bin/phpcs --standard=PSR2 -p --extensions=php --ignore=lib/vendor/ lib/ plugins/phile/ ."/>
     <exec command="${tests.formatting}" logoutput="true"/>
   </target>
+
+    <!-- ## Install plugins ## -->
+    <target name="phile-plugins">
+        <echo msg="Optional first party plug-ins:"/>
+        <echo msg="1) install"/>
+        <echo msg="2) uninstall"/>
+        <echo msg="x) exit"/>
+
+        <input message="Choose" propertyName="choice" validArgs="1,2,x"/>
+
+        <if>
+          <equals arg1="${choice}" arg2="1"/>
+          <then>
+            <phingcall target="phile-plugins-install"/>
+          </then>
+
+          <elseif>
+            <equals arg1="${choice}" arg2="2"/>
+            <then>
+              <phingcall target="phile-plugins-uninstall"/>
+            </then>
+          </elseif>
+
+          <elseif>
+            <equals arg1="${choice}" arg2="x"/>
+            <then>
+              <php expression="exit();"/>
+            </then>
+          </elseif>
+        </if>
+    </target>
+
+    <property name="phile.plugins" value="
+                phile/rss-feed
+            "/>
+
+    <target name="phile-plugins-install">
+        <echo msg="Installing plug-ins…"/>
+        <exec command="composer require ${phile.plugins}" logoutput="true" />
+    </target>
+
+    <target name="phile-plugins-uninstall">
+        <echo msg="Uninstalling plug-ins…"/>
+        <exec command="composer remove ${phile.plugins}" logoutput="true" />
+    </target>
+
+
 
 </project>
