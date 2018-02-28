@@ -108,7 +108,7 @@ class Phile implements MiddlewareInterface
         $response->setCharset($this->config->get('charset'));
         $this->eventBus->trigger('after_init_core', ['response' => &$response]);
         if ($response instanceof ResponseInterface) {
-            return $this->response;
+            return $response;
         }
 
         $page = $this->resolveCurrentPage($router);
@@ -199,11 +199,8 @@ class Phile implements MiddlewareInterface
 
         $this->eventBus->trigger(
             'after_render_template',
-            ['templateEngine' => &$engine, 'output' => &$html, 'response' => &$response]
+            ['templateEngine' => &$engine, 'output' => &$html]
         );
-        if ($response instanceof ResponseInterface) {
-            return $response;
-        }
 
         return $html;
     }

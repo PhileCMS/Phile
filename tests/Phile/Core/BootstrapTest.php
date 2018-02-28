@@ -1,21 +1,17 @@
 <?php
-
-namespace PhileTest;
-
-use Phile\Phile as Core;
-use Phile\Core\Config;
-use Phile\Core\Event;
-use Phile\Test\TestCase;
-
 /**
- * the CoreTest class
- *
  * @author  Phile CMS
  * @link    https://philecms.com
  * @license http://opensource.org/licenses/MIT
  * @package PhileTest
  */
-class Bootstrap extends TestCase
+
+namespace PhileTest\Core;
+
+use Phile\Core\Config;
+use Phile\Test\TestCase;
+
+class BootstrapTest extends TestCase
 {
     /**
      * test creation of files and folders

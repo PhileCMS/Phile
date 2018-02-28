@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * @author  Phile CMS
  * @link    https://philecms.com
  * @license http://opensource.org/licenses/MIT
@@ -8,6 +8,7 @@
 namespace PhileTest;
 
 use Phile\Core\Config;
+use Phile\Core\Container;
 use Phile\Test\TestCase;
 
 /**
@@ -15,6 +16,39 @@ use Phile\Test\TestCase;
  */
 class PhileTest extends TestCase
 {
+    public function testPageNotFound()
+    {
+        $core = $this->createPhileCore();
+        $request = $this->createServerRequestFromArray(['REQUEST_URI' => '/abcd']);
+        $response = $core->dispatch($request);
+
+        $this->assertEquals($response->getStatusCode(), '404');
+        $this->assertContains(
+            'Woops. Looks like this page doesn\'t exist.',
+            (string)$response->getBody()
+        );
+    }
+
+    public function testEarlyResponse()
+    {
+        $events = [
+            'after_init_core',
+            'request_uri',
+            'after_resolve_page',
+            'before_render_template',
+        ];
+        foreach ($events as $event) {
+            $core = $this->createPhileCore();
+            $eventBus = Container::getInstance()->get('Phile_EventBus');
+            $expected = (new \Phile\Core\Response)->createHtmlResponse($event);
+            $eventBus->register($event, function ($name, $data) use ($expected) {
+                $data['response'] = $expected;
+            });
+            $actual = $core->dispatch($this->createServerRequestFromArray());
+            $this->assertSame($expected, $actual);
+        }
+    }
+    
     /**
      * tests show setup page if setup is unfinished
      */

@@ -7,7 +7,14 @@
     <testsuites>
         <testsuite name="core">
             <directory>tests/</directory>
-            <directory>plugins/phile/phpFastCache/tests/</directory>
+            <directory>plugins/phile/</directory>
         </testsuite>
     </testsuites>
+
+    <filter>
+      <whitelist processUncoveredFilesFromWhitelist="false">
+        <directory suffix=".php">lib/Phile</directory>
+        <directory suffix=".php">plugins/phile</directory>
+      </whitelist>
+    </filter>
 </phpunit>

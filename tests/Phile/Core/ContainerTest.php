@@ -1,15 +1,20 @@
 <?php
-/*
+/**
  * @author  Phile CMS
  * @link    https://philecms.com
  * @license http://opensource.org/licenses/MIT
+ * @package PhileTest
  */
 
-namespace PhileTest;
+namespace PhileTest\Core;
 
 use Phile\Core\Config;
-use Phile\Test\TestCase;
 use Phile\Core\Container;
+use Phile\Exception\ContainerException;
+use Phile\Exception\ContainerNotFoundException;
+use Phile\Test\TestCase;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 class ContainerTest extends TestCase
 {
@@ -34,14 +39,16 @@ class ContainerTest extends TestCase
 
     public function testTypeCheckFailing()
     {
-        $this->expectException(\Phile\Exception\ContainerException::class);
+        $this->assertTrue(is_subclass_of(ContainerException::class, ContainerExceptionInterface::class));
+        $this->expectException(ContainerException::class);
         $this->expectExceptionCode(1398536617);
         $this->container->set('Phile_EventBus', new Config());
     }
 
     public function testGetItemNotFound()
     {
-        $this->expectException(\Phile\Exception\ContainerNotFoundException::class);
+        $this->assertTrue(is_subclass_of(ContainerNotFoundException::class, NotFoundExceptionInterface::class));
+        $this->expectException(ContainerNotFoundException::class);
         $this->expectExceptionCode(1519111836);
         $this->container->get('The Island');
     }

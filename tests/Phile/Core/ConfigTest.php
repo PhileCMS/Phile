@@ -1,11 +1,12 @@
 <?php
-/*
+/**
  * @author  Phile CMS
  * @link    https://philecms.com
  * @license http://opensource.org/licenses/MIT
+ * @package PhileTest
  */
 
-namespace PhileTest;
+namespace PhileTest\Core;
 
 use Phile\Core\Config;
 use PHPUnit\Framework\TestCase;

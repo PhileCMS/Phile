@@ -56,11 +56,11 @@ abstract class TestCase extends PHPUnitTestCase
             defined('CONTENT_DIR') || define('CONTENT_DIR', $config->get('content_dir'));
             defined('CONTENT_EXT') || define('CONTENT_EXT', $config->get('content_ext'));
 
+            Event::setInstance($eventBus);
+
             Bootstrap::loadPlugins($eventBus, $config);
 
             Registry::set('templateVars', []);
-
-            Event::setInstance($eventBus);
         });
 
         //# setup middleware

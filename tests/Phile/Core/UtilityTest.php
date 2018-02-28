@@ -1,4 +1,10 @@
 <?php
+/**
+ * @author  PhileCMS
+ * @link    https://philecms.com
+ * @license http://opensource.org/licenses/MIT
+ * @package PhileTest
+ */
 
 namespace PhileTest\Core;
 
@@ -6,14 +12,6 @@ use Phile\Core\Registry;
 use Phile\Core\Utility;
 use PHPUnit\Framework\TestCase;
 
-/**
- * Utility test class
- *
- * @author  PhileCMS
- * @link    https://philecms.com
- * @license http://opensource.org/licenses/MIT
- * @package PhileTest
- */
 class UtilityTest extends TestCase
 {
 

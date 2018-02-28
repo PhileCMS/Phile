@@ -1,4 +1,10 @@
 <?php
+/**
+ * @author  PhileCMS
+ * @link    https://philecms.com
+ * @license http://opensource.org/licenses/MIT
+ * @package PhileTest
+ */
 
 namespace PhileTest\Core;
 
@@ -7,14 +13,6 @@ use Phile\Core\Container;
 use Phile\Core\Router;
 use PHPUnit\Framework\TestCase;
 
-/**
- * the Router class
- *
- * @author  PhileCMS
- * @link    https://philecms.com
- * @license http://opensource.org/licenses/MIT
- * @package PhileTest
- */
 class RouterTest extends TestCase
 {
 
