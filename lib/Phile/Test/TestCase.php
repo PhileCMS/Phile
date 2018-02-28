@@ -78,8 +78,12 @@ abstract class TestCase extends PHPUnitTestCase
      * @param array $server $_SERVER environment
      * @return ServerRequestInterface
      */
-    protected function createServerRequestFromArray($server = null)
+    protected function createServerRequestFromArray(array $server = null)
     {
+        $server = $server ?: [];
+        if (!isset($server['REQUEST_URI'])) {
+            $server['REQUEST_URI'] = '/';
+        }
         return \Zend\Diactoros\ServerRequestFactory::fromGlobals($server);
     }
 }
