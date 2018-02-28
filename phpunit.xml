@@ -17,4 +17,8 @@
         <directory suffix=".php">plugins/phile</directory>
       </whitelist>
     </filter>
+
+    <logging>
+      <log type="coverage-html" target="docs/coverage" />
+    </logging>
 </phpunit>
