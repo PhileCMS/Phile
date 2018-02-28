@@ -182,17 +182,16 @@ class Phile implements MiddlewareInterface
 
         $coreVars = $this->config->getTemplateVars();
         $templateVars = Registry::get('templateVars') + $coreVars;
+        Registry::set('templateVars', $templateVars);
 
         $response = null;
         $this->eventBus->trigger(
             'before_render_template',
-            ['templateEngine' => &$engine, 'templateVars' => &$templateVars, 'response' => &$response]
+            ['templateEngine' => &$engine, 'response' => &$response]
         );
         if ($response instanceof ResponseInterface) {
             return $response;
         }
-
-        Registry::set('templateVars', $templateVars);
 
         $engine->setCurrentPage($page);
         $html = $engine->render();
