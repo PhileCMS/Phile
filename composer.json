@@ -1,5 +1,6 @@
 {
     "name": "phile-cms/phile",
+    "version": "1.8.0",
     "type": "project",
     "description": "A file-based CMS with a swappable parser, template engine, cache and storage services, error handler, and meta parser.",
     "keywords": ["cms", "markdown", "flat", "file", "twig", "plugins"],
