@@ -196,12 +196,12 @@
 
     <target name="phile-plugins-install">
         <echo msg="Installing plug-ins…"/>
-        <exec command="composer require ${phile.plugins}" logoutput="true" />
+        <exec command="composer require ${phile.plugins}" checkreturn="true" logoutput="true" />
     </target>
 
     <target name="phile-plugins-uninstall">
         <echo msg="Uninstalling plug-ins…"/>
-        <exec command="composer remove ${phile.plugins}" logoutput="true" />
+        <exec command="composer remove ${phile.plugins}" checkreturn="true" logoutput="true" />
     </target>
 
 
