@@ -1,17 +1,16 @@
 <?php
-namespace PhileTest\Core;
-
-use Phile\Core\Response;
-use PHPUnit\Framework\TestCase;
-
 /**
- * the ResponseTest class
- *
  * @author  PhileCms
  * @link    https://philecms.com
  * @license http://opensource.org/licenses/MIT
  * @package PhileTest
  */
+
+namespace PhileTest\Core;
+
+use Phile\Core\Response;
+use PHPUnit\Framework\TestCase;
+
 class ResponseTest extends TestCase
 {
 
@@ -23,7 +22,7 @@ class ResponseTest extends TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->response = $this->getMockBuilder('\Phile\Core\Response')
+        $this->response = $this->getMockBuilder(Response::class)
             ->setMethods(['outputHeader', 'stop'])
             ->getMock();
     }
@@ -31,6 +30,13 @@ class ResponseTest extends TestCase
     protected function tearDown()
     {
         unset($this->response);
+    }
+
+    public function testCreateResponse()
+    {
+        $response = $this->response->createResponse();
+        $expected = \Psr\Http\Message\ResponseInterface::class;
+        $this->assertInstanceOf($expected, $response);
     }
 
     public function testDefaultCharset()

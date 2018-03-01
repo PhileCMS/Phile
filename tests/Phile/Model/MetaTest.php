@@ -8,7 +8,8 @@
 
 namespace PhileTest\Model;
 
-use PHPUnit\Framework\TestCase;
+use Phile\Core\Bootstrap;
+use Phile\Test\TestCase;
 
 /**
  * the MetaTest class
@@ -20,6 +21,12 @@ use PHPUnit\Framework\TestCase;
  */
 class MetaTest extends TestCase
 {
+    public function setUp()
+    {
+        $this->createPhileCore()->bootstrap();
+        parent::setUp();
+    }
+
     /**
      * @var string meta data test string
      */

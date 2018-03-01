@@ -16,20 +16,73 @@ use Phile\Gateway\EventObserverInterface;
  */
 class Event
 {
+
+    /**
+     * @var Event global instance
+     * @deprecated static use is deprecated
+     */
+    protected static $instance;
+
     /**
      * Registry object provides storage for objects.
      *
      * @var array
      */
-    protected static $registry = [];
+    protected $registry = [];
+
+    /**
+     * get global event instance
+     *
+     * @return Event
+     * @deprecated static use is deprectated
+     */
+    public static function getInstance()
+    {
+        return static::$instance;
+    }
+
+    /**
+     * Set global event instance
+     *
+     * @param Event $instance
+     * @deprecated static use is deprecated
+     */
+    public static function setInstance(Event $instance)
+    {
+        static::$instance = $instance;
+    }
+
+    /**
+     * Global register
+     *
+     * @param $eventName
+     * @param $object
+     * @deprecated static use is deprecated
+     */
+    public static function registerEvent($eventName, $object)
+    {
+        static::$instance->register($eventName, $object);
+    }
+
+    /**
+     * Global trigger
+     *
+     * @param $eventName
+     * @param array $data
+     * @deprecated static use is deprecated
+     */
+    public static function triggerEvent($eventName, $data = null)
+    {
+        static::$instance->trigger($eventName, $data);
+    }
 
     /**
      * method to register an event
      *
-     * @param string                          $eventName the event to observe
-     * @param EventObserverInterface|callable $object    observer
+     * @param string $eventName the event to observe
+     * @param EventObserverInterface|callable $object observer
      */
-    public static function registerEvent($eventName, $object)
+    public function register($eventName, $object)
     {
         if ($object instanceof EventObserverInterface) {
             $object = [$object, 'on'];
@@ -40,21 +93,21 @@ class Event
                 1427814905
             );
         }
-        self::$registry[$eventName][] = $object;
+        $this->registry[$eventName][] = $object;
     }
 
     /**
      * method to trigger an event
      *
      * @param string $eventName the event name (register for this name)
-     * @param array  $data      array with some additional data
+     * @param array $data array with some additional data
      */
-    public static function triggerEvent($eventName, $data = null)
+    public function trigger($eventName, $data = null)
     {
-        if (empty(self::$registry[$eventName])) {
+        if (empty($this->registry[$eventName])) {
             return;
         }
-        foreach (self::$registry[$eventName] as $observer) {
+        foreach ($this->registry[$eventName] as $observer) {
             call_user_func_array($observer, [$eventName, $data]);
         }
     }

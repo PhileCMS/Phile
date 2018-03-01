@@ -34,7 +34,9 @@ class Plugin extends \Phile\Plugin\AbstractPlugin
      * In this example we subscribe to "before_parse_content" and
      * "outputPluginSettings" will be called.
      */
-    protected $events = ['before_parse_content' => 'outputPluginSettings'];
+    protected $events = [
+        'before_parse_content' => 'outputPluginSettings'
+    ];
 
     /**
      * the method we assigned to the 'before_parse_content' event
@@ -47,7 +49,7 @@ class Plugin extends \Phile\Plugin\AbstractPlugin
      */
     public function outputPluginSettings($data = null)
     {
-        // you can access this plugins' config in $this->settings
+          // you can access this plugins' config in $this->settings
         $settings = $this->settings;
 
         $content = $data['content'];

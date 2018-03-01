@@ -4,7 +4,7 @@
  */
 namespace Phile\Plugin\Phile\TemplateTwig\Template;
 
-use Phile\Core\Event;
+use Phile\Core\Container;
 use Phile\Core\Registry;
 use Phile\Model\Page;
 use Phile\Repository\Page as Repository;
@@ -43,7 +43,7 @@ class Twig implements TemplateInterface
     public function __construct($config = [])
     {
         $this->config = $config;
-        $this->settings = Registry::get('Phile_Settings');
+        $this->settings = Container::getInstance()->get('Phile_Config')->toArray();
     }
 
     /**
@@ -67,12 +67,10 @@ class Twig implements TemplateInterface
     {
         $engine = $this->getEngine();
         $vars = $this->getTemplateVars();
-
-        Event::triggerEvent(
+        Container::getInstance()->get('Phile_EventBus')->trigger(
             'template_engine_registered',
             ['engine' => &$engine, 'data' => &$vars]
         );
-
         return $this->doRender($engine, $vars);
     }
 
@@ -159,18 +157,10 @@ class Twig implements TemplateInterface
     protected function getTemplateVars()
     {
         $defaults = [
-        'content' => $this->page->getContent(),
-        'meta' => $this->page->getMeta(),
-        'current_page' => $this->page,
-        'base_dir' => rtrim(ROOT_DIR, '/'),
-        'base_url' => $this->settings['base_url'],
-        'config' => $this->settings,
-        'content_dir' => $this->settings['content_dir'],
-        'content_url' => $this->settings['base_url'] . '/' . basename($this->settings['content_dir']),
-        'pages' => $this->page->getRepository()->findAll(),
-        'site_title' => $this->settings['site_title'],
-        'theme_dir' => THEMES_DIR . $this->settings['theme'],
-        'theme_url' => $this->settings['base_url'] . '/' . basename(THEMES_DIR) . '/' . $this->settings['theme'],
+            'content' => $this->page->getContent(),
+            'meta' => $this->page->getMeta(),
+            'current_page' => $this->page,
+            'pages' => $this->page->getRepository()->findAll(),
         ];
 
         /**

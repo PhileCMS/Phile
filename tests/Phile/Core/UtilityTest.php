@@ -1,24 +1,24 @@
 <?php
-
-namespace PhileTest\Core;
-
-use Phile\Core\Utility;
-use PHPUnit\Framework\TestCase;
-
 /**
- * Utility test class
- *
  * @author  PhileCMS
  * @link    https://philecms.com
  * @license http://opensource.org/licenses/MIT
  * @package PhileTest
  */
+
+namespace PhileTest\Core;
+
+use Phile\Core\Registry;
+use Phile\Core\Utility;
+use PHPUnit\Framework\TestCase;
+
 class UtilityTest extends TestCase
 {
 
     public function testGetFiles()
     {
         $folder = PLUGINS_DIR . 'phile/testPlugin/content/';
+        Registry::set('Phile_Settings', ['content_ext' => '.md']);
 
         $sub = $folder . 'sub/';
         $symlink = $folder . 'symlink';

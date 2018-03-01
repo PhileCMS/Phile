@@ -2,8 +2,9 @@
 
 namespace PhileTest\Model;
 
+use Phile\Core\Container;
 use Phile\Repository\Page as Repository;
-use PHPUnit\Framework\TestCase;
+use Phile\Test\TestCase;
 
 /**
  * the PageTest class
@@ -26,6 +27,8 @@ class PageTest extends TestCase
     protected function setUp()
     {
         parent::setUp();
+        $this->createPhileCore()->bootstrap();
+        Container::getInstance()->set('Phile_Request', $this->createServerRequestFromArray());
         $this->pageRepository = new Repository();
     }
 

@@ -4,7 +4,7 @@
  */
 namespace Phile\Repository;
 
-use Phile\Core\Registry;
+use Phile\Core\Container;
 use Phile\Core\ServiceLocator;
 use Phile\Core\Utility;
 
@@ -39,7 +39,7 @@ class Page
     public function __construct($settings = null)
     {
         if ($settings === null) {
-            $settings = Registry::get('Phile_Settings');
+            $settings = Container::getInstance()->get('Phile_Config')->toArray();
         }
         $this->settings = $settings;
         if (ServiceLocator::hasService('Phile_Cache')) {

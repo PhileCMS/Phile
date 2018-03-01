@@ -4,6 +4,8 @@
  */
 namespace Phile\Core;
 
+use Phile\Core\Container;
+
 /**
  * Utility class
  *
@@ -23,7 +25,7 @@ class Utility
      */
     public static function getProtocol()
     {
-        return (new Router)->getProtocol();
+        return Container::getInstance()->get('Phile_Router')->getProtocol();
     }
 
     /**
@@ -34,7 +36,14 @@ class Utility
      */
     public static function getBaseUrl()
     {
-        return (new Router)->getBaseUrl();
+        $container = Container::getInstance();
+        if ($container->has('Phile_Router')) {
+            $router = $container->get('Phile_Router');
+        } else {
+            // BC: some old 1.x plugins may call this before the core is initialized
+            $router = new Router;
+        }
+        return $router->getBaseUrl();
     }
 
     /**
@@ -99,11 +108,11 @@ class Utility
      */
     public static function isPluginLoaded($plugin)
     {
-        $config = Registry::get('Phile_Settings');
-        if (!isset($config['plugins'])) {
+        $config = Container::getInstance()->get('Phile_Config');
+        if ($config->get('plugins')) {
             return false;
         }
-        $plugins = $config['plugins'];
+        $plugins = $config->get('plugins');
         return (isset($plugins[$plugin]['active']) && $plugins[$plugin]['active'] === true);
     }
 
@@ -157,9 +166,9 @@ class Utility
      */
     public static function getSecureMD5Hash($value)
     {
-        $config = Registry::get('Phile_Settings');
+        $config = Container::getInstance()->get('Phile_Config');
 
-        return md5($config['encryptionKey'] . $value);
+        return md5($config->get('encryptionKey') . $value);
     }
 
     /**
