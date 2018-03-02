@@ -187,6 +187,7 @@ class Page
             if (strncmp($fence['open'], $rawData, strlen($fence['open'])) === 0) {
                 $sub = substr($rawData, strlen($fence['open']));
                 list(, $content) = explode($fence['close'], $sub, 2);
+                break;
             }
         }
         $this->content = $content ?: $rawData;
