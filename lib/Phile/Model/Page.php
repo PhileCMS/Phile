@@ -186,7 +186,7 @@ class Page
         foreach ($fences as $fence) {
             if (strncmp($fence['open'], $rawData, strlen($fence['open'])) === 0) {
                 $sub = substr($rawData, strlen($fence['open']));
-                list($meta, $content) = explode($fence['close'], $sub, 2);
+                list(, $content) = explode($fence['close'], $sub, 2);
             }
         }
         $this->content = $content ?: $rawData;
