@@ -36,6 +36,7 @@ abstract class TestCase extends PHPUnitTestCase
         if (!$config->has('encryptionKey')) {
             $config->set('encryptionKey', 'testing');
         }
+        $testConfig = $config->toArray();
 
         //# setup container
         Utility::load($config->get('config_dir') . '/container.php');
@@ -45,13 +46,12 @@ abstract class TestCase extends PHPUnitTestCase
             $container->set('Phile_EventBus', $event);
         }
 
-        $container->set('Phile_Config', $config);
-
         //# setup bootstrap
         $core = $container->get('Phile_App');
-        $core->addBootstrap(function ($eventBus, $config) {
+        $core->addBootstrap(function ($eventBus, $config) use ($testConfig) {
             $configDir = $config->get('config_dir');
             Bootstrap::loadConfiguration($configDir . 'defaults.php', $config);
+            $config->merge($testConfig);
 
             defined('CONTENT_DIR') || define('CONTENT_DIR', $config->get('content_dir'));
             defined('CONTENT_EXT') || define('CONTENT_EXT', $config->get('content_ext'));
