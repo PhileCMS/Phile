@@ -15,13 +15,13 @@ namespace Phile\Core;
 class Session
 {
     /**
- * @var bool mark if session is started
-*/
+     * @var bool mark if session is started
+     */
     static public $isStarted = false;
 
     /**
- * @var string the session id
-*/
+     * @var string the session id
+     */
     static public $sessionId = '';
 
     /**

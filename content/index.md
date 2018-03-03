@@ -42,21 +42,25 @@ Robots: noindex,nofollow
 */
 ```
 
-Phile also allows HTML style block comments:
+Phile also allows HTML or YAML style block comments:
 
-```html
+```
 <!--
 Title: Welcome
-Description: This description will go in the meta description tag
-Author: Joe Bloggs
-Date: 2013/01/01
-Robots: noindex,nofollow
+…
 -->
+```
+
+```
+---
+Title: Welcome
+…
+---
 ```
 
 #### Custom Meta
 
-You can actually create custom meta attributes by default in Phile. If you want to add a date, author, or even something else, this can be done easily. These values will be contained in the `{{ meta }}` variable in themes (see below).
+You can create custom meta attributes by default in Phile. If you want to add a date, author, or even something else, this can be done easily. These values will be contained in the `{{ meta }}` variable in themes (see below).
 
 #### Custom Meta Ordering
 
@@ -100,7 +104,7 @@ Page listing example:
 
 ### Config
 
-You can override the default Phile settings (and add your own custom settings) by editing config.php in the root Phile directory. The config.php file
+You can override the default Phile settings (and add your own custom settings) by editing  config/config.php. The config.php file
 lists all of the settings and their defaults. To override a setting, simply uncomment it in config.php and set your custom value.
 
 ### Events
@@ -133,7 +137,7 @@ this event is triggered after the core is initialized
 
 | param                   | type                 | description                                                      |
 | ----------------------- |:---------------------|:-----------------------------------------------------------------|
-| `response`              | \Phile\Core\Response | the response                                                     |  
+| `response`              | \Phile\Core\Response | the response, set a PSR-7 response to send output early          |  
 
 #### request_uri
 
@@ -141,7 +145,8 @@ this event is triggered after the request uri is detected.
 
 | param                   | type                               | description                                                          |
 | ----------------------- |:-----------------------------------|:---------------------------------------------------------------------|
-| `uri`                   | string                             | the requested uri (without install_path)                             |
+| `uri`                   | string                             | the requested uri (without install_path)                             |  
+| `response`              | Psr\Http\Message\ResponseInterface | set a PSR-7 response to send output early                            |
 
 #### after\_404
 
@@ -154,7 +159,8 @@ this event is triggered after a request is resolved to a page
 | param                   | type                               | description                                                          |
 | ----------------------- |:-----------------------------------|:---------------------------------------------------------------------|
 | `pageId`                | string                             | the requested page-ID                                                |  
-| `page`                  | Phile\Model\Page                   | the page served                                                      |
+| `page`                  | Phile\Model\Page                   | the page served                                                      |  
+| `response`              | Psr\Http\Message\ResponseInterface | set a PSR-7 response to send output early                            |
 
 
 #### before\_init\_template
@@ -167,7 +173,8 @@ this event is triggered before the template is rendered
 
 | param                   | type                               | description                                                          |
 | ----------------------- |:-----------------------------------|:---------------------------------------------------------------------|
-| `templateEngine`        | \Phile\Template\TemplateInterface  | the template engine                                                  |
+| `templateEngine`        | \Phile\Template\TemplateInterface  | the template engine                                                  |  
+| `response`              | Psr\Http\Message\ResponseInterface | set a PSR-7 response to send output early                            | 
 
 #### template\_engine\_registered
 

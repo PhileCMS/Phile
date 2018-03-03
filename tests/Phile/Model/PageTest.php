@@ -2,7 +2,9 @@
 
 namespace PhileTest\Model;
 
-use PHPUnit\Framework\TestCase;
+use Phile\Core\Container;
+use Phile\Repository\Page as Repository;
+use Phile\Test\TestCase;
 
 /**
  * the PageTest class
@@ -25,7 +27,9 @@ class PageTest extends TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->pageRepository = new \Phile\Repository\Page();
+        $this->createPhileCore()->bootstrap();
+        Container::getInstance()->set('Phile_Request', $this->createServerRequestFromArray());
+        $this->pageRepository = new Repository();
     }
 
     /**
@@ -72,10 +76,6 @@ class PageTest extends TestCase
         // check if '/index' is stripped correctly
         $result = $this->pageRepository->findByPath('index')->getUrl();
         $this->assertEquals('', $result);
-
-        // root page
-        $result = $this->pageRepository->findByPath('404')->getUrl();
-        $this->assertEquals('404', $result);
 
         // sub index
         $result = $this->pageRepository->findByPath('sub/')->getUrl();
@@ -136,5 +136,22 @@ class PageTest extends TestCase
         $page = $this->pageRepository->findByPath('index');
         $this->assertInstanceOf('\Phile\Model\Page', $page->getNextPage());
         $this->assertEquals('Sub Page Index', $page->getNextPage()->getTitle());
+    }
+
+    public function testRepositoryGet()
+    {
+        $page = $this->pageRepository->findByPath('index');
+        $this->assertInstanceOf(Repository::class, $page->getRepository());
+    }
+
+    public function testRepositorySet()
+    {
+        $page = $this->pageRepository->findByPath('index');
+
+        $repository = new Repository;
+        $this->assertNotSame($repository, $page->getRepository());
+
+        $page->setRepository($repository);
+        $this->assertSame($repository, $page->getRepository());
     }
 }

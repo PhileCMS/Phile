@@ -51,14 +51,12 @@
     <include name="Changelog.md"/>
     <include name="composer.json"/>
     <include name="composer.lock"/>
-    <include name="config.php"/>
-    <include name="default_config.php"/>
-    <include name="generator.php"/>
     <include name="index.php"/>
     <include name="LICENSE"/>
     <include name="README.md"/>
 
     <!-- ## Folders for package ## -->
+    <include name="config/**"/>
     <include name="content/**"/>
     <include name="lib/**"/>
     <include name="plugins/**"/>
@@ -110,12 +108,6 @@
         <exec command="git checkout tags/${git.tag}" dir="${dirs.git}"/>
       </then>
     </if>
-
-    <echo msg="Insert version string into composer.json"/>
-    <exec command="grep 'PHILE_VERSION' lib/Phile/Bootstrap.php | grep -Eio &quot;(([0-9][^'\&quot;]?){1,})&quot;"
-          outputProperty="phile.version"/>
-    <exec command="awk 'NR==3{print &quot;    \&quot;version\&quot;: \&quot;${phile.version}\&quot;,&quot;}1' ${dirs.git}/composer.json &gt; ${dirs.git}/tmp.json &amp;&amp; mv ${dirs.git}/tmp.json ${dirs.git}/composer.json"/>
-    <exec command="composer update --no-lock" dir="${dirs.git}"/>
 
     <echo msg="Install composer packages"/>
     <exec command="composer install --optimize-autoloader --no-dev"

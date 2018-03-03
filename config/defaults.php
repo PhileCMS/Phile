@@ -1,9 +1,12 @@
 <?php
-
 /**
- * Phile default config.
+ * Phile default setup
  *
  * Don't do changes here but overwrite them in your local config.
+ *
+ * @author PhileCMS
+ * @link https://github.com/PhileCMS/Phile
+ * @license http://opensource.org/licenses/MIT
  */
 $config = [];
 
@@ -66,6 +69,21 @@ $config['charset'] = 'utf-8';
 $config['display_errors'] = 0;
 
 /**
+ * content directory
+ */
+$config['content_dir'] = ROOT_DIR . 'content' . DS;
+
+/**
+ * extension of content files
+ */
+$config['content_ext'] = '.md';
+
+/**
+ * Not found page.
+ */
+$config['not_found_page'] = '404';
+
+/**
  * include core plugins
  */
 $config['plugins'] = [
@@ -74,7 +92,7 @@ $config['plugins'] = [
      */
     'phile\\errorHandler' => [
         'active' => true,
-        'handler' => \Phile\Plugin\Phile\ErrorHandler\Plugin::HANDLER_DEVELOPMENT
+        'handler' => 'development'
     ],
     /**
      * setup check

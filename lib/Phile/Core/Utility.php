@@ -4,6 +4,8 @@
  */
 namespace Phile\Core;
 
+use Phile\Core\Container;
+
 /**
  * Utility class
  *
@@ -23,7 +25,7 @@ class Utility
      */
     public static function getProtocol()
     {
-        return (new Router)->getProtocol();
+        return Container::getInstance()->get('Phile_Router')->getProtocol();
     }
 
     /**
@@ -34,7 +36,14 @@ class Utility
      */
     public static function getBaseUrl()
     {
-        return (new Router)->getBaseUrl();
+        $container = Container::getInstance();
+        if ($container->has('Phile_Router')) {
+            $router = $container->get('Phile_Router');
+        } else {
+            // BC: some old 1.x plugins may call this before the core is initialized
+            $router = new Router;
+        }
+        return $router->getBaseUrl();
     }
 
     /**
@@ -55,7 +64,7 @@ class Utility
     /**
      * resolve a file path by replace the mod: prefix
      *
-     * @param $path
+     * @param string $path
      *
      * @return string|null the full filepath or null if file does not exists
      */
@@ -76,7 +85,7 @@ class Utility
     /**
      * load files e.g. config files
      *
-     * @param $file
+     * @param string $file
      *
      * @return mixed|null
      */
@@ -99,37 +108,37 @@ class Utility
      */
     public static function isPluginLoaded($plugin)
     {
-        $config = Registry::get('Phile_Settings');
-        if (!isset($config['plugins'])) {
+        $config = Container::getInstance()->get('Phile_Config');
+        if ($config->get('plugins')) {
             return false;
         }
-        $plugins = $config['plugins'];
+        $plugins = $config->get('plugins');
         return (isset($plugins[$plugin]['active']) && $plugins[$plugin]['active'] === true);
     }
 
     /**
      * static method to get files by directory and file filter
      *
-     * @param $directory
-     * @param string    $filter
+     * @param string $directory
+     * @param string $filter
      *
      * @return array
      */
     public static function getFiles($directory, $filter = '\Phile\FilterIterator\GeneralFileFilterIterator')
     {
         $files = new $filter(
-        new \RecursiveIteratorIterator(
-            new \RecursiveDirectoryIterator(
-                $directory,
-                \RecursiveDirectoryIterator::FOLLOW_SYMLINKS
+            new \RecursiveIteratorIterator(
+                new \RecursiveDirectoryIterator(
+                    $directory,
+                    \RecursiveDirectoryIterator::FOLLOW_SYMLINKS
+                )
             )
-        )
         );
         $result = array();
         foreach ($files as $file) {
             /**
- * @var \SplFileInfo $file
-*/
+             * @var \SplFileInfo $file
+             */
             $result[] = $file->getPathname();
         }
 
@@ -151,15 +160,15 @@ class Utility
     /**
      * generate secure md5 hash
      *
-     * @param $value
+     * @param string $value
      *
      * @return string
      */
     public static function getSecureMD5Hash($value)
     {
-        $config = Registry::get('Phile_Settings');
+        $config = Container::getInstance()->get('Phile_Config');
 
-        return md5($config['encryptionKey'] . $value);
+        return md5($config->get('encryptionKey') . $value);
     }
 
     /**

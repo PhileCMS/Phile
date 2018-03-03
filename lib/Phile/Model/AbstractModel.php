@@ -15,8 +15,8 @@ namespace Phile\Model;
 class AbstractModel implements \ArrayAccess
 {
     /**
- * @var array the storage
-*/
+     * @var array the storage
+     */
     protected $data = array();
 
     /**

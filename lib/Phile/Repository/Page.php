@@ -4,7 +4,7 @@
  */
 namespace Phile\Repository;
 
-use Phile\Core\Registry;
+use Phile\Core\Container;
 use Phile\Core\ServiceLocator;
 use Phile\Core\Utility;
 
@@ -39,7 +39,7 @@ class Page
     public function __construct($settings = null)
     {
         if ($settings === null) {
-            $settings = Registry::get('Phile_Settings');
+            $settings = Container::getInstance()->get('Phile_Config')->toArray();
         }
         $this->settings = $settings;
         if (ServiceLocator::hasService('Phile_Cache')) {
@@ -55,8 +55,9 @@ class Page
      *
      * @return null|\Phile\Model\Page
      */
-    public function findByPath($pageId, $folder = CONTENT_DIR)
+    public function findByPath($pageId, $folder = null)
     {
+        $folder = $folder ?: $this->settings['content_dir'];
         // be merciful to lazy third-party-usage and accept a leading slash
         $pageId = ltrim($pageId, '/');
         // 'sub/' should serve page 'sub/index'
@@ -64,7 +65,7 @@ class Page
             $pageId .= 'index';
         }
 
-        $file = $folder . $pageId . CONTENT_EXT;
+        $file = $folder . $pageId . $this->settings['content_ext'];
         if (!file_exists($file)) {
             if (substr($pageId, -6) === '/index') {
                 // try to resolve sub-directory 'sub/' to page 'sub'
@@ -73,7 +74,7 @@ class Page
                 // try to resolve page 'sub' to sub-directory 'sub/'
                 $pageId .= '/index';
             }
-            $file = $folder . $pageId . CONTENT_EXT;
+            $file = $folder . $pageId . $this->settings['content_ext'];
         }
         if (!file_exists($file)) {
             return null;
@@ -89,16 +90,18 @@ class Page
      *
      * @return PageCollection of \Phile\Model\Page objects
      */
-    public function findAll(array $options = array(), $folder = CONTENT_DIR)
+    public function findAll(array $options = array(), $folder = null)
     {
+        $folder = $folder ?: $this->settings['content_dir'];
         return new PageCollection(
             function () use ($options, $folder) {
                 $options += $this->settings;
                 // ignore files with a leading '.' in its filename
                 $files = Utility::getFiles($folder, '\Phile\FilterIterator\ContentFileFilterIterator');
                 $pages = array();
+                $notFoundPage = $this->settings['not_found_page'] . $this->settings['content_ext'];
                 foreach ($files as $file) {
-                    if (str_replace($folder, '', $file) == '404' . CONTENT_EXT) {
+                    if (str_replace($folder, '', $file) == $notFoundPage) {
                         // jump to next page if file is the 404 page
                         continue;
                     }
@@ -109,7 +112,7 @@ class Page
                     return $pages;
                 }
 
-                // parse search	criteria
+                // parse search criteria
                 $terms = preg_split('/\s+/', $options['pages_order'], -1, PREG_SPLIT_NO_EMPTY);
                 foreach ($terms as $term) {
                     $sub = explode('.', $term);
@@ -131,8 +134,8 @@ class Page
                     $column = array();
                     foreach ($pages as $page) {
                         /**
-            * @var \Phile\Model\Page $page
-            */
+                         * @var \Phile\Model\Page $page
+                         */
                         $meta = $page->getMeta();
                         if ($sort['type'] === 'page') {
                             $method = 'get' . ucfirst($key);
@@ -187,10 +190,11 @@ class Page
      * @param $filePath
      * @param string   $folder
      *
-     * @return mixed|\Phile\Model\Page
+     * @return \Phile\Model\Page
      */
-    protected function getPage($filePath, $folder = CONTENT_DIR)
+    protected function getPage($filePath, $folder = null)
     {
+        $folder = $folder ?: $this->settings['content_dir'];
         $key = 'Phile_Model_Page_' . md5($filePath);
         if (isset($this->storage[$key])) {
             return $this->storage[$key];
@@ -206,6 +210,7 @@ class Page
         } else {
             $page = new \Phile\Model\Page($filePath, $folder);
         }
+        $page->setRepository($this);
         $this->storage[$key] = $page;
 
         return $page;

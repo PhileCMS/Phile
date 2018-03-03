@@ -4,9 +4,10 @@
  */
 namespace Phile\Model;
 
+use Phile\Core\Container;
 use Phile\Core\Router;
-use Phile\Core\Event;
 use Phile\Core\ServiceLocator;
+use Phile\Repository\Page as Repository;
 
 /**
  * the Model class for a page
@@ -49,19 +50,17 @@ class Page
     protected $pageId;
 
     /**
-     * @var \Phile\Model\Page the previous page if one exist
-     */
-    protected $previousPage;
-
-    /**
-     * @var \Phile\Model\Page the next page if one exist
-     */
-    protected $nextPage;
-
-    /**
      * @var string The content folder, as passed to the class constructor when initiating the object.
      */
-    protected $contentFolder = CONTENT_DIR;
+    protected $contentFolder;
+
+    /**
+     * @var string content extension
+     */
+    protected $contentExtension;
+
+    /** @var Repository */
+    protected $repository;
 
     /**
      * the constructor
@@ -69,9 +68,11 @@ class Page
      * @param $filePath
      * @param string   $folder
      */
-    public function __construct($filePath, $folder = CONTENT_DIR)
+    public function __construct($filePath, $folder = null)
     {
-        $this->contentFolder = $folder;
+        $settings = Container::getInstance()->get('Phile_Config')->toArray();
+        $this->contentFolder = $folder ?: $settings['content_dir'];
+        $this->contentExtension = $settings['content_ext'];
         $this->setFilePath($filePath);
 
         /**
@@ -80,7 +81,10 @@ class Page
          * @param            string filePath the path to the file
          * @param \Phile\Model\Page page     the page model
          */
-        Event::triggerEvent('before_load_content', array('filePath' => &$this->filePath, 'page' => &$this));
+        Container::getInstance()->get('Phile_EventBus')->trigger(
+            'before_load_content',
+            ['filePath' => &$this->filePath, 'page' => &$this]
+        );
         if (file_exists($this->filePath)) {
             $this->rawData = file_get_contents($this->filePath);
             $this->parseRawData();
@@ -92,7 +96,7 @@ class Page
          * @param            string rawData  the raw data
          * @param \Phile\Model\Page page     the page model
          */
-        Event::triggerEvent(
+        Container::getInstance()->get('Phile_EventBus')->trigger(
             'after_load_content',
             [
                 'filePath' => &$this->filePath,
@@ -117,7 +121,10 @@ class Page
          * @param            string content the raw data
          * @param \Phile\Model\Page page    the page model
          */
-        Event::triggerEvent('before_parse_content', array('content' => $this->content, 'page' => &$this));
+        Container::getInstance()->get('Phile_EventBus')->trigger(
+            'before_parse_content',
+            ['content' => $this->content, 'page' => &$this]
+        );
         $content = $this->parser->parse($this->content);
         /**
          * @triggerEvent after_parse_content this event is triggered after the content is parsed
@@ -125,7 +132,10 @@ class Page
          * @param            string content the parsed content
          * @param \Phile\Model\Page page    the page model
          */
-        Event::triggerEvent('after_parse_content', array('content' => &$content, 'page' => &$this));
+        Container::getInstance()->get('Phile_EventBus')->trigger(
+            'after_parse_content',
+            ['content' => &$content, 'page' => &$this]
+        );
 
         return $content;
     }
@@ -133,7 +143,7 @@ class Page
     /**
      * set content of page
      *
-     * @param $content
+     * @param string $content
      */
     public function setContent($content)
     {
@@ -166,18 +176,46 @@ class Page
     protected function parseRawData()
     {
         $this->meta = new Meta($this->rawData);
-        // Remove only the optional, leading meta-block comment
         $rawData = trim($this->rawData);
-        if (strncmp('<!--', $rawData, 4) === 0) {
-            // leading meta-block comment uses the <!-- --> style
-            $this->content = substr($rawData, max(4, strpos($rawData, '-->') + 3));
-        } elseif (strncmp('/*', $rawData, 2) === 0) {
-            // leading meta-block comment uses the /* */ style
-            $this->content = substr($rawData, strpos($rawData, '*/') + 2);
-        } else {
-            // no leading meta-block comment
-            $this->content = $rawData;
+        $fences = [
+            'c' => ['open' => '/*', 'close' => '*/'],
+            'html' => ['open' => '<!--', 'close' => '-->'],
+            'yaml' => ['open' => '---', 'close' => '---']
+        ];
+        $content = '';
+        foreach ($fences as $fence) {
+            if (strncmp($fence['open'], $rawData, strlen($fence['open'])) === 0) {
+                $sub = substr($rawData, strlen($fence['open']));
+                list(, $content) = explode($fence['close'], $sub, 2);
+                break;
+            }
         }
+        $this->content = $content ?: $rawData;
+    }
+
+    /**
+     * Sets repository this page was retrieved by/belongs to
+     *
+     * @param Repository $repository
+     * @return $this
+     */
+    public function setRepository(Repository $repository)
+    {
+        $this->repository = $repository;
+        return $this;
+    }
+
+    /**
+     * Gets repository this page belongs to
+     *
+     * @return Repository
+     */
+    public function getRepository()
+    {
+        if (!$this->repository) {
+            $this->repository = new Repository();
+        }
+        return $this->repository;
     }
 
     /**
@@ -199,7 +237,7 @@ class Page
     protected function buildPageId($filePath)
     {
         $pageId = str_replace($this->contentFolder, '', $filePath);
-        $pageId = str_replace(CONTENT_EXT, '', $pageId);
+        $pageId = str_replace($this->contentExtension, '', $pageId);
         $pageId = str_replace(DIRECTORY_SEPARATOR, '/', $pageId);
         $pageId = ltrim($pageId, '/');
         $pageId = preg_replace('/(?<=^|\/)index$/', '', $pageId);
@@ -213,7 +251,14 @@ class Page
      */
     public function getUrl()
     {
-        return (new Router)->urlForPage($this->pageId, false);
+        $container = Container::getInstance();
+        if ($container->has('Phile_Router')) {
+            $router = $container->get('Phile_Router');
+        } else {
+            // BC: some old 1.x plugins may use Pages before the core is initialized
+            $router = new Router;
+        }
+        return $router->urlForPage($this->pageId, false);
     }
 
     /**
@@ -259,8 +304,7 @@ class Page
      */
     public function getPreviousPage()
     {
-        $pageRepository = new \Phile\Repository\Page();
-        return $pageRepository->getPageOffset($this, -1);
+        return $this->getRepository()->getPageOffset($this, -1);
     }
 
     /**
@@ -270,7 +314,6 @@ class Page
      */
     public function getNextPage()
     {
-        $pageRepository = new \Phile\Repository\Page();
-        return $pageRepository->getPageOffset($this, 1);
+        return $this->getRepository()->getPageOffset($this, 1);
     }
 }

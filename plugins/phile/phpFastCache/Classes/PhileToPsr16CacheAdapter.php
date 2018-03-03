@@ -17,6 +17,11 @@ use Psr\SimpleCache\CacheInterface;
  */
 class PhileToPsr16CacheAdapter implements \Phile\ServiceLocator\CacheInterface
 {
+    /** @var string slug */
+    const SLUG_PREFIX = '-phile.phpFastCache.slug-';
+    
+    const SLUG = ['{', '}' , '(', ')', '/' , '\\' , '@', ':'];
+
     /**
      * @var \BasePhpFastCache the cache engine
      */
@@ -41,18 +46,20 @@ class PhileToPsr16CacheAdapter implements \Phile\ServiceLocator\CacheInterface
      */
     public function has($key)
     {
+        $key = $this->slug($key);
         return $this->cacheEngine->has($key);
     }
 
     /**
      * method to get cache entry
      *
-     * @param $key
+     * @param string $key
      *
      * @return mixed|null
      */
     public function get($key)
     {
+        $key = $this->slug($key);
         return $this->cacheEngine->get($key);
     }
 
@@ -72,6 +79,7 @@ class PhileToPsr16CacheAdapter implements \Phile\ServiceLocator\CacheInterface
             // not longer supported by phpFastCache
             trigger_error('Argument $options is deprecated and ignored.', E_USER_WARNING);
         }
+        $key = $this->slug($key);
         $this->cacheEngine->set($key, $value, $time);
     }
 
@@ -89,6 +97,7 @@ class PhileToPsr16CacheAdapter implements \Phile\ServiceLocator\CacheInterface
             // not longer supported by phpFastCache
             trigger_error('Argument $options is deprecated and ignored.', E_USER_WARNING);
         }
+        $key = $this->slug($key);
         $this->cacheEngine->delete($key);
     }
 
@@ -98,5 +107,22 @@ class PhileToPsr16CacheAdapter implements \Phile\ServiceLocator\CacheInterface
     public function clean()
     {
         $this->cacheEngine->clear();
+    }
+
+    /**
+     * replaces chars forbidden in PSR-16 cache-keys
+     *
+     * @param string $key key to slug
+     * @return string $key slugged key
+     */
+    protected function slug($key)
+    {
+        $replacementTokens = array_map(
+            function ($key) {
+                return self::SLUG_PREFIX . $key;
+            },
+            array_keys(self::SLUG)
+        );
+        return str_replace(self::SLUG, $replacementTokens, $key);
     }
 }

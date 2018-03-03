@@ -6,6 +6,7 @@ namespace Phile\Plugin\Phile\SetupCheck;
 
 use Phile\Core\Utility;
 use Phile\Model\Page;
+use Phile\Phile;
 use Phile\Plugin\AbstractPlugin;
 
 /**
@@ -18,45 +19,19 @@ use Phile\Plugin\AbstractPlugin;
  */
 class Plugin extends AbstractPlugin
 {
+    protected $needsSetup;
 
     /**
- * @var global Phile config
-*/
-    protected $config;
-
-    /**
- * @var bool Phile installation needs setup
-*/
-    protected $needsSetup = true;
-
-    /**
- * @var array event subscription
-*/
+     * @var array event subscription
+     */
     protected $events = [
-    'config_loaded' => 'onConfigLoaded',
-    'setup_check' => 'onSetupCheck',
-    'after_render_template' => 'onAfterRenderTemplate'
+        'config_loaded' => 'onConfigLoaded',
+        'after_render_template' => 'onAfterRenderTemplate'
     ];
 
-    /**
-     * get global config
-     *
-     * @param array $eventData
-     */
-    protected function onConfigLoaded(array $eventData)
+    protected function onConfigLoaded($eventData)
     {
-        $this->config = $eventData['config'];
-    }
-
-    /**
-     * perform setup check
-     */
-    protected function onSetupCheck()
-    {
-        if (empty($this->config['encryptionKey'])) {
-            return;
-        }
-        $this->needsSetup = false;
+        $this->needsSetup = empty($eventData['class']->get('encryptionKey'));
     }
 
     /**
@@ -69,6 +44,7 @@ class Plugin extends AbstractPlugin
         if (!$this->needsSetup) {
             return;
         }
+
         $engine = $eventData['templateEngine'];
 
         $page = new Page($this->getPluginPath('setup.md'));

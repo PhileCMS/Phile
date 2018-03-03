@@ -4,8 +4,7 @@
  */
 namespace Phile\Model;
 
-use Phile\Core\Event;
-use Phile\Core\Registry;
+use Phile\Core\Container;
 use Phile\Core\ServiceLocator;
 
 /**
@@ -44,7 +43,10 @@ class Meta extends AbstractModel
          * @param string rawData the unparsed data
          * @param \Phile\Model\Meta meta   the meta model
          */
-        Event::triggerEvent('before_read_file_meta', array('rawData' => &$rawData, 'meta' => &$this));
+        Container::getInstance()->get('Phile_EventBus')->trigger(
+            'before_read_file_meta',
+            ['rawData' => &$rawData, 'meta' => &$this]
+        );
         $this->parseRawData($rawData);
         /**
          * @triggerEvent after_read_file_meta this event is triggered after the meta data readed and parsed
@@ -52,7 +54,10 @@ class Meta extends AbstractModel
          * @param string rawData the unparsed data
          * @param \Phile\Model\Meta meta   the meta model
          */
-        Event::triggerEvent('after_read_file_meta', array('rawData' => &$rawData, 'meta' => &$this));
+        Container::getInstance()->get('Phile_EventBus')->trigger(
+            'after_read_file_meta',
+            ['rawData' => &$rawData, 'meta' => &$this]
+        );
     }
 
     /**
@@ -62,7 +67,7 @@ class Meta extends AbstractModel
      */
     public function getFormattedDate()
     {
-        $config = Registry::get('Phile_Settings');
+        $config = Container::getInstance()->get('Phile_Config');
         if (!isset($this->data['date'])) {
             return null;
         }
@@ -70,19 +75,19 @@ class Meta extends AbstractModel
         if (!is_numeric($date)) {
             $date = strtotime($date);
         }
-        return date($config['date_format'], $date);
+        return date($config->get('date_format'), $date);
     }
 
     /**
      * parse the raw data
      *
-     * @param $rawData
+     * @param string $rawData
      */
     protected function parseRawData($rawData)
     {
         /**
- * @var \Phile\ServiceLocator\MetaInterface $metaParser
-*/
+         * @var \Phile\ServiceLocator\MetaInterface $metaParser
+         */
         $metaParser = ServiceLocator::getService('Phile_Parser_Meta');
         $data       = $metaParser->parse($rawData);
 

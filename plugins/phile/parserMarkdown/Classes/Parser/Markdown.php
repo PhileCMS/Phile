@@ -18,8 +18,8 @@ use Phile\ServiceLocator\ParserInterface;
 class Markdown implements ParserInterface
 {
     /**
- * @var mixed the configuration
-*/
+     * @var mixed the configuration
+     */
     private $config;
 
     /**

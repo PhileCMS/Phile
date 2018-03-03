@@ -1,40 +1,38 @@
 <?php
-
-namespace PhileTest;
-
-use Phile\Bootstrap;
-use PHPUnit\Framework\TestCase;
-
 /**
- * the BootstrapTest class
- *
- * @author  PhileCMS
+ * @author  Phile CMS
  * @link    https://philecms.com
  * @license http://opensource.org/licenses/MIT
  * @package PhileTest
  */
+
+namespace PhileTest\Core;
+
+use Phile\Core\Config;
+use Phile\Test\TestCase;
+
 class BootstrapTest extends TestCase
 {
-
     /**
      * test creation of files and folders
      */
     public function testInitializeFilesAndFolders()
     {
-        $paths = [CACHE_DIR, STORAGE_DIR];
+        $config = new Config;
+        $this->createPhileCore(null, $config);
+
+        $paths = [$config->get('cache_dir'), $config->get('storage_dir')];
 
         //setup: delete files and folders
         foreach ($paths as $path) {
-            if (empty($path) || strpos($path, ROOT_DIR) !== 0) {
-                $this->markTestSkipped(
-                    "Path $path is not in Phile installation directory."
-                );
+            if (empty($path) || strpos($path, $config->get('root_dir')) !== 0) {
+                $this->markTestSkipped("Path $path is not in Phile installation directory.");
             }
             $this->deleteDirectory($path);
             $this->assertFalse(is_dir($path));
-        }
 
-        Bootstrap::getInstance()->initializeBasics();
+            \Phile\Core\Bootstrap::setupFolder($path, $config);
+        }
 
         foreach ($paths as $path) {
             $this->assertTrue(is_dir($path));
@@ -56,7 +54,7 @@ class BootstrapTest extends TestCase
         $files = glob($path . '*', GLOB_MARK);
 
         // find .htaccess
-        $invisibleFiles = glob($path . '.*');
+        $invisibleFiles =  glob($path . '.*');
         foreach ($invisibleFiles as $key => $file) {
             $basename = basename($file);
             if ($basename === '..' || $basename === '.') {
