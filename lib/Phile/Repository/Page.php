@@ -99,8 +99,9 @@ class Page
                 // ignore files with a leading '.' in its filename
                 $files = Utility::getFiles($folder, '\Phile\FilterIterator\ContentFileFilterIterator');
                 $pages = array();
+                $notFoundPage = $this->settings['not_found_page'] . $this->settings['content_ext'];
                 foreach ($files as $file) {
-                    if (str_replace($folder, '', $file) == '404' . $this->settings['content_ext']) {
+                    if (str_replace($folder, '', $file) == $notFoundPage) {
                         // jump to next page if file is the 404 page
                         continue;
                     }
