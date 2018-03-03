@@ -51,14 +51,12 @@
     <include name="Changelog.md"/>
     <include name="composer.json"/>
     <include name="composer.lock"/>
-    <include name="config.php"/>
-    <include name="default_config.php"/>
-    <include name="generator.php"/>
     <include name="index.php"/>
     <include name="LICENSE"/>
     <include name="README.md"/>
 
     <!-- ## Folders for package ## -->
+    <include name="config/**"/>
     <include name="content/**"/>
     <include name="lib/**"/>
     <include name="plugins/**"/>
