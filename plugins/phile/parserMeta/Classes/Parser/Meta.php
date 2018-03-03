@@ -18,8 +18,8 @@ use Symfony\Component\Yaml\Yaml;
 class Meta implements MetaInterface
 {
     /**
- * @var array $config the configuration for this parser
-*/
+     * @var array $config the configuration for this parser
+     */
     private $config;
 
     /**

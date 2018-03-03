@@ -143,7 +143,7 @@ class Page
     /**
      * set content of page
      *
-     * @param $content
+     * @param string $content
      */
     public function setContent($content)
     {

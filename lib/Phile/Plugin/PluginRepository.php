@@ -16,13 +16,13 @@ class PluginRepository
 {
 
     /**
- * @var array of AbstractPlugin
-*/
+     * @var array of AbstractPlugin
+     */
     protected $plugins = [];
 
     /**
- * @var array errors during load; keys: 'message' and 'code'
-*/
+     * @var array errors during load; keys: 'message' and 'code'
+     */
     protected $loadErrors = [];
 
     /**

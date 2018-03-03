@@ -20,18 +20,18 @@ abstract class AbstractPlugin implements EventObserverInterface
 {
 
     /**
- * @var string plugin attributes
-*/
+     * @var string plugin attributes
+     */
     private $plugin = [];
 
     /**
- * @var array subscribed Phile events ['eventName' => 'classMethodToCall']
-*/
+     * @var array subscribed Phile events ['eventName' => 'classMethodToCall']
+     */
     protected $events = [];
 
     /**
- * @var array the plugin settings
-*/
+     * @var array the plugin settings
+     */
     protected $settings = [];
 
     /**

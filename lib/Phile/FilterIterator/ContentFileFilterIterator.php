@@ -21,7 +21,7 @@ class ContentFileFilterIterator extends \FilterIterator
     {
         /**
          * @var \SplFileInfo $this
-        */
+         */
         $ext = Container::getInstance()->get('Phile_Config')->get('content_ext');
         return (preg_match('/^[^\.]{1}.*' . $ext . '/', $this->getFilename()) > 0);
     }

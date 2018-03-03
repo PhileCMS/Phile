@@ -10,8 +10,6 @@
  * @license http://opensource.org/licenses/MIT
  */
 
-use Psr\Http\Message\ServerRequestInterface;
-
 $config = [
     'types' => [
         'Phile_App'              => Phile\Phile::class,

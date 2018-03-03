@@ -64,7 +64,7 @@ class Utility
     /**
      * resolve a file path by replace the mod: prefix
      *
-     * @param $path
+     * @param string $path
      *
      * @return string|null the full filepath or null if file does not exists
      */
@@ -85,7 +85,7 @@ class Utility
     /**
      * load files e.g. config files
      *
-     * @param $file
+     * @param string $file
      *
      * @return mixed|null
      */
@@ -119,8 +119,8 @@ class Utility
     /**
      * static method to get files by directory and file filter
      *
-     * @param $directory
-     * @param string    $filter
+     * @param string $directory
+     * @param string $filter
      *
      * @return array
      */
@@ -137,8 +137,8 @@ class Utility
         $result = array();
         foreach ($files as $file) {
             /**
- * @var \SplFileInfo $file
-*/
+             * @var \SplFileInfo $file
+             */
             $result[] = $file->getPathname();
         }
 
@@ -160,7 +160,7 @@ class Utility
     /**
      * generate secure md5 hash
      *
-     * @param $value
+     * @param string $value
      *
      * @return string
      */

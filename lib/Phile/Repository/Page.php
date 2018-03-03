@@ -134,8 +134,8 @@ class Page
                     $column = array();
                     foreach ($pages as $page) {
                         /**
-            * @var \Phile\Model\Page $page
-            */
+                         * @var \Phile\Model\Page $page
+                         */
                         $meta = $page->getMeta();
                         if ($sort['type'] === 'page') {
                             $method = 'get' . ucfirst($key);

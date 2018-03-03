@@ -81,13 +81,13 @@ class Meta extends AbstractModel
     /**
      * parse the raw data
      *
-     * @param $rawData
+     * @param string $rawData
      */
     protected function parseRawData($rawData)
     {
         /**
- * @var \Phile\ServiceLocator\MetaInterface $metaParser
-*/
+         * @var \Phile\ServiceLocator\MetaInterface $metaParser
+         */
         $metaParser = ServiceLocator::getService('Phile_Parser_Meta');
         $data       = $metaParser->parse($rawData);
 

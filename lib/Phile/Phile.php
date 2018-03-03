@@ -15,7 +15,6 @@ use Phile\Core\Response;
 use Phile\Core\Router;
 use Phile\Model\Page;
 use Phile\Repository\Page as Repository;
-
 use Interop\Http\Server\MiddlewareInterface;
 use Interop\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -126,7 +125,7 @@ class Phile implements MiddlewareInterface
             ->withHeader('Content-Type', 'text/html; charset=' . $charset);
 
         if ($page->getPageId() == $this->config->get('not_found_page')) {
-            $response = $response->withStatus(404) ;
+            $response = $response->withStatus(404);
         }
 
         return $response;

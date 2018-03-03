@@ -22,8 +22,8 @@ class Plugin extends AbstractPlugin
     protected $needsSetup;
 
     /**
- * @var array event subscription
-*/
+     * @var array event subscription
+     */
     protected $events = [
         'config_loaded' => 'onConfigLoaded',
         'after_render_template' => 'onAfterRenderTemplate'

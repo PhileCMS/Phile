@@ -21,8 +21,8 @@ use Phile\Plugin\Phile\ErrorHandler\ErrorLog;
  */
 class Plugin extends AbstractPlugin
 {
-    const HANDLER_ERROR_LOG        = 'error_log';
-    const HANDLER_DEVELOPMENT    = 'development';
+    const HANDLER_ERROR_LOG = 'error_log';
+    const HANDLER_DEVELOPMENT = 'development';
 
     protected $events = ['plugins_loaded' => 'onPluginsLoaded'];
 

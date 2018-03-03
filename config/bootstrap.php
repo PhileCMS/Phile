@@ -42,7 +42,7 @@ require(LIB_DIR . 'vendor' . DS . 'autoload.php');
 /**
  * Setup global application-object
  */
-require 'container.php' ;
+require 'container.php';
 $app = Phile\Core\Container::getInstance()->get('Phile_App');
 
 /**

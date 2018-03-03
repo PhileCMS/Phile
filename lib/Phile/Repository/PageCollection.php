@@ -76,7 +76,7 @@ class PageCollection implements \ArrayAccess, \IteratorAggregate, \Countable
     public function offsetSet($offset, $value)
     {
         $this->load();
-        $this->pages[$offset] =    $value;
+        $this->pages[$offset] = $value;
     }
 
     public function offsetUnset($offset)

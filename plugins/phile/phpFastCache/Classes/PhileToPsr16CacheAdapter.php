@@ -53,7 +53,7 @@ class PhileToPsr16CacheAdapter implements \Phile\ServiceLocator\CacheInterface
     /**
      * method to get cache entry
      *
-     * @param $key
+     * @param string $key
      *
      * @return mixed|null
      */

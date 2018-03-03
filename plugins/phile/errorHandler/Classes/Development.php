@@ -20,8 +20,8 @@ class Development implements ErrorHandlerInterface
 {
 
     /**
- * @var array settings
-*/
+     * @var array settings
+     */
     protected $settings;
 
     /**
@@ -289,7 +289,7 @@ class Development implements ErrorHandlerInterface
 
     /**
      * link the class or method to the API or return the method name
-  *
+     *
      * @param $class
      * @param $method
      *

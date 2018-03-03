@@ -17,8 +17,8 @@ use Phile\ServiceLocator\PersistenceInterface;
 class SimpleFileDataPersistence implements PersistenceInterface
 {
     /**
- * @var string $dataDirectory the data storage directory
-*/
+     * @var string $dataDirectory the data storage directory
+     */
     protected $dataDirectory;
 
     /**
