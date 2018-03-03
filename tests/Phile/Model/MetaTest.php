@@ -57,6 +57,7 @@ Date: 2014-08-01
     protected $metaTestData3 = "---
 Title: Welcome
 ---
+Content
 ";
 
     /**

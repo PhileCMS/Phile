@@ -176,18 +176,21 @@ class Page
     protected function parseRawData()
     {
         $this->meta = new Meta($this->rawData);
-        // Remove only the optional, leading meta-block comment
         $rawData = trim($this->rawData);
-        if (strncmp('<!--', $rawData, 4) === 0) {
-            // leading meta-block comment uses the <!-- --> style
-            $this->content = substr($rawData, max(4, strpos($rawData, '-->') + 3));
-        } elseif (strncmp('/*', $rawData, 2) === 0) {
-            // leading meta-block comment uses the /* */ style
-            $this->content = substr($rawData, strpos($rawData, '*/') + 2);
-        } else {
-            // no leading meta-block comment
-            $this->content = $rawData;
+        $fences = [
+            'c' => ['open' => '/*', 'close' => '*/'],
+            'html' => ['open' => '<!--', 'close' => '-->'],
+            'yaml' => ['open' => '---', 'close' => '---']
+        ];
+        $content = '';
+        foreach ($fences as $fence) {
+            if (strncmp($fence['open'], $rawData, strlen($fence['open'])) === 0) {
+                $sub = substr($rawData, strlen($fence['open']));
+                list(, $content) = explode($fence['close'], $sub, 2);
+                break;
+            }
         }
+        $this->content = $content ?: $rawData;
     }
 
     /**
