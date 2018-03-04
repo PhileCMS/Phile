@@ -15,10 +15,10 @@ use Phile\Core\Response;
 use Phile\Core\Router;
 use Phile\Model\Page;
 use Phile\Repository\Page as Repository;
-use Interop\Http\Server\MiddlewareInterface;
-use Interop\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
 /**
  * Phile Core class
@@ -97,7 +97,7 @@ class Phile implements MiddlewareInterface
     /**
      * Implements PSR-15 middle-ware process-handler
      */
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler)
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $router = new Router($request->getServerParams());
         Container::getInstance()->set('Phile_Router', $router);

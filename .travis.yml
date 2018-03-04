@@ -6,9 +6,6 @@ env:
   - secure: "Bpk0MKl7UBsIlNd0LrbDzElBZxS3OQJaetXlQHbNus6YZiVLC60/bo9Gu9StrBKcdrGifqzpgdETBuCUNl9ncODGba5bj4i/n6EbrXUaSWagwi6wnNjMJW3BzeUqaJabrpb6FVg9oKqdI7cfRelasJhVjpcVPnMULRxGnKtnMaY="
 # Language
 language: php
-php:
-- 5.6
-- 7.0
 
 env:
   global:
