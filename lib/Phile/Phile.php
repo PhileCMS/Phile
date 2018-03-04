@@ -52,7 +52,7 @@ class Phile implements MiddlewareInterface
     /**
      * Adds bootstrap-setup
      */
-    public function addBootstrap(callable $bootstrap)
+    public function addBootstrap(callable $bootstrap): self
     {
         $this->bootstrapConfigs[] = $bootstrap;
         return $this;
@@ -61,7 +61,7 @@ class Phile implements MiddlewareInterface
     /**
      * Adds middleware-setup
      */
-    public function addMiddleware(callable $middleware)
+    public function addMiddleware(callable $middleware): self
     {
         $this->middlewareConfigs[] = $middleware;
         return $this;
@@ -70,7 +70,7 @@ class Phile implements MiddlewareInterface
     /**
      * Performs bootstrap
      */
-    public function bootstrap()
+    public function bootstrap(): self
     {
         foreach ($this->bootstrapConfigs as $config) {
             call_user_func_array($config, [$this->eventBus, $this->config]);
@@ -79,9 +79,12 @@ class Phile implements MiddlewareInterface
     }
 
     /**
-     * Processes request
+     * Run a request through Phile and create a response
+     *
+     * @param ServerRequestInterface $request
+     * @return ResponseInterface
      */
-    public function dispatch($request)
+    public function dispatch(ServerRequestInterface $request): ResponseInterface
     {
         $this->bootstrap();
         $this->config->lock();
@@ -96,6 +99,10 @@ class Phile implements MiddlewareInterface
 
     /**
      * Implements PSR-15 middle-ware process-handler
+     *
+     * @param ServerRequestInterface $request
+     * @param RequestHandlerInterface $handler
+     * @return ResponseInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
