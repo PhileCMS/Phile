@@ -20,7 +20,7 @@ class PhileTest extends TestCase
     {
         $core = $this->createPhileCore();
         $request = $this->createServerRequestFromArray(['REQUEST_URI' => '/abcd']);
-        $response = $core->dispatch($request);
+        $response = $this->createPhileResponse($core, $request);
 
         $this->assertEquals($response->getStatusCode(), '404');
         $this->assertContains(
@@ -44,7 +44,9 @@ class PhileTest extends TestCase
             $eventBus->register($event, function ($name, $data) use ($expected) {
                 $data['response'] = $expected;
             });
-            $actual = $core->dispatch($this->createServerRequestFromArray());
+
+            $request = $this->createServerRequestFromArray(['REQUEST_URI' => '/abcd']);
+            $actual = $this->createPhileResponse($core, $request);
             $this->assertSame($expected, $actual);
         }
     }
@@ -60,7 +62,7 @@ class PhileTest extends TestCase
         $request = $this->createServerRequestFromArray(
             ['REQUEST_URI' => '/'] + $_SERVER
         );
-        $response = $core->dispatch($request);
+        $response = $this->createPhileResponse($core, $request);
 
         $expected = 'Welcome to the PhileCMS Setup';
         $body = (string)$response->getBody();
@@ -86,7 +88,7 @@ class PhileTest extends TestCase
             $request = $this->createServerRequestFromArray(
                 ['REQUEST_URI' => $current] + $_SERVER
             );
-            $response = $core->dispatch($request);
+            $response = $this->createPhileResponse($core, $request);
             $this->assertSame(301, $response->getStatusCode());
             $this->assertSame($baseUrl . '/' . $expected, $response->getHeader('Location')[0]);
         }

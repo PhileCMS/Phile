@@ -13,8 +13,10 @@ use Phile\Core\Container;
 use Phile\Core\Event;
 use Phile\Core\Registry;
 use Phile\Core\Utility;
+use Phile\Http\Server;
 use Phile\Phile;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -73,12 +75,21 @@ abstract class TestCase extends PHPUnitTestCase
     }
 
     /**
+     * Run Phile and create response
+     */
+    protected function createPhileResponse(Phile $app, ServerRequestInterface $request): ResponseInterface
+    {
+        $server = new Server($app);
+        return $server->run($request);
+    }
+
+    /**
      * Creates ServerRequest
      *
      * @param array $server $_SERVER environment
      * @return ServerRequestInterface
      */
-    protected function createServerRequestFromArray(array $server = null)
+    protected function createServerRequestFromArray(array $server = null): ServerRequestInterface
     {
         $server = $server ?: [];
         if (!isset($server['REQUEST_URI'])) {

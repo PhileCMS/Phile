@@ -6,10 +6,7 @@
 
 namespace Phile\Core;
 
-use Interop\Http\Factory\ResponseFactoryInterface;
-use Zend\Diactoros\Response\HtmlResponse;
-use Zend\Diactoros\Response\RedirectResponse;
-use Zend\Diactoros\Response as Psr7Response;
+use Phile\Http\ResponseFactory;
 
 /**
  * the Response class is responsible for sending a HTTP response to the client
@@ -25,7 +22,7 @@ use Zend\Diactoros\Response as Psr7Response;
  * @license http://opensource.org/licenses/MIT
  * @package Phile
  */
-class Response implements ResponseFactoryInterface
+class Response extends ResponseFactory
 {
     /**
      * @var string HTTP body
@@ -46,30 +43,6 @@ class Response implements ResponseFactoryInterface
      * @var int HTTP status code
      */
     protected $statusCode = 200;
-
-    /**
-     * Creates a PSR-7 response
-     */
-    public function createResponse($code = 200)
-    {
-        return new Psr7Response('php://memory', $code);
-    }
-
-    /**
-     * Creates PSR-7 HTML response
-     */
-    public function createHtmlResponse($body, $code = 200)
-    {
-        return new HtmlResponse($body, $code);
-    }
-
-    /**
-     * Creates PSR-7 redirect response
-     */
-    public function createRedirectResponse($url, $code = 302)
-    {
-        return new RedirectResponse($url, $code);
-    }
 
     /**
      * redirect to another URL

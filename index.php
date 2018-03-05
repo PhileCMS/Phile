@@ -8,20 +8,19 @@
 
 try {
     ob_start();
-    require_once __DIR__ . '/config/bootstrap.php';
+    require_once 'config/bootstrap.php';
 
-    $container = Phile\Core\Container::getInstance();
-    $app = $container->get('Phile_App');
-
+    $app = Phile\Core\Container::getInstance()->get('Phile_App');
+    $server = new Phile\Http\Server($app);
     $request = Zend\Diactoros\ServerRequestFactory::fromGlobals();
-    $response = $app->dispatch($request);
+    $response = $server->run($request);
 
     $earlyOutput = ob_get_contents();
     if (!empty($earlyOutput)) {
         return;
     }
-    $emiter = new \Zend\Diactoros\Response\SapiEmitter();
-    $emiter->emit($response);
+
+    $server->emit($response);
 } catch (\Exception $e) {
     if (\Phile\Core\ServiceLocator::hasService('Phile_ErrorHandler')) {
         ob_end_clean();
