@@ -16,7 +16,7 @@ interface CacheInterface
     /**
      * check if an entry with this key exists
      *
-     * @param $key
+     * @param string $key
      *
      * @return mixed
      */
@@ -25,7 +25,7 @@ interface CacheInterface
     /**
      * get the entry by given key
      *
-     * @param $key
+     * @param string $key
      *
      * @return mixed
      */
@@ -34,8 +34,8 @@ interface CacheInterface
     /**
      * set the entry to the given key
      *
-     * @param $key
-     * @param $value
+     * @param string $key
+     * @param mixed $value
      * @param int   $time
      * @param array $options deprecated
      *
@@ -46,7 +46,7 @@ interface CacheInterface
     /**
      * delete the entry by given key
      *
-     * @param $key
+     * @param string $key
      * @param array $options deprecated
      *
      * @return mixed

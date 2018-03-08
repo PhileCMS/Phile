@@ -187,12 +187,12 @@ class Page
     /**
      * get page from cache or filepath
      *
-     * @param $filePath
-     * @param string   $folder
+     * @param string $filePath
+     * @param string|null $folder
      *
      * @return \Phile\Model\Page
      */
-    protected function getPage($filePath, $folder = null)
+    protected function getPage(string $filePath, ?string $folder = null): \Phile\Model\Page
     {
         $folder = $folder ?: $this->settings['content_dir'];
         $key = 'Phile_Model_Page_' . md5($filePath);

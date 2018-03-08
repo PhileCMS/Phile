@@ -101,7 +101,7 @@ class Utility
     /**
      * check if a plugin is loaded
      *
-     * @param      $plugin
+     * @param      string $plugin
      * @return     bool
      * @deprecated since 1.5 will be removed
      * @use        'plugins_loaded' event
@@ -148,7 +148,7 @@ class Utility
     /**
      * redirect to an url
      *
-     * @param      $url        the url to redirect to
+     * @param      string $url        the url to redirect to
      * @param      int                               $statusCode the http status code
      * @deprecated since 1.5 will be removed
      */

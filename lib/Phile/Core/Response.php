@@ -89,10 +89,10 @@ class Response implements ResponseFactoryInterface
     /**
      * set the response body
      *
-     * @param  $body
+     * @param string $body
      * @return $this
      */
-    public function setBody($body)
+    public function setBody(string $body): self
     {
         $this->body = $body;
         return $this;
@@ -101,10 +101,10 @@ class Response implements ResponseFactoryInterface
     /**
      * set the response character-set
      *
-     * @param  $charset
+     * @param string $charset
      * @return $this
      */
-    public function setCharset($charset)
+    public function setCharset(string $charset): self
     {
         $this->charset = $charset;
         return $this;
@@ -130,7 +130,7 @@ class Response implements ResponseFactoryInterface
     /**
      * set the response HTTP status code
      *
-     * @param  $code
+     * @param int $code
      * @return $this
      */
     public function setStatusCode($code)

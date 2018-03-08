@@ -16,7 +16,7 @@ interface MetaInterface
     /**
      * parse the content
      *
-     * @param $rawData
+     * @param string $rawData
      *
      * @return array with key/value store
      */

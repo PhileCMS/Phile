@@ -26,7 +26,7 @@ class PluginRepository
     protected $loadErrors = [];
 
     /**
-     * @var directory plug-in root directory
+     * @var string plug-in root directory
      */
     protected $directory;
 
@@ -35,7 +35,7 @@ class PluginRepository
      *
      * @param string $directory root directory for plug-in folder
      */
-    public function __construct($directory)
+    public function __construct(string $directory)
     {
         $this->directory = $directory;
         spl_autoload_register([$this, 'autoload']);
@@ -80,11 +80,11 @@ class PluginRepository
     /**
      * load and return single plugin
      *
-     * @param  $pluginKey
+     * @param string $pluginKey
      * @return AbstractPlugin
      * @throws PluginException
      */
-    protected function load($pluginKey)
+    protected function load(string $pluginKey): AbstractPlugin
     {
         list($vendor, $pluginName) = explode('\\', $pluginKey);
         // uppercase first letter convention
@@ -98,8 +98,8 @@ class PluginRepository
         }
 
         /**
- * @var \Phile\Plugin\AbstractPlugin $plugin
-*/
+         * @var \Phile\Plugin\AbstractPlugin $plugin
+         */
         $plugin = new $pluginClassName;
         if (($plugin instanceof AbstractPlugin) === false) {
             throw new PluginException(
@@ -124,9 +124,9 @@ class PluginRepository
     /**
      * auto-loader plugin namespace
      *
-     * @param $className
+     * @param string $className
      */
-    public function autoload($className)
+    public function autoload(string $className)
     {
         if (strpos($className, "Phile\\Plugin\\") !== 0) {
             return;
