@@ -194,6 +194,14 @@ this event is triggered after the template is rendered
 | `templateEngine`        | \Phile\Template\TemplateInterface  | the template engine                                                  |
 | `output`                | string                             | the parsed and ready output                                          |
 
+#### after\_response\_created
+
+This event is triggered after the response is created with the rendered template.
+
+| param                   | type                               | description                                                          |
+| ----------------------- |:-----------------------------------|:---------------------------------------------------------------------|
+| `response`              | Psr\Http\Message\ResponseInterface | Response with output                       | 
+
 #### before\_read\_file\_meta
 
 this event is triggered before the meta data is read and parsed

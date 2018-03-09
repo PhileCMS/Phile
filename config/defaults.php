@@ -84,6 +84,11 @@ $config['content_ext'] = '.md';
 $config['not_found_page'] = '404';
 
 /**
+ * Catch a 404 in Phile and don't pass it on in the middleware-queue
+ */
+$config['handle_not_found'] = true;
+
+/**
  * include core plugins
  */
 $config['plugins'] = [
