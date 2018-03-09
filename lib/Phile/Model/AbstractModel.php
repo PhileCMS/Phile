@@ -22,7 +22,7 @@ class AbstractModel implements \ArrayAccess
     /**
      * get value for given key
      *
-     * @param $key
+     * @param string $key
      *
      * @return null|mixed
      */
@@ -55,7 +55,7 @@ class AbstractModel implements \ArrayAccess
     /**
      * magic method to get value
      *
-     * @param $name
+     * @param string $name
      *
      * @return null|mixed
      */

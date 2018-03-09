@@ -23,7 +23,7 @@ class Container implements ContainerInterface
     /** @var array raw items */
     protected $raw = [];
 
-    /** @var evaluated items */
+    /** @var array evaluated items */
     protected $build = [];
 
     public function __construct($config = [])
@@ -36,7 +36,7 @@ class Container implements ContainerInterface
      *
      * @param ContainerInterface $instance
      */
-    public static function setInstance(ContainerInterface $instance)
+    public static function setInstance(ContainerInterface $instance): void
     {
         self::$instance = $instance;
     }
@@ -46,7 +46,7 @@ class Container implements ContainerInterface
      *
      * @return ContainerInterface
      */
-    public static function getInstance()
+    public static function getInstance(): ContainerInterface
     {
         return self::$instance;
     }
@@ -84,7 +84,7 @@ class Container implements ContainerInterface
      * Set an object
      *
      * @param string $id Identifier for the object to set
-     * @param type $object Object to set
+     * @param mixed $object Object to set
      */
     public function set($id, $object)
     {

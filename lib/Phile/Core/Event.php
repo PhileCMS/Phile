@@ -55,8 +55,8 @@ class Event
     /**
      * Global register
      *
-     * @param $eventName
-     * @param $object
+     * @param string $eventName
+     * @param EventObserverInterface|callable $object observer
      * @deprecated static use is deprecated
      */
     public static function registerEvent($eventName, $object)
@@ -67,7 +67,7 @@ class Event
     /**
      * Global trigger
      *
-     * @param $eventName
+     * @param string $eventName
      * @param array $data
      * @deprecated static use is deprecated
      */
@@ -82,7 +82,7 @@ class Event
      * @param string $eventName the event to observe
      * @param EventObserverInterface|callable $object observer
      */
-    public function register($eventName, $object)
+    public function register(string $eventName, $object): void
     {
         if ($object instanceof EventObserverInterface) {
             $object = [$object, 'on'];
@@ -102,7 +102,7 @@ class Event
      * @param string $eventName the event name (register for this name)
      * @param array $data array with some additional data
      */
-    public function trigger($eventName, $data = null)
+    public function trigger(string $eventName, array $data = null): void
     {
         if (empty($this->registry[$eventName])) {
             return;

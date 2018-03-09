@@ -16,7 +16,7 @@ interface ParserInterface
     /**
      * parse data
      *
-     * @param $data
+     * @param string $data
      *
      * @return mixed
      */

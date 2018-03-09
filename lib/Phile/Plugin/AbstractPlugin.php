@@ -18,9 +18,8 @@ use Phile\Gateway\EventObserverInterface;
  */
 abstract class AbstractPlugin implements EventObserverInterface
 {
-
     /**
-     * @var string plugin attributes
+     * @var array plugin attributes
      */
     private $plugin = [];
 
@@ -126,9 +125,9 @@ abstract class AbstractPlugin implements EventObserverInterface
      * get file path to plugin root (trailing slash) or to a sub-item
      *
      * @param  string $subPath
-     * @return null|string null if item does not exist
+     * @return string
      */
-    protected function getPluginPath($subPath = '')
+    protected function getPluginPath(string $subPath = ''): string
     {
         return $this->plugin['dir'] . ltrim($subPath, DIRECTORY_SEPARATOR);
     }

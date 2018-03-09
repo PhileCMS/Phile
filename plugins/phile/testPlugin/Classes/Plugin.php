@@ -22,9 +22,10 @@ class Plugin extends AbstractPlugin
      *
      * @param string $path
      *
-     * @return null|string
+     * @return string
      */
-    public function getPluginPath($path = '')
+
+    public function getPluginPath(string $path = ''): string
     {
         return parent::getPluginPath($path);
     }

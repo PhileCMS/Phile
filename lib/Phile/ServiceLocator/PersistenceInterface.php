@@ -16,16 +16,16 @@ interface PersistenceInterface
     /**
      * check if an entry exists for given key
      *
-     * @param $key
+     * @param string $key
      *
-     * @return mixed
+     * @return bool
      */
     public function has($key);
 
     /**
      * get the entry by given key
      *
-     * @param $key
+     * @param string $key
      *
      * @return mixed
      */
@@ -34,19 +34,15 @@ interface PersistenceInterface
     /**
      * set the value for given key
      *
-     * @param $key
-     * @param $value
-     *
-     * @return mixed
+     * @param string $key
+     * @param mixed $value
      */
     public function set($key, $value);
 
     /**
      * delete the entry by given key
      *
-     * @param $key
-     *
-     * @return mixed
+     * @param string $key
      */
     public function delete($key);
 }

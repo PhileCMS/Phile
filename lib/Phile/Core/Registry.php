@@ -41,8 +41,6 @@ class Registry extends \ArrayObject
      * @param Registry $registry An object instance of type Registry,
      *                           or a subclass.
      *
-     * @param Registry $registry
-     *
      * @throws \Exception
      */
     public static function setInstance(Registry $registry)

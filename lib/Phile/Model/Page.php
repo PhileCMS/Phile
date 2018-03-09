@@ -65,8 +65,8 @@ class Page
     /**
      * the constructor
      *
-     * @param $filePath
-     * @param string   $folder
+     * @param string $filePath
+     * @param string $folder
      */
     public function __construct($filePath, $folder = null)
     {

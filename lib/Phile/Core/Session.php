@@ -118,7 +118,7 @@ class Session
     /**
      * check id key is empty/set or not
      *
-     * @param $key
+     * @param string $key
      *
      * @return bool
      */

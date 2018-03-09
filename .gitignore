@@ -32,3 +32,6 @@ lib/cache/*
 # datastorage
 datastorage/*
 !datastorage/.htaccess
+
+# Misc  
+.php_cs.cache

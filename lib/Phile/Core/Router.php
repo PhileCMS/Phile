@@ -116,9 +116,9 @@ class Router
     /**
      * get the HTTP-protocol
      *
-     * @return string
+     * @return string|null
      */
-    public function getProtocol()
+    public function getProtocol(): ?string
     {
         if (empty($this->server['HTTP_HOST'])) {
             return null;
