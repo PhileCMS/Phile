@@ -49,7 +49,7 @@ class Plugin extends \Phile\Plugin\AbstractPlugin
      */
     public function outputPluginSettings($data = null)
     {
-          // you can access this plugins' config in $this->settings
+        // you can access this plugins' config in $this->settings
         $settings = $this->settings;
 
         $content = $data['content'];

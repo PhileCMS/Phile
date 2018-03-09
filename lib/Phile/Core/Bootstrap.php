@@ -9,7 +9,6 @@ namespace Phile\Core;
 
 use Phile\Core\Config;
 use Phile\Core\Event;
-use Phile\Core\Registry;
 use Phile\Core\ServiceLocator;
 use Phile\Exception\PluginException;
 use Phile\Plugin\PluginRepository;
@@ -64,7 +63,9 @@ class Bootstrap
 
         $eventBus->trigger('plugins_loaded', ['plugins' => $plugins]);
 
-        // throw after 'plugins_loaded'
+        // Throw after 'plugins_loaded' so that error handler service is set.
+        // Even with setupErrorHandler() not run yet, the global app try/catch
+        // block uses the handler if present.
         if (count($errors) > 0) {
             throw new PluginException($errors[0]['message'], $errors[0]['code']);
         }
