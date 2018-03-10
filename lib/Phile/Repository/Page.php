@@ -42,9 +42,7 @@ class Page
             $settings = Container::getInstance()->get('Phile_Config')->toArray();
         }
         $this->settings = $settings;
-        if (ServiceLocator::hasService('Phile_Cache')) {
-            $this->cache = ServiceLocator::getService('Phile_Cache');
-        }
+        $this->cache = ServiceLocator::getService('Phile_Cache');
     }
 
     /**
@@ -200,15 +198,11 @@ class Page
             return $this->storage[$key];
         }
 
-        if ($this->cache !== null) {
-            if ($this->cache->has($key)) {
-                $page = $this->cache->get($key);
-            } else {
-                $page = new \Phile\Model\Page($filePath, $folder);
-                $this->cache->set($key, $page);
-            }
+        if ($this->cache->has($key)) {
+            $page = $this->cache->get($key);
         } else {
             $page = new \Phile\Model\Page($filePath, $folder);
+            $this->cache->set($key, $page);
         }
         $page->setRepository($this);
         $this->storage[$key] = $page;
