@@ -88,9 +88,9 @@ $app->addBootstrap(function (Event $eventBus, Config $config) {
 /**
  * Add PSR-15 middleware
  */
-use Phile\Core\RequestHandler;
+use Phile\Http\MiddlewareQueue;
 
-$app->addMiddleware(function (RequestHandler $middleware, Event $eventBus, Config $config) use ($app) {
+$app->addMiddleware(function (MiddlewareQueue $middleware, Event $eventBus, Config $config) use ($app) {
     // Inject middleware from Phile-plugins
     $eventBus->trigger('phile.core.middleware.add', ['middleware' => $middleware]);
 

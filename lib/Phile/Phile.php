@@ -10,9 +10,9 @@ namespace Phile;
 use Phile\Core\Config;
 use Phile\Core\Container;
 use Phile\Core\Event;
-use Phile\Core\RequestHandler;
 use Phile\Core\Response;
 use Phile\Core\Router;
+use Phile\Http\MiddlewareQueue;
 use Phile\Model\Page;
 use Phile\Repository\Page as Repository;
 use Psr\Http\Message\ResponseInterface;
@@ -79,33 +79,26 @@ class Phile implements MiddlewareInterface
     }
 
     /**
+     * Populates Phile controlled middle-ware-queue
+     */
+    public function middleware(MiddlewareQueue $queue): MiddlewareQueue
+    {
+        foreach ($this->middlewareConfigs as $config) {
+            call_user_func_array($config, [$queue, $this->eventBus, $this->config]);
+        }
+        return $queue;
+    }
+
+    /**
      * Run a request through Phile and create a response
      *
      * @param ServerRequestInterface $request
      * @return ResponseInterface
      */
-    public function dispatch(ServerRequestInterface $request): ResponseInterface
-    {
-        $this->bootstrap();
-        $this->config->lock();
-
-        $requestHandler = new RequestHandler(new Response);
-        foreach ($this->middlewareConfigs as $config) {
-            call_user_func_array($config, [$requestHandler, $this->eventBus, $this->config]);
-        }
-
-        return $requestHandler->handle($request);
-    }
-
-    /**
-     * Implements PSR-15 middle-ware process-handler
-     *
-     * @param ServerRequestInterface $request
-     * @param RequestHandlerInterface $handler
-     * @return ResponseInterface
-     */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
+        $this->config->lock();
+
         $router = new Router($request->getServerParams());
         Container::getInstance()->set('Phile_Router', $router);
 
