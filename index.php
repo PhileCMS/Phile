@@ -21,14 +21,11 @@ try {
     }
 
     $server->emit($response);
-} catch (\Exception $e) {
+} catch (\Throwable $e) {
     if (\Phile\Core\ServiceLocator::hasService('Phile_ErrorHandler')) {
         ob_end_clean();
-
         /** @var \Phile\ServiceLocator\ErrorHandlerInterface $errorHandler */
-        $errorHandler = \Phile\Core\ServiceLocator::getService(
-            'Phile_ErrorHandler'
-        );
+        $errorHandler = \Phile\Core\ServiceLocator::getService('Phile_ErrorHandler');
         $errorHandler->handleException($e);
     } else {
         throw $e;

@@ -82,11 +82,13 @@ class Bootstrap
     public static function setupErrorHandler(Config $config)
     {
         $cliMode = $config->get('phile_cli_mode');
-        if (!$cliMode && ServiceLocator::hasService('Phile_ErrorHandler')) {
-            $errorHandler = ServiceLocator::getService('Phile_ErrorHandler');
-            set_error_handler([$errorHandler, 'handleError']);
-            register_shutdown_function([$errorHandler, 'handleShutdown']);
-            ini_set('display_errors', $config->get('display_errors'));
+        if ($cliMode || !ServiceLocator::hasService('Phile_ErrorHandler')) {
+            return;
         }
+        $errorHandler = ServiceLocator::getService('Phile_ErrorHandler');
+        set_error_handler([$errorHandler, 'handleError']);
+        set_exception_handler([$errorHandler, 'handleException']);
+        register_shutdown_function([$errorHandler, 'handleShutdown']);
+        ini_set('display_errors', $config->get('display_errors'));
     }
 }
