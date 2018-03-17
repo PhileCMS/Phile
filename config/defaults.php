@@ -123,9 +123,16 @@ $config['plugins'] = [
      */
     'phile\\templateTwig' => ['active' => true],
     /**
-     * cache engine
+     * Sets the cache engine.
+     *
+     * For easy development the cache is set to a storage that's non-persistent
+     * and in memory only. In production this should be set to a persistent
+     * storage.
+     *
+     * See http://www.phpfastcache.com/ for available cache engines. The easiest
+     * solution is to use files ('storage' => 'Files').
      */
-    'phile\\phpFastCache' => ['active' => true],
+    'phile\\phpFastCache' => ['active' => true, 'storage' => 'Memstatic'],
     /**
      * persistent data storage
      */

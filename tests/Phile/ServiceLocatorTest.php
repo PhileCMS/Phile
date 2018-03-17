@@ -26,7 +26,7 @@ class ServiceLocatorTest extends TestCase
     public function testServicePhileCacheExists()
     {
         $this->assertEquals(
-            false,
+            true,
             \Phile\Core\ServiceLocator::hasService(
                 'Phile_Cache'
             )

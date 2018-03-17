@@ -70,6 +70,10 @@ abstract class TestCase extends PHPUnitTestCase
             $eventBus->trigger('phile.core.middleware.add', ['middleware' => $middleware]);
             $middleware->add($core, 0);
         });
+        
+        //# additional test setup
+        // clears out warnings of inefficient/multiple calls
+        \phpFastCache\CacheManager::clearInstances();
 
         return $core;
     }
