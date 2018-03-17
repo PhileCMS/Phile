@@ -18,6 +18,11 @@ use Traversable;
  */
 class MiddlewareQueue implements IteratorAggregate
 {
+    public const DEFAULT_PRIORITY = 100;
+    
+    /** @var int counter for FIFO order for items with same priority */
+    protected $serial = PHP_INT_MAX;
+
     /** @var SplPriorityQueue middleware */
     protected $queue;
 
@@ -33,9 +38,9 @@ class MiddlewareQueue implements IteratorAggregate
      * @param int $priority
      * @return \self
      */
-    public function add(MiddlewareInterface $middleware, int $priority = 100): self
+    public function add(MiddlewareInterface $middleware, int $priority = self::DEFAULT_PRIORITY): self
     {
-        $this->queue->insert($middleware, $priority);
+        $this->queue->insert($middleware, [$priority, $this->serial--]);
         return $this;
     }
 

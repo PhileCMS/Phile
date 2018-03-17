@@ -95,5 +95,5 @@ $app->addMiddleware(function (MiddlewareQueue $middleware, Event $eventBus, Conf
     $eventBus->trigger('phile.core.middleware.add', ['middleware' => $middleware]);
 
     // Add Phile itself as middleware (take request and render output)
-    $middleware->add($app, 0);
+    $middleware->add($app);
 });

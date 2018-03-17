@@ -68,7 +68,7 @@ abstract class TestCase extends PHPUnitTestCase
         //# setup middleware
         $core->addMiddleware(function ($middleware, $eventBus, $config) use ($core) {
             $eventBus->trigger('phile.core.middleware.add', ['middleware' => $middleware]);
-            $middleware->add($core, 0);
+            $middleware->add($core);
         });
         
         //# additional test setup
