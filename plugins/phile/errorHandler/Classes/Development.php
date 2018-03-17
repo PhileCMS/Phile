@@ -41,11 +41,10 @@ class Development implements ErrorHandlerInterface
      * @param string $errstr
      * @param string $errfile
      * @param int    $errline
-     * @param array  $errcontext
      *
      * @return boolean
      */
-    public function handleError($errno, $errstr, $errfile, $errline, array $errcontext)
+    public function handleError(int $errno, string $errstr, ?string $errfile, ?string $errline)
     {
         $backtrace = debug_backtrace();
         $backtrace = array_slice($backtrace, 2);
@@ -82,7 +81,7 @@ class Development implements ErrorHandlerInterface
      *
      * @return mixed
      */
-    public function handleException(\Exception $exception)
+    public function handleException(\Throwable $exception)
     {
         $this->displayDeveloperOutput(
             $exception->getCode(),
@@ -110,7 +109,7 @@ class Development implements ErrorHandlerInterface
         $file,
         $line,
         array $backtrace = null,
-        \Exception $exception = null
+        \Throwable $exception = null
     ) {
         header('HTTP/1.1 500 Internal Server Error');
         $fragment = $this->receiveCodeFragment(

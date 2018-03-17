@@ -16,22 +16,26 @@ interface ErrorHandlerInterface
     /**
      * handle the error
      *
-     * @param int    $errno
+     * @param int $errno
      * @param string $errstr
-     * @param string $errfile
-     * @param int    $errline
-     * @param array  $errcontext
+     * @param string|null $errfile
+     * @param int|null $errline
      *
-     * @return boolean
+     * @return bool
      */
-    public function handleError($errno, $errstr, $errfile, $errline, array $errcontext);
+    public function handleError(int $errno, string $errstr, ?string $errfile, ?string $errline);
 
     /**
      * handle all exceptions
      *
-     * @param \Exception $exception
+     * @param \Throwable $exception
      *
      * @return mixed
      */
-    public function handleException(\Exception $exception);
+    public function handleException(\Throwable $exception);
+
+    /**
+     * handle shutdown
+     */
+    public function handleShutdown();
 }
