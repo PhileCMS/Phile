@@ -7,7 +7,6 @@ namespace Phile\Plugin\Phile\TemplateTwig\Template;
 use Phile\Core\Container;
 use Phile\Core\Registry;
 use Phile\Model\Page;
-use Phile\Repository\Page as Repository;
 use Phile\ServiceLocator\TemplateInterface;
 
 /**
@@ -21,11 +20,6 @@ use Phile\ServiceLocator\TemplateInterface;
 class Twig implements TemplateInterface
 {
     /**
-     * @var array the complete phile config
-     */
-    protected $settings;
-
-    /**
      * @var array the config for twig
      */
     protected $config;
@@ -36,14 +30,26 @@ class Twig implements TemplateInterface
     protected $page;
 
     /**
+     * @var string theme name
+     */
+    protected $theme;
+
+    /**
+     * @var string path to theme directory
+     */
+    protected $themesDir;
+
+    /**
      * the constructor
      *
      * @param array $config the configuration
      */
     public function __construct(array $config = [])
     {
+        $this->theme = $config['theme'];
+        $this->themesDir = $config['themes_dir'];
+        unset($config['theme'], $config['themes_dir']);
         $this->config = $config;
-        $this->settings = Container::getInstance()->get('Phile_Config')->toArray();
     }
 
     /**
@@ -141,7 +147,7 @@ class Twig implements TemplateInterface
      */
     protected function getTemplatePath(string $sub = ''): string
     {
-        $themePath = THEMES_DIR . $this->settings['theme'];
+        $themePath = $this->themesDir . $this->theme;
         if (!empty($sub)) {
             $themePath .= '/' . ltrim($sub, DIRECTORY_SEPARATOR);
         }
