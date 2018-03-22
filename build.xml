@@ -192,6 +192,7 @@
 
     <property name="phile.plugins" value="
                 phile/rss-feed
+                phile/content-variables
             "/>
 
     <target name="phile-plugins-install">
