@@ -24,6 +24,10 @@
             "email": "openmail+sourcecode@siezi.com",
             "homepage": "http://siezi.com/",
             "role": "Developer"
+        },
+        {
+            "name": "PhileCMS Community",
+            "homepage": "https://github.com/PhileCMS/Phile/graphs/contributors"
         }
     ],
     "config": {

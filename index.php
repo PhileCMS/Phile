@@ -6,21 +6,16 @@
  * @package Phile
  */
 
+ob_start();
+
+require_once 'config/bootstrap.php';
+
+$app = Phile\Core\Container::getInstance()->get('Phile_App');
+$server = new Phile\Http\Server($app);
+$request = Zend\Diactoros\ServerRequestFactory::fromGlobals();
+
 try {
-    ob_start();
-    require_once 'config/bootstrap.php';
-
-    $app = Phile\Core\Container::getInstance()->get('Phile_App');
-    $server = new Phile\Http\Server($app);
-    $request = Zend\Diactoros\ServerRequestFactory::fromGlobals();
     $response = $server->run($request);
-
-    $earlyOutput = ob_get_contents();
-    if (!empty($earlyOutput)) {
-        return;
-    }
-
-    $server->emit($response);
 } catch (\Throwable $e) {
     if (\Phile\Core\ServiceLocator::hasService('Phile_ErrorHandler')) {
         ob_end_clean();
@@ -31,3 +26,10 @@ try {
         throw $e;
     }
 }
+
+$earlyOutput = ob_get_contents();
+if (!empty($earlyOutput)) {
+    return;
+}
+
+$server->emit($response);

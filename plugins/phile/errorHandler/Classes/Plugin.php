@@ -39,7 +39,7 @@ class Plugin extends AbstractPlugin
             case Plugin::HANDLER_ERROR_LOG:
                 ServiceLocator::registerService(
                     'Phile_ErrorHandler',
-                    new ErrorLog($this->settings)
+                    new ErrorLog
                 );
                 break;
             case Plugin::HANDLER_DEVELOPMENT:

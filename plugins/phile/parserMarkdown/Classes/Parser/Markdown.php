@@ -25,19 +25,17 @@ class Markdown implements ParserInterface
     /**
      * the constructor
      *
-     * @param null $config
+     * @param array $config
      */
-    public function __construct($config = null)
+    public function __construct(array $config = [])
     {
-        if (!is_null($config)) {
-            $this->config = $config;
-        }
+        $this->config = $config;
     }
 
     /**
      * overload parse with the MarkdownExtra parser
      *
-     * @param $data
+     * @param string $data
      *
      * @return string
      */
