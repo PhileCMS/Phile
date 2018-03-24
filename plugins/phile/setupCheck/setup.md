@@ -10,7 +10,7 @@ Congratulations, you have successfully installed [Phile](https://github.com/Phil
 
 ### Set an Encryption Key ###
 
-To proceed you have to set an encryption key. You configure it as `$config['encryptionKey']` in your `config.php` file.
+To proceed you have to set an encryption key. You configure it as `$config['encryptionKey']` in your `config/config.php` file.
 
 This key is important for Phile's encryption and should be unique to each installation. It is very important that you never change the key after you set it the first time.
 

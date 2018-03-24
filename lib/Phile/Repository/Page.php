@@ -42,9 +42,7 @@ class Page
             $settings = Container::getInstance()->get('Phile_Config')->toArray();
         }
         $this->settings = $settings;
-        if (ServiceLocator::hasService('Phile_Cache')) {
-            $this->cache = ServiceLocator::getService('Phile_Cache');
-        }
+        $this->cache = ServiceLocator::getService('Phile_Cache');
     }
 
     /**
@@ -187,12 +185,12 @@ class Page
     /**
      * get page from cache or filepath
      *
-     * @param $filePath
-     * @param string   $folder
+     * @param string $filePath
+     * @param string|null $folder
      *
      * @return \Phile\Model\Page
      */
-    protected function getPage($filePath, $folder = null)
+    protected function getPage(string $filePath, ?string $folder = null): \Phile\Model\Page
     {
         $folder = $folder ?: $this->settings['content_dir'];
         $key = 'Phile_Model_Page_' . md5($filePath);
@@ -200,15 +198,11 @@ class Page
             return $this->storage[$key];
         }
 
-        if ($this->cache !== null) {
-            if ($this->cache->has($key)) {
-                $page = $this->cache->get($key);
-            } else {
-                $page = new \Phile\Model\Page($filePath, $folder);
-                $this->cache->set($key, $page);
-            }
+        if ($this->cache->has($key)) {
+            $page = $this->cache->get($key);
         } else {
             $page = new \Phile\Model\Page($filePath, $folder);
+            $this->cache->set($key, $page);
         }
         $page->setRepository($this);
         $this->storage[$key] = $page;

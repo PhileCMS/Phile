@@ -13,8 +13,10 @@ use Phile\Core\Container;
 use Phile\Core\Event;
 use Phile\Core\Registry;
 use Phile\Core\Utility;
+use Phile\Http\Server;
 use Phile\Phile;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -66,10 +68,23 @@ abstract class TestCase extends PHPUnitTestCase
         //# setup middleware
         $core->addMiddleware(function ($middleware, $eventBus, $config) use ($core) {
             $eventBus->trigger('phile.core.middleware.add', ['middleware' => $middleware]);
-            $middleware->add($core, 0);
+            $middleware->add($core);
         });
+        
+        //# additional test setup
+        // clears out warnings of inefficient/multiple calls
+        \phpFastCache\CacheManager::clearInstances();
 
         return $core;
+    }
+
+    /**
+     * Run Phile and create response
+     */
+    protected function createPhileResponse(Phile $app, ServerRequestInterface $request): ResponseInterface
+    {
+        $server = new Server($app);
+        return $server->run($request);
     }
 
     /**
@@ -78,7 +93,7 @@ abstract class TestCase extends PHPUnitTestCase
      * @param array $server $_SERVER environment
      * @return ServerRequestInterface
      */
-    protected function createServerRequestFromArray(array $server = null)
+    protected function createServerRequestFromArray(array $server = null): ServerRequestInterface
     {
         $server = $server ?: [];
         if (!isset($server['REQUEST_URI'])) {

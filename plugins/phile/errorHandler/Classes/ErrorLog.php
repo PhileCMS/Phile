@@ -19,13 +19,12 @@ class ErrorLog implements ErrorHandlerInterface
      * @param string $errstr
      * @param string $errfile
      * @param int    $errline
-     * @param array  $errcontext
      *
      * @return boolean
      */
-    public function handleError($errno, $errstr, $errfile, $errline, array $errcontext)
+    public function handleError(int $errno, string $errstr, ?string $errfile, ?string $errline)
     {
-        error_log("[{$errno}] {$errstr} in {$errfile} on line {$errline}");
+        $this->log($errno, $errstr, $errfile, $errline);
     }
 
     /**
@@ -35,12 +34,26 @@ class ErrorLog implements ErrorHandlerInterface
      *
      * @return mixed
      */
-    public function handleException(\Exception $exception)
+    public function handleException(\Throwable $exception)
     {
-        $code = $exception->getCode();
+        $code = (int)$exception->getCode();
         $message = $exception->getMessage();
         $file = $exception->getFile();
         $line = $exception->getLine();
+        $this->log($code, $message, $file, $line);
+    }
+
+    public function handleShutdown()
+    {
+        $error = error_get_last();
+        if ($error === null) {
+            return;
+        }
+        $this->log($error['type'], $error['message'], $error['file'], $error['line']);
+    }
+
+    protected function log(int $code, string $message, ?string $file, ?string $line): void
+    {
         error_log("[{$code}] {$message} in {$file} on line {$line}");
     }
 }

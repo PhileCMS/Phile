@@ -3,11 +3,17 @@ Title: Welcome
 Description: This description will go in the meta description tag
 -->
 
-## Welcome to Phile
+# Welcome to Phile
 
 Congratulations, you have successfully installed [Phile](https://github.com/PhileCMS/Phile). Phile is a Markdown based flat file CMS.
 
-### Creating Content
+## Configuration
+
+You can override the default Phile settings (and add your own custom settings) by editing  "config/config.php".
+
+The "config/default.php" file lists all of the settings and their defaults. To override a setting, simply set it in "config.php" with your own value.
+
+## Creating Content
 
 Phile is a flat file CMS, this means there is no administration backend and database to deal with. You simply create `.md` files in the "content"
 folder and that becomes a page. For example, this file is called `index.md` and is shown as the main landing page.
@@ -26,53 +32,35 @@ and you will be able to access it from the URL `http://yousite.com/sub/page`. Be
 
 If a file cannot be found, the file `content/404.md` will be shown.
 
-### Text File Markup
+## Text File Markup
 
 Text files are marked up using [Markdown](http://daringfireball.net/projects/markdown/syntax). They can also contain regular HTML.
 
-At the top of text files you can place a block comment and specify certain attributes of the page. For example:
+At the top of text files you can place a block comment and specify certain meta attributes of the page. For example:
 
 ```markdown
-/*
+<!--
 Title: Welcome
 Description: This description will go in the meta description tag
 Author: Joe Bloggs
 Date: 2013/01/01
 Robots: noindex,nofollow
-*/
-```
-
-Phile also allows HTML or YAML style block comments:
-
-```
-<!--
-Title: Welcome
-…
 -->
 ```
 
-```
----
-Title: Welcome
-…
----
-```
+Aside from HTML `<!-- … -->` style comments as shown above Phile also allows for `/* … */` or YAML `--- … ---` block comments.
 
-#### Custom Meta
+## Page Ordering
 
-You can create custom meta attributes by default in Phile. If you want to add a date, author, or even something else, this can be done easily. These values will be contained in the `{{ meta }}` variable in themes (see below).
+You can order pages by their attributes. For example for an custom ordering create an `Order` meta attribute on each page, then use `$config['pages_order'] = "meta.order:asc";` in your `config.php` file.
 
-#### Custom Meta Ordering
+## Themes & Templates
 
-You can order pages by their custom meta attributes. Like creating an `Order` meta for each page, then you can use `$config['pages_order'] = "meta.order:asc";` in your `config.php` file.
+You can create themes for your Phile installation in the "themes" folder. Check out the default theme for an example of a theme.
 
-### Themes
+Create a new theme by duplicating the default theme folder and renaming it. Then activate it by setting `$config['theme']` to that name.
 
-You can create themes for your Phile installation in the "themes" folder. Check out the default theme for an example of a theme. Phile uses
-[Twig](http://twig.sensiolabs.org/documentation) for it's templating engine. You can select your theme by setting the `$config['theme']` variable
-in config.php to your theme folder.
-
-All themes must include an `index.html` file to define the HTML structure of the theme. Below are the Twig variables that are available to use in your theme:
+All themes must include an `index.html` file to define the HTML structure of the theme. Phile uses [Twig](http://twig.sensiolabs.org/documentation) for it's templating engine. Below are the Twig variables that are available to use in your theme:
 
 * `{{ config }}` - Contains the values you set in config.php (e.g. `{{ config.theme }}` = "default")
 * `{{ base_dir }}` - The path to your Phile root directory
@@ -94,7 +82,7 @@ All themes must include an `index.html` file to define the HTML structure of the
 
 Page listing example:
 
-```html
+```twig
 <ul class="nav">
   {% for page in pages %}
     <li><a href="{{ page.url }}">{{ page.title }}</a></li>
@@ -102,149 +90,8 @@ Page listing example:
 </ul>
 ```
 
-### Config
+## Further Customization and Plugins
 
-You can override the default Phile settings (and add your own custom settings) by editing  config/config.php. The config.php file
-lists all of the settings and their defaults. To override a setting, simply uncomment it in config.php and set your custom value.
+For further information on customization and plugins check out the documentation on the [Phile homepage][homepage]. 
 
-### Events
-
-In the core we trigger a lot of events, which help to manipulate content or other stuff within a plugin.
-To use the event system, you only have to register your plugin for a specific event, look at the example plugin for more an example.
-
-The following list shows all events.
-
-#### plugins_loaded
-
-this event is triggered after the plugins loaded
-
-| param                   | type                               | description                                                          |
-| ----------------------- |:-----------------------------------|:---------------------------------------------------------------------|
-| `plugins`               | array                              | `Plugin` classes of all loaded plugins                               |
-
-
-#### config_loaded
-
-this event is triggered after the configuration is fully loaded
-
-| param                   | type                               | description                                                          |
-| ----------------------- |:-----------------------------------|:---------------------------------------------------------------------|
-| `config`                | array                              | the complete configuration                                           |
-
-#### after\_init\_core
-
-this event is triggered after the core is initialized
-
-| param                   | type                 | description                                                      |
-| ----------------------- |:---------------------|:-----------------------------------------------------------------|
-| `response`              | \Phile\Core\Response | the response, set a PSR-7 response to send output early          |  
-
-#### request_uri
-
-this event is triggered after the request uri is detected.
-
-| param                   | type                               | description                                                          |
-| ----------------------- |:-----------------------------------|:---------------------------------------------------------------------|
-| `uri`                   | string                             | the requested uri (without install_path)                             |  
-| `response`              | Psr\Http\Message\ResponseInterface | set a PSR-7 response to send output early                            |
-
-#### after\_404
-
-this event is triggered after a requested page is not found
-
-#### after\_resolve\_page
-
-this event is triggered after a request is resolved to a page
-
-| param                   | type                               | description                                                          |
-| ----------------------- |:-----------------------------------|:---------------------------------------------------------------------|
-| `pageId`                | string                             | the requested page-ID                                                |  
-| `page`                  | Phile\Model\Page                   | the page served                                                      |  
-| `response`              | Psr\Http\Message\ResponseInterface | set a PSR-7 response to send output early                            |
-
-
-#### before\_init\_template
-
-this event is triggered before the the template engine is init
-
-#### before\_render\_template
-
-this event is triggered before the template is rendered
-
-| param                   | type                               | description                                                          |
-| ----------------------- |:-----------------------------------|:---------------------------------------------------------------------|
-| `templateEngine`        | \Phile\Template\TemplateInterface  | the template engine                                                  |  
-| `response`              | Psr\Http\Message\ResponseInterface | set a PSR-7 response to send output early                            | 
-
-#### template\_engine\_registered
-
-this event is triggered before the template is rendered
-
-| param                   | type                               | description                                                          |
-| ----------------------- |:-----------------------------------|:---------------------------------------------------------------------|
-| `engine`                | \Phile\Template\TemplateInterface  | the raw template engine                                              |
-| `data`                  | array                              | the variables being sent to the template engine                      |
-
-#### after\_render\_template
-
-this event is triggered after the template is rendered
-
-| param                   | type                               | description                                                          |
-| ----------------------- |:-----------------------------------|:---------------------------------------------------------------------|
-| `templateEngine`        | \Phile\Template\TemplateInterface  | the template engine                                                  |
-| `output`                | string                             | the parsed and ready output                                          |
-
-#### before\_read\_file\_meta
-
-this event is triggered before the meta data is read and parsed
-
-| param                   | type                | description                                                      |
-| ----------------------- |:--------------------|:-----------------------------------------------------------------|
-| `rawData`               | string              | the unparsed data                                                |
-| `meta`                  | \Phile\Model\Meta   | the meta model                                                   |
-
-#### after\_read\_file\_meta
-
-this event is triggered after the meta data is read and parsed
-
-| param                   | type                | description                                                      |
-| ----------------------- |:--------------------|:-----------------------------------------------------------------|
-| `rawData`               | string              | the unparsed data                                                |
-| `meta`                  | \Phile\Model\Meta   | the meta model                                                   |
-
-#### before\_load\_content
-
-this event is triggered before the content is loaded
-
-| param                   | type                | description                                                      |
-| ----------------------- |:--------------------|:-----------------------------------------------------------------|
-| `filePath`              | string              | the path to the file                                             |
-| `page`                  | \Phile\Model\Page   | the page model                                                   |
-
-#### after\_load\_content
-
-this event is triggered after the content is loaded
-
-| param                   | type                | description                                                      |
-| ----------------------- |:--------------------|:-----------------------------------------------------------------|
-| `filePath`              | string              | the path to the file                                             |
-| `rawData`               | string              | the raw data                                                     |
-| `page`                  | \Phile\Model\Page   | the page model                                                   |
-
-#### before\_parse\_content
-
-this event is triggered before the content is parsed
-
-| param                   | type                | description                                                      |
-| ----------------------- |:--------------------|:-----------------------------------------------------------------|
-| `content`               | string              | the raw data                                                     |
-| `page`                  | \Phile\Model\Page   | the page model                                                   |
-
-#### after\_parse\_content
-
-this event is triggered after the content is parsed
-
-| param                   | type                | description                                                      |
-| ----------------------- |:--------------------|:-----------------------------------------------------------------|
-| `content`               | string              | the raw data                                                     |
-| `page`                  | \Phile\Model\Page   | the page model                                                   |
+[homepage]: https://philecms.github.io/

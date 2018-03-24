@@ -26,11 +26,6 @@ class Plugin extends AbstractPlugin
      */
     public function onPluginsLoaded()
     {
-        if (PHILE_CLI_MODE) {
-            // phpFastCache not working in CLI mode...
-            return;
-        }
-
         $storage = $this->settings['storage'];
         $config = $this->settings;
         unset($config['active'], $config['storage']);

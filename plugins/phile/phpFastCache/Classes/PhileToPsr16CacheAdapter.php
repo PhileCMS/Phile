@@ -20,10 +20,10 @@ class PhileToPsr16CacheAdapter implements \Phile\ServiceLocator\CacheInterface
     /** @var string slug */
     const SLUG_PREFIX = '-phile.phpFastCache.slug-';
     
-    const SLUG = ['{', '}' , '(', ')', '/' , '\\' , '@', ':'];
+    const SLUG = ['{', '}' , '(', ')','/' , '\\' , '@', ':'];
 
     /**
-     * @var \BasePhpFastCache the cache engine
+     * @var CacheInterface the cache engine
      */
     protected $cacheEngine;
 
@@ -40,9 +40,9 @@ class PhileToPsr16CacheAdapter implements \Phile\ServiceLocator\CacheInterface
     /**
      * method to check if cache has entry for given key
      *
-     * @param $key
+     * @param string $key
      *
-     * @return bool|mixed
+     * @return bool
      */
     public function has($key)
     {
@@ -67,7 +67,7 @@ class PhileToPsr16CacheAdapter implements \Phile\ServiceLocator\CacheInterface
      * method to set cache entry
      *
      * @param string $key
-     * @param string $value
+     * @param mixed $value
      * @param int    $time
      * @param array  $options deprecated
      *
@@ -115,7 +115,7 @@ class PhileToPsr16CacheAdapter implements \Phile\ServiceLocator\CacheInterface
      * @param string $key key to slug
      * @return string $key slugged key
      */
-    protected function slug($key)
+    protected function slug(string $key): string
     {
         $replacementTokens = array_map(
             function ($key) {

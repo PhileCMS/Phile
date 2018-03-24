@@ -14,7 +14,7 @@
  * Set global definitions
  */
 // phpcs:disable PSR1.Files.SideEffects
-define('PHILE_VERSION', '1.9.0');
+define('PHILE_VERSION', '1.10.0');
 define('PHILE_CLI_MODE', (php_sapi_name() === 'cli'));
 define('DS', DIRECTORY_SEPARATOR);
 define('ROOT_DIR', realpath(__DIR__ . DS . '..' . DS) . DS);
@@ -88,12 +88,12 @@ $app->addBootstrap(function (Event $eventBus, Config $config) {
 /**
  * Add PSR-15 middleware
  */
-use Phile\Core\RequestHandler;
+use Phile\Http\MiddlewareQueue;
 
-$app->addMiddleware(function (RequestHandler $middleware, Event $eventBus, Config $config) use ($app) {
+$app->addMiddleware(function (MiddlewareQueue $middleware, Event $eventBus, Config $config) use ($app) {
     // Inject middleware from Phile-plugins
     $eventBus->trigger('phile.core.middleware.add', ['middleware' => $middleware]);
 
     // Add Phile itself as middleware (take request and render output)
-    $middleware->add($app, 0);
+    $middleware->add($app);
 });

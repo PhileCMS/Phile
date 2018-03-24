@@ -1,8 +1,10 @@
 <?php
 /**
- * Phile local configuration.
+ * Local Phile configuration.
  *
- * You can also overwrite Phile-defaults here.
+ * This configuration allows to customize Phile. It overwrites
+ * settings made in defaults.php or plugin-defaults. See those
+ * for additional Phile configuration settings.
  */
 $config = [];
 
@@ -22,8 +24,13 @@ $config['site_title'] = 'PhileCMS';
 $config['theme'] = 'default';
 
 /**
- * demo plugin
+ * Activate the persistent cache for better performance.
  */
-// $config['plugins']['mycompany\\demoPlugin'] = ['active' => true];
+//$config['plugins']['phile\\phpFastCache'] = ['active' => true, 'storage' => 'files'];
+
+/**
+ * Use the demo-plugin as a starting point to write your own plugins.
+ */
+//$config['plugins']['mycompany\\demoPlugin'] = ['active' => true];
 
 return $config;

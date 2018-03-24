@@ -10,6 +10,10 @@ namespace PhileTest;
 use Phile\Core\Config;
 use Phile\Core\Container;
 use Phile\Test\TestCase;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
 /**
  * the CoreTest class
@@ -20,7 +24,7 @@ class PhileTest extends TestCase
     {
         $core = $this->createPhileCore();
         $request = $this->createServerRequestFromArray(['REQUEST_URI' => '/abcd']);
-        $response = $core->dispatch($request);
+        $response = $this->createPhileResponse($core, $request);
 
         $this->assertEquals($response->getStatusCode(), '404');
         $this->assertContains(
@@ -36,6 +40,7 @@ class PhileTest extends TestCase
             'request_uri',
             'after_resolve_page',
             'before_render_template',
+            'after_response_created'
         ];
         foreach ($events as $event) {
             $core = $this->createPhileCore();
@@ -44,7 +49,9 @@ class PhileTest extends TestCase
             $eventBus->register($event, function ($name, $data) use ($expected) {
                 $data['response'] = $expected;
             });
-            $actual = $core->dispatch($this->createServerRequestFromArray());
+
+            $request = $this->createServerRequestFromArray(['REQUEST_URI' => '/abcd']);
+            $actual = $this->createPhileResponse($core, $request);
             $this->assertSame($expected, $actual);
         }
     }
@@ -60,7 +67,7 @@ class PhileTest extends TestCase
         $request = $this->createServerRequestFromArray(
             ['REQUEST_URI' => '/'] + $_SERVER
         );
-        $response = $core->dispatch($request);
+        $response = $this->createPhileResponse($core, $request);
 
         $expected = 'Welcome to the PhileCMS Setup';
         $body = (string)$response->getBody();
@@ -86,9 +93,33 @@ class PhileTest extends TestCase
             $request = $this->createServerRequestFromArray(
                 ['REQUEST_URI' => $current] + $_SERVER
             );
-            $response = $core->dispatch($request);
+            $response = $this->createPhileResponse($core, $request);
             $this->assertSame(301, $response->getStatusCode());
             $this->assertSame($baseUrl . '/' . $expected, $response->getHeader('Location')[0]);
         }
+    }
+
+    public function testDontHandleNotFound()
+    {
+        $config = new Config(['handle_not_found' => false]);
+        $core = $this->createPhileCore(null, $config);
+
+        $core->addMiddleware(function ($queue) {
+            $middleware = new class implements MiddlewareInterface
+            {
+                public function process(
+                    ServerRequestInterface $request,
+                    RequestHandlerInterface $handler
+                ): ResponseInterface {
+                    return (new \Phile\Core\Response)->createHtmlResponse('foobar');
+                }
+            };
+            $queue->add($middleware, 0);
+        });
+
+        $request = $this->createServerRequestFromArray(['REQUEST_URI' => '/baz']);
+        $response = $this->createPhileResponse($core, $request);
+        $this->assertEquals('foobar', (string)$response->getBody());
+        $this->assertEquals(200, $response->getStatusCode());
     }
 }

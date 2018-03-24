@@ -6,26 +6,19 @@ env:
   - secure: "Bpk0MKl7UBsIlNd0LrbDzElBZxS3OQJaetXlQHbNus6YZiVLC60/bo9Gu9StrBKcdrGifqzpgdETBuCUNl9ncODGba5bj4i/n6EbrXUaSWagwi6wnNjMJW3BzeUqaJabrpb6FVg9oKqdI7cfRelasJhVjpcVPnMULRxGnKtnMaY="
 # Language
 language: php
-php:
-- 5.6
-- 7.0
-- 7.1
 
 env:
   global:
-    - PHPCS=0
+    - PHPCS=0 PLUGINS=0
 
 matrix:
   include:
+    - php: 7.1
     - php: 7.2 
       env: PHPCS=1
 
 # Notifications
 notifications:
-  flowdock:
-    secure: QOArjMZ42xRjGPbqQwGm8xpaEGOe2M1Z8OB58zAnHRcxhfhmewiM/F73D6kVkDIUWe7PbaG9z3WZt+x0I0wu7wXdzjTq1lCA+e0B8xZFNxHtSzrbBm6frVbvDS9/j45HXQPxFhb98aJm/3KwegqPKQd/2jXy1DqNlwlrgIU81Ok=
-  email:
-    secure: OhUqB3QHtfaKiAtKE6WXOr/SChfG1r6tqNltrI90srxrtHAdMgfj5Nw6gVQaYibE6dxT65fomLbhNbZgfvdcQBGGLQgo27S9acVIsamfz4gvIP/TxNl+fv9aSEqnEn9t+aAlhGMW/K0W0vxWSzJ/J7DFB8J4R4OoJmbFdFQRPT4=
   webhooks:
     urls:
       # Gitter.im channel hook
@@ -34,13 +27,19 @@ notifications:
     on_failure: always
 
 # Scripts
-before_script:
-  # workaround for session dir not accessible in HHVM
-  - sh -c "if [ '$HHVM' = '1' ]; then echo 'session.gc_probability = 0' >> /etc/hhvm/php.ini; fi"
+install:
   - composer selfupdate --quiet
-  - composer install -n --prefer-source --no-dev
+  - |
+    if [ "$PHPCS" = "1" ] || [ "$PLUGINS" = "1" ]; then
+        composer install --prefer-dist --no-interaction
+    else
+        composer install --no-dev --no-interaction
+    fi
+  - |
+    if [ "$PLUGINS" = "1" ]; then
+        lib/vendor/bin/phing phile-plugins-install 
+    fi
 
-  - sh -c "if [ '$PHPCS' = '1' ]; then composer install --prefer-dist --no-interaction; fi"
 script:
 - |
   echo;

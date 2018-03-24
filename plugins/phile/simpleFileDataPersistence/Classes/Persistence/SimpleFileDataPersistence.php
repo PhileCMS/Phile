@@ -32,9 +32,9 @@ class SimpleFileDataPersistence implements PersistenceInterface
     /**
      * check if key exists
      *
-     * @param $key
+     * @param string $key
      *
-     * @return bool|mixed
+     * @return bool
      */
     public function has($key)
     {
@@ -44,7 +44,7 @@ class SimpleFileDataPersistence implements PersistenceInterface
     /**
      * get value for given key
      *
-     * @param $key
+     * @param string $key
      *
      * @return mixed
      * @throws \Phile\Exception\AbstractException
@@ -61,8 +61,8 @@ class SimpleFileDataPersistence implements PersistenceInterface
     /**
      * set value for given key
      *
-     * @param $key
-     * @param $value
+     * @param string $key
+     * @param mixed $value
      *
      * @return mixed|void
      */
@@ -91,7 +91,7 @@ class SimpleFileDataPersistence implements PersistenceInterface
     /**
      * generate internal key
      *
-     * @param $key
+     * @param string $key
      *
      * @return string
      */
@@ -103,7 +103,7 @@ class SimpleFileDataPersistence implements PersistenceInterface
     /**
      * get storage filename
      *
-     * @param $key
+     * @param string $key
      *
      * @return string
      */

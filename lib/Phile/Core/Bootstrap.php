@@ -9,7 +9,6 @@ namespace Phile\Core;
 
 use Phile\Core\Config;
 use Phile\Core\Event;
-use Phile\Core\Registry;
 use Phile\Core\ServiceLocator;
 use Phile\Exception\PluginException;
 use Phile\Plugin\PluginRepository;
@@ -64,7 +63,9 @@ class Bootstrap
 
         $eventBus->trigger('plugins_loaded', ['plugins' => $plugins]);
 
-        // throw after 'plugins_loaded'
+        // Throw after 'plugins_loaded' so that error handler service is set.
+        // Even with setupErrorHandler() not run yet, the global app try/catch
+        // block uses the handler if present.
         if (count($errors) > 0) {
             throw new PluginException($errors[0]['message'], $errors[0]['code']);
         }
@@ -82,11 +83,13 @@ class Bootstrap
     public static function setupErrorHandler(Config $config)
     {
         $cliMode = $config->get('phile_cli_mode');
-        if (!$cliMode && ServiceLocator::hasService('Phile_ErrorHandler')) {
-            $errorHandler = ServiceLocator::getService('Phile_ErrorHandler');
-            set_error_handler([$errorHandler, 'handleError']);
-            register_shutdown_function([$errorHandler, 'handleShutdown']);
-            ini_set('display_errors', $config->get('display_errors'));
+        if ($cliMode || !ServiceLocator::hasService('Phile_ErrorHandler')) {
+            return;
         }
+        $errorHandler = ServiceLocator::getService('Phile_ErrorHandler');
+        set_error_handler([$errorHandler, 'handleError']);
+        set_exception_handler([$errorHandler, 'handleException']);
+        register_shutdown_function([$errorHandler, 'handleShutdown']);
+        ini_set('display_errors', $config->get('display_errors'));
     }
 }
