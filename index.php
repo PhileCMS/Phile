@@ -17,6 +17,13 @@ $request = Zend\Diactoros\ServerRequestFactory::fromGlobals();
 
 try {
     $response = $server->run($request);
+
+    $earlyOutput = ob_get_contents();
+    if (!empty($earlyOutput)) {
+        return;
+    }
+
+    $server->emit($response);
 } catch (\Throwable $e) {
     if (\Phile\Core\ServiceLocator::hasService('Phile_ErrorHandler')) {
         ob_end_clean();
@@ -27,10 +34,3 @@ try {
         throw $e;
     }
 }
-
-$earlyOutput = ob_get_contents();
-if (!empty($earlyOutput)) {
-    return;
-}
-
-$server->emit($response);
