@@ -90,6 +90,5 @@ class Bootstrap
         set_error_handler([$errorHandler, 'handleError']);
         set_exception_handler([$errorHandler, 'handleException']);
         register_shutdown_function([$errorHandler, 'handleShutdown']);
-        ini_set('display_errors', $config->get('display_errors'));
     }
 }
