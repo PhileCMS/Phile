@@ -29,12 +29,7 @@ notifications:
 # Scripts
 install:
   - composer selfupdate --quiet
-  - |
-    if [ "$PHPCS" = "1" ] || [ "$PLUGINS" = "1" ]; then
-        composer install --prefer-dist --no-interaction
-    else
-        composer install --no-dev --no-interaction
-    fi
+  - composer install --prefer-dist --no-interaction
   - |
     if [ "$PLUGINS" = "1" ]; then
         lib/vendor/bin/phing phile-plugins-install 
@@ -44,7 +39,7 @@ script:
 - |
   echo;
   echo "Running unit tests";
-  phpunit;
+  lib/vendor/bin/phpunit;
 - |
   echo; echo "Running php lint"; /bin/bash -c "
     if ! find lib -name \*.php -not -path 'lib/vendor/*' -exec php -l {} \; > /tmp/errors 2>&1; then
