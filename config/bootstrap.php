@@ -27,10 +27,27 @@ define('STORAGE_DIR', LIB_DIR . 'datastorage' . DS);
 // phpcs:enable
 
 /**
- * Setup global application-object
+ * Setup container
  */
 require 'container.php';
-$app = Phile\Core\Container::getInstance()->get('Phile_App');
+$container = Phile\Core\Container::getInstance();
+
+/**
+ * Register plugin directories
+ *
+ * Allows autoloading from plugin-directories and early usage in config.php
+ *
+ * @var \Phile\Plugin\PluginRepository $plugins
+ */
+$plugins = $container->get('Phile_Plugins');
+$plugins->addDirectory(PLUGINS_DIR);
+
+/**
+ * Setup global application-object
+ *
+ * @var \Phile\Phile $app
+ */
+$app = $container->get('Phile_App');
 
 /**
  * Define the bootstrap process
@@ -40,7 +57,7 @@ use Phile\Core\Config;
 use Phile\Core\Event;
 use Phile\Core\Registry;
 
-$app->addBootstrap(function (Event $eventBus, Config $config) {
+$app->addBootstrap(function (Event $eventBus, Config $config) use ($plugins) {
     // Load configuration files into global $config configuration
     $configDir = $config->get('config_dir');
     Bootstrap::loadConfiguration($configDir . 'defaults.php', $config);
@@ -60,7 +77,7 @@ $app->addBootstrap(function (Event $eventBus, Config $config) {
     Event::setInstance($eventBus);
 
     // Load plug-ins
-    Bootstrap::loadPlugins($eventBus, $config);
+    $plugins->load($config);
 
     // Set error handler
     Bootstrap::setupErrorHandler($config);

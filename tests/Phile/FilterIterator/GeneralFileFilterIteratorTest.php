@@ -17,7 +17,7 @@ class GeneralFileFilterIteratorTest extends TestCase
 
     public function testGeneralFileFilterIterator()
     {
-        $folder = PLUGINS_DIR . 'phile/testPlugin/content';
+        $folder = __DIR__ . '/../../fixture/content/';
         $files = new GeneralFileFilterIterator(new \DirectoryIterator($folder));
         $result = [];
         foreach ($files as $file) {

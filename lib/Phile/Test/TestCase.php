@@ -50,7 +50,7 @@ abstract class TestCase extends PHPUnitTestCase
 
         //# setup bootstrap
         $core = $container->get('Phile_App');
-        $core->addBootstrap(function ($eventBus, $config) use ($testConfig) {
+        $core->addBootstrap(function ($eventBus, $config) use ($testConfig, $container) {
             $configDir = $config->get('config_dir');
             Bootstrap::loadConfiguration($configDir . 'defaults.php', $config);
             $config->merge($testConfig);
@@ -60,7 +60,9 @@ abstract class TestCase extends PHPUnitTestCase
 
             Event::setInstance($eventBus);
 
-            Bootstrap::loadPlugins($eventBus, $config);
+            $plugins = $container->get('Phile_Plugins');
+            $plugins->addDirectory(ROOT_DIR . 'plugins/');
+            $plugins->load($config);
 
             Registry::set('templateVars', []);
         });

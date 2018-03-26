@@ -79,7 +79,7 @@ class PageTest extends TestCase
     public function testFindByPathPhileConfigSettings()
     {
         //= changed content directory
-        $settings['content_dir'] = PLUGINS_DIR . str_replace('/', DS, 'phile/testPlugin/content/sub/');
+        $settings['content_dir'] = str_replace('/', DS, __DIR__ . '/../../fixture/content/sub/');
         Container::getInstance()->get('Phile_Config')->merge($settings);
 
         $repository = new \Phile\Repository\Page();

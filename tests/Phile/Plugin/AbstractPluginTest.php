@@ -9,6 +9,7 @@ use Phile\Core\Event;
 use Phile\Core\Container;
 use Phile\Plugin\Phile\TestPlugin\Plugin;
 use Phile\Test\TestCase;
+use Phile\Plugin\PluginDirectory;
 
 /**
  * the AbstractPluginTest class
@@ -23,17 +24,18 @@ class AbstractPluginTest extends TestCase
 
     protected $pluginKey = 'phile\testPlugin';
 
-    protected function setUp()
-    {
-        $settings['plugins'][$this->pluginKey] = [
-            'active' => false,
-            'A' => 'A'
-        ];
-        Container::getInstance()->set('Phile_Config', new Config($settings));
-    }
+    protected $pluginDir;
+
+    /**
+     * @var Event The event-bus.
+     */
+    protected $eventBus;
 
     protected function mockPlugin(array $methods = [])
     {
+        $this->pluginDir = realpath(__DIR__ . '/../../fixture/plugins/') . '/';
+        $directory = new PluginDirectory($this->pluginDir);
+
         /** @var Plugin $plugin */
         $plugin = $this->getMockForAbstractClass(
             '\Phile\Plugin\Phile\TestPlugin\Plugin',
@@ -44,7 +46,20 @@ class AbstractPluginTest extends TestCase
             true,
             $methods
         );
-        $plugin->initializePlugin($this->pluginKey);
+
+        $this->eventBus = new Event;
+
+        $config['plugins'][$this->pluginKey] = [
+            'active' => false,
+            'A' => 'A'
+        ];
+
+        $plugin->initializePlugin(
+            $this->pluginKey,
+            $directory->getPath(),
+            $this->eventBus,
+            new Config($config)
+        );
         return $plugin;
     }
 
@@ -69,14 +84,14 @@ class AbstractPluginTest extends TestCase
         $plugin = $this->mockPlugin(['onTestEvent']);
         $plugin->expects($this->once())
             ->method('onTestEvent');
-        Event::triggerEvent('phile\testPlugin.testEvent');
+        $this->eventBus->trigger('phile\testPlugin.testEvent');
     }
 
     public function testInitializePluginEventsNotCallable()
     {
         $plugin = $this->mockPlugin();
         $this->expectException('\RuntimeException', null, 1428564865);
-        Event::triggerEvent('phile\testPlugin.testEvent-missingMethod');
+        $this->eventBus->trigger('phile\testPlugin.testEvent-missingMethod');
     }
 
     public function testGetPluginPath()
@@ -85,7 +100,7 @@ class AbstractPluginTest extends TestCase
 
         $result = $plugin->getPluginPath();
         $DS = DIRECTORY_SEPARATOR;
-        $expected = PLUGINS_DIR . 'phile' . $DS . 'testPlugin' . $DS;
+        $expected = $this->pluginDir . 'phile' . $DS . 'testPlugin' . $DS;
         $this->assertEquals($expected, $result);
 
         $result = $plugin->getPluginPath('vendor.php');
