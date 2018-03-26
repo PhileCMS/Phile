@@ -33,6 +33,11 @@
     "config": {
         "vendor-dir": "lib/vendor"
     },
+    "autoload": {
+        "psr-4": {
+            "Phile\\": "lib/Phile"
+        }
+    },
     "require": {
         "php": ">=7.1.0",
         "twig/twig": "^1.0 || ^2.0",

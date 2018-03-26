@@ -8,7 +8,8 @@
 
 ob_start();
 
-require_once 'config/bootstrap.php';
+require 'lib/vendor/autoload.php';
+require 'config/bootstrap.php';
 
 $app = Phile\Core\Container::getInstance()->get('Phile_App');
 $server = new Phile\Http\Server($app);

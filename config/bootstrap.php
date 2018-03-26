@@ -27,19 +27,6 @@ define('STORAGE_DIR', LIB_DIR . 'datastorage' . DS);
 // phpcs:enable
 
 /**
- * initialize autoloaders
- */
-// load classes from Phile-core
-spl_autoload_register(function ($className) {
-    $fileName = LIB_DIR . str_replace("\\", DS, $className) . '.php';
-    if (file_exists($fileName)) {
-        require_once $fileName;
-    }
-});
-// load composer installed classes
-require(LIB_DIR . 'vendor' . DS . 'autoload.php');
-
-/**
  * Setup global application-object
  */
 require 'container.php';
