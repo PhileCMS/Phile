@@ -92,6 +92,9 @@ $config['plugins'] = [
      */
     'phile\\errorHandler' => [
         'active' => true,
+        /**
+         * development|error_log
+         */
         'handler' => 'development'
     ],
     /**
