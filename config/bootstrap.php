@@ -57,7 +57,7 @@ use Phile\Core\Config;
 use Phile\Core\Event;
 use Phile\Core\Registry;
 
-$app->addBootstrap(function (Event $eventBus, Config $config) use ($plugins) {
+$app->addBootstrap(function (Event $eventBus, Config $config) use ($plugins): void {
     // Load configuration files into global $config configuration
     $configDir = $config->get('config_dir');
     Bootstrap::loadConfiguration($configDir . 'defaults.php', $config);
@@ -94,7 +94,7 @@ $app->addBootstrap(function (Event $eventBus, Config $config) use ($plugins) {
  */
 use Phile\Http\MiddlewareQueue;
 
-$app->addMiddleware(function (MiddlewareQueue $middleware, Event $eventBus, Config $config) use ($app) {
+$app->addMiddleware(function (MiddlewareQueue $middleware, Event $eventBus, Config $config) use ($app): void {
     // Inject middleware from Phile-plugins
     $eventBus->trigger('phile.core.middleware.add', ['middleware' => $middleware]);
 

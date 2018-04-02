@@ -72,8 +72,9 @@ class PluginDirectory
      * Class auto-loader plugin namespace
      *
      * @param string $className
+     * @return void
      */
-    public function autoload(string $className)
+    public function autoload(string $className): void
     {
         if (strpos($className, "Phile\\Plugin\\") !== 0) {
             return;

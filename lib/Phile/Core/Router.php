@@ -69,12 +69,12 @@ class Router
         $url = '';
 
         if (isset($this->server['PHP_SELF'])) {
-            $url = preg_replace('/index\.php(.*)?$/', '', $this->server['PHP_SELF']);
+            $url = preg_replace('/index\.php(.*)?$/', '', (string)$this->server['PHP_SELF']);
         }
 
-        if (isset($this->server['HTTP_HOST'])) {
+        $protocol = $this->getProtocol();
+        if (!empty($protocol)) {
             $host = $this->server['HTTP_HOST'];
-            $protocol = $this->getProtocol();
             $url = $protocol . '://' . $host . $url;
         }
 

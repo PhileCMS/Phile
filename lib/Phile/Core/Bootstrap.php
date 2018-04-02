@@ -19,21 +19,29 @@ use Phile\Plugin\PluginRepository;
 class Bootstrap
 {
     /**
-     * Loads $file into $configuration
+     * Loads $file into $configuration.
+     *
+     * @param string $file Path to config file to load
+     * @param Config $config Phile configuration
+     * @return void
      */
     public static function loadConfiguration($file, Config $config)
     {
         // function isolates context of loaded files
-        $load = function ($file) {
+        $load = function (string $file): array {
             return include $file;
         };
         $config->merge($load($file));
     }
 
     /**
-     * Creates and protects folder and path $directory
+     * Creates and protects folder and path $directory.
+     *
+     * @param string $directory Path to $directory
+     * @param Config $config Phile configuration
+     * @return void
      */
-    public static function setupFolder($directory, Config $config)
+    public static function setupFolder(string $directory, Config $config)
     {
         if (empty($directory) || strpos($directory, $config->get('root_dir')) !== 0) {
             return;
@@ -50,6 +58,9 @@ class Bootstrap
 
     /**
      * Initializes error handling
+     *
+     * @param Config $config Phile configuration
+     * @return void
      */
     public static function setupErrorHandler(Config $config)
     {

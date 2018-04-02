@@ -27,8 +27,9 @@ class Config
      * @param string $key single key
      * @return mixed
      */
-    public function get($key = null)
+    public function get(string $key)
     {
+        /** @var array $config */
         $config = Registry::get('Phile_Settings');
 
         if (array_key_exists($key, $config)) {
@@ -43,7 +44,13 @@ class Config
         return null;
     }
 
-    public function has($key)
+    /**
+     * Checks if configuration $key exists
+     *
+     * @param string $key configuration-key
+     * @return boolean
+     */
+    public function has(string $key): bool
     {
         $config = Registry::get('Phile_Settings');
         return array_key_exists($key, $config);
@@ -64,14 +71,15 @@ class Config
      *
      * @param string|array $key set single key value; sell all if array
      * @param mixed $value
+     * @return void
      */
-    public function set($key, $value = null)
+    public function set($key, $value = null): void
     {
         $config = Registry::get('Phile_Settings');
 
         if ($this->isLocked) {
             throw new \LogicException(
-                sprintf('Phile-configuration is locked. Can\' set key "%s"', $key),
+                sprintf('Phile-configuration is locked. Can\' set key "%s"', (string)$key),
                 1518440759
             );
         }
@@ -89,8 +97,9 @@ class Config
      * Recursively merges a configuration over the existing configuration
      *
      * @param array $values configuration to merge
+     * @return void
      */
-    public function merge(array $values)
+    public function merge(array $values): void
     {
         $old = $this->toArray();
         $new = array_replace_recursive($old, $values);
@@ -102,7 +111,7 @@ class Config
      *
      * @return array
      */
-    public function getTemplateVars()
+    public function getTemplateVars(): array
     {
         return [
             'base_dir' => rtrim($this->get('root_dir'), '/'),
@@ -119,8 +128,10 @@ class Config
 
     /**
      * Locks configuration into read-only mode
+     *
+     * @return void
      */
-    public function lock()
+    public function lock(): void
     {
         $this->isLocked = true;
     }

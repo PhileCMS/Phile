@@ -13,7 +13,7 @@ namespace Phile\Repository;
 class PageCollection implements \ArrayAccess, \IteratorAggregate, \Countable
 {
     /**
-     * @var callback A function to be used for loading the pages.
+     * @var callable A function to be used for loading the pages.
      */
     private $loader;
 

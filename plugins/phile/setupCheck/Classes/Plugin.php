@@ -19,7 +19,10 @@ use Phile\Plugin\AbstractPlugin;
  */
 class Plugin extends AbstractPlugin
 {
-    protected $needsSetup;
+    /**
+     * @var bool setup is needed
+     */
+    protected $needsSetup = true;
 
     /**
      * @var array event subscription
@@ -29,6 +32,12 @@ class Plugin extends AbstractPlugin
         'after_render_template' => 'onAfterRenderTemplate'
     ];
 
+    /**
+     * 'config_loaded' event handler
+     *
+     * @param array $eventData
+     * @return void
+     */
     protected function onConfigLoaded($eventData)
     {
         $this->needsSetup = empty($eventData['class']->get('encryptionKey'));
@@ -38,6 +47,7 @@ class Plugin extends AbstractPlugin
      * render setup message
      *
      * @param array $eventData
+     * @return void
      */
     protected function onAfterRenderTemplate(array $eventData)
     {
@@ -58,8 +68,9 @@ class Plugin extends AbstractPlugin
     /**
      * replace twig like variables in page content
      *
-     * @param Page  $page
+     * @param Page $page
      * @param array $vars
+     * @return void
      */
     protected function insertVars(Page $page, array $vars)
     {

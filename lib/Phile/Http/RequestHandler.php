@@ -17,7 +17,7 @@ use Psr\Http\Server\RequestHandlerInterface;
  */
 class RequestHandler implements RequestHandlerInterface
 {
-    /** @var Iterator the middleware to process */
+    /** @var \Iterator the middleware to process */
     protected $queue;
 
     /** @var ResponseFactoryInterface PSR-17 HTTP response factory */

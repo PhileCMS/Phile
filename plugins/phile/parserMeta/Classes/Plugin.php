@@ -19,17 +19,18 @@ use Phile\Plugin\Phile\ParserMeta\Parser\Meta;
  */
 class Plugin extends AbstractPlugin
 {
-
+    /**
+     * {@inheritDoc}
+     */
     protected $events = ['plugins_loaded' => 'onPluginsLoaded'];
 
     /**
      * onPluginsLoaded method
      *
-     * @param null $data
-     *
-     * @return mixed|void
+     * @param array $data
+     * @return void
      */
-    public function onPluginsLoaded($data = null)
+    public function onPluginsLoaded($data)
     {
         ServiceLocator::registerService(
             'Phile_Parser_Meta',

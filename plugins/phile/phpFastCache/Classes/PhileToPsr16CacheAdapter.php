@@ -20,7 +20,7 @@ class PhileToPsr16CacheAdapter implements \Phile\ServiceLocator\CacheInterface
     /** @var string slug */
     const SLUG_PREFIX = '-phile.phpFastCache.slug-';
     
-    const SLUG = ['{', '}' , '(', ')','/' , '\\' , '@', ':'];
+    const SLUG = ['{', '}', '(', ')', '/', '\\', '@', ':'];
 
     /**
      * @var CacheInterface the cache engine

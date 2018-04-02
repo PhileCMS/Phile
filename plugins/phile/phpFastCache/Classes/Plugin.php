@@ -18,11 +18,15 @@ use Phile\Plugin\AbstractPlugin;
  */
 class Plugin extends AbstractPlugin
 {
-
+    /**
+     * {@inheritDoc}
+     */
     protected $events = ['plugins_loaded' => 'onPluginsLoaded'];
 
     /**
      * onPluginsLoaded method
+     *
+     * @return void
      */
     public function onPluginsLoaded()
     {

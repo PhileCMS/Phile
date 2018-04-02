@@ -55,7 +55,37 @@ class PhileTest extends TestCase
             $this->assertSame($expected, $actual);
         }
     }
-    
+
+    public function testEarlyResponseInvalid()
+    {
+        $core = $this->createPhileCore();
+        $eventBus = Container::getInstance()->get('Phile_EventBus');
+        $eventBus->register('after_response_created', function ($name, $data) {
+            $data['response'] = 'foo';
+        });
+
+        $this->expectException(\Phile\Exception::class);
+        $this->expectExceptionCode(1523630698);
+
+        $request = $this->createServerRequestFromArray(['REQUEST_URI' => '/abcd']);
+        $this->createPhileResponse($core, $request);
+    }
+
+    public function testAfterResponseCreatedResponseValid()
+    {
+        $core = $this->createPhileCore();
+        $eventBus = Container::getInstance()->get('Phile_EventBus');
+        $eventBus->register('after_response_created', function ($name, $data) {
+            $data['response'] = null;
+        });
+
+        $this->expectException(\Phile\Exception::class);
+        $this->expectExceptionCode(1523630697);
+
+        $request = $this->createServerRequestFromArray(['REQUEST_URI' => '/abcd']);
+        $this->createPhileResponse($core, $request);
+    }
+
     /**
      * tests show setup page if setup is unfinished
      */

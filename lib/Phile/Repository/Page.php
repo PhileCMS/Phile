@@ -7,6 +7,7 @@ namespace Phile\Repository;
 use Phile\Core\Container;
 use Phile\Core\ServiceLocator;
 use Phile\Core\Utility;
+use Phile\ServiceLocator\CacheInterface;
 
 /**
  * the Repository class for pages
@@ -26,17 +27,17 @@ class Page
     /**
      * @var array object storage for initialized objects, to prevent multiple loading of objects.
      */
-    protected $storage = array();
+    protected $storage = [];
 
     /**
-     * @var \Phile\ServiceLocator\CacheInterface the cache implementation
+     * @var CacheInterface the cache implementation
      */
-    protected $cache = null;
+    protected $cache;
 
     /**
      * the constructor
      */
-    public function __construct($settings = null)
+    public function __construct(?array $settings = null)
     {
         if ($settings === null) {
             $settings = Container::getInstance()->get('Phile_Config')->toArray();
@@ -92,11 +93,11 @@ class Page
     {
         $folder = $folder ?: $this->settings['content_dir'];
         return new PageCollection(
-            function () use ($options, $folder) {
+            function () use ($options, $folder): array {
                 $options += $this->settings;
                 // ignore files with a leading '.' in its filename
                 $files = Utility::getFiles($folder, '\Phile\FilterIterator\ContentFileFilterIterator');
-                $pages = array();
+                $pages = [];
                 $notFoundPage = $this->settings['not_found_page'] . $this->settings['content_ext'];
                 foreach ($files as $file) {
                     if (str_replace($folder, '', $file) == $notFoundPage) {
@@ -111,6 +112,7 @@ class Page
                 }
 
                 // parse search criteria
+                $sorting = [];
                 $terms = preg_split('/\s+/', $options['pages_order'], -1, PREG_SPLIT_NO_EMPTY);
                 foreach ($terms as $term) {
                     $sub = explode('.', $term);
@@ -126,7 +128,12 @@ class Page
                     $sorting[] = array('type' => $type, 'key' => $sub[0], 'order' => $sub[1], 'string' => $term);
                 }
 
+                if (empty($sorting)) {
+                    return $pages;
+                }
+
                 // prepare search criteria for array_multisort
+                $sortHelper = [];
                 foreach ($sorting as $sort) {
                     $key = $sort['key'];
                     $column = array();

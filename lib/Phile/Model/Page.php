@@ -35,7 +35,7 @@ class Page
     protected $filePath;
 
     /**
-     * @var string the raw file
+     * @var null|string the raw file
      */
     protected $rawData;
 
@@ -86,7 +86,7 @@ class Page
             ['filePath' => &$this->filePath, 'page' => &$this]
         );
         if (file_exists($this->filePath)) {
-            $this->rawData = file_get_contents($this->filePath);
+            $this->rawData = file_get_contents($this->filePath) ?: null;
             $this->parseRawData();
         }
         /**

@@ -19,15 +19,16 @@ use Phile\Plugin\Phile\ParserMarkdown\Parser\Markdown;
  */
 class Plugin extends AbstractPlugin
 {
-
+    /**
+     * {@inheritDoc}
+     */
     protected $events = ['plugins_loaded' => 'onPluginsLoaded'];
 
     /**
      * onPluginsLoaded method
      *
-     * @param null $data
-     *
-     * @return mixed|void
+     * @param array $data
+     * @return void
      */
     public function onPluginsLoaded($data = null)
     {

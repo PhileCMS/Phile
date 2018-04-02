@@ -23,7 +23,7 @@ class SimpleFileDataPersistence implements PersistenceInterface
 
     /**
      * the constructor
-     * 
+     *
      * @param string $dataDir Directory to store data
      */
     public function __construct(string $dataDir)

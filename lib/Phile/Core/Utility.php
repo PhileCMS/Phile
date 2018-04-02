@@ -178,7 +178,7 @@ class Utility
      *
      * @param int  $length
      * @param bool $widthSpecialChars
-     * @param null $additionalChars
+     * @param null|string $additionalChars
      *
      * @return string
      */

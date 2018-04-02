@@ -53,11 +53,7 @@ class Twig implements TemplateInterface
     }
 
     /**
-     * method to set the current page
-     *
-     * @param Page $page the page model
-     *
-     * @return mixed|void
+     * {@inheritDoc}
      */
     public function setCurrentPage(Page $page)
     {
