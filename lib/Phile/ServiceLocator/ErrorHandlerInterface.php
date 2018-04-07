@@ -23,7 +23,7 @@ interface ErrorHandlerInterface
      *
      * @return bool
      */
-    public function handleError(int $errno, string $errstr, ?string $errfile, ?string $errline);
+    public function handleError(int $errno, string $errstr, ?string $errfile, ?int $errline);
 
     /**
      * handle all exceptions

@@ -142,13 +142,7 @@ class PageTest extends TestCase
     public function testOrderingInvalidSearchType()
     {
         $message = 'Page order \'meta:title\' was ignored. Type \'\' not recognized.';
-        if (class_exists('PHPUnit\Framework\Error\Warning')) {
-            // PHPUnit 6
-            $this->expectException('PHPUnit\Framework\Error\Warning', $message);
-        } else {
-            // PHPUnit 5
-            $this->expectException('PHPUnit_Framework_Error_Warning', $message);
-        }
+        $this->expectException('PHPUnit\Framework\Error\Warning', $message);
         $this->pageRepository
             ->findAll(['pages_order' => 'meta:title'])
             ->toArray();
