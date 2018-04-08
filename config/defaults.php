@@ -92,10 +92,7 @@ $config['plugins'] = [
      */
     'phile\\errorHandler' => [
         'active' => true,
-        /**
-         * development|error_log
-         */
-        'handler' => 'development'
+        'handler' => \Phile\Plugin\Phile\ErrorHandler\Plugin::HANDLER_DEVELOPMENT
     ],
     /**
      * setup check
