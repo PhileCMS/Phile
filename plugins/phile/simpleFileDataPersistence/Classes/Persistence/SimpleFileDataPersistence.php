@@ -23,10 +23,12 @@ class SimpleFileDataPersistence implements PersistenceInterface
 
     /**
      * the constructor
+     * 
+     * @param string $dataDir Directory to store data
      */
-    public function __construct()
+    public function __construct(string $dataDir)
     {
-        $this->dataDirectory = STORAGE_DIR;
+        $this->dataDirectory = $dataDir;
     }
 
     /**
@@ -64,7 +66,7 @@ class SimpleFileDataPersistence implements PersistenceInterface
      * @param string $key
      * @param mixed $value
      *
-     * @return mixed|void
+     * @return void
      */
     public function set($key, $value)
     {
@@ -77,7 +79,7 @@ class SimpleFileDataPersistence implements PersistenceInterface
      * @param string $key
      * @param array  $options
      *
-     * @return mixed|void
+     * @return void
      * @throws \Phile\Exception\AbstractException
      */
     public function delete($key, array $options = array())
