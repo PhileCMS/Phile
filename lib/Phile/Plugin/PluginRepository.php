@@ -1,149 +1,114 @@
 <?php
+/**
+ * @author PhileCMS
+ * @link https://philecms.github.io/
+ * @license http://opensource.org/licenses/MIT
+ * @package Phile\Plugin
+ */
 
 namespace Phile\Plugin;
 
+use Phile\Core\Config;
+use Phile\Core\Event;
 use Phile\Exception\PluginException;
 
 /**
  * Class PluginRepository manages plugin loading
- *
- * @author  PhileCMS
- * @link    https://philecms.com
- * @license http://opensource.org/licenses/MIT
- * @package Phile\Core
  */
 class PluginRepository
 {
+    /**
+     * @var array array of \Phile\Plugin\PluginDirectory
+     */
+    protected $directories = [];
 
     /**
-     * @var array of AbstractPlugin
+     * @var Event the event-bus
      */
-    protected $plugins = [];
+    protected $eventBus;
 
-    /**
-     * @var array errors during load; keys: 'message' and 'code'
-     */
-    protected $loadErrors = [];
-
-    /**
-     * @var string plug-in root directory
-     */
-    protected $directory;
-
-    /**
-     * Constructor
-     *
-     * @param string $directory root directory for plug-in folder
-     */
-    public function __construct(string $directory)
+    public function __construct(Event $eventBus)
     {
-        $this->directory = $directory;
-        spl_autoload_register([$this, 'autoload']);
+        $this->eventBus = $eventBus;
     }
 
     /**
-     * get load errors
+     * Adds plugin directory to repository
      *
-     * @return array
+     * @param string $directory path to plugin-directory
+     * @return self
      */
-    public function getLoadErrors()
+    public function addDirectory(string $directory): self
     {
-        return $this->loadErrors;
+        $this->directories[] = new PluginDirectory($directory);
+        return $this;
     }
 
     /**
-     * loads all activated plugins from $settings
+     * Loads all plug-ins
      *
-     * @param  array $settings plugin-settings
-     * @return array of AbstractPlugin
-     * @throws PluginException
+     * @param Config $config phile config with plugin config
+     * @throws Exception\PluginException
      */
-    public function loadAll($settings)
+    public function load(Config $config): void
     {
-        $this->reset();
-        foreach ($settings as $pluginKey => $config) {
-            if (!isset($config['active']) || !$config['active']) {
+        $errors = $plugins = [];
+        $pluginsToLoad = $config->get('plugins');
+
+        foreach ($pluginsToLoad as $pluginKey => $pluginConfig) {
+            if (empty($pluginConfig['active'])) {
                 continue;
             }
             try {
-                $this->plugins[$pluginKey] = $this->load($pluginKey);
+                $plugins[$pluginKey] = $this->loadSingle($pluginKey, $config);
             } catch (PluginException $e) {
-                $this->loadErrors[] = [
-                'message' => $e->getMessage(),
-                'code' => $e->getCode()
+                $errors[] = [
+                    'message' => $e->getMessage(),
+                    'code' => $e->getCode()
                 ];
             }
         }
-        return $this->plugins;
+
+        $this->eventBus->trigger('plugins_loaded', ['plugins' => $plugins]);
+
+        // Throw after 'plugins_loaded' so that error handler service is set.
+        // Even with setupErrorHandler() not run yet, the global app try/catch
+        // block uses the handler if present.
+        if (count($errors) > 0) {
+            throw new PluginException($errors[0]['message'], $errors[0]['code']);
+        }
+
+        // settings include initialized plugin-configs now
+        $this->eventBus->trigger(
+            'config_loaded',
+            ['config' => $config->toArray(), 'class' => $config]
+        );
     }
 
     /**
-     * load and return single plugin
+     * Loads and returns single plugin
      *
-     * @param string $pluginKey
-     * @return AbstractPlugin
+     * @param string $pluginKey plugin key e.g. 'phile\errorHandler'
+     * @return AbstractPlugin Plugin class
      * @throws PluginException
      */
-    protected function load(string $pluginKey): AbstractPlugin
+    protected function loadSingle(string $pluginKey, Config $config): AbstractPlugin
     {
-        list($vendor, $pluginName) = explode('\\', $pluginKey);
-        // uppercase first letter convention
-        $pluginClassName = '\\Phile\\Plugin\\' . ucfirst($vendor) . '\\' . ucfirst($pluginName) . '\\Plugin';
-
-        if (!class_exists($pluginClassName)) {
+        $plugin = $directory = null;
+        foreach ($this->directories as $directory) {
+            $plugin = $directory->newPluginInstance($pluginKey);
+            if ($plugin) {
+                break;
+            }
+        }
+        if ($plugin === null) {
             throw new PluginException(
                 "the plugin '{$pluginKey}' could not be loaded!",
                 1398536479
             );
         }
+        $plugin->initializePlugin($pluginKey, $directory->getPath(), $this->eventBus, $config);
 
-        /**
-         * @var \Phile\Plugin\AbstractPlugin $plugin
-         */
-        $plugin = new $pluginClassName;
-        if (($plugin instanceof AbstractPlugin) === false) {
-            throw new PluginException(
-                "the plugin '{$pluginKey}' is not an instance of \\Phile\\Plugin\\AbstractPlugin",
-                1398536526
-            );
-        }
-
-        $plugin->initializePlugin($pluginKey);
         return $plugin;
-    }
-
-    /**
-     * clear out repository
-     */
-    protected function reset()
-    {
-        $this->loadErrors = [];
-        $this->plugins = [];
-    }
-
-    /**
-     * auto-loader plugin namespace
-     *
-     * @param string $className
-     */
-    public function autoload(string $className)
-    {
-        if (strpos($className, "Phile\\Plugin\\") !== 0) {
-            return;
-        }
-
-        $className = substr($className, 13);
-        $classNameParts = explode('\\', $className);
-        $pluginVendor = lcfirst(array_shift($classNameParts));
-        $pluginName = lcfirst(array_shift($classNameParts));
-        $classPath = array_merge(
-            [$pluginVendor, $pluginName, 'Classes'],
-            $classNameParts
-        );
-
-        $fileName = $this->directory . implode(DS, $classPath) . '.php';
-        if (file_exists($fileName)) {
-            include_once $fileName;
-        }
     }
 }

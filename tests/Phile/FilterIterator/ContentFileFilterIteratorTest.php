@@ -17,7 +17,7 @@ class ContentFileIteratorTest extends TestCase
 
     public function testContentFileFilterIterator()
     {
-        $folder = PLUGINS_DIR . 'phile/testPlugin/content';
+        $folder = __DIR__ . '/../../fixture/content/';
         $files = new ContentFileFilterIterator(new \DirectoryIterator($folder));
         $result = [];
         foreach ($files as $file) {

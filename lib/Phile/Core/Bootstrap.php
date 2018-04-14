@@ -49,35 +49,6 @@ class Bootstrap
     }
 
     /**
-     * Loads all plug-ins
-     *
-     * @throws Exception\PluginException
-     */
-    public static function loadPlugins(Event $eventBus, Config $config)
-    {
-        $pluginsToLoad = $config->get('plugins');
-
-        $loader = new PluginRepository($config->get('plugins_dir'));
-        $plugins = $loader->loadAll($pluginsToLoad);
-        $errors = $loader->getLoadErrors();
-
-        $eventBus->trigger('plugins_loaded', ['plugins' => $plugins]);
-
-        // Throw after 'plugins_loaded' so that error handler service is set.
-        // Even with setupErrorHandler() not run yet, the global app try/catch
-        // block uses the handler if present.
-        if (count($errors) > 0) {
-            throw new PluginException($errors[0]['message'], $errors[0]['code']);
-        }
-
-        // settings include initialized plugin-configs now
-        $eventBus->trigger(
-            'config_loaded',
-            ['config' => $config->toArray(), 'class' => $config]
-        );
-    }
-
-    /**
      * Initializes error handling
      */
     public static function setupErrorHandler(Config $config)

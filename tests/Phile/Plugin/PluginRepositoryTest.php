@@ -2,8 +2,11 @@
 
 namespace PhileTest\Plugin;
 
+use Phile\Core\Config;
+use Phile\Core\Event;
 use Phile\Plugin\PluginRepository;
-use PHPUnit\Framework\TestCase;
+use Phile\Test\TestCase;
+use Phile\Exception\PluginException;
 
 /**
  * the PluginRepositoryTest class
@@ -19,27 +22,33 @@ class PluginRepositoryTest extends TestCase
     public function testLoadAllSuccess()
     {
         $toLoad = 'phile\testPlugin';
-        $plugins = new PluginRepository(PLUGINS_DIR);
+        $eventBus = new Event;
+        $plugins = new PluginRepository($eventBus);
+        $plugins->addDirectory(__DIR__ . '/../../fixture/plugins/');
+        $config = new Config(['plugins' => [$toLoad => ['active' => true]]]);
 
-        $result = $plugins->loadAll([$toLoad => ['active' => true]]);
+        $result = null;
+        $eventBus->register('plugins_loaded', function ($name, $data) use (&$result) {
+            $result = $data['plugins'];
+        });
+
+        $plugins->load($config);
+
         $this->assertTrue(is_array($result));
         $this->assertArrayHasKey($toLoad, $result);
         $this->assertInstanceOf(
             '\Phile\Plugin\AbstractPlugin',
             $result[$toLoad]
         );
-
-        $this->assertEquals(0, count($plugins->getLoadErrors()));
     }
 
     public function testLoadAllFailure()
     {
-        $plugins = new PluginRepository(PLUGINS_DIR);
+        $plugins = new PluginRepository(new Event);
+        $plugins->addDirectory(__DIR__ . '/../../fixture/plugins/');
+        $config = new Config(['plugins' => ['foo\bar' => ['active' => true]]]);
 
-        $plugins->loadAll(['foo\\bar' => ['active' => false]]);
-        $this->assertEquals(0, count($plugins->getLoadErrors()));
-
-        $plugins->loadAll(['foo\\bar' => ['active' => true]]);
-        $this->assertEquals(1, count($plugins->getLoadErrors()));
+        $this->expectException(PluginException::class);
+        $plugins->load($config);
     }
 }
