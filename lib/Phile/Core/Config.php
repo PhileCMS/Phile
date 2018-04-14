@@ -6,7 +6,7 @@ namespace Phile\Core;
  * Config class
  *
  * @author  PhileCMS
- * @link    https://philecms.com
+ * @link    https://philecms.github.io
  * @license http://opensource.org/licenses/MIT
  * @package Phile
  */

@@ -8,7 +8,7 @@ namespace Phile\Core;
  * the Registry class for implementing a registry
  *
  * @author  Frank Nägler
- * @link    https://philecms.com
+ * @link    https://philecms.github.io
  * @license http://opensource.org/licenses/MIT
  * @package Phile\Core
  */

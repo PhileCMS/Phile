@@ -13,7 +13,7 @@ use Phile\ServiceLocator\CacheInterface;
  * the Repository class for pages
  *
  * @author  Frank Nägler
- * @link    https://philecms.com
+ * @link    https://philecms.github.io
  * @license http://opensource.org/licenses/MIT
  * @package Phile\Repository
  */

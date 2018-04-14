@@ -13,7 +13,7 @@ use Phile\Plugin\Phile\SimpleFileDataPersistence\Persistence\SimpleFileDataPersi
  * Default Phile data persistence engine
  *
  * @author  PhileCMS
- * @link    https://philecms.com
+ * @link    https://philecms.github.io
  * @license http://opensource.org/licenses/MIT
  * @package Phile\Plugin\Phile\SimpleFileDataPersistence
  */

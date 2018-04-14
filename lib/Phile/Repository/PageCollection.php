@@ -6,7 +6,7 @@ namespace Phile\Repository;
  * Page collection which delays searching for and loading pages until necessary.
  *
  * @author  PhileCMS
- * @link    https://philecms.com
+ * @link    https://philecms.github.io
  * @license http://opensource.org/licenses/MIT
  * @package Phile\Repository
  */

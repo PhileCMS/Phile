@@ -10,7 +10,7 @@ use Phile\Gateway\EventObserverInterface;
  * the Event class for implementing a hook/event system
  *
  * @author  PhileCMS
- * @link    https://philecms.com
+ * @link    https://philecms.github.io
  * @license http://opensource.org/licenses/MIT
  * @package Phile\Core
  */

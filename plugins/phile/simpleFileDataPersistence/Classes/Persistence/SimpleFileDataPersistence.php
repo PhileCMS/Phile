@@ -10,7 +10,7 @@ use Phile\ServiceLocator\PersistenceInterface;
  * Class SimpleFileDataPersistence
  *
  * @author  Frank Nägler
- * @link    https://philecms.com
+ * @link    https://philecms.github.io
  * @license http://opensource.org/licenses/MIT
  * @package Phile\Plugin\Phile\SimpleFileDataPersistence\Persistence
  */

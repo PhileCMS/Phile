@@ -13,7 +13,7 @@ use Phile\Repository\Page as Repository;
  * the Model class for a page
  *
  * @author  Frank Nägler
- * @link    https://philecms.com
+ * @link    https://philecms.github.io
  * @license http://opensource.org/licenses/MIT
  * @package Phile\Model
  */

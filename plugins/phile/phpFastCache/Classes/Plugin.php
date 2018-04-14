@@ -12,7 +12,7 @@ use Phile\Plugin\AbstractPlugin;
  * Default Phile cache engine
  *
  * @author  PhileCMS
- * @link    https://philecms.com
+ * @link    https://philecms.github.io
  * @license http://opensource.org/licenses/MIT
  * @package Phile\Plugin\Phile\PhpFastCache
  */

@@ -13,7 +13,7 @@ use Phile\Plugin\Phile\ParserMeta\Parser\Meta;
  * Default Phile parser plugin for Markdown
  *
  * @author  PhileCMS
- * @link    https://philecms.com
+ * @link    https://philecms.github.io
  * @license http://opensource.org/licenses/MIT
  * @package Phile\Plugin\Phile\ParserMeta
  */

@@ -8,7 +8,7 @@ namespace Phile\Core;
  * the Session class for implementing a session
  *
  * @author  Frank Nägler
- * @link    https://philecms.com
+ * @link    https://philecms.github.io
  * @license http://opensource.org/licenses/MIT
  * @package Phile\Core
  */
