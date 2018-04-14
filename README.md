@@ -20,7 +20,7 @@ Phile was forked from Pico when a few community members wanted to contribute mor
     * Parser (default: [Markdown](https://github.com/michelf/php-markdown))
     * Template Engine (default: [Twig](http://twig.sensiolabs.org/))
     * Cache (default: [phpFastCache](https://github.com/khoaofgod/phpfastcache))
-    * Error handler (default: Phile handler)
+    * Error handler (default: [Whoops](http://filp.github.io/whoops/))
     * Meta parser (default: Phile parser)
     * Simple Data Persistence (default: Phile file-based)
 * Per-Plugin `config.php` files
