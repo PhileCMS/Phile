@@ -51,7 +51,7 @@ class ErrorLog implements ErrorHandlerInterface
         $this->log($error['type'], $error['message'], $error['file'], $error['line']);
     }
 
-    protected function log(int $code, string $message, ?string $file, ?string $line): void
+    protected function log(int $code, string $message, ?string $file, ?int $line): void
     {
         error_log("[{$code}] {$message} in {$file} on line {$line}");
     }

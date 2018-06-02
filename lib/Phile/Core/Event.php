@@ -10,7 +10,7 @@ use Phile\Gateway\EventObserverInterface;
  * the Event class for implementing a hook/event system
  *
  * @author  PhileCMS
- * @link    https://philecms.com
+ * @link    https://philecms.github.io
  * @license http://opensource.org/licenses/MIT
  * @package Phile\Core
  */
@@ -45,9 +45,10 @@ class Event
      * Set global event instance
      *
      * @param Event $instance
+     * @return void
      * @deprecated static use is deprecated
      */
-    public static function setInstance(Event $instance)
+    public static function setInstance(Event $instance): void
     {
         static::$instance = $instance;
     }
@@ -57,9 +58,10 @@ class Event
      *
      * @param string $eventName
      * @param EventObserverInterface|callable $object observer
+     * @return void
      * @deprecated static use is deprecated
      */
-    public static function registerEvent($eventName, $object)
+    public static function registerEvent($eventName, $object): void
     {
         static::$instance->register($eventName, $object);
     }
@@ -69,9 +71,10 @@ class Event
      *
      * @param string $eventName
      * @param array $data
+     * @return void
      * @deprecated static use is deprecated
      */
-    public static function triggerEvent($eventName, $data = null)
+    public static function triggerEvent($eventName, $data = null): void
     {
         static::$instance->trigger($eventName, $data);
     }

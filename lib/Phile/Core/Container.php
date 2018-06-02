@@ -15,9 +15,10 @@ use Phile\Exception\ContainerNotFoundException as NotFoundException;
  */
 class Container implements ContainerInterface
 {
+    /** @var array Container configuration */
     protected $config = [];
 
-    /** @var ContainerInterface */
+    /** @var Container */
     protected static $instance;
 
     /** @var array raw items */
@@ -26,7 +27,13 @@ class Container implements ContainerInterface
     /** @var array evaluated items */
     protected $build = [];
 
-    public function __construct($config = [])
+    /**
+     * Constructor
+     *
+     * @param array $config Container configuration
+     *  - `types` array with <item id> => <required item type>
+     */
+    public function __construct(array $config = [])
     {
         $this->config = $config;
     }
@@ -34,9 +41,10 @@ class Container implements ContainerInterface
     /**
      * Sets instance for static usage
      *
-     * @param ContainerInterface $instance
+     * @param Container $instance
+     * @return void
      */
-    public static function setInstance(ContainerInterface $instance): void
+    public static function setInstance(Container $instance): void
     {
         self::$instance = $instance;
     }
@@ -44,9 +52,9 @@ class Container implements ContainerInterface
     /**
      * Gets instance for static usage
      *
-     * @return ContainerInterface
+     * @return self
      */
-    public static function getInstance(): ContainerInterface
+    public static function getInstance(): self
     {
         return self::$instance;
     }
@@ -85,13 +93,15 @@ class Container implements ContainerInterface
      *
      * @param string $id Identifier for the object to set
      * @param mixed $object Object to set
+     * @return self
      */
-    public function set($id, $object)
+    public function set(string $id, $object): self
     {
         if (!is_callable($object)) {
             $this->typeCheck($id, $object);
         }
         $this->raw[$id] = $object;
+        return $this;
     }
 
     /**
@@ -102,7 +112,7 @@ class Container implements ContainerInterface
      * @return void
      * @throws \Phile\Exception\ContainerException
      */
-    protected function typeCheck($id, $object)
+    protected function typeCheck(string $id, $object)
     {
         if (!isset($this->config['types'][$id])) {
             return;

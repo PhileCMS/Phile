@@ -33,6 +33,7 @@ class PluginTest extends TestCase
 
         $request = $this->createServerRequestFromArray();
 
+        $body = null;
         try {
             $core = $this->createPhileCore($eventBus, $config);
             $core->addBootstrap(function ($eventBus, $config) {

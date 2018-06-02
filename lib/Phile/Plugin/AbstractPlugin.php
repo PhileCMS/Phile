@@ -1,7 +1,7 @@
 <?php
 /**
  * @author PhileCMS
- * @link https://philecms.com
+ * @link https://philecms.github.io
  * @license http://opensource.org/licenses/MIT
  * @package Phile\Plugin
  */
@@ -109,11 +109,11 @@ abstract class AbstractPlugin implements EventObserverInterface
     /**
      * implements EventObserverInterface
      *
-     * @param  string $eventKey
-     * @param  null   $data
+     * @param string $eventKey
+     * @param null|array $eventData
      * @return void
      */
-    public function on($eventKey, $data = null): void
+    public function on($eventKey, $eventData = null): void
     {
         if (!isset($this->events[$eventKey])) {
             return;
@@ -126,7 +126,7 @@ abstract class AbstractPlugin implements EventObserverInterface
                 1428564865
             );
         }
-        $this->{$this->events[$eventKey]}($data);
+        $this->{$this->events[$eventKey]}($eventData);
     }
 
     /**

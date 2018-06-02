@@ -9,7 +9,7 @@ namespace Phile\Exception;
  * the PluginException class
  *
  * @author  Frank Nägler
- * @link    https://philecms.com
+ * @link    https://philecms.github.io
  * @license http://opensource.org/licenses/MIT
  * @package Phile
  */

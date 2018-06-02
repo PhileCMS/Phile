@@ -12,17 +12,21 @@ use Phile\Plugin\AbstractPlugin;
  * Default Phile cache engine
  *
  * @author  PhileCMS
- * @link    https://philecms.com
+ * @link    https://philecms.github.io
  * @license http://opensource.org/licenses/MIT
  * @package Phile\Plugin\Phile\PhpFastCache
  */
 class Plugin extends AbstractPlugin
 {
-
+    /**
+     * {@inheritDoc}
+     */
     protected $events = ['plugins_loaded' => 'onPluginsLoaded'];
 
     /**
      * onPluginsLoaded method
+     *
+     * @return void
      */
     public function onPluginsLoaded()
     {

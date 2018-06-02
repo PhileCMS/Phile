@@ -1,14 +1,13 @@
 <?php
 /*
  * @author  PhileCMS
- * @link    https://philecms.com
+ * @link    https://philecms.github.io
  * @license http://opensource.org/licenses/MIT
  */
 
 namespace Phile\Core;
 
 use Phile\Core\Container;
-use Phile\Exception\ServiceLocatorException;
 
 /**
  * the Service Locator class
@@ -20,10 +19,9 @@ class ServiceLocator
      *
      * @param string $serviceKey the key for the service
      * @param mixed  $object
-     *
-     * @throws ServiceLocatorException
+     * @return void
      */
-    public static function registerService($serviceKey, $object)
+    public static function registerService(string $serviceKey, $object): void
     {
         Container::getInstance()->set($serviceKey, $object);
     }
@@ -32,10 +30,9 @@ class ServiceLocator
      * checks if a service is registered
      *
      * @param string $serviceKey
-     *
      * @return bool
      */
-    public static function hasService($serviceKey)
+    public static function hasService(string $serviceKey)
     {
         return Container::getInstance()->has($serviceKey);
     }
@@ -44,11 +41,9 @@ class ServiceLocator
      * returns a service
      *
      * @param string $serviceKey the service key
-     *
      * @return mixed
-     * @throws ServiceLocatorException
      */
-    public static function getService($serviceKey)
+    public static function getService(string $serviceKey)
     {
         return Container::getInstance()->get($serviceKey);
     }
