@@ -14,22 +14,24 @@ use Phile\Plugin\Phile\TemplateTwig\Template\Twig;
  * Default Phile template engine
  *
  * @author  PhileCMS
- * @link    https://philecms.com
+ * @link    https://philecms.github.io
  * @license http://opensource.org/licenses/MIT
  * @package Phile\Plugin\Phile\TemplateTwig
  */
 class Plugin extends AbstractPlugin
 {
+    /**
+     * {@inheritdoc}
+     */
     protected $events = ['plugins_loaded' => 'onPluginsLoaded'];
 
     /**
-     * onPluginsLoaded method
+     * Registers Twig as template service
      *
-     * @param null $data
-     *
-     * @return mixed|void
+     * @param array $data
+     * @return void
      */
-    public function onPluginsLoaded($data = null)
+    public function onPluginsLoaded($data)
     {
         $phile = Container::getInstance()->get('Phile_Config');
         $settings = $this->settings + [

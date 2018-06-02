@@ -13,7 +13,7 @@ use Phile\ServiceLocator\TemplateInterface;
  * Class Twig
  *
  * @author  PhileCMS
- * @link    https://philecms.com
+ * @link    https://philecms.github.io
  * @license http://opensource.org/licenses/MIT
  * @package Phile\Plugin\Phile\TemplateTwig\Template
  */
@@ -53,11 +53,7 @@ class Twig implements TemplateInterface
     }
 
     /**
-     * method to set the current page
-     *
-     * @param Page $page the page model
-     *
-     * @return mixed|void
+     * {@inheritDoc}
      */
     public function setCurrentPage(Page $page)
     {

@@ -11,7 +11,7 @@ use Psr\SimpleCache\CacheInterface;
  * Class PhpFastCache
  *
  * @author  PhileCMS
- * @link    https://philecms.com
+ * @link    https://philecms.github.io
  * @license http://opensource.org/licenses/MIT
  * @package Phile\Plugin\Phile\PhpFastCache
  */
@@ -20,7 +20,7 @@ class PhileToPsr16CacheAdapter implements \Phile\ServiceLocator\CacheInterface
     /** @var string slug */
     const SLUG_PREFIX = '-phile.phpFastCache.slug-';
     
-    const SLUG = ['{', '}' , '(', ')','/' , '\\' , '@', ':'];
+    const SLUG = ['{', '}', '(', ')', '/', '\\', '@', ':'];
 
     /**
      * @var CacheInterface the cache engine

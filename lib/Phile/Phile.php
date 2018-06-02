@@ -1,7 +1,7 @@
 <?php
 /**
  * @author  PhileCMS
- * @link    https://philecms.com
+ * @link    https://philecms.github.io
  * @license http://opensource.org/licenses/MIT
  */
 
@@ -19,6 +19,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Phile\Core\ServiceLocator;
 
 /**
  * Phile Core class
@@ -192,6 +193,8 @@ class Phile implements MiddlewareInterface
 
     /**
      * Creates response
+     *
+     * @throws Exception
      */
     protected function createResponse(string $output, int $status): ResponseInterface
     {
@@ -200,11 +203,23 @@ class Phile implements MiddlewareInterface
             ->createHtmlResponse($output)
             ->withHeader('Content-Type', 'text/html; charset=' . $charset)
             ->withStatus($status);
-        return $this->triggerEventWithResponse('after_response_created', ['response' => &$response]);
+
+        $response = $this->triggerEventWithResponse(
+            'after_response_created',
+            ['response' => &$response]
+        );
+
+        if (!($response instanceof ResponseInterface)) {
+            throw new Exception('Response not valid.', 1523630697);
+        }
+
+        return $response;
     }
 
     /**
      * Triggers event injecting a response parameter and returning it if set
+     *
+     * @throws Exception
      */
     protected function triggerEventWithResponse(string $eventName, array $eventData = []): ?ResponseInterface
     {
@@ -212,7 +227,16 @@ class Phile implements MiddlewareInterface
             $response = null;
             $eventData = array_merge(['response' => &$response], $eventData);
         }
+
         $this->eventBus->trigger($eventName, $eventData);
+
+        if ($eventData['response'] !== null && !($eventData['response'] instanceof ResponseInterface)) {
+            throw new Exception(
+                "No valid response in \$eventData['response'] for event $eventName.",
+                1523630698
+            );
+        }
+
         return $eventData['response'];
     }
 }

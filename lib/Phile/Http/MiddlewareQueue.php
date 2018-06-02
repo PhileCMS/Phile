@@ -1,7 +1,7 @@
 <?php
 /**
  * @author  PhileCMS
- * @link    https://philecms.com
+ * @link    https://philecms.github.io
  * @license http://opensource.org/licenses/MIT
  */
 
@@ -36,7 +36,7 @@ class MiddlewareQueue implements IteratorAggregate
      *
      * @param MiddlewareInterface $middleware
      * @param int $priority
-     * @return \self
+     * @return self
      */
     public function add(MiddlewareInterface $middleware, int $priority = self::DEFAULT_PRIORITY): self
     {

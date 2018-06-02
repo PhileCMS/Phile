@@ -14,7 +14,7 @@
  * Set global definitions
  */
 // phpcs:disable PSR1.Files.SideEffects
-define('PHILE_VERSION', '1.10.0');
+define('PHILE_VERSION', '1.11.0');
 define('PHILE_CLI_MODE', (php_sapi_name() === 'cli'));
 define('DS', DIRECTORY_SEPARATOR);
 define('ROOT_DIR', realpath(__DIR__ . DS . '..' . DS) . DS);
@@ -27,23 +27,27 @@ define('STORAGE_DIR', LIB_DIR . 'datastorage' . DS);
 // phpcs:enable
 
 /**
- * initialize autoloaders
+ * Setup container
  */
-// load classes from Phile-core
-spl_autoload_register(function ($className) {
-    $fileName = LIB_DIR . str_replace("\\", DS, $className) . '.php';
-    if (file_exists($fileName)) {
-        require_once $fileName;
-    }
-});
-// load composer installed classes
-require(LIB_DIR . 'vendor' . DS . 'autoload.php');
+require 'container.php';
+$container = Phile\Core\Container::getInstance();
+
+/**
+ * Register plugin directories
+ *
+ * Allows autoloading from plugin-directories and early usage in config.php
+ *
+ * @var \Phile\Plugin\PluginRepository $plugins
+ */
+$plugins = $container->get('Phile_Plugins');
+$plugins->addDirectory(PLUGINS_DIR);
 
 /**
  * Setup global application-object
+ *
+ * @var \Phile\Phile $app
  */
-require 'container.php';
-$app = Phile\Core\Container::getInstance()->get('Phile_App');
+$app = $container->get('Phile_App');
 
 /**
  * Define the bootstrap process
@@ -53,7 +57,7 @@ use Phile\Core\Config;
 use Phile\Core\Event;
 use Phile\Core\Registry;
 
-$app->addBootstrap(function (Event $eventBus, Config $config) {
+$app->addBootstrap(function (Event $eventBus, Config $config) use ($plugins): void {
     // Load configuration files into global $config configuration
     $configDir = $config->get('config_dir');
     Bootstrap::loadConfiguration($configDir . 'defaults.php', $config);
@@ -73,7 +77,7 @@ $app->addBootstrap(function (Event $eventBus, Config $config) {
     Event::setInstance($eventBus);
 
     // Load plug-ins
-    Bootstrap::loadPlugins($eventBus, $config);
+    $plugins->load($config);
 
     // Set error handler
     Bootstrap::setupErrorHandler($config);
@@ -90,7 +94,7 @@ $app->addBootstrap(function (Event $eventBus, Config $config) {
  */
 use Phile\Http\MiddlewareQueue;
 
-$app->addMiddleware(function (MiddlewareQueue $middleware, Event $eventBus, Config $config) use ($app) {
+$app->addMiddleware(function (MiddlewareQueue $middleware, Event $eventBus, Config $config) use ($app): void {
     // Inject middleware from Phile-plugins
     $eventBus->trigger('phile.core.middleware.add', ['middleware' => $middleware]);
 

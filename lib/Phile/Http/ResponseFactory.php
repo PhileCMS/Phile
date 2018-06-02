@@ -1,7 +1,7 @@
 <?php
 /**
  * @author  PhileCMS
- * @link    https://philecms.com
+ * @link    https://philecms.github.io
  * @license http://opensource.org/licenses/MIT
  */
 
@@ -19,7 +19,7 @@ use Zend\Diactoros\Response;
 class ResponseFactory implements ResponseFactoryInterface
 {
     /**
-     * Creates a PSR-7 response
+     * {@inheritDoc}
      */
     public function createResponse($code = 200): ResponseInterface
     {
@@ -29,7 +29,7 @@ class ResponseFactory implements ResponseFactoryInterface
     /**
      * Creates PSR-7 HTML response
      */
-    public function createHtmlResponse($body, $code = 200): ResponseInterface
+    public function createHtmlResponse(string $body, int $code = 200): ResponseInterface
     {
         return new HtmlResponse($body, $code);
     }
@@ -37,7 +37,7 @@ class ResponseFactory implements ResponseFactoryInterface
     /**
      * Creates PSR-7 redirect response
      */
-    public function createRedirectResponse($url, $code = 302): ResponseInterface
+    public function createRedirectResponse(string $url, int $code = 302): ResponseInterface
     {
         return new RedirectResponse($url, $code);
     }

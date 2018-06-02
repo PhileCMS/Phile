@@ -10,7 +10,7 @@ use Phile\Core\Container;
  * Utility class
  *
  * @author  PhileCMS
- * @link    https://philecms.com
+ * @link    https://philecms.github.io
  * @license http://opensource.org/licenses/MIT
  * @package Phile
  */
@@ -178,7 +178,7 @@ class Utility
      *
      * @param int  $length
      * @param bool $widthSpecialChars
-     * @param null $additionalChars
+     * @param null|string $additionalChars
      *
      * @return string
      */

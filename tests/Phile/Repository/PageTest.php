@@ -79,7 +79,7 @@ class PageTest extends TestCase
     public function testFindByPathPhileConfigSettings()
     {
         //= changed content directory
-        $settings['content_dir'] = PLUGINS_DIR . str_replace('/', DS, 'phile/testPlugin/content/sub/');
+        $settings['content_dir'] = str_replace('/', DS, __DIR__ . '/../../fixture/content/sub/');
         Container::getInstance()->get('Phile_Config')->merge($settings);
 
         $repository = new \Phile\Repository\Page();
@@ -142,13 +142,7 @@ class PageTest extends TestCase
     public function testOrderingInvalidSearchType()
     {
         $message = 'Page order \'meta:title\' was ignored. Type \'\' not recognized.';
-        if (class_exists('PHPUnit\Framework\Error\Warning')) {
-            // PHPUnit 6
-            $this->expectException('PHPUnit\Framework\Error\Warning', $message);
-        } else {
-            // PHPUnit 5
-            $this->expectException('PHPUnit_Framework_Error_Warning', $message);
-        }
+        $this->expectException('PHPUnit\Framework\Error\Warning', $message);
         $this->pageRepository
             ->findAll(['pages_order' => 'meta:title'])
             ->toArray();

@@ -1,6 +1,8 @@
 <?php
 /**
- * The Error Handler
+ * @link http://philecms.github.io/
+ * @license http://opensource.org/licenses/MIT
+ * @package Phile\Plugin\Phile\ErrorHandler
  */
 
 namespace Phile\Plugin\Phile\ErrorHandler;
@@ -8,32 +10,27 @@ namespace Phile\Plugin\Phile\ErrorHandler;
 use Phile\ServiceLocator\ErrorHandlerInterface;
 
 /**
- * Class ErrorLog
+ * Error handler logging to files
  */
 class ErrorLog implements ErrorHandlerInterface
 {
     /**
-     * handle the error
+     * Constructor
      *
-     * @param int    $errno
-     * @param string $errstr
-     * @param string $errfile
-     * @param int    $errline
-     *
-     * @return boolean
+     * @param string|null $logfile path to error.log-file; null: PHP default error log
      */
-    public function handleError(int $errno, string $errstr, ?string $errfile, ?string $errline)
+    public function __construct(?string $logfile = null)
+    {
+        if ($logfile) {
+            ini_set('error_log', $logfile);
+        }
+    }
+
+    public function handleError(int $errno, string $errstr, ?string $errfile, ?int $errline)
     {
         $this->log($errno, $errstr, $errfile, $errline);
     }
 
-    /**
-     * handle all exceptions
-     *
-     * @param \Exception $exception
-     *
-     * @return mixed
-     */
     public function handleException(\Throwable $exception)
     {
         $code = (int)$exception->getCode();
@@ -41,6 +38,8 @@ class ErrorLog implements ErrorHandlerInterface
         $file = $exception->getFile();
         $line = $exception->getLine();
         $this->log($code, $message, $file, $line);
+        header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
+        exit;
     }
 
     public function handleShutdown()
@@ -52,7 +51,7 @@ class ErrorLog implements ErrorHandlerInterface
         $this->log($error['type'], $error['message'], $error['file'], $error['line']);
     }
 
-    protected function log(int $code, string $message, ?string $file, ?string $line): void
+    protected function log(int $code, string $message, ?string $file, ?int $line): void
     {
         error_log("[{$code}] {$message} in {$file} on line {$line}");
     }

@@ -1,7 +1,7 @@
 <?php
 /*
  * @author  PhileCMS
- * @link    https://philecms.com
+ * @link    https://philecms.github.io
  * @license http://opensource.org/licenses/MIT
  */
 
@@ -19,21 +19,29 @@ use Phile\Plugin\PluginRepository;
 class Bootstrap
 {
     /**
-     * Loads $file into $configuration
+     * Loads $file into $configuration.
+     *
+     * @param string $file Path to config file to load
+     * @param Config $config Phile configuration
+     * @return void
      */
     public static function loadConfiguration($file, Config $config)
     {
         // function isolates context of loaded files
-        $load = function ($file) {
+        $load = function (string $file): array {
             return include $file;
         };
         $config->merge($load($file));
     }
 
     /**
-     * Creates and protects folder and path $directory
+     * Creates and protects folder and path $directory.
+     *
+     * @param string $directory Path to $directory
+     * @param Config $config Phile configuration
+     * @return void
      */
-    public static function setupFolder($directory, Config $config)
+    public static function setupFolder(string $directory, Config $config)
     {
         if (empty($directory) || strpos($directory, $config->get('root_dir')) !== 0) {
             return;
@@ -49,36 +57,10 @@ class Bootstrap
     }
 
     /**
-     * Loads all plug-ins
-     *
-     * @throws Exception\PluginException
-     */
-    public static function loadPlugins(Event $eventBus, Config $config)
-    {
-        $pluginsToLoad = $config->get('plugins');
-
-        $loader = new PluginRepository($config->get('plugins_dir'));
-        $plugins = $loader->loadAll($pluginsToLoad);
-        $errors = $loader->getLoadErrors();
-
-        $eventBus->trigger('plugins_loaded', ['plugins' => $plugins]);
-
-        // Throw after 'plugins_loaded' so that error handler service is set.
-        // Even with setupErrorHandler() not run yet, the global app try/catch
-        // block uses the handler if present.
-        if (count($errors) > 0) {
-            throw new PluginException($errors[0]['message'], $errors[0]['code']);
-        }
-
-        // settings include initialized plugin-configs now
-        $eventBus->trigger(
-            'config_loaded',
-            ['config' => $config->toArray(), 'class' => $config]
-        );
-    }
-
-    /**
      * Initializes error handling
+     *
+     * @param Config $config Phile configuration
+     * @return void
      */
     public static function setupErrorHandler(Config $config)
     {
@@ -90,6 +72,5 @@ class Bootstrap
         set_error_handler([$errorHandler, 'handleError']);
         set_exception_handler([$errorHandler, 'handleException']);
         register_shutdown_function([$errorHandler, 'handleShutdown']);
-        ini_set('display_errors', $config->get('display_errors'));
     }
 }

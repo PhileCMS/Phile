@@ -22,26 +22,30 @@ $config = [
 
     /**
      * Permissions for file storage
+     *
+     * For security, please use 0666 for module and 0644 for cgi.
      */
-//    'default_chmod' => 0777, // For security, please use 0666 for module and 0644 for cgi.
+    // 'default_chmod' => 0777,
 
+    /**
+     * default will good. It will create a path by PATH/securityKey
+     */
+    // "securityKey" => "auto",
 
-//  "securityKey" => "auto", // default will good. It will create a path by PATH/securityKey
-
-    /*
+    /**
      * FallBack Driver
      * Example, in your code, you use memcached, apc..etc, but when you moved your web hosting
      * The new hosting don't have memcached, or apc. What you do? Set fallback that driver to other driver.
      */
-//    "fallback"  => "files",
+    "fallback" => "files",
 
-    /*
+    /**
      * .htaccess protect
      * default will be  true
      */
-//  "htaccess"    => true,
+    "htaccess" => true,
 
-    /*
+    /**
      * Default Memcache Server for Memcache
      */
     /*

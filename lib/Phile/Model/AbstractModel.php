@@ -8,7 +8,7 @@ namespace Phile\Model;
  * Abstract model which implements the ArrayAccess interface
  *
  * @author  Frank Nägler
- * @link    https://philecms.com
+ * @link    https://philecms.github.io
  * @license http://opensource.org/licenses/MIT
  * @package Phile\Model
  */

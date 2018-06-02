@@ -12,7 +12,7 @@ namespace Phile;
  * the Exception class
  *
  * @author     Frank Nägler
- * @link       https://philecms.com
+ * @link       https://philecms.github.io
  * @license    http://opensource.org/licenses/MIT
  * @package    Phile
  * @deprecated since 1.4 will be removed

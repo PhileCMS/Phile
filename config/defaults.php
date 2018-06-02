@@ -64,11 +64,6 @@ $config['timezone'] = (ini_get('date.timezone')) ? ini_get('date.timezone') : 'U
 $config['charset'] = 'utf-8';
 
 /**
- * set PHP error reporting
- */
-$config['display_errors'] = 0;
-
-/**
  * content directory
  */
 $config['content_dir'] = ROOT_DIR . 'content' . DS;
@@ -97,7 +92,7 @@ $config['plugins'] = [
      */
     'phile\\errorHandler' => [
         'active' => true,
-        'handler' => 'development'
+        'handler' => \Phile\Plugin\Phile\ErrorHandler\Plugin::HANDLER_DEVELOPMENT
     ],
     /**
      * setup check

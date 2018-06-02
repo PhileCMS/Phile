@@ -1,20 +1,20 @@
 <?php
 /**
- * Plugin class
+ * @author PhileCMS
+ * @link https://philecms.github.io
+ * @license http://opensource.org/licenses/MIT
+ * @package Phile\Plugin
  */
+
 namespace Phile\Plugin;
 
-use Phile\Core\Container;
+use Phile\Core\Config;
+use Phile\Core\Event;
 use Phile\Core\Utility;
 use Phile\Gateway\EventObserverInterface;
 
 /**
  * the AbstractPlugin class for implementing a plugin for PhileCMS
- *
- * @author  PhileCMS
- * @link    https://philecms.com
- * @license http://opensource.org/licenses/MIT
- * @package Phile\Plugin
  */
 abstract class AbstractPlugin implements EventObserverInterface
 {
@@ -34,29 +34,36 @@ abstract class AbstractPlugin implements EventObserverInterface
     protected $settings = [];
 
     /**
-     * initialize plugin
+     * Initializes the plugin.
      *
      * try to keep all initialization in one method to have a clean class
      * for the plugin-user
      *
-     * @param      string $pluginKey
-     * @deprecated since 1.5.1 will be declared 'final'
+     * @param string $pluginKey
+     * @param string $pluginDir Root plugin directory this plugin is placed in.
+     * @param Event $eventBus Phile application event-bus.
+     * @param Config $config Phile application configuration.
+     * @return void
      */
-    public function initializePlugin($pluginKey)
-    {
+    final public function initializePlugin(
+        string $pluginKey,
+        string $pluginDir,
+        Event $eventBus,
+        Config $config
+    ): void {
         /**
          * init $plugin property
          */
         $this->plugin['key'] = $pluginKey;
         list($vendor, $name) = explode('\\', $this->plugin['key']);
         $DS = DIRECTORY_SEPARATOR;
-        $this->plugin['dir'] = PLUGINS_DIR . $vendor . $DS . $name . $DS;
+        $this->plugin['dir'] = $pluginDir . $vendor . $DS . $name . $DS;
 
         /**
          * init events
          */
         foreach ($this->events as $event => $method) {
-            Container::getInstance()->get('Phile_EventBus')->register($event, $this);
+            $eventBus->register($event, $this);
         }
 
         /**
@@ -67,7 +74,7 @@ abstract class AbstractPlugin implements EventObserverInterface
             $defaults = [];
         }
 
-        $globals = Container::getInstance()->get('Phile_Config')->toArray();
+        $globals = $config->toArray();
         if (!isset($globals['plugins'][$pluginKey])) {
             $globals['plugins'][$pluginKey] = [];
         }
@@ -83,7 +90,7 @@ abstract class AbstractPlugin implements EventObserverInterface
         $this->injectSettings($this->settings);
 
         $globals['plugins'][$pluginKey]['settings'] = $this->settings;
-        Container::getInstance()->get('Phile_Config')->set($globals);
+        $config->set($globals);
     }
 
     /**
@@ -91,21 +98,22 @@ abstract class AbstractPlugin implements EventObserverInterface
      *
      * backwards compatibility to Phile 1.4
      *
-     * @param      array $settings
+     * @param array $settings
+     * @return void
      * @deprecated since 1.5.1 will be removed
      */
-    public function injectSettings(array $settings = null)
+    public function injectSettings(array $settings = null): void
     {
     }
 
     /**
      * implements EventObserverInterface
      *
-     * @param  string $eventKey
-     * @param  null   $data
+     * @param string $eventKey
+     * @param null|array $eventData
      * @return void
      */
-    public function on($eventKey, $data = null)
+    public function on($eventKey, $eventData = null): void
     {
         if (!isset($this->events[$eventKey])) {
             return;
@@ -118,7 +126,7 @@ abstract class AbstractPlugin implements EventObserverInterface
                 1428564865
             );
         }
-        $this->{$this->events[$eventKey]}($data);
+        $this->{$this->events[$eventKey]}($eventData);
     }
 
     /**

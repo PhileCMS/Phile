@@ -1,53 +1,42 @@
 <?php
 /**
- * Plugin class
+ * @link http://philecms.github.io/
+ * @license http://opensource.org/licenses/MIT
+ * @package Phile\Plugin\Phile\ErrorHandler
  */
+
 namespace Phile\Plugin\Phile\ErrorHandler;
 
-use Phile\Core\Router;
 use Phile\Core\ServiceLocator;
 use Phile\Plugin\AbstractPlugin;
-use Phile\Plugin\Phile\ErrorHandler\Development;
-use Phile\Plugin\Phile\ErrorHandler\ErrorLog;
 
-/**
- * Class Plugin
- * Default Phile parser plugin for Markdown
- *
- * @author  PhileCMS
- * @link    https://philecms.com
- * @license http://opensource.org/licenses/MIT
- * @package Phile\Plugin\Phile\ParserMarkdown
- */
 class Plugin extends AbstractPlugin
 {
-    const HANDLER_ERROR_LOG = 'error_log';
-    const HANDLER_DEVELOPMENT = 'development';
+    public const HANDLER_ERROR_LOG = 'error_log';
 
-    protected $events = ['plugins_loaded' => 'onPluginsLoaded'];
+    public const HANDLER_DEVELOPMENT = 'development';
 
-    /**
-     * called on 'plugins_loaded' event
-     *
-     * @param  null $data
-     * @throws \Phile\Exception\ServiceLocatorException
-     */
-    public function onPluginsLoaded($data = null)
+    protected $events = ['plugins_loaded' => 'registerErrorHandler'];
+
+    protected $settings = [
+        'handler' => self::HANDLER_DEVELOPMENT,
+        'editor' => null,
+        'level' => -1,
+        'error_log_file' => null
+    ];
+
+    public function registerErrorHandler()
     {
-        $this->settings['base_url'] = (new Router)->getBaseUrl();
         switch ($this->settings['handler']) {
-            case Plugin::HANDLER_ERROR_LOG:
-                ServiceLocator::registerService(
-                    'Phile_ErrorHandler',
-                    new ErrorLog
-                );
-                break;
             case Plugin::HANDLER_DEVELOPMENT:
-                ServiceLocator::registerService(
-                    'Phile_ErrorHandler',
-                    new Development($this->settings)
-                );
+                $handler = new Development($this->settings);
                 break;
+            case Plugin::HANDLER_ERROR_LOG:
+                $handler = new ErrorLog($this->settings['error_log_file']);
+                break;
+            default:
+                return;
         }
+        ServiceLocator::registerService('Phile_ErrorHandler', $handler);
     }
 }

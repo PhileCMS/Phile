@@ -7,7 +7,7 @@ namespace Phile\ServiceLocator;
 /**
  * Interface ErrorHandlerInterface
  *
- * @link    https://philecms.com
+ * @link    https://philecms.github.io
  * @license http://opensource.org/licenses/MIT
  * @package Phile\ServiceLocator
  */
@@ -23,7 +23,7 @@ interface ErrorHandlerInterface
      *
      * @return bool
      */
-    public function handleError(int $errno, string $errstr, ?string $errfile, ?string $errline);
+    public function handleError(int $errno, string $errstr, ?string $errfile, ?int $errline);
 
     /**
      * handle all exceptions

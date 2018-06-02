@@ -18,7 +18,7 @@ use Phile\Http\ResponseFactory;
  * After send() Phile is terminated.
  *
  * @author  PhileCMS
- * @link    https://philecms.com
+ * @link    https://philecms.github.io
  * @license http://opensource.org/licenses/MIT
  * @package Phile
  */
@@ -131,7 +131,7 @@ class Response extends ResponseFactory
     /**
      * helper for easy testing
      */
-    public function stop()
+    public function stop(): void
     {
         die();
     }
@@ -139,7 +139,7 @@ class Response extends ResponseFactory
     /**
      * output all set response headers
      */
-    protected function outputHeader()
+    protected function outputHeader(): void
     {
         foreach ($this->headers as $header) {
             header($header);
