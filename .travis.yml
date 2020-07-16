@@ -13,8 +13,9 @@ env:
 
 matrix:
   include:
-    - php: 7.1
-    - php: 7.2 
+    - php: 7.2
+    - php: 7.3
+    - php: 7.4
       env: PHPCS=1
 
 # Notifications
@@ -32,7 +33,7 @@ install:
   - composer install --prefer-dist --no-interaction
   - |
     if [ "$PLUGINS" = "1" ]; then
-        lib/vendor/bin/phing phile-plugins-install 
+        lib/vendor/bin/phing phile-plugins-install
     fi
 
 script:
@@ -41,7 +42,7 @@ script:
   lib/vendor/bin/phpunit;
 - |
   echo; echo "Running code formatting tests";
-  if [ "$PHPCS" = "1" ]; then 
+  if [ "$PHPCS" = "1" ]; then
     if ! find lib plugins/phile -name \*.php -not -path 'lib/vendor/*' -exec php -l "{}" \; > /tmp/errors 2>&1; then
       grep -v \"No syntax errors detected in\" /tmp/errors;
       exit 99;
