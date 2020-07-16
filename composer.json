@@ -55,7 +55,7 @@
     },
     "require-dev": {
         "phing/phing": "^2.14",
-        "phpunit/phpunit": "^7.0",
+        "phpunit/phpunit": "^8.0",
         "squizlabs/php_codesniffer": "^3.2"
     }
 }
