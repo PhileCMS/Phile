@@ -76,7 +76,9 @@ class AbstractPluginTest extends TestCase
             'C' => 'C',
             'active' => false
         ];
-        $this->assertAttributeSame($expected, 'settings', $plugin);
+
+        $this->assertObjectHasAttribute('settings', $plugin);
+        $this->assertEquals($expected, $plugin->getSettings());
     }
 
     public function testInitializePluginEvents()

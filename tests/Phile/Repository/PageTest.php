@@ -29,7 +29,7 @@ class PageTest extends TestCase
     /**
      *
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->createPhileCore()->bootstrap();
@@ -142,7 +142,7 @@ class PageTest extends TestCase
     public function testOrderingInvalidSearchType()
     {
         $message = 'Page order \'meta:title\' was ignored. Type \'\' not recognized.';
-        $this->expectException('PHPUnit\Framework\Error\Warning', $message);
+        $this->expectWarning('PHPUnit\Framework\Error\Warning', $message);
         $this->pageRepository
             ->findAll(['pages_order' => 'meta:title'])
             ->toArray();

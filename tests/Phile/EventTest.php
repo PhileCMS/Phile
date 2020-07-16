@@ -20,7 +20,7 @@ use PHPUnit\Framework\TestCase;
  */
 class EventTest extends TestCase
 {
-    public function setUp()
+    protected function setUp(): void
     {
         Event::setInstance(new Event());
         parent::setUp();

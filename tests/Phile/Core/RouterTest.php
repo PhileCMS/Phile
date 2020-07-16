@@ -23,13 +23,13 @@ class RouterTest extends TestCase
      */
     protected $router;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->router = new Router();
         parent::setup();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         unset($this->router);
     }

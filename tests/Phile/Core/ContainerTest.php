@@ -18,7 +18,7 @@ use Psr\Container\NotFoundExceptionInterface;
 
 class ContainerTest extends TestCase
 {
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $config = [

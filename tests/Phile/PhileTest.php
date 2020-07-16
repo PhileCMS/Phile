@@ -27,7 +27,7 @@ class PhileTest extends TestCase
         $response = $this->createPhileResponse($core, $request);
 
         $this->assertEquals($response->getStatusCode(), '404');
-        $this->assertContains(
+        $this->stringContains(
             'Woops. Looks like this page doesn\'t exist.',
             (string)$response->getBody()
         );
@@ -101,7 +101,7 @@ class PhileTest extends TestCase
 
         $expected = 'Welcome to the PhileCMS Setup';
         $body = (string)$response->getBody();
-        $this->assertContains($expected, $body);
+        $this->stringContains($expected, $body);
 
         // 64 char encryption key on page
         $pattern = '/\<code\>(\s*?).{64}(\s*?)\<\/code\>/';
