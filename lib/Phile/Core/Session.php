@@ -17,12 +17,12 @@ class Session
     /**
      * @var bool mark if session is started
      */
-    static public $isStarted = false;
+    public static $isStarted = false;
 
     /**
      * @var string the session id
      */
-    static public $sessionId = '';
+    public static $sessionId = '';
 
     /**
      * method to start the session
