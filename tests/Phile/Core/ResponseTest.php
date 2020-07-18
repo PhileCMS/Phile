@@ -19,7 +19,7 @@ class ResponseTest extends TestCase
      */
     protected $response;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->response = $this->getMockBuilder(Response::class)
@@ -27,7 +27,7 @@ class ResponseTest extends TestCase
             ->getMock();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         unset($this->response);
     }

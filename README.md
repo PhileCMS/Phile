@@ -31,10 +31,10 @@ Phile was forked from Pico when a few community members wanted to contribute mor
 
 Requirements:
 
-* PHP 7.1.0+
+* PHP 7.2.0+
 * a web-server
 
-Download the release from <https://philecms.github.io/>, copy the files to your web-server and open the root directory in the browser. 
+Download the release from <https://philecms.github.io/>, copy the files to your web-server and open the root directory in the browser.
 
 Or use composer and run it locally:
 
@@ -52,7 +52,7 @@ Phile can be extended with [a wide variety of plugins](https://philecms.github.i
 
 Generally a plugin can always be installed manually: clone or download the plugin into `plugins/{vendor}/{pluginName}` folder. **Example**: [phileRss](https://github.com/PhileCMS/phileRSSFeed/) would be installed into `plugins/phile/rssFeed`.
 
-Many plugins also allow composer installation: 
+Many plugins also allow composer installation:
 
 ```php
 composer require phile/rss-feed

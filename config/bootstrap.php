@@ -14,7 +14,7 @@
  * Set global definitions
  */
 // phpcs:disable PSR1.Files.SideEffects
-define('PHILE_VERSION', '1.11.0');
+define('PHILE_VERSION', '1.11.1');
 define('PHILE_CLI_MODE', (php_sapi_name() === 'cli'));
 define('DS', DIRECTORY_SEPARATOR);
 define('ROOT_DIR', realpath(__DIR__ . DS . '..' . DS) . DS);

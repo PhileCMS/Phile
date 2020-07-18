@@ -21,7 +21,7 @@ class PageCollectionTest extends TestCase
 
     protected $fixture = [0 => 'a', 1 => 'b'];
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $loader = function () {
             return $this->fixture;

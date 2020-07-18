@@ -18,6 +18,16 @@ class Plugin extends AbstractPlugin
     protected $settings = ['A' => 'X', 'B' => 'X', 'C' => 'C'];
 
     /**
+     * Testing accessor for protected $settings
+     *
+     * @return array The settings array
+     */
+    public function getSettings(): array
+    {
+        return $this->settings;
+    }
+
+    /**
      * accessor for easy testing
      *
      * @param string $path
