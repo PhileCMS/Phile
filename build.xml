@@ -4,7 +4,6 @@
   <property name="dirs.dist" value="dist"/>
   <property name="dirs.build" value="${dirs.dist}/build-temp"/>
   <property name="dirs.git" value="${dirs.build}/Phile"/>
-  <property name="git.url" value="https://github.com/PhileCMS/Phile.git"/>
 
   <!-- ## menu ## -->
   <target name="menu">
@@ -105,7 +104,7 @@
     <phingcall target="create-dirs"/>
 
     <echo msg="Checkout git branch ${git.branch}"/>
-    <exec command="git clone -b ${git.branch} ${git.url}" dir="${dirs.build}"/>
+    <exec command="git clone -b ${git.branch} -l . ${dirs.git}"/>
 
     <if>
       <not>
