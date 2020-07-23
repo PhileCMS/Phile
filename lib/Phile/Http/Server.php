@@ -7,10 +7,10 @@
 
 namespace Phile\Http;
 
+use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use Phile\Phile;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\Diactoros\Response\SapiEmitter;
 
 /**
  * Runs Phile as standalone application
@@ -19,7 +19,7 @@ class Server
 {
     /** @var Phile app to run */
     protected $app;
-    
+
     public function __construct(Phile $app)
     {
         $this->app = $app;

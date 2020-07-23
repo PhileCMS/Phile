@@ -7,6 +7,7 @@
 
 namespace Phile\Test;
 
+use Laminas\Diactoros\ServerRequestFactory;
 use Phile\Core\Bootstrap;
 use Phile\Core\Config;
 use Phile\Core\Container;
@@ -72,7 +73,7 @@ abstract class TestCase extends PHPUnitTestCase
             $eventBus->trigger('phile.core.middleware.add', ['middleware' => $middleware]);
             $middleware->add($core);
         });
-        
+
         //# additional test setup
         // clears out warnings of inefficient/multiple calls
         \phpFastCache\CacheManager::clearInstances();
@@ -101,6 +102,6 @@ abstract class TestCase extends PHPUnitTestCase
         if (!isset($server['REQUEST_URI'])) {
             $server['REQUEST_URI'] = '/';
         }
-        return \Zend\Diactoros\ServerRequestFactory::fromGlobals($server);
+        return ServerRequestFactory::fromGlobals($server);
     }
 }

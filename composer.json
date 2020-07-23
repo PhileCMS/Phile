@@ -51,7 +51,8 @@
         "psr/http-server-middleware": "^1.0",
         "psr/simple-cache": "^1.0",
         "symfony/yaml": "^3.0 || ^4.0",
-        "zendframework/zend-diactoros": "^1.7"
+        "laminas/laminas-diactoros": "^2.0",
+        "laminas/laminas-httphandlerrunner": "^1.2"
     },
     "require-dev": {
         "phing/phing": "^2.14",

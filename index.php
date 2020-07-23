@@ -13,7 +13,7 @@ require 'config/bootstrap.php';
 
 $app = Phile\Core\Container::getInstance()->get('Phile_App');
 $server = new Phile\Http\Server($app);
-$request = Zend\Diactoros\ServerRequestFactory::fromGlobals();
+$request = \Laminas\Diactoros\ServerRequestFactory::fromGlobals();
 
 try {
     $response = $server->run($request);
