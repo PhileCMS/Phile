@@ -12,7 +12,7 @@ namespace Phile;
  * @license    http://opensource.org/licenses/MIT
  * @package    Phile
  * @deprecated since 1.4 will be removed
- * @use        \Phile\Core\Utility
+ * @see        \Phile\Core\Utility
  */
 class Utility extends \Phile\Core\Utility
 {

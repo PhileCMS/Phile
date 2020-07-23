@@ -12,7 +12,7 @@ namespace Phile;
  * @license    http://opensource.org/licenses/MIT
  * @package    Phile
  * @deprecated since 1.4 will be removed in 1.6
- * @use        \Phile\Core\Session
+ * @see        \Phile\Core\Session
  */
 class Session extends \Phile\Core\Session
 {

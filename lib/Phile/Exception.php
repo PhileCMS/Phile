@@ -16,7 +16,7 @@ namespace Phile;
  * @license    http://opensource.org/licenses/MIT
  * @package    Phile
  * @deprecated since 1.4 will be removed
- * @use        \Phile\Exception\AbstractException
+ * @see        \Phile\Exception\AbstractException
  */
 class Exception extends \Phile\Exception\AbstractException
 {

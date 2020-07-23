@@ -48,7 +48,7 @@ class PluginRepository
      * Loads all plug-ins
      *
      * @param Config $config phile config with plugin config
-     * @throws Exception\PluginException
+     * @throws \Phile\Exception\PluginException
      */
     public function load(Config $config): void
     {

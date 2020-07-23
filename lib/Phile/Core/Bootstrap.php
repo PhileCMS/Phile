@@ -7,11 +7,13 @@
 
 namespace Phile\Core;
 
+use Closure;
 use Phile\Core\Config;
 use Phile\Core\Event;
 use Phile\Core\ServiceLocator;
 use Phile\Exception\PluginException;
 use Phile\Plugin\PluginRepository;
+use Phile\ServiceLocator\ErrorHandlerInterface;
 
 /**
  * Bootstrap class
@@ -68,9 +70,11 @@ class Bootstrap
         if ($cliMode || !ServiceLocator::hasService('Phile_ErrorHandler')) {
             return;
         }
+        /** @var \Phile\ServiceLocator\ErrorHandlerInterface */
         $errorHandler = ServiceLocator::getService('Phile_ErrorHandler');
-        set_error_handler([$errorHandler, 'handleError']);
-        set_exception_handler([$errorHandler, 'handleException']);
-        register_shutdown_function([$errorHandler, 'handleShutdown']);
+        $errorCallback = Closure::fromCallable([$errorHandler, 'handleError']);
+        set_error_handler($errorCallback);
+        set_exception_handler($errorCallback);
+        register_shutdown_function(Closure::fromCallable([$errorHandler, 'handleShutdown']));
     }
 }

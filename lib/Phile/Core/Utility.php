@@ -103,8 +103,7 @@ class Utility
      *
      * @param      string $plugin
      * @return     bool
-     * @deprecated since 1.5 will be removed
-     * @use        'plugins_loaded' event
+     * @deprecated since 1.5 will be removed. Use 'plugins_loaded' event!
      */
     public static function isPluginLoaded($plugin)
     {
@@ -205,13 +204,13 @@ class Utility
      * method to get a more secure random value
      * code from http://stackoverflow.com/a/13733588/1372085
      *
-     * @param $min
-     * @param $max
+     * @param int $min
+     * @param int $max
      *
      * @return mixed
      */
     // @codingStandardsIgnoreStart
-    public static function crypto_rand_secure($min, $max)
+    public static function crypto_rand_secure(int $min, int $max)
     {
         // @codingStandardsIgnoreEnd
         $range = $max - $min;

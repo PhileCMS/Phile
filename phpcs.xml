@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<ruleset name="PhileCMS">
+    <description>Coding standard for PhileCMS.</description>
+
+    <arg name="extensions" value="php"/>
+
+    <file>.</file>
+    <file>./lib</file>
+    <file>./plugins/phile</file>
+
+    <exclude-pattern>lib/vendor/</exclude-pattern>
+
+    <rule ref="PSR2"></rule>
+</ruleset>

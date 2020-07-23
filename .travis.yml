@@ -46,6 +46,7 @@ script:
     if ! find lib plugins/phile -name \*.php -not -path 'lib/vendor/*' -exec php -l "{}" \; > /tmp/errors 2>&1; then
       grep -v \"No syntax errors detected in\" /tmp/errors;
       exit 99;
-    fi
-    lib/vendor/bin/phpcs --standard=PSR2 -p --extensions=php --ignore=lib/vendor/ lib/ plugins/phile/ .;
-  fi
+    fi;
+  fi;
+- if [ $PHPCS = 1 ]; then lib/vendor/bin/phpcs -p; fi
+- if [ $PHPCS = 1 ]; then lib/vendor/bin/phpstan analyze -c phpstan.neon; fi

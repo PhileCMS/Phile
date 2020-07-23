@@ -147,15 +147,28 @@
 
   <!-- ## tests ## -->
   <target name="tests">
+    <!-- ## phpunit ## -->
     <property name="tests.all" value="lib/vendor/bin/phpunit"/>
-    <echo
-      msg="Command run: '${tests.all}' (using phpunit.xml configuration file)"/>
     <echo msg="Running PHPUnit test cases…"/>
+    <echo msg="Command run: '${tests.all}'"/>
+    <echo msg="Note: Using configuration file phpunit.xml."/>
     <exec command="${tests.all}" logoutput="true"/>
+    <echo msg=""/>
+
+    <!-- ## phpcs ## -->
     <echo msg="Checking PSR-2…"/>
     <property name="tests.formatting"
-              value="lib/vendor/bin/phpcs --standard=PSR2 -p --extensions=php --ignore=lib/vendor/ lib/ plugins/phile/ ."/>
+              value="lib/vendor/bin/phpcs -p"/>
+    <echo msg="Command run: '${tests.formatting}'"/>
+    <echo msg="Note: Using configuration file phpcs.xml."/>
     <exec command="${tests.formatting}" logoutput="true"/>
+
+    <!-- ## phpstan ## -->
+    <echo msg=""/>
+    <echo msg="Checking phpstan…"/>
+    <property name="tests.phpstan" value="lib/vendor/bin/phpstan analyze --no-progress"/>
+    <echo msg="Command run: '${tests.phpstan}'"/>
+    <exec command="${tests.phpstan}" logoutput="true"/>
   </target>
 
     <!-- ## Install plugins ## -->
