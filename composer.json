@@ -45,7 +45,7 @@
         "michelf/php-markdown": ">=1.9",
         "phpfastcache/phpfastcache": "^6.0",
         "filp/whoops": "^2.1",
-        "http-interop/http-factory": "^0.3.0",
+        "psr/http-factory": "^1.0",
         "psr/container": "^1.0",
         "psr/http-message": "^1.0",
         "psr/http-server-middleware": "^1.0",
