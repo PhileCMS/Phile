@@ -7,11 +7,11 @@
 
 namespace Phile\Http;
 
-use Interop\Http\Factory\ResponseFactoryInterface;
+use Laminas\Diactoros\Response;
+use Laminas\Diactoros\Response\HtmlResponse;
+use Laminas\Diactoros\Response\RedirectResponse;
+use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
-use Zend\Diactoros\Response\HtmlResponse;
-use Zend\Diactoros\Response\RedirectResponse;
-use Zend\Diactoros\Response;
 
 /**
  * Creates PSR-7 responses
@@ -21,7 +21,7 @@ class ResponseFactory implements ResponseFactoryInterface
     /**
      * {@inheritDoc}
      */
-    public function createResponse($code = 200): ResponseInterface
+    public function createResponse($code = 200, string $reasonPhrase = ''): ResponseInterface
     {
         return new Response('php://memory', $code);
     }
