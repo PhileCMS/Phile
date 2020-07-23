@@ -1,0 +1,9 @@
+parameters:
+	level: 4 # higher is more strict
+	paths:
+		- config/
+		- lib/Phile/
+		- plugins/phile/
+	scanFiles:
+		- %currentWorkingDirectory%/lib/vendor/autoload.php
+		- %currentWorkingDirectory%/config/constants.php

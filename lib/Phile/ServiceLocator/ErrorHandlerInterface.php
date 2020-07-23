@@ -14,19 +14,23 @@ namespace Phile\ServiceLocator;
 interface ErrorHandlerInterface
 {
     /**
-     * handle the error
+     * Handle the error
      *
      * @param int $errno
      * @param string $errstr
      * @param string|null $errfile
      * @param int|null $errline
-     *
-     * @return bool
+     * @return bool True if error was handled successfully, false otherwise.
      */
-    public function handleError(int $errno, string $errstr, ?string $errfile, ?int $errline);
+    public function handleError(
+        int $errno,
+        string $errstr,
+        ?string $errfile,
+        ?int $errline
+    ): bool;
 
     /**
-     * handle all exceptions
+     * Handle all exceptions
      *
      * @param \Throwable $exception
      *
@@ -35,7 +39,7 @@ interface ErrorHandlerInterface
     public function handleException(\Throwable $exception);
 
     /**
-     * handle shutdown
+     * Handle shutdown
      */
     public function handleShutdown();
 }

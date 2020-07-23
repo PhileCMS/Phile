@@ -12,7 +12,7 @@ namespace Phile;
  * @license    http://opensource.org/licenses/MIT
  * @package    Phile
  * @deprecated since 1.4 will be removed
- * @use        \Phile\Core\Registry
+ * @see        \Phile\Core\Registry
  */
 class Registry extends \Phile\Core\Registry
 {

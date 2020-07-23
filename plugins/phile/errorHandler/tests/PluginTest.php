@@ -10,6 +10,7 @@ namespace Phile\Plugin\Phile\ErrorHandler\Tests;
 use Phile\Core\Bootstrap;
 use Phile\Core\Config;
 use Phile\Test\TestCase;
+use ReflectionFunction;
 
 class PluginTest extends TestCase
 {
@@ -40,7 +41,7 @@ class PluginTest extends TestCase
                 $config->set('phile_cli_mode', false);
                 Bootstrap::setupErrorHandler($config);
             });
-            $response = $this->createPhileResponse($core, $request);
+            $this->createPhileResponse($core, $request);
         } catch (\Exception $e) {
             ob_start();
             $errorHandler = \Phile\Core\ServiceLocator::getService(
@@ -52,7 +53,10 @@ class PluginTest extends TestCase
 
         $this->assertStringStartsWith('Exception: 1845F098-9035-4D8E-9E31 in file', $body);
 
-        $handlers = set_exception_handler(null);
-        $this->assertInstanceOf(\Phile\Plugin\Phile\ErrorHandler\Development::class, $handlers[0]);
+        $handler = new ReflectionFunction(set_exception_handler(null));
+        $this->assertInstanceOf(
+            \Phile\Plugin\Phile\ErrorHandler\Development::class,
+            $handler->getClosureThis()
+        );
     }
 }

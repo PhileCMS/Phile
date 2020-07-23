@@ -12,7 +12,7 @@ namespace Phile;
  * @license    http://opensource.org/licenses/MIT
  * @package    Phile
  * @deprecated since 1.4 will be removed
- * @use        \Phile\Core\Event
+ * @see        \Phile\Core\Event
  */
 class Event extends \Phile\Core\Event
 {

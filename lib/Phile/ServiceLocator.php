@@ -12,7 +12,7 @@ namespace Phile;
  * @license    http://opensource.org/licenses/MIT
  * @package    Phile
  * @deprecated since 1.4 will be removed
- * @use        \Phile\Core\ServiceLocator
+ * @see        \Phile\Core\ServiceLocator
  */
 class ServiceLocator extends \Phile\Core\ServiceLocator
 {

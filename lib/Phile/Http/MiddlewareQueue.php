@@ -7,11 +7,11 @@
 
 namespace Phile\Http;
 
+use Iterator;
 use IteratorAggregate;
 use IteratorIterator;
 use Psr\Http\Server\MiddlewareInterface;
 use SplPriorityQueue;
-use Traversable;
 
 /**
  * Middleware queue
@@ -19,7 +19,7 @@ use Traversable;
 class MiddlewareQueue implements IteratorAggregate
 {
     public const DEFAULT_PRIORITY = 100;
-    
+
     /** @var int counter for FIFO order for items with same priority */
     protected $serial = PHP_INT_MAX;
 
@@ -47,9 +47,9 @@ class MiddlewareQueue implements IteratorAggregate
     /**
      * Implements IteratorAggregate
      *
-     * @return Traversable
+     * @return \Iterator
      */
-    public function getIterator(): Traversable
+    public function getIterator(): Iterator
     {
         return new IteratorIterator($this->queue);
     }

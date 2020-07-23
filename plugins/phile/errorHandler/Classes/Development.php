@@ -29,10 +29,16 @@ class Development implements ErrorHandlerInterface
         $this->whoops->pushHandler($this->createHandler());
     }
 
-    public function handleError(int $errno, string $errstr, ?string $errfile, ?int $errline)
-    {
+    public function handleError(
+        int $errno,
+        string $errstr,
+        ?string $errfile,
+        ?int $errline
+    ): bool {
         $level = $this->settings['level'];
         $this->whoops->{Run::ERROR_HANDLER}($level, $errstr, $errfile, $errline);
+
+        return true;
     }
 
     public function handleException(\Throwable $exception)

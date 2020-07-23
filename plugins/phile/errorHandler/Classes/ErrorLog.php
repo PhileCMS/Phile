@@ -26,9 +26,15 @@ class ErrorLog implements ErrorHandlerInterface
         }
     }
 
-    public function handleError(int $errno, string $errstr, ?string $errfile, ?int $errline)
-    {
+    public function handleError(
+        int $errno,
+        string $errstr,
+        ?string $errfile,
+        ?int $errline
+    ): bool {
         $this->log($errno, $errstr, $errfile, $errline);
+
+        return true;
     }
 
     public function handleException(\Throwable $exception)

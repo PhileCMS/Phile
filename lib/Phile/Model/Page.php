@@ -212,9 +212,10 @@ class Page
      */
     public function getRepository()
     {
-        if (!$this->repository) {
+        if ($this->repository === null) {
             $this->repository = new Repository();
         }
+
         return $this->repository;
     }
 
