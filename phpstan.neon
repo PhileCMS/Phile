@@ -1,5 +1,5 @@
 parameters:
-	level: 4 # higher is more strict
+	level: 5 # higher is more strict
 	paths:
 		- config/
 		- lib/Phile/
