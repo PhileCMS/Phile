@@ -72,9 +72,8 @@ class Bootstrap
         }
         /** @var \Phile\ServiceLocator\ErrorHandlerInterface */
         $errorHandler = ServiceLocator::getService('Phile_ErrorHandler');
-        $errorCallback = Closure::fromCallable([$errorHandler, 'handleError']);
-        set_error_handler($errorCallback);
-        set_exception_handler($errorCallback);
+        set_error_handler(Closure::fromCallable([$errorHandler, 'handleError']));
+        set_exception_handler(Closure::fromCallable([$errorHandler, 'handleException']));
         register_shutdown_function(Closure::fromCallable([$errorHandler, 'handleShutdown']));
     }
 }
