@@ -383,16 +383,16 @@
         },
         {
             "name": "phpfastcache/phpfastcache",
-            "version": "6.1.4",
+            "version": "6.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPSocialNetwork/phpfastcache.git",
-                "reference": "63e1afc65d962b8dbafb68599cd9cb2767f53d72"
+                "reference": "cab4e79f1ad353302c82d7b73de0aa4b6b00144c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPSocialNetwork/phpfastcache/zipball/63e1afc65d962b8dbafb68599cd9cb2767f53d72",
-                "reference": "63e1afc65d962b8dbafb68599cd9cb2767f53d72",
+                "url": "https://api.github.com/repos/PHPSocialNetwork/phpfastcache/zipball/cab4e79f1ad353302c82d7b73de0aa4b6b00144c",
+                "reference": "cab4e79f1ad353302c82d7b73de0aa4b6b00144c",
                 "shasum": ""
             },
             "require": {
@@ -476,7 +476,17 @@
                 "zend memory cache",
                 "zend server"
             ],
-            "time": "2019-09-15T15:11:12+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/geolim4",
+                    "type": "github"
+                },
+                {
+                    "url": "https://www.patreon.com/geolim4",
+                    "type": "patreon"
+                }
+            ],
+            "time": "2021-08-12T11:55:27+00:00"
         },
         {
             "name": "psr/cache",
@@ -2025,6 +2035,7 @@
             "keywords": [
                 "tokenizer"
             ],
+            "abandoned": true,
             "time": "2019-09-17T06:23:10+00:00"
         },
         {
@@ -2837,12 +2848,12 @@
             "version": "1.9.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/webmozart/assert.git",
+                "url": "https://github.com/webmozarts/assert.git",
                 "reference": "bafc69caeb4d49c39fd0779086c03a3738cbb389"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webmozart/assert/zipball/bafc69caeb4d49c39fd0779086c03a3738cbb389",
+                "url": "https://api.github.com/repos/webmozarts/assert/zipball/bafc69caeb4d49c39fd0779086c03a3738cbb389",
                 "reference": "bafc69caeb4d49c39fd0779086c03a3738cbb389",
                 "shasum": ""
             },
