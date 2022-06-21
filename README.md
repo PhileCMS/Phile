@@ -14,9 +14,9 @@ A Markdown file-based CMS written in PHP.
 
 Phile was forked from Pico when a few community members wanted to contribute more and increase the rate of development. Here is a small list of differences:
 
-* Object Oriented Design (classes)
+* Object-Oriented Design (classes)
 * Events system
-* Replacable core modules (plugins)
+* Replaceable core modules (plugins)
     * Parser (default: [Markdown](https://github.com/michelf/php-markdown))
     * Template Engine (default: [Twig](http://twig.sensiolabs.org/))
     * Cache (default: [phpFastCache](https://github.com/khoaofgod/phpfastcache))
@@ -31,7 +31,7 @@ Phile was forked from Pico when a few community members wanted to contribute mor
 
 Requirements:
 
-* PHP 7.2.0+
+* PHP 7.4.0+
 * a web-server
 
 Download the release from <https://philecms.github.io/>, copy the files to your web-server and open the root directory in the browser.
@@ -68,10 +68,10 @@ You can [read the wiki](https://philecms.github.io/wiki/) if you are looking for
 
 If you *find a bug* please report it on the [issues page](https://github.com/PhileCMS/Phile/issues), but remember to include a bunch of details and also what someone can do to re-create the issue.
 
-Issues with plugins should be reported *on the offending plugins homepage* this goes for themes as well.
+Issues with plugins should be reported *on the offending plugin's homepage* this goes for themes as well.
 
 ## Contributing
 
 Help make PhileCMS better by checking out the GitHub repository and submitting pull requests.
-See [developer guildlines](https://philecms.github.io/wiki/%5BDEVELOPER%5D-Developer-Guidelines.html) for more information.
+See [developer guidelines](https://philecms.github.io/wiki/%5BDEVELOPER%5D-Developer-Guidelines.html) for more information.
 

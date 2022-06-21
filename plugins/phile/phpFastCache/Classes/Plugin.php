@@ -6,6 +6,8 @@ namespace Phile\Plugin\Phile\PhpFastCache;
 
 use Phile\Core\ServiceLocator;
 use Phile\Plugin\AbstractPlugin;
+use Phpfastcache\Config\ConfigurationOption;
+use Phpfastcache\Helper\Psr16Adapter;
 
 /**
  * Class Plugin
@@ -33,7 +35,7 @@ class Plugin extends AbstractPlugin
         $storage = $this->settings['storage'];
         $config = $this->settings;
         unset($config['active'], $config['storage']);
-        $psr16Cache = new \phpFastCache\Helper\Psr16Adapter($storage, $config);
+        $psr16Cache = new Psr16Adapter($storage, new ConfigurationOption($config));
 
         $phileCache = new PhileToPsr16CacheAdapter($psr16Cache);
         ServiceLocator::registerService('Phile_Cache', $phileCache);

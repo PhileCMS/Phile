@@ -25,7 +25,7 @@ class UtilityTest extends TestCase
         if (file_exists($symlink)) {
             unlink($symlink);
         };
-        if (!symlink($sub, $symlink)) {
+        if (!@symlink($sub, $symlink)) {
             $this->markTestSkipped("Couldn't create symlink $symlink to $sub.");
         }
 

@@ -33,5 +33,6 @@ lib/cache/*
 datastorage/*
 !datastorage/.htaccess
 
-# Misc  
+# Misc
 .php_cs.cache
+.phpunit.result.cache

@@ -16,6 +16,7 @@ use Phile\Core\Registry;
 use Phile\Core\Utility;
 use Phile\Http\Server;
 use Phile\Phile;
+use Phpfastcache\CacheManager;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -76,7 +77,7 @@ abstract class TestCase extends PHPUnitTestCase
 
         //# additional test setup
         // clears out warnings of inefficient/multiple calls
-        \phpFastCache\CacheManager::clearInstances();
+        CacheManager::clearInstances();
 
         return $core;
     }

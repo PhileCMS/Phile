@@ -33,19 +33,6 @@ $config = [
     // "securityKey" => "auto",
 
     /**
-     * FallBack Driver
-     * Example, in your code, you use memcached, apc..etc, but when you moved your web hosting
-     * The new hosting don't have memcached, or apc. What you do? Set fallback that driver to other driver.
-     */
-    "fallback" => "files",
-
-    /**
-     * .htaccess protect
-     * default will be  true
-     */
-    "htaccess" => true,
-
-    /**
      * Default Memcache Server for Memcache
      */
     /*

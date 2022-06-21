@@ -78,6 +78,10 @@ class Page
         if (!file_exists($file)) {
             return null;
         }
+
+        $file = str_replace('/', DS, $file);
+        $folder = str_replace('/', DS, $folder);
+
         return $this->getPage($file, $folder);
     }
 

@@ -21,9 +21,9 @@ class ResponseFactory implements ResponseFactoryInterface
     /**
      * {@inheritDoc}
      */
-    public function createResponse($code = 200, string $reasonPhrase = ''): ResponseInterface
+    public function createResponse(int $code = 200, string $reasonPhrase = ''): ResponseInterface
     {
-        return new Response('php://memory', $code);
+        return (new Response('php://memory'))->withStatus($code, $reasonPhrase);
     }
 
     /**

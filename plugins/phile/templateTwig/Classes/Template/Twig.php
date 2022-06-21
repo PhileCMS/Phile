@@ -8,6 +8,9 @@ use Phile\Core\Container;
 use Phile\Core\Registry;
 use Phile\Model\Page;
 use Phile\ServiceLocator\TemplateInterface;
+use Twig\Environment;
+use Twig\Extension\DebugExtension;
+use Twig\Loader\FilesystemLoader;
 
 /**
  * Class Twig
@@ -79,11 +82,11 @@ class Twig implements TemplateInterface
     /**
      * wrapper to call the render engine
      *
-     * @param \Twig_Environment $engine
+     * @param Environment $engine
      * @param array $vars
      * @return string
      */
-    protected function doRender(\Twig_Environment $engine, array $vars): string
+    protected function doRender(Environment $engine, array $vars): string
     {
         try {
             $template = $this->getTemplateFileName();
@@ -96,16 +99,16 @@ class Twig implements TemplateInterface
     /**
      * get template engine
      *
-     * @return \Twig_Environment
+     * @return Environment
      */
     protected function getEngine()
     {
-        $loader = new \Twig_Loader_Filesystem($this->getTemplatePath());
-        $twig = new \Twig_Environment($loader, $this->config);
+        $loader = new FilesystemLoader($this->getTemplatePath());
+        $twig = new Environment($loader, $this->config);
 
         // load the twig debug extension if required
         if (!empty($this->config['debug'])) {
-            $twig->addExtension(new \Twig_Extension_Debug());
+            $twig->addExtension(new DebugExtension());
         }
         return $twig;
     }
