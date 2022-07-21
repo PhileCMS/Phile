@@ -31,7 +31,10 @@
         }
     ],
     "config": {
-        "vendor-dir": "lib/vendor"
+        "vendor-dir": "lib/vendor",
+        "allow-plugins": {
+            "phile-cms/plugin-installer-plugin": true
+        }
     },
     "autoload": {
         "psr-4": {
@@ -40,7 +43,7 @@
     },
     "require": {
         "php": ">=8.0.0",
-        "phile-cms/plugin-installer-plugin": "^1.0",
+        "phile-cms/plugin-installer-plugin": "dev-master",
         "twig/twig": "^1.0 || ^2.0",
         "michelf/php-markdown": ">=1.9",
         "phpfastcache/phpfastcache": "^9.0",
