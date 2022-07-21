@@ -91,8 +91,8 @@
 
   <target name="create-dirs" depends="clean">
     <echo msg="Creating build + dist directories."/>
-    <mkdir dir="${dirs.build}"/>
     <mkdir dir="${dirs.dist}"/>
+    <mkdir dir="${dirs.build}"/>
   </target>
 
   <target name="dist">
