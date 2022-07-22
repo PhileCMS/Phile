@@ -1,6 +1,6 @@
 {
     "name": "phile-cms/phile",
-    "version": "1.11.1",
+    "version": "2.0.0",
     "type": "project",
     "description": "A file-based CMS with a swappable parser, template engine, cache and storage services, error handler, and meta parser.",
     "keywords": ["cms", "markdown", "flat", "file", "twig", "plugins"],
@@ -39,7 +39,7 @@
         }
     },
     "require": {
-        "php": ">=7.2.0",
+        "php": ">=8.0.0",
         "phile-cms/plugin-installer-plugin": "^1.0",
         "twig/twig": "^1.0 || ^2.0",
         "michelf/php-markdown": ">=1.9",
