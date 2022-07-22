@@ -105,7 +105,7 @@ class PhileTest extends TestCase
 
         // 64 char encryption key on page
         $pattern = '/\<code\>(\s*?).{64}(\s*?)\<\/code\>/';
-        $this->assertRegExp($pattern, $body);
+        $this->assertMatchesRegularExpression($pattern, $body);
     }
 
     public function testInitializeCurrentPageTidyUrlRedirect()
