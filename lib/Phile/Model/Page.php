@@ -176,21 +176,25 @@ class Page
     protected function parseRawData()
     {
         $this->meta = new Meta($this->rawData);
-        $rawData = trim($this->rawData);
-        $fences = [
-            'c' => ['open' => '/*', 'close' => '*/'],
-            'html' => ['open' => '<!--', 'close' => '-->'],
-            'yaml' => ['open' => '---', 'close' => '---']
-        ];
+
         $content = '';
-        foreach ($fences as $fence) {
-            if (strncmp($fence['open'], $rawData, strlen($fence['open'])) === 0) {
-                $sub = substr($rawData, strlen($fence['open']));
-                list(, $content) = explode($fence['close'], $sub, 2);
-                break;
+        if ($this->rawData !== null) {
+            $rawData = trim($this->rawData);
+            $fences = [
+                'c' => ['open' => '/*', 'close' => '*/'],
+                'html' => ['open' => '<!--', 'close' => '-->'],
+                'yaml' => ['open' => '---', 'close' => '---']
+            ];
+            foreach ($fences as $fence) {
+                if (strncmp($fence['open'], $rawData, strlen($fence['open'])) === 0) {
+                    $sub = substr($rawData, strlen($fence['open']));
+                    list(, $content) = explode($fence['close'], $sub, 2);
+                    break;
+                }
             }
         }
-        $this->content = $content ?: $rawData;
+
+        $this->content = $content;
     }
 
     /**

@@ -109,7 +109,7 @@ class AbstractModel implements \ArrayAccess
      * @return boolean true on success or false on failure.
      *                      The return value will be casted to boolean if non-boolean was returned.
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return (isset($this->data[$offset]));
     }
@@ -125,7 +125,7 @@ class AbstractModel implements \ArrayAccess
      *
      * @return mixed Can return all value types.
      */
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
         return $this->get($offset);
     }
@@ -143,7 +143,7 @@ class AbstractModel implements \ArrayAccess
      *
      * @return void
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         $this->set($offset, $value);
     }
@@ -159,7 +159,7 @@ class AbstractModel implements \ArrayAccess
      *
      * @return void
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         if ($this->offsetExists($offset)) {
             unset($this->data[$offset]);

@@ -55,37 +55,37 @@ class PageCollection implements \ArrayAccess, \IteratorAggregate, \Countable
         return $this->pages;
     }
 
-    public function getIterator()
+    public function getIterator(): \Traversable
     {
         $this->load();
         return new \ArrayIterator($this->pages);
     }
 
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         $this->load();
         return isset($this->pages[$offset]);
     }
 
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
         $this->load();
         return $this->pages[$offset];
     }
 
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         $this->load();
         $this->pages[$offset] = $value;
     }
 
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         $this->load();
         unset($this->pages[$offset]);
     }
 
-    public function count()
+    public function count(): int
     {
         $this->load();
         return count($this->pages);
