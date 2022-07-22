@@ -3,7 +3,7 @@
 namespace Phile\Plugin\Phile\PhpFastCache\Tests;
 
 use Phile\Plugin\Phile\PhpFastCache\PhileToPsr16CacheAdapter;
-use phpFastCache\Helper\Psr16Adapter;
+use Phpfastcache\Helper\Psr16Adapter;
 use Phile\Test\TestCase;
 
 class PhileToPsr16CacheAdapterTest extends TestCase
