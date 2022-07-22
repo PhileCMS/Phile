@@ -27,7 +27,6 @@ class Server
 
     public function run(ServerRequestInterface $request): ResponseInterface
     {
-        $this->app->bootstrap();
         $middleware = $this->app->middleware(new MiddlewareQueue());
         $requestHandler = new RequestHandler($middleware, new ResponseFactory);
         return $requestHandler->handle($request);

@@ -16,6 +16,7 @@ $server = new Phile\Http\Server($app);
 $request = \Laminas\Diactoros\ServerRequestFactory::fromGlobals();
 
 try {
+    $app->bootstrap();
     $response = $server->run($request);
 
     $earlyOutput = ob_get_contents();
