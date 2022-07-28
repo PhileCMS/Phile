@@ -91,8 +91,8 @@
 
   <target name="create-dirs" depends="clean">
     <echo msg="Creating build + dist directories."/>
-    <mkdir dir="${dirs.build}"/>
     <mkdir dir="${dirs.dist}"/>
+    <mkdir dir="${dirs.build}"/>
   </target>
 
   <target name="dist">
@@ -148,7 +148,7 @@
   <!-- ## tests ## -->
   <target name="tests">
     <!-- ## phpunit ## -->
-    <property name="tests.all" value="lib/vendor/bin/phpunit"/>
+    <property name="tests.all" value="XDEBUG_MODE=coverage lib/vendor/bin/phpunit"/>
     <echo msg="Running PHPUnit test cases…"/>
     <echo msg="Command run: '${tests.all}'"/>
     <echo msg="Note: Using configuration file phpunit.xml."/>
@@ -158,7 +158,7 @@
     <!-- ## phpcs ## -->
     <echo msg="Checking PSR-2…"/>
     <property name="tests.formatting"
-              value="lib/vendor/bin/phpcs -p"/>
+              value="XDEBUG_MODE=coverage lib/vendor/bin/phpcs -p"/>
     <echo msg="Command run: '${tests.formatting}'"/>
     <echo msg="Note: Using configuration file phpcs.xml."/>
     <exec command="${tests.formatting}" logoutput="true"/>
@@ -166,7 +166,7 @@
     <!-- ## phpstan ## -->
     <echo msg=""/>
     <echo msg="Checking phpstan…"/>
-    <property name="tests.phpstan" value="lib/vendor/bin/phpstan analyze --no-progress"/>
+    <property name="tests.phpstan" value="XDEBUG_MODE=coverage lib/vendor/bin/phpstan analyze --no-progress --xdebug"/>
     <echo msg="Command run: '${tests.phpstan}'"/>
     <exec command="${tests.phpstan}" logoutput="true"/>
   </target>

@@ -76,7 +76,7 @@ abstract class TestCase extends PHPUnitTestCase
 
         //# additional test setup
         // clears out warnings of inefficient/multiple calls
-        \phpFastCache\CacheManager::clearInstances();
+        \Phpfastcache\CacheManager::clearInstances();
 
         return $core;
     }

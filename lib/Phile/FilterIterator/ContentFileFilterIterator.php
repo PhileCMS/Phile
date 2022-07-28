@@ -17,7 +17,7 @@ class ContentFileFilterIterator extends \FilterIterator
      * method to decide if file is filterd or not
      * @return bool
      */
-    public function accept()
+    public function accept(): bool
     {
         /**
          * @var \SplFileInfo $this

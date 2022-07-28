@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased]
+
+### Changes 
+- Adds support for PHP 8 and removes support for PHP 7.
+- Updated internal cache engine Phpfastcache from 6 to 9.
+
 ## Release 1.11.1
 
 Please see the [release notes](https://github.com/PhileCMS/Phile/releases/tag/1.11.1) or the [complete change-log](https://github.com/PhileCMS/Phile/compare/1.11.0...1.11.1) for more information

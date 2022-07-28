@@ -1,8 +1,18 @@
 <?php
+
 /**
  * config file for plugin
  */
+
 $config = [
+    /**
+     * Default Path for File Cache
+     *
+     * Use full PATH like /home/username/cache
+     * Keep it blank "", it will automatic setup for you
+     */
+    'path' => CACHE_DIR,
+
     /**
      * Default storage engine
      *
@@ -13,51 +23,19 @@ $config = [
     'storage' => 'files',
 
     /**
-     * Default Path for File Cache
+     * Additional storage options for the "files" storage:
      *
-     * Use full PATH like /home/username/cache
-     * Keep it blank "", it will automatic setup for you
+     * Common option(s) for "files":
+     * - 'defaultChmod' => 0777 Change permissions on cache files. See
+     *   https://www.php.net/manual/en/function.chmod.php for example values.
      */
-    'path' => CACHE_DIR,
 
     /**
-     * Permissions for file storage
+     * Provide a custom Phpfastcache configuration object
      *
-     * For security, please use 0666 for module and 0644 for cgi.
+     * If used all other options are ignored.
      */
-    // 'default_chmod' => 0777,
-
-    /**
-     * default will good. It will create a path by PATH/securityKey
-     */
-    // "securityKey" => "auto",
-
-    /**
-     * FallBack Driver
-     * Example, in your code, you use memcached, apc..etc, but when you moved your web hosting
-     * The new hosting don't have memcached, or apc. What you do? Set fallback that driver to other driver.
-     */
-    "fallback" => "files",
-
-    /**
-     * .htaccess protect
-     * default will be  true
-     */
-    "htaccess" => true,
-
-    /**
-     * Default Memcache Server for Memcache
-     */
-    /*
-    'servers' => [
-        [
-            'host' =>'127.0.0.1',
-            'port' => 11211,
-              // 'sasl_user' => false, // optional
-              // 'sasl_password' => false // optional
-        ]
-    ],
-     */
+    // 'phpFastCacheConfig' => new \Phpfastcache\Config\ConfigurationOption([...]),
 ];
 
 return $config;

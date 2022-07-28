@@ -22,7 +22,7 @@ class PhileTest extends TestCase
 {
     public function testPageNotFound()
     {
-        $core = $this->createPhileCore();
+        $core = $this->createPhileCore()->bootstrap();
         $request = $this->createServerRequestFromArray(['REQUEST_URI' => '/abcd']);
         $response = $this->createPhileResponse($core, $request);
 
@@ -43,7 +43,7 @@ class PhileTest extends TestCase
             'after_response_created'
         ];
         foreach ($events as $event) {
-            $core = $this->createPhileCore();
+            $core = $this->createPhileCore()->bootstrap();
             $eventBus = Container::getInstance()->get('Phile_EventBus');
             $expected = (new \Phile\Core\Response)->createHtmlResponse($event);
             $eventBus->register($event, function ($name, $data) use ($expected) {
@@ -58,7 +58,7 @@ class PhileTest extends TestCase
 
     public function testEarlyResponseInvalid()
     {
-        $core = $this->createPhileCore();
+        $core = $this->createPhileCore()->bootstrap();
         $eventBus = Container::getInstance()->get('Phile_EventBus');
         $eventBus->register('after_response_created', function ($name, $data) {
             $data['response'] = 'foo';
@@ -73,7 +73,7 @@ class PhileTest extends TestCase
 
     public function testAfterResponseCreatedResponseValid()
     {
-        $core = $this->createPhileCore();
+        $core = $this->createPhileCore()->bootstrap();
         $eventBus = Container::getInstance()->get('Phile_EventBus');
         $eventBus->register('after_response_created', function ($name, $data) {
             $data['response'] = null;
@@ -92,7 +92,7 @@ class PhileTest extends TestCase
     public function testCheckSetupRedirectToSetupPage()
     {
         $config = new Config(['encryptionKey' => '']);
-        $core = $this->createPhileCore(null, $config);
+        $core = $this->createPhileCore(null, $config)->bootstrap();
 
         $request = $this->createServerRequestFromArray(
             ['REQUEST_URI' => '/'] + $_SERVER
@@ -105,7 +105,7 @@ class PhileTest extends TestCase
 
         // 64 char encryption key on page
         $pattern = '/\<code\>(\s*?).{64}(\s*?)\<\/code\>/';
-        $this->assertRegExp($pattern, $body);
+        $this->assertMatchesRegularExpression($pattern, $body);
     }
 
     public function testInitializeCurrentPageTidyUrlRedirect()
@@ -119,7 +119,7 @@ class PhileTest extends TestCase
 
         foreach ($redirects as $current => $expected) {
             $config = new Config(['base_url' => $baseUrl]);
-            $core = $this->createPhileCore(null, $config);
+            $core = $this->createPhileCore(null, $config)->bootstrap();
             $request = $this->createServerRequestFromArray(
                 ['REQUEST_URI' => $current] + $_SERVER
             );
@@ -132,7 +132,7 @@ class PhileTest extends TestCase
     public function testDontHandleNotFound()
     {
         $config = new Config(['handle_not_found' => false]);
-        $core = $this->createPhileCore(null, $config);
+        $core = $this->createPhileCore(null, $config)->bootstrap();
 
         $core->addMiddleware(function ($queue) {
             $middleware = new class implements MiddlewareInterface

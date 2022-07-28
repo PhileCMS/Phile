@@ -73,7 +73,6 @@ class Bootstrap
         /** @var \Phile\ServiceLocator\ErrorHandlerInterface */
         $errorHandler = ServiceLocator::getService('Phile_ErrorHandler');
         set_error_handler(Closure::fromCallable([$errorHandler, 'handleError']));
-        // @phpstan-ignore-next-line Closure is callable.
         set_exception_handler(Closure::fromCallable([$errorHandler, 'handleException']));
         register_shutdown_function(Closure::fromCallable([$errorHandler, 'handleShutdown']));
     }

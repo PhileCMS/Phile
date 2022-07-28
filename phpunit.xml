@@ -1,24 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit
-        bootstrap="config/bootstrap.php"
-        colors="true"
-        backupGlobals="false"
-        >
-    <testsuites>
-        <testsuite name="core">
-            <directory>tests/</directory>
-            <directory>plugins/phile/</directory>
-        </testsuite>
-    </testsuites>
-
-    <filter>
-      <whitelist processUncoveredFilesFromWhitelist="false">
-        <directory suffix=".php">lib/Phile</directory>
-        <directory suffix=".php">plugins/phile</directory>
-      </whitelist>
-    </filter>
-
-    <logging>
-      <log type="coverage-html" target="docs/coverage" />
-    </logging>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" bootstrap="config/bootstrap.php" colors="true" backupGlobals="false" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+  <coverage processUncoveredFiles="false">
+    <include>
+      <directory suffix=".php">lib/Phile</directory>
+      <directory suffix=".php">plugins/phile</directory>
+    </include>
+    <report>
+      <html outputDirectory="docs/coverage"/>
+    </report>
+  </coverage>
+  <testsuites>
+    <testsuite name="core">
+      <directory>tests/</directory>
+      <directory>plugins/phile/</directory>
+    </testsuite>
+  </testsuites>
+  <logging/>
 </phpunit>

@@ -79,11 +79,11 @@ class Twig implements TemplateInterface
     /**
      * wrapper to call the render engine
      *
-     * @param \Twig_Environment $engine
+     * @param \Twig\Environment $engine
      * @param array $vars
      * @return string
      */
-    protected function doRender(\Twig_Environment $engine, array $vars): string
+    protected function doRender(\Twig\Environment $engine, array $vars): string
     {
         try {
             $template = $this->getTemplateFileName();
@@ -96,16 +96,16 @@ class Twig implements TemplateInterface
     /**
      * get template engine
      *
-     * @return \Twig_Environment
+     * @return \Twig\Environment
      */
     protected function getEngine()
     {
-        $loader = new \Twig_Loader_Filesystem($this->getTemplatePath());
-        $twig = new \Twig_Environment($loader, $this->config);
+        $loader = new \Twig\Loader\FilesystemLoader($this->getTemplatePath());
+        $twig = new \Twig\Environment($loader, $this->config);
 
         // load the twig debug extension if required
         if (!empty($this->config['debug'])) {
-            $twig->addExtension(new \Twig_Extension_Debug());
+            $twig->addExtension(new \Twig\Extension\DebugExtension());
         }
         return $twig;
     }

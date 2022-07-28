@@ -41,6 +41,7 @@ class PluginTest extends TestCase
                 $config->set('phile_cli_mode', false);
                 Bootstrap::setupErrorHandler($config);
             });
+            $core->bootstrap();
             $this->createPhileResponse($core, $request);
         } catch (\Exception $e) {
             ob_start();
