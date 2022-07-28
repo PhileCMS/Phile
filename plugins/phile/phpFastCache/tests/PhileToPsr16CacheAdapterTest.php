@@ -6,6 +6,13 @@ use Phile\Plugin\Phile\PhpFastCache\PhileToPsr16CacheAdapter;
 use Phpfastcache\Helper\Psr16Adapter;
 use Phile\Test\TestCase;
 
+/**
+ * Tests for PhileToPsr16CacheAdapter class
+ *
+ * @link    https://philecms.github.io
+ * @license http://opensource.org/licenses/MIT
+ * @package Phile\Plugin\Phile\PhpFastCache\Tests
+ */
 class PhileToPsr16CacheAdapterTest extends TestCase
 {
     public function testSlug()
