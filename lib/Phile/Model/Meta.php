@@ -89,7 +89,7 @@ class Meta extends AbstractModel
          * @var \Phile\ServiceLocator\MetaInterface $metaParser
          */
         $metaParser = ServiceLocator::getService('Phile_Parser_Meta');
-        $data       = $metaParser->parse($rawData);
+        $data       = $metaParser->extractMeta($rawData);
 
         foreach ($data as $key => $value) {
             $this->set($key, $value);

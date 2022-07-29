@@ -24,7 +24,7 @@ EOF;
             'fences' => ['yaml' => ['open' => '---', 'close' => '---']],
             'format' => 'YAML'
         ]);
-        $meta = $parser->parse($raw);
+        $meta = $parser->extractMeta($raw);
         $this->assertSame('foo', $meta['title']);
         $this->assertSame(['bar', 'baz'], $meta['tags']);
     }
@@ -39,7 +39,7 @@ EOF;
         $content = $parser->extractContent($raw);
         $this->assertSame($raw, $content);
 
-        $meta = $parser->parse($raw);
+        $meta = $parser->extractMeta($raw);
         $this->assertSame([], $meta);
     }
 }

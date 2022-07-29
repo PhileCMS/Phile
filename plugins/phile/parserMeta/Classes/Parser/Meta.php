@@ -39,7 +39,7 @@ class Meta implements MetaInterface
      *
      * {@inheritdoc}
      */
-    public function parse($rawData)
+    public function extractMeta($rawData)
     {
         list($meta) = $this->splitRawIntoMetaAndContent($rawData);
         
