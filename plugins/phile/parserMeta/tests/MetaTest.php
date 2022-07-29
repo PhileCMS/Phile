@@ -28,4 +28,18 @@ EOF;
         $this->assertSame('foo', $meta['title']);
         $this->assertSame(['bar', 'baz'], $meta['tags']);
     }
+
+    public function testDataWithoutMetaDataBlock()
+    {
+        $raw = "# Hello World\n## Hello you too";
+        $parser = new Meta([
+            'fences' => ['yaml' => ['open' => '---', 'close' => '---']],
+        ]);
+
+        $content = $parser->extractContent($raw);
+        $this->assertSame($raw, $content);
+
+        $meta = $parser->parse($raw);
+        $this->assertSame([], $meta);
+    }
 }

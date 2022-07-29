@@ -35,31 +35,18 @@ class Meta implements MetaInterface
     }
 
     /**
-     * parse the content and extract meta information
+     * Implements MetaInterface::parse
      *
-     * @param  string $rawData raw page data
-     * @return array with key/value store
+     * {@inheritdoc}
      */
     public function parse($rawData)
     {
-        $rawData = trim($rawData);
-        $fences = $this->config['fences'];
-
-        $start = $stop = null;
-        foreach ($fences as $fence) {
-            $start = $fence['open'];
-            $length = strlen($start);
-            if (substr($rawData, 0, $length) === $start) {
-                $stop = $fence['close'];
-                break;
-            }
-        }
-
-        if ($stop === null) {
+        list($meta) = $this->findFenceStop($rawData);
+        
+        if ($meta === null) {
             return [];
         }
 
-        $meta = trim(substr($rawData, strlen($start), strpos($rawData, $stop, strlen($start)) - (strlen($stop) + 1)));
         if (strtolower($this->config['format']) === 'yaml') {
             $meta = Yaml::parse($meta);
         } else {
@@ -67,6 +54,47 @@ class Meta implements MetaInterface
         }
         $meta = ($meta === null) ? [] : $this->convertKeys($meta);
         return $meta;
+    }
+
+    /**
+     * Implements MetaInterface::extractContent
+     *
+     * {@inheritdoc}
+     */
+    public function extractContent(?string $rawData): string
+    {
+        list(, $content) = $this->findFenceStop($rawData);
+        
+        return $content;
+    }
+
+    /**
+     * Inspects the text and splits meta-data and content
+     *
+     * @param string $rawData Text to inspect
+     * @return array array with [meta-data, content]
+     */
+    protected function findFenceStop(string $rawData): array
+    {
+        $rawData = trim($rawData);
+        $fences = $this->config['fences'];
+
+        $meta = null;
+        $content = $rawData;
+
+        if ($rawData !== null) {
+            $rawData = trim($rawData);
+            $fences = $this->config['fences'];
+            foreach ($fences as $fence) {
+                if (strncmp($fence['open'], $rawData, strlen($fence['open'])) === 0) {
+                    $sub = substr($rawData, strlen($fence['open']));
+                    list($meta, $content) = explode($fence['close'], $sub, 2);
+                    break;
+                }
+            }
+        }
+
+        return [$meta, $content];
     }
 
     /**
