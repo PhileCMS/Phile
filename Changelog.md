@@ -5,6 +5,12 @@
 ### Changes 
 - Adds support for PHP 8 and removes support for PHP 7.
 - Updated internal cache engine Phpfastcache from 6 to 9.
+- `Phile\ServiceLocacator\MetaInterface` changed:
+  - Renames `MetaInterface::parse` to `MetaInterface::extractMeta`
+  - Introduces `MetaInterface::extractContent`
+
+### Fixed
+-  Pages without meta block are rendered empty #351
 
 ## Release 1.11.1
 

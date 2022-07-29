@@ -8,6 +8,7 @@ use Phile\Core\Container;
 use Phile\Core\Router;
 use Phile\Core\ServiceLocator;
 use Phile\Repository\Page as Repository;
+use Phile\ServiceLocator\MetaInterface;
 
 /**
  * the Model class for a page
@@ -173,25 +174,15 @@ class Page
     /**
      * parse the raw content
      */
-    protected function parseRawData()
+    protected function parseRawData(): void
     {
         $this->meta = new Meta($this->rawData);
 
         $content = '';
         if ($this->rawData !== null) {
-            $rawData = trim($this->rawData);
-            $fences = [
-                'c' => ['open' => '/*', 'close' => '*/'],
-                'html' => ['open' => '<!--', 'close' => '-->'],
-                'yaml' => ['open' => '---', 'close' => '---']
-            ];
-            foreach ($fences as $fence) {
-                if (strncmp($fence['open'], $rawData, strlen($fence['open'])) === 0) {
-                    $sub = substr($rawData, strlen($fence['open']));
-                    list(, $content) = explode($fence['close'], $sub, 2);
-                    break;
-                }
-            }
+            /** @var MetaInterface */
+            $metaParser = ServiceLocator::getService('Phile_Parser_Meta');
+            $content = $metaParser->extractContent($this->rawData);
         }
 
         $this->content = $content;
