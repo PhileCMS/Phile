@@ -41,7 +41,7 @@ class Meta implements MetaInterface
      */
     public function parse($rawData)
     {
-        list($meta) = $this->findFenceStop($rawData);
+        list($meta) = $this->splitRawIntoMetaAndContent($rawData);
         
         if ($meta === null) {
             return [];
@@ -63,7 +63,7 @@ class Meta implements MetaInterface
      */
     public function extractContent(?string $rawData): string
     {
-        list(, $content) = $this->findFenceStop($rawData);
+        list(, $content) = $this->splitRawIntoMetaAndContent($rawData);
         
         return $content;
     }
@@ -74,7 +74,7 @@ class Meta implements MetaInterface
      * @param string $rawData Text to inspect
      * @return array array with [meta-data, content]
      */
-    protected function findFenceStop(string $rawData): array
+    protected function splitRawIntoMetaAndContent(string $rawData): array
     {
         $rawData = trim($rawData);
         $fences = $this->config['fences'];
