@@ -76,9 +76,6 @@ class Meta implements MetaInterface
      */
     protected function splitRawIntoMetaAndContent(string $rawData): array
     {
-        $rawData = trim($rawData);
-        $fences = $this->config['fences'];
-
         $meta = null;
         $content = $rawData;
 
