@@ -43,7 +43,9 @@ class Markdown implements ParserInterface
     {
         $parser = new MarkdownExtra;
         foreach ($this->config as $key => $value) {
-            $parser->{$key} = $value;
+            if (property_exists($parser, $key)) {
+                $parser->{$key} = $value;
+            }
         }
 
         return $parser->transform($data);
